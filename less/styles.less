@@ -1,0 +1,91 @@
+.container {
+	width: 1280px;
+	height: 800px;
+	position: absolute;
+	left: 50%;
+	margin-left: -640px;
+	box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	border: 1px solid white;
+
+
+}
+.menubar {
+    padding-left: 20px;
+    color: white;
+    text-shadow: 1px 1px 0px black;
+    font-size: 40px;
+    line-height: 80px;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	position: absolute;
+    left: 0;
+    right: 0;
+	top: 0;
+	height: 80px;
+	background: -moz-linear-gradient(#00387D, #112441);
+	background: -webkit-linear-gradient(#00387D, #112441);
+	background: linear-gradient(#00387D, #112441);
+	border-bottom: 1px solid white;
+}
+.app {
+    left: 0;
+    right: 0;
+	position: absolute;
+	top: 80px;
+	bottom: 0;
+	background: -moz-linear-gradient(#F2F2F2, #E0E0E0);
+	background: -webkit-linear-gradient(#F2F2F2, #E0E0E0);
+	background: linear-gradient(#F2F2F2, #E0E0E0);
+	border-bottom-left-radius: 8px;
+ 	border-bottom-right-radius: 8px;
+	border-top: 1px solid black;
+
+	.score-view {
+	    .makeColumn(12);
+		height: 100px;
+		line-height: 100px;
+		font-size: 26px;
+		text-align: right;
+		color: gray;
+		text-align: right;
+		.badge{
+			font-size: 32px;
+		}
+	}
+	.question-container {
+		.makeColumn(6);
+		.question-view {
+			.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
+			.border-radius(8px);
+			color: white;
+			font-size: 50px;
+			text-align: center;
+			height: 529px;
+			h1 {
+			    padding-top: 200px;
+				font-size: 40px;
+			}
+		}
+
+	}
+	.answers-container {
+		.makeColumn(6);
+
+		.answer-view {
+			height: 100px;
+			//.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
+			.border-radius(8px);
+			display: block !important;
+			line-height: 100px;
+			font-size: 50px;
+			text-align: center;
+			list-style-type: none;
+			margin-bottom: 30px;
+		}
+		.answer-view.correct {
+			border: 3px solid green !important;
+		}
+
+	}
+}
