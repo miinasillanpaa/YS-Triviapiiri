@@ -48,14 +48,14 @@ soundManager.onready(function() {
             media: soundManager.createSound({
                     id: 'kulkurin valssi',
                     url: '/triviapiiri/assets/Kulkurinvalssi.mp3',
-                    whileplaying: function() {
-                        /*
+                    whileplaying: Trivia.gameController.whileMediaPlaying
+                    /*whileplaying: function() {
                         if (mySound.position >= intervals[nextStopInterval]) {
                             mySound.stop();
                             nextStopInterval++;
                             $('#status').html('<br/>Soitto lopetettu kohtaan ' + mySound.position + 'ms <a href="javascript: void(0);" onclick="continuePlay('+mySound.position+')">Jatka seuraavaan kohtaan</a>');
-                        }*/
-                    }
+                        }
+                    }*/
             })
         })
     ];
@@ -249,26 +249,26 @@ Trivia.SelectGameView = Em.View.extend({
         contentBinding: 'Trivia.games',
         itemViewClass: Em.View.extend({
             tagName: 'li',
-
             classNames: 'answer-view btn',
             click: function() {
-
+                Trivia.gameController.set('game', this.get('content'));
+                Trivia.gameController.set('showGameSelector', false);
             }
         })
    })
-})
+});
 
 
 Trivia.GameView = Em.View.extend({
 	templateName: 'game',
 	scoreBinding: 'Trivia.gameController.score',
-	questionBinding: 'Trivia.gameController.question',
+	questionBinding: 'Trivia.gameController.currentQuestion',
 	questionView: Em.View.extend({
-		contentBinding: 'parentView.question'
+		contentBinding: 'Trivia.gameController.currentQuestion'
 	}),
 	answersView: Em.CollectionView.extend({
 		tagName: 'ul',
-		contentBinding: 'parentView.question.answers',
+		contentBinding: 'Trivia.gameController.currentQuestion.answers',
 		itemViewClass: Em.View.extend({
 			tagName: 'li',
 			classNames: 'answer-view btn',
@@ -289,24 +289,57 @@ Trivia.GameView = Em.View.extend({
 Trivia.gameController = Em.Object.create({
 	init: function(){
 		console.log('gamecontroller started');
-		this.set('question', Trivia.questions.objectAt(this.get('questionIndex')))
-
 	},
+    populateQuestions: function() {
+        var questions = Trivia.questions.filterProperty('gameId', this.get('game').get('guid'));
+        this.set('questions', questions);
+        this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
+
+        if (this.get('currentQuestion').get('mediaId')) {
+            var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
+            this.set('media', media);
+            this.get('media').get('media').play();
+        } else {
+            this.set('showAnswers', true);
+        }
+
+    }.observes('game'),
+    showGameSelector: true,
+    continueMediaFrom: null,
+    media: null,
+    game: false,
 	questionIndex: 0,
-	question: null,
+    questions: null,
+	currentQuestion: null,
+    showAnswers: false,
 	score: 0,
 	answerReward: 10,
 	nextQuestion: function(){
-
-		if (this.get('questionIndex') < Trivia.questions.length - 1){
+		if (this.get('questionIndex') < this.get('questions').length - 1){
 			this.set('questionIndex', parseInt(this.get('questionIndex')) + 1);
-			this.set('question', Trivia.questions.objectAt(this.get('questionIndex')));
+			this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
+            if (this.get('currentQuestion').get('mediaId')) {
+                var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
+                this.set('media', media);
+                this.get('media').get('media').play({position:this.get('continueMediaFrom')});
+                this.set('showAnswers', false);
+            } else {
+                this.set('showAnswers', true);
+            }
 			return true;
 		} else {
 			return false;
 		}
 
 	},
+    whileMediaPlaying: function() {
+        console.log(Trivia.gameController.get('media').get('media').position);
+        if (Trivia.gameController.get('media').get('media').position >= Trivia.gameController.get('currentQuestion').get('options').playTo) {
+            Trivia.gameController.get('media').get('media').stop();
+            Trivia.gameController.set('continueMediaFrom', Trivia.gameController.get('media').get('media').position);
+            Trivia.gameController.set('showAnswers', true);
+        }
+    },
 	checkAnswer: function(answer){
 		console.log('answered', answer);
 		var self = this;

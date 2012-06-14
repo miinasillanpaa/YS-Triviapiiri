@@ -24,12 +24,13 @@
         <div class="select-game-header">Valitse peli allaolevista</div>
         <div class="game-container">
         {{#collection selectGameCollectionView }}
-
+            {{content.name}}
         {{/collection}}
         </div>
     </script>
 
 	<script type="text/x-handlebars" data-template-name="game">
+        <div class="game-header">{{Trivia.gameController.game.name}}</div>
 		<div class="score-view">Pisteet: <span class="badge badge-warning">{{score}}</span></div>
 		<div class="question-container">
 			{{#view questionView classNames="question-view"}}
@@ -37,7 +38,7 @@
 			{{/view}}
 
 		</div>
-		{{#collection answersView classNames="answers-container"}}
+		{{#collection answersView classNames="answers-container" isVisibleBinding="Trivia.gameController.showAnswers"}}
 			{{content.answerText}}
 		{{/collection}}
 	</script>
@@ -51,11 +52,11 @@
 	 </div>
 	 <div class="app">
          <script type="text/x-handlebars">
-            {{view Trivia.selectGameView}}
+            {{view Trivia.SelectGameView isVisibleBinding="Trivia.gameController.showGameSelector"}}
          </script>
 
 		 <script type="text/x-handlebars">
-			{{view Trivia.GameView}}
+			{{view Trivia.GameView isVisibleBinding="Trivia.gameController.game"}}
 		 </script>
 	 </div>
   </div>
