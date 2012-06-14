@@ -20,11 +20,11 @@
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
 
-    <script type="text/x-handlebars" data-template-name="selectGame">
+    <script type="text/x-handlebars" data-template-name="selectGameView">
         <div class="select-game-header">Valitse peli allaolevista</div>
         <div class="game-container">
-        {{#collection selectGameView }}
-            {{this}}
+        {{#collection selectGameCollectionView }}
+
         {{/collection}}
         </div>
     </script>

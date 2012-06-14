@@ -242,20 +242,22 @@ Trivia.questions = [
     })
 ];
 
-Trivia.selectGameView = Em.CollectionView.extend({
-    templateName: 'selectGame',
-    tagName: 'ul',
-    contentBinding: 'Trivia.games',
-    itemViewClass: Em.View.extend({
-        tagName: 'li',
+Trivia.SelectGameView = Em.View.extend({
+    templateName: 'selectGameView',
+    selectGameCollectionView: Em.CollectionView.extend({
+        tagName: 'ul',
+        contentBinding: 'Trivia.games',
+        itemViewClass: Em.View.extend({
+            tagName: 'li',
 
-        classNames: 'answer-view btn',
-        click: function() {
+            classNames: 'answer-view btn',
+            click: function() {
 
-        }
-    })
+            }
+        })
+   })
+})
 
-});
 
 Trivia.GameView = Em.View.extend({
 	templateName: 'game',
