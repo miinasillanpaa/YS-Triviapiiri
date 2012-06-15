@@ -36,12 +36,19 @@
 			{{#view questionView classNames="question-view"}}
 				<h1>{{content.questionText}}</h1>
 			{{/view}}
-
+            {{#view mediaView isVisibleBinding="Trivia.gameController.showMediaView" classNames="media-view"}}
+                {{Trivia.gameController.playLabel}}
+            {{/view}}
 		</div>
 		{{#collection answersView classNames="answers-container" isVisibleBinding="Trivia.gameController.showAnswers"}}
 			{{content.answerText}}
 		{{/collection}}
 	</script>
+
+    <script type="text/x-handlebars" data-template-name="gameCompleted">
+        <h2>Peli päättyi!</h2>
+        <h3>Pisteesi {{Trivia.gameController.score}}</h3>
+    </script>
 
 </head>
 <body>
@@ -58,6 +65,10 @@
 		 <script type="text/x-handlebars">
 			{{view Trivia.GameView isVisibleBinding="Trivia.gameController.game"}}
 		 </script>
+
+         <script type="text/x-handlebars">
+             {{view Trivia.GameCompletedView isVisibleBinding="Trivia.gameController.gameCompleted"}}
+         </script>
 	 </div>
   </div>
 

@@ -49,13 +49,6 @@ soundManager.onready(function() {
                     id: 'kulkurin valssi',
                     url: '/triviapiiri/assets/Kulkurinvalssi.mp3',
                     whileplaying: Trivia.gameController.whileMediaPlaying
-                    /*whileplaying: function() {
-                        if (mySound.position >= intervals[nextStopInterval]) {
-                            mySound.stop();
-                            nextStopInterval++;
-                            $('#status').html('<br/>Soitto lopetettu kohtaan ' + mySound.position + 'ms <a href="javascript: void(0);" onclick="continuePlay('+mySound.position+')">Jatka seuraavaan kohtaan</a>');
-                        }
-                    }*/
             })
         })
     ];
@@ -282,49 +275,72 @@ Trivia.GameView = Em.View.extend({
 				console.log(this.get('content'));
 			}
 		})
-	})
-})
+	}),
+    mediaView: Em.View.extend({
+        click: function() {
+            Trivia.gameController.playMedia();
+        }
+    })
+});
 
+Trivia.GameCompletedView = Em.View.extend({
+    templateName: 'gameCompleted'
+});
 
 Trivia.gameController = Em.Object.create({
 	init: function(){
 		console.log('gamecontroller started');
 	},
     populateQuestions: function() {
-        var questions = Trivia.questions.filterProperty('gameId', this.get('game').get('guid'));
-        this.set('questions', questions);
-        this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
+        if (this.get('game')) {
+            var questions = Trivia.questions.filterProperty('gameId', this.get('game').get('guid'));
+            this.set('questions', questions);
+            this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
 
-        if (this.get('currentQuestion').get('mediaId')) {
-            var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
-            this.set('media', media);
-            this.get('media').get('media').play();
-        } else {
-            this.set('showAnswers', true);
+            if (this.get('currentQuestion').get('mediaId')) {
+                var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
+                this.set('media', media);
+                this.set('showMediaView', true);
+                //this.get('media').get('media').play();
+            } else {
+                this.set('showAnswers', true);
+                this.set('showMediaView', false);
+            }
         }
-
     }.observes('game'),
     showGameSelector: true,
-    continueMediaFrom: null,
+    continueMediaFrom: 0,
     media: null,
+    playLabel: 'Soita',
     game: false,
 	questionIndex: 0,
     questions: null,
 	currentQuestion: null,
     showAnswers: false,
+    showMediaView: false,
+    gameCompleted: false,
 	score: 0,
 	answerReward: 10,
 	nextQuestion: function(){
 		if (this.get('questionIndex') < this.get('questions').length - 1){
 			this.set('questionIndex', parseInt(this.get('questionIndex')) + 1);
+
+            if (this.get('questionIndex') == this.get('questions').length-1) {
+                console.log('game completed!');
+                this.set('gameCompleted', true);
+                this.set('game', false);
+            }
+
 			this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
             if (this.get('currentQuestion').get('mediaId')) {
                 var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
                 this.set('media', media);
-                this.get('media').get('media').play({position:this.get('continueMediaFrom')});
+                //this.get('media').get('media').play({position:this.get('continueMediaFrom')});
                 this.set('showAnswers', false);
+                this.set('showMediaView', true);
             } else {
                 this.set('showAnswers', true);
+                this.set('showMediaView', false);
             }
 			return true;
 		} else {
@@ -332,13 +348,27 @@ Trivia.gameController = Em.Object.create({
 		}
 
 	},
+    playMedia: function() {
+        if (this.get('media')) {
+            if (this.get('media').get('mediaType') == 'mp3') {
+                if (this.get('media').get('media').playState == 0) {
+                    this.set('playLabel', 'Odota taukoa...');
+                    this.get('media').get('media').play({position: this.get('continueMediaFrom')});
+                }
+            }
+        }
+    },
     whileMediaPlaying: function() {
         console.log(Trivia.gameController.get('media').get('media').position);
         if (Trivia.gameController.get('media').get('media').position >= Trivia.gameController.get('currentQuestion').get('options').playTo) {
+            Trivia.gameController.set('playLabel', 'Soita');
             Trivia.gameController.get('media').get('media').stop();
             Trivia.gameController.set('continueMediaFrom', Trivia.gameController.get('media').get('media').position);
             Trivia.gameController.set('showAnswers', true);
         }
+    },
+    onMediaStop: function() {
+        this.set('playLabel', 'Soita');
     },
 	checkAnswer: function(answer){
 		console.log('answered', answer);
