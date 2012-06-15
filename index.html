@@ -48,6 +48,9 @@
     <script type="text/x-handlebars" data-template-name="gameCompleted">
         <h2>Peli päättyi!</h2>
         <h3>Pisteesi {{Trivia.gameController.score}}</h3>
+        {{#view newGameView }}
+            {{ newGameLabel }}
+        {{/view}}
     </script>
 
 </head>

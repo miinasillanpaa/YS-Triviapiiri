@@ -284,7 +284,13 @@ Trivia.GameView = Em.View.extend({
 });
 
 Trivia.GameCompletedView = Em.View.extend({
-    templateName: 'gameCompleted'
+    templateName: 'gameCompleted',
+    newGameView: Em.View.extend({
+        newGameLabel: 'Valitse uusi peli',
+        click: function() {
+            Trivia.gameController.resetTrivia();
+        }
+    })
 });
 
 Trivia.gameController = Em.Object.create({
@@ -390,5 +396,12 @@ Trivia.gameController = Em.Object.create({
 			return false;
 		}
 
-	}
+	},
+    resetTrivia: function() {
+        this.set('game', false);
+        this.set('score', 0);
+        this.set('gameCompleted', false);
+        this.set('showAnswers', false);
+        this.set('showGameSelector', true);
+    }
 })
