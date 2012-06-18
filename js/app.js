@@ -593,7 +593,7 @@ Trivia.gameController = Em.Object.create({
     whileMediaPlaying: function() {
         console.log(Trivia.gameController.get('media').get('media').position);
         if (Trivia.gameController.get('media').get('media').position >= Trivia.gameController.get('currentQuestion').get('options').playTo) {
-            Trivia.gameController.set('playLabel', 'Soita');
+            Trivia.gameController.set('playLabel', 'Jatka');
             Trivia.gameController.get('media').get('media').stop();
             Trivia.gameController.set('continueMediaFrom', Trivia.gameController.get('media').get('media').position);
             Trivia.gameController.set('showAnswers', true);
@@ -629,5 +629,6 @@ Trivia.gameController = Em.Object.create({
         this.set('gameCompleted', false);
         this.set('showAnswers', false);
         this.set('showGameSelector', true);
+        Trivia.gameController.set('playLabel', 'Soita');
     }
 })
