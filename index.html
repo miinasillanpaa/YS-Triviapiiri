@@ -31,7 +31,7 @@
 
 	<script type="text/x-handlebars" data-template-name="game">
         <div class="game-header" style="margin-left: 20px;">{{Trivia.gameController.game.name}}</div>
-		<div class="score-view">Pisteet: <span class="badge badge-warning">{{score}}</span></div>
+		<div class="score-view" style="height: 60px; line-height: 60px;">Pisteet: <span class="badge badge-warning">{{score}}</span></div>
 		<div class="question-container">
 			{{#view questionView classNames="question-view"}}
 				<h1>{{content.questionText}}</h1>
@@ -57,7 +57,7 @@
 	 <div class="menubar" style="display: none;">
 		Triviapiiri
 	 </div>
-	 <div class="app" style="top: 0px; border-top: none;">
+	 <div class="app" style="top: 0px; border-top: none; height: 720px;">
          <div class="back-link" style="font-weight: bold; font-size: 20px; margin-left: 20px; margin-top: 20px; margin-bottom: 20px;">
              <a href="/triviapiiri">Palaa alkuun</a>
          </div>
