@@ -180,5 +180,5 @@ a:hover { color: #036; }
     font-weight: bold;
 }
 .app {
-    top: 0;
+    top: 0 !important;
 }
