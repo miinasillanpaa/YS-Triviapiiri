@@ -57,10 +57,13 @@
 <body>
 
   <div class="container">
-	 <div class="menubar">
+	 <div class="menubar" style="display: none;">
 		Triviapiiri
 	 </div>
 	 <div class="app">
+         <div class="back-link">
+             <a href="/triviapiiri">Palaa alkuun</a>
+         </div>
          <script type="text/x-handlebars">
             {{view Trivia.SelectGameView isVisibleBinding="Trivia.gameController.showGameSelector"}}
          </script>

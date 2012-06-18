@@ -4020,14 +4020,14 @@ a.thumbnail:hover {
   left: 0;
   right: 0;
   position: absolute;
-  top: 80px;
+  top: 0;
   bottom: 0;
   background: -moz-linear-gradient(#f2f2f2, #e0e0e0);
   background: -webkit-linear-gradient(#f2f2f2, #e0e0e0);
   background: linear-gradient(#f2f2f2, #e0e0e0);
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-  border-top: 1px solid black;
+  border-top: none;
 }
 .app .score-view {
   float: left;
@@ -4124,7 +4124,7 @@ a.thumbnail:hover {
 .game-header {
   font-size: 20px;
   font-weight: bold;
-  margin-left: 10px;
+  margin-left: 20px;
   margin-bottom: 10px;
 }
 .game-container li {
@@ -4135,4 +4135,11 @@ a.thumbnail:hover {
   padding-top: 10px;
   padding-bottom: 10px;
   margin-bottom: 15px;
+}
+.back-link {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
 }
