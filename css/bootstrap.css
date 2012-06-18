@@ -4105,10 +4105,34 @@ a.thumbnail:hover {
   border: 3px solid green !important;
 }
 .media-view {
-  color: #fff;
+  color: #000;
+  padding-top: 10px;
+  padding-bottom: 10px;
   font-size: 30px;
   font-weight: bold;
-  margin-top: -150px;
-  margin-left: 250px;
+  margin-top: -250px;
+  margin-left: 40%;
   cursor: pointer;
+}
+.select-game-header {
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.game-header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.game-container li {
+  display: block;
+  width: 600px;
+  font-size: 16px;
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
 }

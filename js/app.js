@@ -32,11 +32,23 @@ Trivia.Answer = Em.Object.extend({
 Trivia.games = [
     Trivia.Game.create({
         guid: 1,
-        name: 'Visailu 1'
+        name: 'Visailu 1 (testi)'
     }),
     Trivia.Game.create({
         guid: 2,
         name: 'Yhteinen Sävel - Kulkurin Valssi I'
+    }),
+    Trivia.Game.create({
+        guid: 3,
+        name: 'Yhteinen Sävel - Kulkurin Valssi II'
+    }),
+    Trivia.Game.create({
+        guid: 4,
+        name: 'Yhteinen Sävel - Lapsuuden Toverille I'
+    }),
+    Trivia.Game.create({
+        guid: 5,
+        name: 'Vastakohtien yhdistäminen'
     })
 ];
 
@@ -49,6 +61,15 @@ soundManager.onready(function() {
                     id: 'kulkurin valssi',
                     url: '/triviapiiri/assets/Kulkurinvalssi.mp3',
                     whileplaying: Trivia.gameController.whileMediaPlaying
+            })
+        }),
+        Trivia.Media.create({
+            guid: 2,
+            mediaType: 'mp3',
+            media: soundManager.createSound({
+                id: 'lapsuuden toverille',
+                url: '/triviapiiri/assets/Lapsuudentoverille.mp3',
+                whileplaying: Trivia.gameController.whileMediaPlaying
             })
         })
     ];
@@ -231,6 +252,211 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kiristää vyö', correct: true }),
             Trivia.Answer.create({ answerText: 'ahdistaa työ'}),
             Trivia.Answer.create({ answerText: 'valssiksi lyön' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 20600},
+        answers: [
+            Trivia.Answer.create({ answerText: 'siel viihdyn suo viini ja samppanja vaan', correct: true }),
+            Trivia.Answer.create({ answerText: 'siel viihdyn,  juon viinin ja samppanjaa vain'}),
+            Trivia.Answer.create({ answerText: 'siel nautin ja viihdyn kera samppanjan vain' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 52700},
+        answers: [
+            Trivia.Answer.create({ answerText: 'pöydät ne herkkujaan suo' }),
+            Trivia.Answer.create({ answerText: 'kruunut ne valoaan luo', correct: true}),
+            Trivia.Answer.create({ answerText: 'neidot ne tanssihin käy' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 67700},
+        answers: [
+            Trivia.Answer.create({ answerText: 'tanssahtelee' }),
+            Trivia.Answer.create({ answerText: 'kans astelee', correct: true}),
+            Trivia.Answer.create({ answerText: 'kohdata saa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 96700},
+        answers: [
+            Trivia.Answer.create({ answerText: 'maantiellä viihdyn ma vaan', correct: true }),
+            Trivia.Answer.create({ answerText: 'maantieltä pois tahdo en' }),
+            Trivia.Answer.create({ answerText: 'pois mua sieltä ei saa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 111900},
+        answers: [
+            Trivia.Answer.create({ answerText: 'maantiellä, maantiellä tanssin', correct: true }),
+            Trivia.Answer.create({ answerText: 'maantiellä, harmaalla tanssin' }),
+            Trivia.Answer.create({ answerText: 'maantietä kivistä kuljen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 136600},
+        answers: [
+            Trivia.Answer.create({ answerText: 'tien valaisee kulkurilleen' }),
+            Trivia.Answer.create({ answerText: 'tien viittana kulkurin on', correct: true }),
+            Trivia.Answer.create({ answerText: 'luo tunnelman matkaajalleen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 147150},
+        answers: [
+            Trivia.Answer.create({ answerText: 'poikkean taas talohon', correct: true }),
+            Trivia.Answer.create({ answerText: 'tanssahtelen iloiten' }),
+            Trivia.Answer.create({ answerText: 'työtä ma kaihda en' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 27500},
+        answers: [
+            Trivia.Answer.create({ answerText: 'vehreellä nurmella' }),
+            Trivia.Answer.create({ answerText: 'vihreellä nurmella', correct: true }),
+            Trivia.Answer.create({ answerText: 'kosteella nurmella' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 48750},
+        answers: [
+            Trivia.Answer.create({ answerText: 'sä pidit hoivassa' }),
+            Trivia.Answer.create({ answerText: 'yhdessä riemuiten' }),
+            Trivia.Answer.create({ answerText: 'sä leikit kanssani', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 59500},
+        answers: [
+            Trivia.Answer.create({ answerText: 'ja ainoo iloni', correct: true }),
+            Trivia.Answer.create({ answerText: 'kallein aarteeni' }),
+            Trivia.Answer.create({ answerText: 'ja armas läheisin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 75750},
+        answers: [
+            Trivia.Answer.create({ answerText: 'maailma sitten vieroitti', correct: true }),
+            Trivia.Answer.create({ answerText: 'maailma meidät erotti' }),
+            Trivia.Answer.create({ answerText: 'maailma meitä pyöritti' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 92000},
+        answers: [
+            Trivia.Answer.create({ answerText: 'mä muistan lämmöllä' }),
+            Trivia.Answer.create({ answerText: 'mä muistan ainiaan', correct: true }),
+            Trivia.Answer.create({ answerText: 'luokseni kaipaisin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: MATALA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'laaja' }),
+            Trivia.Answer.create({ answerText: 'pieni' }),
+            Trivia.Answer.create({ answerText: 'korkea', correct: true }),
+            Trivia.Answer.create({ answerText: 'syvä' }),
+            Trivia.Answer.create({ answerText: 'avara' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: PAINAVA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'raskas' }),
+            Trivia.Answer.create({ answerText: 'kova' }),
+            Trivia.Answer.create({ answerText: 'rautainen' }),
+            Trivia.Answer.create({ answerText: 'kookas' }),
+            Trivia.Answer.create({ answerText: 'kevyt', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: ISO',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kookas' }),
+            Trivia.Answer.create({ answerText: 'painava' }),
+            Trivia.Answer.create({ answerText: 'pieni', correct: true }),
+            Trivia.Answer.create({ answerText: 'mahtava' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: TUMMA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'musta' }),
+            Trivia.Answer.create({ answerText: 'synkkä' }),
+            Trivia.Answer.create({ answerText: 'iloinen' }),
+            Trivia.Answer.create({ answerText: 'vaalea', correct: true }),
+            Trivia.Answer.create({ answerText: 'valkoinen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: KALLIS',
+        answers: [
+            Trivia.Answer.create({ answerText: 'arvokas' }),
+            Trivia.Answer.create({ answerText: 'iso' }),
+            Trivia.Answer.create({ answerText: 'pieni' }),
+            Trivia.Answer.create({ answerText: 'halpa', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: NOPEA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'iloinen' }),
+            Trivia.Answer.create({ answerText: 'hidas', correct: true }),
+            Trivia.Answer.create({ answerText: 'hätäinen' }),
+            Trivia.Answer.create({ answerText: 'vauhdikas' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: HILPEÄ',
+        answers: [
+            Trivia.Answer.create({ answerText: 'hauska' }),
+            Trivia.Answer.create({ answerText: 'iloinen' }),
+            Trivia.Answer.create({ answerText: 'mukava' }),
+            Trivia.Answer.create({ answerText: 'synkkä', correct: true })
         ]
     })
 ];
