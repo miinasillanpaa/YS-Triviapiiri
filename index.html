@@ -24,39 +24,54 @@
         <div class="select-game-header">Valitse peli allaolevista</div>
         <div class="game-container">
         {{#collection selectGameCollectionView }}
-
+            {{content.name}}
         {{/collection}}
         </div>
     </script>
 
 	<script type="text/x-handlebars" data-template-name="game">
-		<div class="score-view">Pisteet: <span class="badge badge-warning">{{score}}</span></div>
+        <div class="game-header" style="margin-left: 20px;">{{Trivia.gameController.game.name}}</div>
+		<div class="score-view" style="height: 60px; line-height: 60px;">Pisteet: <span class="badge badge-warning">{{score}}</span></div>
 		<div class="question-container">
 			{{#view questionView classNames="question-view"}}
 				<h1>{{content.questionText}}</h1>
 			{{/view}}
-
+            {{#view mediaView isVisibleBinding="Trivia.gameController.showMediaView" classNames="btn media-view"}}
+                {{Trivia.gameController.playLabel}}
+            {{/view}}
 		</div>
-		{{#collection answersView classNames="answers-container"}}
+		{{#collection answersView classNames="answers-container" isVisibleBinding="Trivia.gameController.showAnswers"}}
 			{{content.answerText}}
 		{{/collection}}
 	</script>
+
+    <script type="text/x-handlebars" data-template-name="gameCompleted">
+        <h2 style="margin-left: 20px; margin-top: 20px;">Peli päättyi!</h2>
+        <h3 style="margin-left: 20px; margin-top: 20px;">Pisteesi {{Trivia.gameController.score}}</h3>
+    </script>
 
 </head>
 <body>
 
   <div class="container">
-	 <div class="menubar">
+	 <div class="menubar" style="display: none;">
 		Triviapiiri
 	 </div>
-	 <div class="app">
+	 <div class="app" style="top: 0px; border-top: none; height: 720px;">
+         <div class="back-link" style="font-weight: bold; font-size: 20px; margin-left: 20px; margin-top: 20px; margin-bottom: 20px;">
+             <a href="/triviapiiri">Palaa alkuun</a>
+         </div>
          <script type="text/x-handlebars">
-            {{view Trivia.selectGameView}}
+            {{view Trivia.SelectGameView isVisibleBinding="Trivia.gameController.showGameSelector"}}
          </script>
 
 		 <script type="text/x-handlebars">
-			{{view Trivia.GameView}}
+			{{view Trivia.GameView isVisibleBinding="Trivia.gameController.game"}}
 		 </script>
+
+         <script type="text/x-handlebars">
+             {{view Trivia.GameCompletedView isVisibleBinding="Trivia.gameController.gameCompleted"}}
+         </script>
 	 </div>
   </div>
 

@@ -32,11 +32,23 @@ Trivia.Answer = Em.Object.extend({
 Trivia.games = [
     Trivia.Game.create({
         guid: 1,
-        name: 'Visailu 1'
+        name: 'Visailu 1 (testi)'
     }),
     Trivia.Game.create({
         guid: 2,
         name: 'Yhteinen Sävel - Kulkurin Valssi I'
+    }),
+    Trivia.Game.create({
+        guid: 3,
+        name: 'Yhteinen Sävel - Kulkurin Valssi II'
+    }),
+    Trivia.Game.create({
+        guid: 4,
+        name: 'Yhteinen Sävel - Lapsuuden Toverille I'
+    }),
+    Trivia.Game.create({
+        guid: 5,
+        name: 'Vastakohtien yhdistäminen'
     })
 ];
 
@@ -48,14 +60,16 @@ soundManager.onready(function() {
             media: soundManager.createSound({
                     id: 'kulkurin valssi',
                     url: '/triviapiiri/assets/Kulkurinvalssi.mp3',
-                    whileplaying: function() {
-                        /*
-                        if (mySound.position >= intervals[nextStopInterval]) {
-                            mySound.stop();
-                            nextStopInterval++;
-                            $('#status').html('<br/>Soitto lopetettu kohtaan ' + mySound.position + 'ms <a href="javascript: void(0);" onclick="continuePlay('+mySound.position+')">Jatka seuraavaan kohtaan</a>');
-                        }*/
-                    }
+                    whileplaying: Trivia.gameController.whileMediaPlaying
+            })
+        }),
+        Trivia.Media.create({
+            guid: 2,
+            mediaType: 'mp3',
+            media: soundManager.createSound({
+                id: 'lapsuuden toverille',
+                url: '/triviapiiri/assets/Lapsuudentoverille.mp3',
+                whileplaying: Trivia.gameController.whileMediaPlaying
             })
         })
     ];
@@ -239,6 +253,211 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'ahdistaa työ'}),
             Trivia.Answer.create({ answerText: 'valssiksi lyön' })
         ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 20600},
+        answers: [
+            Trivia.Answer.create({ answerText: 'siel viihdyn suo viini ja samppanja vaan', correct: true }),
+            Trivia.Answer.create({ answerText: 'siel viihdyn,  juon viinin ja samppanjaa vain'}),
+            Trivia.Answer.create({ answerText: 'siel nautin ja viihdyn kera samppanjan vain' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 52700},
+        answers: [
+            Trivia.Answer.create({ answerText: 'pöydät ne herkkujaan suo' }),
+            Trivia.Answer.create({ answerText: 'kruunut ne valoaan luo', correct: true}),
+            Trivia.Answer.create({ answerText: 'neidot ne tanssihin käy' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 67700},
+        answers: [
+            Trivia.Answer.create({ answerText: 'tanssahtelee' }),
+            Trivia.Answer.create({ answerText: 'kans astelee', correct: true}),
+            Trivia.Answer.create({ answerText: 'kohdata saa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 96700},
+        answers: [
+            Trivia.Answer.create({ answerText: 'maantiellä viihdyn ma vaan', correct: true }),
+            Trivia.Answer.create({ answerText: 'maantieltä pois tahdo en' }),
+            Trivia.Answer.create({ answerText: 'pois mua sieltä ei saa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 111900},
+        answers: [
+            Trivia.Answer.create({ answerText: 'maantiellä, maantiellä tanssin', correct: true }),
+            Trivia.Answer.create({ answerText: 'maantiellä, harmaalla tanssin' }),
+            Trivia.Answer.create({ answerText: 'maantietä kivistä kuljen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 136600},
+        answers: [
+            Trivia.Answer.create({ answerText: 'tien valaisee kulkurilleen' }),
+            Trivia.Answer.create({ answerText: 'tien viittana kulkurin on', correct: true }),
+            Trivia.Answer.create({ answerText: 'luo tunnelman matkaajalleen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 3,
+        mediaId: 1,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 147150},
+        answers: [
+            Trivia.Answer.create({ answerText: 'poikkean taas talohon', correct: true }),
+            Trivia.Answer.create({ answerText: 'tanssahtelen iloiten' }),
+            Trivia.Answer.create({ answerText: 'työtä ma kaihda en' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 27500},
+        answers: [
+            Trivia.Answer.create({ answerText: 'vehreellä nurmella' }),
+            Trivia.Answer.create({ answerText: 'vihreellä nurmella', correct: true }),
+            Trivia.Answer.create({ answerText: 'kosteella nurmella' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 48750},
+        answers: [
+            Trivia.Answer.create({ answerText: 'sä pidit hoivassa' }),
+            Trivia.Answer.create({ answerText: 'yhdessä riemuiten' }),
+            Trivia.Answer.create({ answerText: 'sä leikit kanssani', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 59500},
+        answers: [
+            Trivia.Answer.create({ answerText: 'ja ainoo iloni', correct: true }),
+            Trivia.Answer.create({ answerText: 'kallein aarteeni' }),
+            Trivia.Answer.create({ answerText: 'ja armas läheisin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 75750},
+        answers: [
+            Trivia.Answer.create({ answerText: 'maailma sitten vieroitti', correct: true }),
+            Trivia.Answer.create({ answerText: 'maailma meidät erotti' }),
+            Trivia.Answer.create({ answerText: 'maailma meitä pyöritti' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 4,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 92000},
+        answers: [
+            Trivia.Answer.create({ answerText: 'mä muistan lämmöllä' }),
+            Trivia.Answer.create({ answerText: 'mä muistan ainiaan', correct: true }),
+            Trivia.Answer.create({ answerText: 'luokseni kaipaisin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: MATALA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'laaja' }),
+            Trivia.Answer.create({ answerText: 'pieni' }),
+            Trivia.Answer.create({ answerText: 'korkea', correct: true }),
+            Trivia.Answer.create({ answerText: 'syvä' }),
+            Trivia.Answer.create({ answerText: 'avara' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: PAINAVA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'raskas' }),
+            Trivia.Answer.create({ answerText: 'kova' }),
+            Trivia.Answer.create({ answerText: 'rautainen' }),
+            Trivia.Answer.create({ answerText: 'kookas' }),
+            Trivia.Answer.create({ answerText: 'kevyt', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: ISO',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kookas' }),
+            Trivia.Answer.create({ answerText: 'painava' }),
+            Trivia.Answer.create({ answerText: 'pieni', correct: true }),
+            Trivia.Answer.create({ answerText: 'mahtava' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: TUMMA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'musta' }),
+            Trivia.Answer.create({ answerText: 'synkkä' }),
+            Trivia.Answer.create({ answerText: 'iloinen' }),
+            Trivia.Answer.create({ answerText: 'vaalea', correct: true }),
+            Trivia.Answer.create({ answerText: 'valkoinen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: KALLIS',
+        answers: [
+            Trivia.Answer.create({ answerText: 'arvokas' }),
+            Trivia.Answer.create({ answerText: 'iso' }),
+            Trivia.Answer.create({ answerText: 'pieni' }),
+            Trivia.Answer.create({ answerText: 'halpa', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: NOPEA',
+        answers: [
+            Trivia.Answer.create({ answerText: 'iloinen' }),
+            Trivia.Answer.create({ answerText: 'hidas', correct: true }),
+            Trivia.Answer.create({ answerText: 'hätäinen' }),
+            Trivia.Answer.create({ answerText: 'vauhdikas' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        questionText: 'Mikä on vastakohta: HILPEÄ',
+        answers: [
+            Trivia.Answer.create({ answerText: 'hauska' }),
+            Trivia.Answer.create({ answerText: 'iloinen' }),
+            Trivia.Answer.create({ answerText: 'mukava' }),
+            Trivia.Answer.create({ answerText: 'synkkä', correct: true })
+        ]
     })
 ];
 
@@ -249,26 +468,26 @@ Trivia.SelectGameView = Em.View.extend({
         contentBinding: 'Trivia.games',
         itemViewClass: Em.View.extend({
             tagName: 'li',
-
             classNames: 'answer-view btn',
             click: function() {
-
+                Trivia.gameController.set('game', this.get('content'));
+                Trivia.gameController.set('showGameSelector', false);
             }
         })
    })
-})
+});
 
 
 Trivia.GameView = Em.View.extend({
 	templateName: 'game',
 	scoreBinding: 'Trivia.gameController.score',
-	questionBinding: 'Trivia.gameController.question',
+	questionBinding: 'Trivia.gameController.currentQuestion',
 	questionView: Em.View.extend({
-		contentBinding: 'parentView.question'
+		contentBinding: 'Trivia.gameController.currentQuestion'
 	}),
 	answersView: Em.CollectionView.extend({
 		tagName: 'ul',
-		contentBinding: 'parentView.question.answers',
+		contentBinding: 'Trivia.gameController.currentQuestion.answers',
 		itemViewClass: Em.View.extend({
 			tagName: 'li',
 			classNames: 'answer-view btn',
@@ -282,31 +501,107 @@ Trivia.GameView = Em.View.extend({
 				console.log(this.get('content'));
 			}
 		})
-	})
-})
+	}),
+    mediaView: Em.View.extend({
+        click: function() {
+            Trivia.gameController.playMedia();
+        }
+    })
+});
 
+Trivia.GameCompletedView = Em.View.extend({
+    templateName: 'gameCompleted',
+    newGameView: Em.View.extend({
+        newGameLabel: 'Valitse uusi peli',
+        click: function() {
+            Trivia.gameController.resetTrivia();
+        }
+    })
+});
 
 Trivia.gameController = Em.Object.create({
 	init: function(){
 		console.log('gamecontroller started');
-		this.set('question', Trivia.questions.objectAt(this.get('questionIndex')))
-
 	},
+    populateQuestions: function() {
+        if (this.get('game')) {
+            var questions = Trivia.questions.filterProperty('gameId', this.get('game').get('guid'));
+            this.set('questions', questions);
+            this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
+
+            if (this.get('currentQuestion').get('mediaId')) {
+                var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
+                this.set('media', media);
+                this.set('showMediaView', true);
+                //this.get('media').get('media').play();
+            } else {
+                this.set('showAnswers', true);
+                this.set('showMediaView', false);
+            }
+        }
+    }.observes('game'),
+    showGameSelector: true,
+    continueMediaFrom: 0,
+    media: null,
+    playLabel: 'Soita',
+    game: false,
 	questionIndex: 0,
-	question: null,
+    questions: null,
+	currentQuestion: null,
+    showAnswers: false,
+    showMediaView: false,
+    gameCompleted: false,
 	score: 0,
 	answerReward: 10,
 	nextQuestion: function(){
-
-		if (this.get('questionIndex') < Trivia.questions.length - 1){
+		if (this.get('questionIndex') < this.get('questions').length - 1){
 			this.set('questionIndex', parseInt(this.get('questionIndex')) + 1);
-			this.set('question', Trivia.questions.objectAt(this.get('questionIndex')));
+
+            if (this.get('questionIndex') == this.get('questions').length-1) {
+                console.log('game completed!');
+                this.set('gameCompleted', true);
+                this.set('game', false);
+            }
+
+			this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
+            if (this.get('currentQuestion').get('mediaId')) {
+                var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
+                this.set('media', media);
+                //this.get('media').get('media').play({position:this.get('continueMediaFrom')});
+                this.set('showAnswers', false);
+                this.set('showMediaView', true);
+            } else {
+                this.set('showAnswers', true);
+                this.set('showMediaView', false);
+            }
 			return true;
 		} else {
 			return false;
 		}
 
 	},
+    playMedia: function() {
+        if (this.get('media')) {
+            if (this.get('media').get('mediaType') == 'mp3') {
+                if (this.get('media').get('media').playState == 0) {
+                    this.set('playLabel', 'Odota taukoa...');
+                    this.get('media').get('media').play({position: this.get('continueMediaFrom')});
+                }
+            }
+        }
+    },
+    whileMediaPlaying: function() {
+        console.log(Trivia.gameController.get('media').get('media').position);
+        if (Trivia.gameController.get('media').get('media').position >= Trivia.gameController.get('currentQuestion').get('options').playTo) {
+            Trivia.gameController.set('playLabel', 'Jatka');
+            Trivia.gameController.get('media').get('media').stop();
+            Trivia.gameController.set('continueMediaFrom', Trivia.gameController.get('media').get('media').position);
+            Trivia.gameController.set('showAnswers', true);
+        }
+    },
+    onMediaStop: function() {
+        this.set('playLabel', 'Soita');
+    },
 	checkAnswer: function(answer){
 		console.log('answered', answer);
 		var self = this;
@@ -327,5 +622,13 @@ Trivia.gameController = Em.Object.create({
 			return false;
 		}
 
-	}
+	},
+    resetTrivia: function() {
+        this.set('game', false);
+        this.set('score', 0);
+        this.set('gameCompleted', false);
+        this.set('showAnswers', false);
+        this.set('showGameSelector', true);
+        Trivia.gameController.set('playLabel', 'Soita');
+    }
 })
