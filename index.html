@@ -53,11 +53,11 @@
 </head>
 <body>
 
-  <div class="container">
+  <div class="app-container">
 	 <div class="menubar" style="display: none;">
 		Triviapiiri
 	 </div>
-	 <div class="app" style="top: 0px; border-top: none; height: 720px;">
+	 <div class="app">
          <div class="back-link" style="font-weight: bold; font-size: 20px; margin-left: 20px; margin-top: 20px; margin-bottom: 20px;">
              <a href="/triviapiiri">Palaa alkuun</a>
          </div>
@@ -66,7 +66,7 @@
          </script>
 
 		 <script type="text/x-handlebars">
-			{{view Trivia.GameView isVisibleBinding="Trivia.gameController.game"}}
+			{{view Trivia.GameView isVisibleBinding="Trivia.gameController.game" classNames="game-view"}}
 		 </script>
 
          <script type="text/x-handlebars">
