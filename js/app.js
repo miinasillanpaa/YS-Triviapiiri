@@ -477,7 +477,6 @@ Trivia.SelectGameView = Em.View.extend({
    })
 });
 
-
 Trivia.GameView = Em.View.extend({
 	templateName: 'game',
 	scoreBinding: 'Trivia.gameController.score',
