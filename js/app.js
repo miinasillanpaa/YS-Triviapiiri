@@ -2,7 +2,9 @@ var Trivia = Em.Application.create();
 
 Trivia.Game = Em.Object.extend({
     guid: null,
-    name: null
+    name: null,
+    image: null,
+    caption: null
 });
 
 Trivia.Question = Em.Object.extend({
@@ -36,15 +38,21 @@ Trivia.games = [
     }),
     Trivia.Game.create({
         guid: 2,
-        name: 'Yhteinen Sävel - Kulkurin Valssi I'
+        name: 'Yhteinen Sävel - Kulkurin Valssi I',
+        image: '/triviapiiri/assets/img/kulkurin_valssi.jpg',
+        caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 3,
-        name: 'Yhteinen Sävel - Kulkurin Valssi II'
+        name: 'Yhteinen Sävel - Kulkurin Valssi II',
+        image: '/triviapiiri/assets/img/kulkurin_valssi.jpg',
+        caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 4,
-        name: 'Yhteinen Sävel - Lapsuuden Toverille I'
+        name: 'Yhteinen Sävel - Lapsuuden Toverille I',
+        image: '/triviapiiri/assets/img/lapsuuden_toverille.jpg',
+        caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 5,
@@ -482,7 +490,10 @@ Trivia.GameView = Em.View.extend({
 	scoreBinding: 'Trivia.gameController.score',
 	questionBinding: 'Trivia.gameController.currentQuestion',
 	questionView: Em.View.extend({
-		contentBinding: 'Trivia.gameController.currentQuestion'
+
+
+        contentBinding: 'Trivia.gameController.currentQuestion'
+
 	}),
 	answersView: Em.CollectionView.extend({
 		tagName: 'ul',
@@ -528,6 +539,14 @@ Trivia.gameController = Em.Object.create({
             this.set('questions', questions);
             this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
 
+         /*  if(this.get('game').get('guid') == 1,5 ){
+                ('.question-view h1').css("padding-top","200px");
+           }*/
+
+            this.set('image', this.get('game').get('image'));
+            this.set('caption', this.get('game').get('caption'));
+
+
             if (this.get('currentQuestion').get('mediaId')) {
                 var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
                 this.set('media', media);
@@ -552,6 +571,8 @@ Trivia.gameController = Em.Object.create({
     gameCompleted: false,
 	score: 0,
 	answerReward: 10,
+    image:null,
+    caption:null,
 	nextQuestion: function(){
 		if (this.get('questionIndex') < this.get('questions').length - 1){
 			this.set('questionIndex', parseInt(this.get('questionIndex')) + 1);
