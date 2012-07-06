@@ -56,6 +56,12 @@ Trivia.games = [
     }),
     Trivia.Game.create({
         guid: 5,
+        name: 'Yhteinen Sävel - Lapsuuden Toverille II',
+        image: '/triviapiiri/assets/img/lapsuuden_toverille.jpg',
+        caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
+    }),
+    Trivia.Game.create({
+        guid: 6,
         name: 'Vastakohtien yhdistäminen'
     })
 ];
@@ -396,6 +402,50 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 5,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 16750},
+        answers: [
+            Trivia.Answer.create({ answerText: 'äitisi helmoissa' }),
+            Trivia.Answer.create({ answerText: 'isäsi majassa', correct: true }),
+            Trivia.Answer.create({ answerText: 'siskosi rinnalla' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 22000},
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin kukka kaunis suloinen', correct:true }),
+            Trivia.Answer.create({ answerText: 'suloinen kukka kedolla'}),
+            Trivia.Answer.create({ answerText: 'kuin ruusu soma punainen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 54000},
+        answers: [
+            Trivia.Answer.create({ answerText: 'toveri paras kaikista'}),
+            Trivia.Answer.create({ answerText: 'ja olit paras ystäväin', correct:true }),
+            Trivia.Answer.create({ answerText: 'sä olit luottoystäväin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 5,
+        mediaId: 2,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 81250},
+        answers: [
+            Trivia.Answer.create({ answerText: 'sut kauas minusta'}),
+            Trivia.Answer.create({ answerText: 'toisistaan meidätkin'}),
+            Trivia.Answer.create({ answerText: 'pois meidät toisistaan', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 6,
         questionText: 'Mikä on vastakohta: MATALA',
         answers: [
             Trivia.Answer.create({ answerText: 'laaja' }),
@@ -406,7 +456,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 5,
+        gameId: 6,
         questionText: 'Mikä on vastakohta: PAINAVA',
         answers: [
             Trivia.Answer.create({ answerText: 'raskas' }),
@@ -417,7 +467,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 5,
+        gameId: 6,
         questionText: 'Mikä on vastakohta: ISO',
         answers: [
             Trivia.Answer.create({ answerText: 'kookas' }),
@@ -427,7 +477,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 5,
+        gameId: 6,
         questionText: 'Mikä on vastakohta: TUMMA',
         answers: [
             Trivia.Answer.create({ answerText: 'musta' }),
@@ -438,7 +488,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 5,
+        gameId: 6,
         questionText: 'Mikä on vastakohta: KALLIS',
         answers: [
             Trivia.Answer.create({ answerText: 'arvokas' }),
@@ -448,7 +498,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 5,
+        gameId: 6,
         questionText: 'Mikä on vastakohta: NOPEA',
         answers: [
             Trivia.Answer.create({ answerText: 'iloinen' }),
@@ -458,7 +508,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 5,
+        gameId: 6,
         questionText: 'Mikä on vastakohta: HILPEÄ',
         answers: [
             Trivia.Answer.create({ answerText: 'hauska' }),
