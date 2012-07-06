@@ -553,10 +553,10 @@ Trivia.gameController = Em.Object.create({
 	score: 0,
 	answerReward: 10,
 	nextQuestion: function(){
-		if (this.get('questionIndex') < this.get('questions').length - 1){
+		if (this.get('questionIndex') <= this.get('questions').length){
 			this.set('questionIndex', parseInt(this.get('questionIndex')) + 1);
 
-            if (this.get('questionIndex') == this.get('questions').length-1) {
+            if (this.get('questionIndex') == this.get('questions').length) {
                 console.log('game completed!');
                 this.set('gameCompleted', true);
                 this.set('game', false);
