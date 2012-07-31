@@ -39,85 +39,85 @@ Trivia.games = [
     Trivia.Game.create({
         guid: 2,
         name: 'Yhteinen Sävel - Kulkurin Valssi I',
-        image: '/triviapiiri/assets/img/kulkurin_valssi.jpg',
+        image: 'assets/img/kulkurin_valssi.jpg',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 3,
         name: 'Yhteinen Sävel - Kulkurin Valssi II',
-        image: '/triviapiiri/assets/img/kulkurin_valssi.jpg',
+        image: 'assets/img/kulkurin_valssi.jpg',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 4,
         name: 'Yhteinen Sävel - Lapsuuden Toverille I',
-        image: '/triviapiiri/assets/img/lapsuuden_toverille.jpg',
+        image: 'assets/img/lapsuuden_toverille.jpg',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 5,
         name: 'Yhteinen Sävel - Lapsuuden Toverille II',
-        image: '/triviapiiri/assets/img/lapsuuden_toverille.jpg',
+        image: 'assets/img/lapsuuden_toverille.jpg',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 6,
         name: 'Yhteinen Sävel - Väliaikainen I',
-        image: '/triviapiiri/assets/img/valiaikainen.jpg',
+        image: 'assets/img/valiaikainen.jpg',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 7,
         name: 'Yhteinen Sävel - Väliaikainen II',
-        image: '/triviapiiri/assets/img/valiaikainen.jpg',
+        image: 'assets/img/valiaikainen.jpg',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 8,
         name: 'Yhteinen Sävel - Tulipunaruusut I',
-        image: '/triviapiiri/assets/img/tulipunaruusut.jpg',
+        image: 'assets/img/tulipunaruusut.jpg',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 9,
         name: 'Yhteinen Sävel - Tulipunaruusut II',
-        image: '/triviapiiri/assets/img/tulipunaruusut.jpg',
+        image: 'assets/img/tulipunaruusut.jpg',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 10,
         name: 'Yhteinen Sävel - Suutarin emännän kehtolaulu',
-        image: '/triviapiiri/assets/img/suutarin_emanta.jpg',
+        image: 'assets/img/suutarin_emanta.jpg',
         caption: 'Old sewing machine - Petr Kratochvil (Public Domain)'
     }),
     Trivia.Game.create({
         guid: 11,
         name: 'Yhteinen Sävel - Voi tuota muistia',
-        image: '/triviapiiri/assets/img/voi_tuota_muistia.jpg',
+        image: 'assets/img/voi_tuota_muistia.jpg',
         caption: '15062007(005) - Mikko Koponen (CC BY 2.0)'
     }),
     Trivia.Game.create({
         guid: 12,
         name: 'Yhteinen Sävel - Puhelinlangat laulaa',
-        image: '/triviapiiri/assets/img/puhelinlangat.jpg',
+        image: 'assets/img/puhelinlangat.jpg',
         caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 13,
         name: 'Yhteinen Sävel - Sellanen ol Viipuri',
-        image: '/triviapiiri/assets/img/viipuri.jpg',
+        image: 'assets/img/viipuri.jpg',
         caption: 'Fortress in Vyborg - Paukrus (CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 14,
         name: 'Yhteinen Sävel - Kotkan poikii ilman siipii',
-        image: '/triviapiiri/assets/img/kotkan_poikii.jpg',
+        image: 'assets/img/kotkan_poikii.jpg',
         caption: 'Sea Eagle - Asbjorn Floden (CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 15,
         name: 'Yhteinen Sävel - Satumaa',
-        image: '/triviapiiri/assets/img/satumaa.jpg',
+        image: 'assets/img/satumaa.jpg',
         caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
@@ -133,7 +133,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                     id: 'kulkurin valssi',
-                    url: '/triviapiiri/assets/Kulkurinvalssi.mp3',
+                    url: 'assets/Kulkurinvalssi.mp3',
                     whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -142,7 +142,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'lapsuuden toverille',
-                url: '/triviapiiri/assets/Lapsuudentoverille.mp3',
+                url: 'assets/Lapsuudentoverille.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -151,7 +151,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'valiaikainen',
-                url: '/triviapiiri/assets/Valiaikainen.mp3',
+                url: 'assets/Valiaikainen.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -160,7 +160,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'tulipunaruusut',
-                url: '/triviapiiri/assets/Tulipunaruusut.mp3',
+                url: 'assets/Tulipunaruusut.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -169,7 +169,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'suutarin emannan kehtolaulu',
-                url: '/triviapiiri/assets/Suutarinemannankehtolaulu.mp3',
+                url: 'assets/Suutarinemannankehtolaulu.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -178,7 +178,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'voi tuota muistia',
-                url: '/triviapiiri/assets/Voituotamuistia.mp3',
+                url: 'assets/Voituotamuistia.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -187,7 +187,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'puhelinlangat laulaa',
-                url: '/triviapiiri/assets/Puhelinlangatlaulaa.mp3',
+                url: 'assets/Puhelinlangatlaulaa.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -196,7 +196,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'sellanen ol viipuri',
-                url: '/triviapiiri/assets/Sellanenolviipuri.mp3',
+                url: 'assets/Sellanenolviipuri.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -205,7 +205,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'kotkan poikii ilman siipii',
-                url: '/triviapiiri/assets/Kotkanpoikiiilmansiipii.mp3',
+                url: 'assets/Kotkanpoikiiilmansiipii.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -214,7 +214,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'satumaa',
-                url: '/triviapiiri/assets/Satumaa.mp3',
+                url: 'assets/Satumaa.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         })
