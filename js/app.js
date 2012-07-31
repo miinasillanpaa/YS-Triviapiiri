@@ -1321,6 +1321,12 @@ Trivia.SelectGameView = Em.View.extend({
         itemViewClass: Em.View.extend({
             tagName: 'li',
             classNames: 'answer-view btn',
+			/*
+			didInsertElement: function(){
+				var height = (100 - 2) / this.getPath('parentView.content.length');
+				console.log(height);
+			},
+			*/
             click: function() {
                 Trivia.gameController.set('game', this.get('content'));
                 Trivia.gameController.set('showGameSelector', false);
@@ -1343,14 +1349,28 @@ Trivia.GameView = Em.View.extend({
 		tagName: 'ul',
 		contentBinding: 'Trivia.gameController.currentQuestion.answers',
 		itemViewClass: Em.View.extend({
-			tagName: 'li',
+			didInsertElement: function(){
+				/*
+				setTimeout(function(){
+					$('li.answer-view').css({opacity: 0.999999});
+					console.log('kek');
+				},1000);
+				*/
+
+				/*
+				console.log($(this.get('element')))
+				$(this.get('element')).hide();
+				$(this.get('element')).show();
+				*/
+
+			},
 			classNames: 'answer-view btn',
 			click: function(){
 				
 				if (Trivia.gameController.checkAnswer(this.get('content'))){
-					$(this.get('element')).addClass('btn-success');
+					//$(this.get('element')).addClass('btn-success');
 				} else {
-					$(this.get('element')).addClass('btn-danger');
+					//$(this.get('element')).addClass('btn-danger');
 				}
 				console.log(this.get('content'));
 			}
@@ -1398,6 +1418,7 @@ Trivia.gameController = Em.Object.create({
             }
         }
     }.observes('game'),
+	gameNameBinding: Em.Binding.from('game.name').transform(function(value){ if (value) return value}),
     showGameSelector: true,
     continueMediaFrom: 0,
     media: null,
@@ -1493,3 +1514,17 @@ Trivia.gameController = Em.Object.create({
         Trivia.gameController.set('playLabel', 'Soita');
     }
 })
+
+foo = Em.Object.create({
+	foo: 'bar'
+
+})
+
+bar = Em.Object.create({
+	fooBinding: 'foo.foo'
+})
+
+onresize=onload=function(){
+	document.body.style.fontSize=window.innerWidth*0.02+"px";
+	//document.body.style.lineHeight=window.innerWidth*0.02+"px"
+}
