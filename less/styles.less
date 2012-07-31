@@ -1,147 +1,225 @@
-.app-container {
-	position: absolute;
-	box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
-	border: 1px solid white;
-	width: auto;
-	height: auto;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	display: block !important;
+
+.box-flex(@flex: 1) {
+	-moz-box-flex: @flex;
+	-webkit-box-flex: @flex;
+	box-flex: @flex;
 }
-.menubar {
-    padding-left: 20px;
-    color: white;
-    text-shadow: 1px 1px 0px black;
-    font-size: 40px;
-    line-height: 80px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;
-	position: absolute;
-    left: 0;
-    right: 0;
-	top: 0;
-	height: 80px;
-	background: -moz-linear-gradient(#00387D, #112441);
-	background: -webkit-linear-gradient(#00387D, #112441);
-	background: linear-gradient(#00387D, #112441);
-	border-bottom: 1px solid white;
+.box-orient(@orientation: vertical){
+	-moz-box-orient: @orientation;
+	-webkit-box-orient: @orientation;
+	box-orient: @orientation;
+}
+.box-pack(@method: center){
+	-moz-box-pack: @method;
+	-webkit-box-pack: @method;
+	box-pack: @method;
+}
+.box-align(@align: center){
+	-moz-box-align: @align;
+	-webkit-box-align: @align;
+	box-align: @align;
+}
+.display-box{
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+}
+.ember-application > .ember-view, html, .app, body {
+	height: 100%;
+	width: 100%;
+}
+.btn {
+	.display-box();
+	.box-orient(vertical);
+	.box-pack(center);
+
+	span {
+		.box-flex(1);
+	}
 }
 .app {
-    left: 0;
-    right: 0;
+	/*
 	position: absolute;
 	top: 0;
+	left: 0;
 	bottom: 0;
-	background: -moz-linear-gradient(#F2F2F2, #E0E0E0);
-	background: -webkit-linear-gradient(#F2F2F2, #E0E0E0);
-	background: linear-gradient(#F2F2F2, #E0E0E0);
-	border-bottom-left-radius: 8px;
- 	border-bottom-right-radius: 8px;
-	border-top: none;
+	right: 0;
+	*/
+	//height: 720px;
+	//width: 1280px;
 
-	.game-view {
-	}
+	//display: -moz-box;
 
-	.score-view {
-		height: 100px;
-		line-height: 100px;
-		font-size: 26px;
-		text-align: right;
-		color: gray;
-		text-align: right;
-		.badge{
-			font-size: 32px;
+	.display-box();
+	.box-orient(vertical);
+
+	//-moz-box-orient: vertical;
+
+
+
+	.menubar {
+		//-moz-box-flex: 1;
+		.box-flex(1);
+
+		//display: -moz-box;
+		.display-box();
+
+		//-moz-box-orient: horizontal;
+		.box-orient(horizontal);
+
+		background: #ccc;
+
+
+		button.back {
+			//-moz-box-flex: 1;
+			.box-flex(1);
+
 		}
-	}
-	.question-container {
-		position: absolute;
-		left: 0;
-		top: 20%;
-		bottom: 0;
-		width: 49.5%;
-		.question-view {
-			.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
-			.border-radius(8px);
-			color: white;
-			font-size: 50px;
-			text-align: center;
-			height: 529px;
-			h1 {
-			    padding-top: 200px;
-				font-size: 40px;
+
+		section.spacer {
+			//-moz-box-flex: 10;
+			.box-flex(10);
+			.display-box();
+			.box-orient(vertical);
+			.box-pack(center);
+			.box-align(center);
+
+			span {
+				.box-flex(1);
+			}
+		}
+
+		section.score {
+			.box-flex(1);
+
+			.display-box();
+			.box-orient(vertical);
+			.box-pack(center);
+
+			span {
+				.box-flex(1);
 			}
 		}
 
 	}
-	.answers-container {
-		position: absolute;
-		right: 0;
-		top: 20%;
-		bottom: 0;
-		width: 49.5%;
+	.workspace {
+		//display: -moz-box;
+		.display-box();
 
-		.answer-view {
-			height: 100px;
-			//.buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
-			.border-radius(8px);
-			display: block !important;
-			line-height: 100px;
-			font-size: 50px;
-			text-align: center;
-			list-style-type: none;
-			margin-bottom: 30px;
-		}
-		.answer-view.correct {
-			border: 3px solid green !important;
-		}
+		//-moz-box-orient: vertical;
+		.box-orient(vertical);
 
+		//-moz-box-flex: 19;
+		.box-flex(19);
+		background: grey;
+
+		.select-game-view {
+			//-moz-box-flex: 1;
+			.box-flex(1);
+
+			//display: -moz-box;
+			.display-box();
+			.box-align(justify);
+
+			//-moz-box-orient: vertical;
+			.box-orient(vertical);
+
+			h2 {
+				//-moz-box-flex: 1;
+				.box-flex(1);
+			}
+			ul {
+				margin: 10px;
+
+				//display: -moz-box;
+				.display-box();
+
+				//-moz-box-orient: vertical;
+				.box-orient(vertical);
+
+				//-moz-box-flex: 10;
+				.box-flex(10);
+
+				li {
+					//-moz-box-flex: 1;
+					.box-flex(1);
+
+					& + li {
+						margin-top: 10px;
+					}
+
+				}
+			}
+
+		}
+		.game-view {
+			//display: -moz-box;
+			.display-box();
+
+			//-moz-box-orient: horizontal;
+			.box-orient(horizontal);
+
+			//-moz-box-flex: 1;
+			.box-flex(1);
+
+			.qa-section{
+				//-moz-box-flex: 1;
+				.box-flex(1);
+
+				.display-box();
+				.box-orient(horizontal);
+
+				position: relative;
+
+				.question-container {
+					.box-flex(1);
+					.display-box();
+					/*
+					position: absolute;
+					left: 0;
+					top: 0;
+					bottom: 0;
+					right: 50%;
+					*/
+
+					.question-view {
+						.box-flex(1);
+						h1 {
+							width: 200px;
+						}
+					}
+				}
+				.answers-container {
+					.box-flex(1);
+					margin: 10px;
+					/*
+					position: absolute;
+					right: 0;
+					top: 0;
+					bottom: 0;
+					left: 50%;
+					*/
+					//display: -moz-box;
+					.display-box();
+
+					//-moz-box-orient: vertical;
+					.box-orient(vertical);
+
+					.answer-view {
+						//-moz-box-flex: 1;
+						.box-flex(1);
+						& + li {
+							//margin-top: 10px;
+						}
+					}
+				}
+			}
+		}
 	}
 }
-
-.media-view {
-    color: #000;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 30px;
-    font-weight: bold;
-    margin-top: -250px;
-    margin-left: 40%;
-    cursor: pointer;
-}
-
-.select-game-header {
-    margin-left: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.game-header {
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: 20px;
-    margin-bottom: 10px;
-}
-
-.game-container li {
-    display: block;
-    width: 600px;
-    font-size: 16px;
-    font-weight: bold;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+body {
 
 }
-
-.back-link {
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-    font-size: 20px;
-    font-weight: bold;
+.btn {
+	font-size: inherit;
 }
