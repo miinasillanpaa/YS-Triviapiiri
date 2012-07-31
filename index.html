@@ -33,8 +33,12 @@
         <div class="game-header" style="margin-left: 20px;">{{Trivia.gameController.game.name}}</div>
 		<div class="score-view" style="height: 60px; line-height: 60px;">Pisteet: <span class="badge badge-warning">{{score}}</span></div>
 		<div class="question-container">
+
 			{{#view questionView classNames="question-view"}}
-				<h1>{{content.questionText}}</h1>
+                <h1>{{content.questionText}} </h1>
+                <img id="songPicture" {{bindAttr src="Trivia.gameController.image"}} />
+                <p>{{Trivia.gameController.caption}}</p>
+
 			{{/view}}
             {{#view mediaView isVisibleBinding="Trivia.gameController.showMediaView" classNames="btn media-view"}}
                 {{Trivia.gameController.playLabel}}
