@@ -97,6 +97,30 @@ Trivia.games = [
         caption: '15062007(005) - Mikko Koponen (CC BY 2.0)'
     }),
     Trivia.Game.create({
+        guid: 12,
+        name: 'Yhteinen Sävel - Puhelinlangat laulaa',
+        image: '/triviapiiri/assets/img/puhelinlangat.jpg',
+        caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
+    }),
+    Trivia.Game.create({
+        guid: 13,
+        name: 'Yhteinen Sävel - Sellanen ol Viipuri',
+        image: '/triviapiiri/assets/img/viipuri.jpg',
+        caption: 'Fortress in Vyborg - Paukrus (CC BY-SA 2.0)'
+    }),
+    Trivia.Game.create({
+        guid: 14,
+        name: 'Yhteinen Sävel - Kotkan poikii ilman siipii',
+        image: '/triviapiiri/assets/img/kotkan_poikii.jpg',
+        caption: 'Sea Eagle - Asbjorn Floden (CC BY-NC 2.0)'
+    }),
+    Trivia.Game.create({
+        guid: 15,
+        name: 'Yhteinen Sävel - Satumaa',
+        image: '/triviapiiri/assets/img/satumaa.jpg',
+        caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
+    }),
+    Trivia.Game.create({
         guid: 17,
         name: 'Vastakohtien yhdistäminen'
     })
@@ -155,6 +179,42 @@ soundManager.onready(function() {
             media: soundManager.createSound({
                 id: 'voi tuota muistia',
                 url: '/triviapiiri/assets/Voituotamuistia.mp3',
+                whileplaying: Trivia.gameController.whileMediaPlaying
+            })
+        }),
+        Trivia.Media.create({
+            guid: 7,
+            mediaType: 'mp3',
+            media: soundManager.createSound({
+                id: 'puhelinlangat laulaa',
+                url: '/triviapiiri/assets/Puhelinlangatlaulaa.mp3',
+                whileplaying: Trivia.gameController.whileMediaPlaying
+            })
+        }),
+        Trivia.Media.create({
+            guid: 8,
+            mediaType: 'mp3',
+            media: soundManager.createSound({
+                id: 'sellanen ol viipuri',
+                url: '/triviapiiri/assets/Sellanenolviipuri.mp3',
+                whileplaying: Trivia.gameController.whileMediaPlaying
+            })
+        }),
+        Trivia.Media.create({
+            guid: 9,
+            mediaType: 'mp3',
+            media: soundManager.createSound({
+                id: 'kotkan poikii ilman siipii',
+                url: '/triviapiiri/assets/Kotkanpoikiiilmansiipii.mp3',
+                whileplaying: Trivia.gameController.whileMediaPlaying
+            })
+        }),
+        Trivia.Media.create({
+            guid: 10,
+            mediaType: 'mp3',
+            media: soundManager.createSound({
+                id: 'satumaa',
+                url: '/triviapiiri/assets/Satumaa.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         })
@@ -901,6 +961,282 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'mistä sen löytäisin uudestaan' })
         ]
     }),
+    Trivia.Question.create({
+        gameId: 12,
+        mediaId: 7,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 19680},
+        answers: [
+            Trivia.Answer.create({ answerText: 'Ja pilvistä katsoo kuu', correct:true }),
+            Trivia.Answer.create({ answerText: 'on onneni verraton' }),
+            Trivia.Answer.create({ answerText: 'ja taivasta tuijottelen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 12,
+        mediaId: 7,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 36360},
+        answers: [
+            Trivia.Answer.create({ answerText: 'on kaipaus aivan suunnaton' }),
+            Trivia.Answer.create({ answerText: 'kun uniaan hän vetelee', correct:true }),
+            Trivia.Answer.create({ answerText: 'muistot mieleen piirtyvät' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 12,
+        mediaId: 7,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 44900},
+        answers: [
+            Trivia.Answer.create({ answerText: 'Vapaa kuin taivaan lintu on kulkija huoleton', correct:true }),
+            Trivia.Answer.create({ answerText: 'Huoleton kulkijapoika on matkalla kullan luo' }),
+            Trivia.Answer.create({ answerText: 'Onnellinen voi olla kun maantietä askelen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 12,
+        mediaId: 7,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 101300},
+        answers: [
+            Trivia.Answer.create({ answerText: 'poluilla kuljeskellen' }),
+            Trivia.Answer.create({ answerText: 'reiteillä vierahilla' }),
+            Trivia.Answer.create({ answerText: 'maantiellä vihellellen', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 12,
+        mediaId: 7,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 120410},
+        answers: [
+            Trivia.Answer.create({ answerText: 'suurta rakkauttaan' }),
+            Trivia.Answer.create({ answerText: 'kaipaus rinnassaan', correct:true }),
+            Trivia.Answer.create({ answerText: 'puhelimen pirinää' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 13,
+        mediaId: 8,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 23500},
+        answers: [
+            Trivia.Answer.create({ answerText: 'aamuvarhaisella työtä' }),
+            Trivia.Answer.create({ answerText: 'illoin riitti puhdetyötä', correct:true }),
+            Trivia.Answer.create({ answerText: 'päivin kiristeltiin vöitä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 13,
+        mediaId: 8,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 30980},
+        answers: [
+            Trivia.Answer.create({ answerText: 'karjalaisten kaupungissa', correct:true }),
+            Trivia.Answer.create({ answerText: 'linnan suuren kaupungissa' }),
+            Trivia.Answer.create({ answerText: 'suomalaisten kaupungissa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 13,
+        mediaId: 8,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 58570},
+        answers: [
+            Trivia.Answer.create({ answerText: 'vei vei vei' }),
+            Trivia.Answer.create({ answerText: 'hur mår du' }),
+            Trivia.Answer.create({ answerText: 'hem till mej', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 13,
+        mediaId: 8,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 70210},
+        answers: [
+            Trivia.Answer.create({ answerText: 'ystävät kun kantoi puolet', correct:true }),
+            Trivia.Answer.create({ answerText: 'usein kaatui baarin tuolit' }),
+            Trivia.Answer.create({ answerText: 'oltiin rasavillit nuoret' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 13,
+        mediaId: 8,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 78080},
+        answers: [
+            Trivia.Answer.create({ answerText: 'pöydässä niin hilpeässä', correct:true }),
+            Trivia.Answer.create({ answerText: 'kapakassa nauravassa' }),
+            Trivia.Answer.create({ answerText: 'illan tumman saapuessa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 13,
+        mediaId: 8,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 127290},
+        answers: [
+            Trivia.Answer.create({ answerText: 'viipurlaise rakkaus assuupi vain', correct:true }),
+            Trivia.Answer.create({ answerText: 'viipurissa iloista elämä on' }),
+            Trivia.Answer.create({ answerText: 'rakkaudest viipuriin iloiseen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 13,
+        mediaId: 8,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 142990},
+        answers: [
+            Trivia.Answer.create({ answerText: 'Linnan muuril me kun illan suussa kohdattiin' }),
+            Trivia.Answer.create({ answerText: 'Monrepoos myö kuuta ko niin kahen katseltiin', correct:true }),
+            Trivia.Answer.create({ answerText: 'Torkkelissa kauniin kuusen alla suudeltiin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 14,
+        mediaId: 9,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 21330},
+        answers: [
+            Trivia.Answer.create({ answerText: 'muistaa en voi', correct:true }),
+            Trivia.Answer.create({ answerText: 'muistoista kai' }),
+            Trivia.Answer.create({ answerText: 'minkä minä koin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 14,
+        mediaId: 9,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 41950},
+        answers: [
+            Trivia.Answer.create({ answerText: 'maailman tuulet ne vei' }),
+            Trivia.Answer.create({ answerText: 'kohtalo kauas kun vei', correct:true }),
+            Trivia.Answer.create({ answerText: 'tunnen sen sydämmessäin' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 14,
+        mediaId: 9,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 58720},
+        answers: [
+            Trivia.Answer.create({ answerText: 'nuoruuspäivät', correct:true }),
+            Trivia.Answer.create({ answerText: 'muistot kauniit' }),
+            Trivia.Answer.create({ answerText: 'hauska päivät' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 14,
+        mediaId: 9,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 89810},
+        answers: [
+            Trivia.Answer.create({ answerText: 'tiedän sen itsekin, yksin kun oon' }),
+            Trivia.Answer.create({ answerText: 'tässä mä istuskelen yksinään' }),
+            Trivia.Answer.create({ answerText: 'muutoin en mä tässä istuisikaan', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 14,
+        mediaId: 9,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 149790},
+        answers: [
+            Trivia.Answer.create({ answerText: 'aivan kuin mainingit sois', correct:true }),
+            Trivia.Answer.create({ answerText: 'kun aallokon kuohunta soi' }),
+            Trivia.Answer.create({ answerText: 'äänet nuo meren ne on' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 14,
+        mediaId: 9,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 167960},
+        answers: [
+            Trivia.Answer.create({ answerText: 'iloni suruni mun' }),
+            Trivia.Answer.create({ answerText: 'särkyneet toiveeni mun', correct:true }),
+            Trivia.Answer.create({ answerText: 'suurimman kaipaukseni' })
+        ]
+    }),Trivia.Question.create({
+        gameId: 15,
+        mediaId: 10,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 32700},
+        answers: [
+            Trivia.Answer.create({ answerText: 'tunne maan tuon kutsuvan...' }),
+            Trivia.Answer.create({ answerText: 'sinne toivon pääseväin...' }),
+            Trivia.Answer.create({ answerText: 'siellä huolet huomisen', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 15,
+        mediaId: 10,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 45930},
+        answers: [
+            Trivia.Answer.create({ answerText: 'käydä vois', correct:true }),
+            Trivia.Answer.create({ answerText: 'mennä pois' }),
+            Trivia.Answer.create({ answerText: 'lentää vois' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 15,
+        mediaId: 10,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 60670},
+        answers: [
+            Trivia.Answer.create({ answerText: 'vanki olen maan', correct:true }),
+            Trivia.Answer.create({ answerText: 'sinne kaipaan vaan' }),
+            Trivia.Answer.create({ answerText: 'kotiin jäädä saan' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 15,
+        mediaId: 10,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 68520},
+        answers: [
+            Trivia.Answer.create({ answerText: 'siintää satumaa' }),
+            Trivia.Answer.create({ answerText: 'sinne käydä saan', correct:true }),
+            Trivia.Answer.create({ answerText: 'siellä lentää saan' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 15,
+        mediaId: 10,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 111920},
+        answers: [
+            Trivia.Answer.create({ answerText: 'sinne missä mua oma armain...', correct:true }),
+            Trivia.Answer.create({ answerText: 'siellä rakkain kultani mun...' }),
+            Trivia.Answer.create({ answerText: 'aurinko kun kultaa hetken...' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 15,
+        mediaId: 10,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 123850},
+        answers: [
+            Trivia.Answer.create({ answerText: 'linnun liitävän', correct:true }),
+            Trivia.Answer.create({ answerText: 'tuulen vinkuvan' }),
+            Trivia.Answer.create({ answerText: 'kotkan kiitävän'})
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 15,
+        mediaId: 10,
+        questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
+        options: {playTo: 151460},
+        answers: [
+            Trivia.Answer.create({ answerText: 'vaan satumaahan kaipaan aina' }),
+            Trivia.Answer.create({ answerText: 'vaan siivetönnä en voi lentää', correct:true }),
+            Trivia.Answer.create({ answerText: 'halki aavan meren lennän' })
+        ]
+    }),
+
+
 
     Trivia.Question.create({
         gameId: 17,
@@ -1047,10 +1383,6 @@ Trivia.gameController = Em.Object.create({
             this.set('questions', questions);
             this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
 
-         /*  if(this.get('game').get('guid') == 1,5 ){
-                ('.question-view h1').css("padding-top","200px");
-           }*/
-
             this.set('image', this.get('game').get('image'));
             this.set('caption', this.get('game').get('caption'));
 
@@ -1090,6 +1422,7 @@ Trivia.gameController = Em.Object.create({
                 this.set('gameCompleted', true);
                 this.set('game', false);
             }
+
 
 			this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
             if (this.get('currentQuestion').get('mediaId')) {
