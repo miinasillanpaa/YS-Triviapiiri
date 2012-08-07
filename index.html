@@ -23,8 +23,8 @@
 
     <script type="text/x-handlebars" data-template-name="selectGameView">
 		<h2>Valitse peli:</h2>
-        {{#collection selectGameCollectionView }}
-            <span>{{content.name}}</span>
+        {{#collection view.selectGameCollectionView }}
+            <span>{{view.content.name}}</span>
         {{/collection}}
     </script>
 
@@ -34,9 +34,9 @@
 			<div class="question-container">
 
 
-						{{#view questionView classNames="question-view"}}
+						{{#view view.questionView classNames="question-view"}}
 
-							{{#view controlsView}}
+							{{#view view.controlsView}}
 
 								<div class="game-name"><span>{{ Trivia.gameController.game.name }}</span></div>
 
@@ -57,23 +57,20 @@
 							{{/view}}
 
 
-							{{#view mediaDisplayView}}
+							{{#view view.mediaDisplayView}}
 
 							{{/view}}
 
 						{{/view}}
 
-			            {{!#view mediaView isVisibleBinding="Trivia.gameController.showMediaView" classNames="btn media-view"}}
-			                {{!Trivia.gameController.playLabel}}
-			            {{!/view}}
 			</div>
 
 		<div class="answers-container">
-			{{#view countdownView}}
+			{{#view view.countdownView}}
 			{{/view}}
 			<div class="collection-wrapper">
-				{{#collection answersView isVisibleBinding="Trivia.gameController.showAnswers"}}
-					{{content.answerText}}
+				{{#collection view.answersView isVisibleBinding="Trivia.gameController.showAnswers"}}
+					{{view.content.answerText}}
 				{{/collection}}
 			</div>
 
@@ -120,7 +117,9 @@
   </script>
   <script src="js/libs/soundmanager2-nodebug-jsmin.js" type="text/javascript"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-  <script src="js/libs/ember-0.9.8.1.js"></script>
+	<script src="js/libs/handlebars-1.0.0.beta.6.js"></script>
+	<script src="js/libs/ember-1.0.pre.js"></script>
+
   <script src="js/app.js"></script>
 
   <script>

@@ -1513,7 +1513,10 @@ Trivia.gameController = Em.Object.create({
             }
         }
     }.observes('game'),
-	gameNameBinding: Em.Binding.from('game.name').transform(function(value){ if (value) return value}),
+	//gameNameBinding: Em.Binding('game.name').transform(function(value){ if (value) return value}),
+	gameName: function(){
+		return 'name';
+	}.property('game.name'),
     showGameSelector: true,
     continueMediaFrom: 0,
     media: null,
