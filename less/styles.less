@@ -37,6 +37,7 @@
 		.box-flex(1);
 	}
 }
+
 .app {
 	.display-box();
 	.box-orient(vertical);
@@ -126,25 +127,150 @@
 				.question-container {
 					.box-flex(1);
 					.display-box();
+					.box-orient(vertical);
+
+					width: 0;
 
 					.question-view {
+						.display-box();
+						.box-orient(vertical);
+
 						.box-flex(1);
+
+						.controls-view {
+							.display-box();
+							.box-orient(vertical);
+							.box-flex(2);
+							height: 0;
+
+							background: #cccccc;
+							border-radius:(6px);
+
+
+							margin: 0.5em;
+							margin-right: 0.25em;
+							margin-bottom: 0.25em;
+
+
+							//.well();
+
+							.game-name{
+								.box-flex(2);
+								.display-box();
+								.box-orient(vertical);
+								.box-pack(center);
+								.box-align(center);
+
+								span {
+									.box-flex(1);
+								}
+							}
+							.progressbar-view {
+								.box-flex(2);
+								margin-left: 1em;
+								margin-right : 1em;
+								position: relative;
+
+
+								.markers {
+									position: absolute;
+									left: 0;
+									right: 0;
+									top: 0;
+									bottom: 0;
+								}
+								.marker {
+									width: 1px;
+									height: 18px;
+									background: rgba(0,0,0,0.44);
+									border-left: 1px solid white;
+									position: absolute;
+								}
+							
+							
+							}
+							.playing-indicator {
+								.box-flex(2);
+								.display-box();
+								.box-orient(vertical);
+								.box-pack(center);
+								.box-align(center);
+								span {
+									.box-flex(1);
+								}
+							}
+
+						}
+						.media-display-view {
+							.box-flex(5);
+							height: 0;
+
+							background: #cccccc;
+							border-radius:(6px);
+							margin: 0.25em;
+							margin-left: 0.5em;
+							margin-bottom: 0.5em;
+
+							//.well()
+						}
+
 						h1 {
 							width: 200px;
 						}
 					}
+
 				}
 				.answers-container {
 					.box-flex(1);
-					margin: 10px;
 					.display-box();
 					.box-orient(vertical);
+					width: 0;
 
+
+					.instructions-box{
+						//.well();
+						margin: 0.5em;
+						margin-bottom: 0.25em;
+						margin-left: 0.25em;
+						background: #cccccc;
+						border-radius:(6px);
+
+						.box-flex(2);
+						height: 0;
+					}
+
+					.collection-wrapper{
+						.display-box();
+						.box-flex(5);
+						.box-pack(justify);
+						height: 0;
+						margin: 0.5em;
+						margin-top: 0.25em;
+						margin-left: 0.25em;
+
+
+						ul {
+							.display-box();
+							.box-orient(vertical);
+							.box-pack(justify);
+							margin: 0;
+							width: 100%;
+							li {
+								height: 0;
+								.box-flex(1);
+							}
+						}
+					}
+
+
+
+					/*
 					.answer-view {
 						.box-flex(1);
 						& + li {
 						}
 					}
+					*/
 				}
 			}
 		}

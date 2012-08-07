@@ -32,17 +32,53 @@
 
 		<div class="qa-section">
 			<div class="question-container">
+
+
 						{{#view questionView classNames="question-view"}}
-							<h1>{{content.questionText}}</h1>
+
+							{{#view controlsView}}
+
+								<div class="game-name"><span>{{ Trivia.gameController.game.name }}</span></div>
+
+								{{view Trivia.ProgressbarView valueBinding="Trivia.gameController.position" markerPositionsBinding="Trivia.gameController.markerPositions" activeBinding="Trivia.gameController.mediaPlaying"}}
+
+
+								<div class="playing-indicator" {{bindAttr class="Trivia.gameController.mediaPlaying:media-playing"}}>
+									<span>
+									{{#if Trivia.gameController.mediaPlaying }}
+										Musiikki soi
+									{{else}}
+										Pysäytetty
+									{{/if}}
+									</span>
+								</div>
+
+
+							{{/view}}
+
+
+							{{#view mediaDisplayView}}
+
+							{{/view}}
+
 						{{/view}}
 
-			            {{#view mediaView isVisibleBinding="Trivia.gameController.showMediaView" classNames="btn media-view"}}
-			                {{Trivia.gameController.playLabel}}
-			            {{/view}}
+			            {{!#view mediaView isVisibleBinding="Trivia.gameController.showMediaView" classNames="btn media-view"}}
+			                {{!Trivia.gameController.playLabel}}
+			            {{!/view}}
 			</div>
-					{{#collection answersView classNames="answers-container" isVisibleBinding="Trivia.gameController.showAnswers"}}
-						{{content.answerText}}
-					{{/collection}}
+
+		<div class="answers-container">
+			{{#view countdownView}}
+			{{/view}}
+			<div class="collection-wrapper">
+				{{#collection answersView isVisibleBinding="Trivia.gameController.showAnswers"}}
+					{{content.answerText}}
+				{{/collection}}
+			</div>
+
+		</div>
+
 		</div>
 
 	</script>
@@ -51,6 +87,16 @@
         <h2 style="">Peli päättyi!</h2>
         <h3 style=""><span>Pisteesi {{Trivia.gameController.score}}</span></h3>
     </script>
+
+	<script type="text/x-handlebars" data-template-name="progressbarView">
+
+		<div class="progress progress-striped {{bindAttr class="active"}}">
+			<div class="bar" style="width: 0%;"></div>
+		</div>
+		<div class="markers"></div>
+
+	</script>
+
 </head>
 <body>
 

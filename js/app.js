@@ -126,6 +126,9 @@ Trivia.games = [
     })
 ];
 
+soundManager.defaultOptions = {
+	autoLoad: true
+}
 soundManager.onready(function() {
     Trivia.medias = [
         Trivia.Media.create({
@@ -393,7 +396,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 224600},
+        options: {playTo: 144600},
         answers: [
             Trivia.Answer.create({ answerText: 'kiristää vyö', correct: true }),
             Trivia.Answer.create({ answerText: 'ahdistaa työ'}),
@@ -1184,7 +1187,7 @@ Trivia.questions = [
         gameId: 15,
         mediaId: 10,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 60670},
+        v: {playTo: 60670},
         answers: [
             Trivia.Answer.create({ answerText: 'vanki olen maan', correct:true }),
             Trivia.Answer.create({ answerText: 'sinne kaipaan vaan' }),
@@ -1380,7 +1383,53 @@ Trivia.GameView = Em.View.extend({
         click: function() {
             Trivia.gameController.playMedia();
         }
-    })
+    }),
+	countdownView: Em.View.extend({
+		classNames: 'countdown-view instructions-box'.w()
+
+	}),
+	/*
+	messageView: Em.View.extend({
+		classNames: 'message-view instructions-box'.w()
+	}),
+	correctAnswerView: Em.View.extend({
+		classNames: 'correct-answer-view instructions-box'.w()
+	}),
+	wrongAnswerView: Em.View.extend({
+		classNames: 'wrong-answer-view instructions-box'.w()
+	}),
+	*/
+	questionView: Em.View.extend({
+		classNames: 'question-view'.w(),
+
+		controlsView: Em.View.extend({
+			classNames: 'controls-view'.w()
+
+		}),
+		mediaDisplayView: Em.View.extend({
+			classNames: 'media-display-view'.w(),
+			contentBinding: 'Trivia.gameController.game.image',
+			contentDidChange: function(){
+
+
+				if (this.get('content')){
+					console.log('content changed', this.get('content'));
+					$(this.get('element')).css({
+						'background': 'url(' + this.get('content') + ')',
+						'background-size': 'cover'
+					})
+				}
+
+
+			}.observes('content'),
+			click: function(){
+
+				console.log(this.get('element'))
+			}
+
+		})
+
+	})
 });
 
 Trivia.GameCompletedView = Em.View.extend({
@@ -1393,6 +1442,37 @@ Trivia.GameCompletedView = Em.View.extend({
     })
 });
 
+Trivia.ProgressbarView = Em.View.extend({
+	templateName: 'progressbarView',
+	classNames: 'progressbar-view'.w(),
+	valueDidChange: function(){
+		$(this.get('element')).find('.progress .bar').css({width: this.get('value') * 100 + '%'});
+	}.observes('value'),
+	markerPositionsDidChange: function(){
+		var markers = this.get('markerPositions');
+		console.log(markers.length, 'markers');
+
+		var wrapper = $(this.get('element')).find('.markers').html('');
+
+		markers.forEach(function(marker){
+			console.log()
+			var markerElement = $('<div class="marker"></div>').css({
+				left: marker * 100 + '%'
+			})
+			wrapper.append(markerElement);
+		});
+
+		/*
+		for (var i = 0; i < markers.length; i++) {
+
+		}
+		*/
+	}.observes('markerPositions'),
+	activeDidChange: function(){
+		console.log('active changed', this.get('active'))
+	}.observes('active')
+})
+
 Trivia.gameController = Em.Object.create({
 	init: function(){
 		console.log('gamecontroller started');
@@ -1400,6 +1480,8 @@ Trivia.gameController = Em.Object.create({
     populateQuestions: function() {
         if (this.get('game')) {
             var questions = Trivia.questions.filterProperty('gameId', this.get('game').get('guid'));
+
+
             this.set('questions', questions);
             this.set('currentQuestion', this.get('questions').objectAt(this.get('questionIndex')));
 
@@ -1408,10 +1490,23 @@ Trivia.gameController = Em.Object.create({
 
 
             if (this.get('currentQuestion').get('mediaId')) {
+
                 var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
                 this.set('media', media);
                 this.set('showMediaView', true);
                 //this.get('media').get('media').play();
+
+				console.log('duration', media.get('media').duration);
+
+			var markerPositions = questions.map(
+				function(question){
+					return question.options.playTo / media.get('media').duration
+			})
+				this.set('markerPositions', markerPositions);
+
+				this.playMedia();
+
+
             } else {
                 this.set('showAnswers', true);
                 this.set('showMediaView', false);
@@ -1428,6 +1523,7 @@ Trivia.gameController = Em.Object.create({
     questions: null,
 	currentQuestion: null,
     showAnswers: false,
+	mediaPlaying: false,
     showMediaView: false,
     gameCompleted: false,
 	score: 0,
@@ -1466,14 +1562,17 @@ Trivia.gameController = Em.Object.create({
         if (this.get('media')) {
             if (this.get('media').get('mediaType') == 'mp3') {
                 if (this.get('media').get('media').playState == 0) {
-                    this.set('playLabel', 'Odota taukoa...');
+                    //this.set('playLabel', 'Odota taukoa...');
                     this.get('media').get('media').play({position: this.get('continueMediaFrom')});
                 }
             }
         }
     },
     whileMediaPlaying: function() {
-        console.log(Trivia.gameController.get('media').get('media').position);
+		var position = Trivia.gameController.get('media').get('media').position / Trivia.gameController.get('media').get('media').duration;
+		Trivia.gameController.set('position', position);
+		Trivia.gameController.set('mediaPlaying', true);
+        //console.log(Trivia.gameController.get('media').get('media').position, Trivia.gameController.get('media').get('media').duration);
         if (Trivia.gameController.get('media').get('media').position >= Trivia.gameController.get('currentQuestion').get('options').playTo) {
             Trivia.gameController.set('playLabel', 'Jatka');
             Trivia.gameController.get('media').get('media').stop();
@@ -1482,7 +1581,8 @@ Trivia.gameController = Em.Object.create({
         }
     },
     onMediaStop: function() {
-        this.set('playLabel', 'Soita');
+		Trivia.gameController.set('mediaPlaying', false);
+        //this.set('playLabel', 'Soita');
     },
 	checkAnswer: function(answer){
 		console.log('answered', answer);
@@ -1523,8 +1623,44 @@ foo = Em.Object.create({
 bar = Em.Object.create({
 	fooBinding: 'foo.foo'
 })
+var resizeText = function(){
+	var win = $(window);
+		var width = win.innerWidth();
+		var height = win.innerHeight();
+		var fontSize;
 
+		if (width < height) {
+			fontSize = width*0.02;
+		} else {
+			fontSize = height * 0.02;
+		}
+		fontSize = width*0.02;
+		$('body').css('fontSize', fontSize);
+
+}
+
+var setLineHeights = function(){
+	console.log('setting heights');
+	$('.lh').each(function(key, item){
+		var element = $(item);
+		element.css('line-height', element.height() + 'px');
+	})
+}
+
+$(document).ready(resizeText);
+$(window).resize(resizeText);
+
+/*
+$(document).ready(setLineHeights);
+$(window).resize(setLineHeights);
+*/
+
+
+/*
 onresize=onload=function(){
+
+
 	document.body.style.fontSize=window.innerWidth*0.02+"px";
 	//document.body.style.lineHeight=window.innerWidth*0.02+"px"
 }
+*/
