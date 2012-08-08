@@ -1239,11 +1239,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'halki aavan meren lennän' })
         ]
     }),
-
-
-
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: MATALA',
         answers: [
             Trivia.Answer.create({ answerText: 'laaja' }),
@@ -1254,7 +1251,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: PAINAVA',
         answers: [
             Trivia.Answer.create({ answerText: 'raskas' }),
@@ -1265,7 +1262,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: ISO',
         answers: [
             Trivia.Answer.create({ answerText: 'kookas' }),
@@ -1275,7 +1272,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: TUMMA',
         answers: [
             Trivia.Answer.create({ answerText: 'musta' }),
@@ -1286,7 +1283,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: KALLIS',
         answers: [
             Trivia.Answer.create({ answerText: 'arvokas' }),
@@ -1296,7 +1293,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: NOPEA',
         answers: [
             Trivia.Answer.create({ answerText: 'iloinen' }),
@@ -1306,7 +1303,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: HILPEÄ',
         answers: [
             Trivia.Answer.create({ answerText: 'hauska' }),
