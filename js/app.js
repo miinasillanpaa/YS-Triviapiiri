@@ -121,7 +121,7 @@ Trivia.games = [
         caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
-        guid: 17,
+        guid: 16,
         name: 'Vastakohtien yhdistäminen'
     })
 ];
