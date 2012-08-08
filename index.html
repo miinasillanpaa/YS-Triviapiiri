@@ -22,10 +22,19 @@
   <![endif]-->
 
     <script type="text/x-handlebars" data-template-name="selectGameView">
-		<h2>Valitse peli:</h2>
+		<div class="intro">
+			<span>
+			Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu ku kappale on soitettu.
+			</span>
+		</div>
+		<h2>Valitse soitettava kappale</h2>
+		<div class="wrapper">
         {{#collection view.selectGameCollectionView }}
-            <span>{{view.content.name}}</span>
+			<div class="cover" {{bindAttr style="view.bgStyle"}}>
+            	<span>{{view.content.name}}</span>
+			</div>
         {{/collection}}
+		</div>
     </script>
 
 	<script type="text/x-handlebars" data-template-name="game">
@@ -101,7 +110,7 @@
 
 	<section class="app">
 		<section class="menubar">
-			<button class="btn back" {{action back}}>Takaisin</button>
+			<button class="btn back" {{action back}}><span>Takaisin</span></button>
 			<section class="spacer"><span>{{Trivia.gameController.gameName}}</span></section>
 			<section class="score">Pisteet: <span class="badge badge-warning">{{Trivia.gameController.score}}</span></section>
 		</section>
