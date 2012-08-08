@@ -330,7 +330,8 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 15750},
+        //options: {playTo: 15750},
+		options: {playTo: 1750},
         answers: [
             Trivia.Answer.create({ answerText: 'on morsiamell\' kruunattu pää', correct: true }),
             Trivia.Answer.create({ answerText: 'on morsian ja sulhanen tääl'}),
@@ -1323,7 +1324,12 @@ Trivia.SelectGameView = Em.View.extend({
         contentBinding: 'Trivia.games',
         itemViewClass: Em.View.extend({
             tagName: 'li',
-            classNames: 'answer-view btn',
+            classNames: 'answer-view',
+			bgStyle: function(){
+				if (this.get('content.image')){
+					return 'background-image: url(' + this.get('content.image') + ')';
+				}
+			}.property('content.image'),
 			/*
 			didInsertElement: function(){
 				var height = (100 - 2) / this.getPath('parentView.content.length');
@@ -1415,8 +1421,7 @@ Trivia.GameView = Em.View.extend({
 				if (this.get('content')){
 					console.log('content changed', this.get('content'));
 					$(this.get('element')).css({
-						'background': 'url(' + this.get('content') + ')',
-						'background-size': 'cover'
+						'background-image': 'url(' + this.get('content') + ')'
 					})
 				}
 
@@ -1450,7 +1455,6 @@ Trivia.ProgressbarView = Em.View.extend({
 	}.observes('value'),
 	markerPositionsDidChange: function(){
 		var markers = this.get('markerPositions');
-		console.log(markers.length, 'markers');
 
 		var wrapper = $(this.get('element')).find('.markers').html('');
 
@@ -1469,7 +1473,6 @@ Trivia.ProgressbarView = Em.View.extend({
 		*/
 	}.observes('markerPositions'),
 	activeDidChange: function(){
-		console.log('active changed', this.get('active'))
 	}.observes('active')
 })
 
@@ -1553,6 +1556,7 @@ Trivia.gameController = Em.Object.create({
                 //this.get('media').get('media').play({position:this.get('continueMediaFrom')});
                 this.set('showAnswers', false);
                 this.set('showMediaView', true);
+
             } else {
                 this.set('showAnswers', true);
                 this.set('showMediaView', false);
@@ -1593,7 +1597,6 @@ Trivia.gameController = Em.Object.create({
 		console.log('answered', answer);
 		var self = this;
 		setTimeout(function(){
-			console.log('hojo!')
 			self.nextQuestion();
 
 		}, 500);
@@ -1601,6 +1604,8 @@ Trivia.gameController = Em.Object.create({
 		if (answer.get('correct')){
 			console.log('correct!');
 			//this.nextQuestion();
+
+
 			this.set('score', this.get('score') + this.get('answerReward'));
 			return true;
 
