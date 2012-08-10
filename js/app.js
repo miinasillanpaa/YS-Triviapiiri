@@ -136,7 +136,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                     id: 'kulkurin valssi',
-                    url: 'assets/Kulkurinvalssi.mp3',
+                    url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kulkurinvalssi.mp3',
                     whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -145,7 +145,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'lapsuuden toverille',
-                url: 'assets/Lapsuudentoverille.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Lapsuudentoverille.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -154,7 +154,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'valiaikainen',
-                url: 'assets/Valiaikainen.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Valiaikainen.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -163,7 +163,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'tulipunaruusut',
-                url: 'assets/Tulipunaruusut.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Tulipunaruusut.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -172,7 +172,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'suutarin emannan kehtolaulu',
-                url: 'assets/Suutarinemannankehtolaulu.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Suutarinemannankehtolaulu.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -181,7 +181,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'voi tuota muistia',
-                url: 'assets/Voituotamuistia.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Voituotamuistia.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -190,7 +190,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'puhelinlangat laulaa',
-                url: 'assets/Puhelinlangatlaulaa.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Puhelinlangatlaulaa.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -199,7 +199,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'sellanen ol viipuri',
-                url: 'assets/Sellanenolviipuri.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Sellanenolviipuri.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -208,7 +208,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'kotkan poikii ilman siipii',
-                url: 'assets/Kotkanpoikiiilmansiipii.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kotkanpoikiiilmansiipii.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -217,7 +217,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'satumaa',
-                url: 'assets/Satumaa.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Satumaa.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         })
