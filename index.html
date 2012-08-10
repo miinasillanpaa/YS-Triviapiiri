@@ -65,10 +65,7 @@
 
 							{{/view}}
 
-
-							{{#view view.mediaDisplayView}}
-
-							{{/view}}
+							{{view view.mediaDisplayView contentBinding="Trivia.gameController.game.image"}}
 
 						{{/view}}
 
@@ -76,7 +73,33 @@
 
 		<div class="answers-container">
 			{{#view view.countdownView}}
+				{{view.content}}
 			{{/view}}
+
+			{{#view view.messageView}}
+				{{view.content}}
+			{{/view}}
+
+			{{#view view.instructionView}}
+				{{view.content}}
+				<button>Kuuntele uudestaan</button>
+			{{/view}}
+
+			{{#view view.correctAnswerView}}
+				{{view.content}}
+				<button class="btn" {{action next target="Trivia.gameController"}}>Soita seuraava katkelma</button>
+			{{/view}}
+
+			{{#view view.wrongAnswerView}}
+				{{view.content}}
+				<button class="btn" {{action next target="Trivia.gameController"}}>Soita seuraava katkelma</button>
+			{{/view}}
+
+			{{#view view.gameEndView}}
+				{{view.content}}
+				<button>Pelaa uudestaan</button>
+			{{/view}}
+
 			<div class="collection-wrapper">
 				{{#collection view.answersView isVisibleBinding="Trivia.gameController.showAnswers"}}
 					{{view.content.answerText}}
@@ -88,6 +111,30 @@
 		</div>
 
 	</script>
+	<script type="text/x-handlebars" data-template-name="games">
+		<div class="intro">
+			<span>
+			Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu ku kappale on soitettu.
+			</span>
+		</div>
+		<h2>Valitse soitettava kappale</h2>
+		<div class="wrapper">
+        {{#collection view.selectGameCollectionView }}
+			<div class="cover" {{bindAttr style="view.bgStyle"}}>
+			<a {{action startGame view.content}}>
+            	<span>{{view.content.name}}</span>
+				</a>
+			</div>
+        {{/collection}}
+		</div>
+
+		{{outlet}}
+ 	</script>
+
+	<script type="text/x-handlebars" data-template-name="game1">
+		<h2>game 1!!</h2>
+		{{outlet}}
+ 	</script>
 
     <script type="text/x-handlebars" data-template-name="gameCompleted">
         <h2 style="">Peli päättyi!</h2>
@@ -105,25 +152,24 @@
 
 </head>
 <body>
-
-	<script type="text/x-handlebars">
-
+<script type="text/x-handlebars" data-template-name="application">
 	<section class="app">
 		<section class="menubar">
-			<button class="btn back" {{action back}}><span>Takaisin</span></button>
+			<button class="btn back" {{action back}}>
+				<span>Takaisin</span>
+			</button>
 			<section class="spacer"><span>{{Trivia.gameController.gameName}}</span></section>
-			<section class="score">Pisteet: <span class="badge badge-warning">{{Trivia.gameController.score}}</span></section>
+			<section class="score">Pisteet: <span class="badge badge-warning">{{Trivia.gameController.score}}</span>
+			</section>
 		</section>
 
 		<section class="workspace">
-		{{view Trivia.SelectGameView isVisibleBinding="Trivia.gameController.showGameSelector" classNames="select-game-view"}}
-		{{view Trivia.GameView isVisibleBinding="Trivia.gameController.game" classNames="game-view"}}
-   		{{view Trivia.GameCompletedView isVisibleBinding="Trivia.gameController.gameCompleted"}}
+			{{outlet}}
 		</section>
 
 	</section>
-
   </script>
+
   <script src="js/libs/soundmanager2-nodebug-jsmin.js" type="text/javascript"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="js/libs/handlebars-1.0.0.beta.6.js"></script>

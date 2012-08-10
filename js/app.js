@@ -1,4 +1,264 @@
-var Trivia = Em.Application.create();
+var Trivia = Em.Application.create({
+	ApplicationController: Em.Controller.extend({
+
+	}),
+	ApplicationView: Em.View.extend({
+		templateName: 'application'
+	}),
+	GamesView: Em.View.extend({
+		templateName:'games',
+		classNames: 'select-game-view'.w(),
+		selectGameCollectionView:Em.CollectionView.extend({
+			classNames: 'select-game-view'.w(),
+			tagName:'ul',
+			contentBinding:'Trivia.games',
+			itemViewClass:Em.View.extend({
+				tagName:'li',
+				classNames:'answer-view',
+				bgStyle:function () {
+					if (this.get('content.image')) {
+						return 'background-image: url(' + this.get('content.image') + ')';
+					}
+				}.property('content.image')
+				/*
+				 didInsertElement: function(){
+				 var height = (100 - 2) / this.getPath('parentView.content.length');
+				 console.log(height);
+				 },
+				 */
+				/*
+				click:function () {
+					Trivia.gameController.set('game', this.get('content'));
+					Trivia.gameController.set('showGameSelector', false);
+				}
+
+				*/
+			})
+		})
+
+	}),
+	GamesController: Em.ObjectController.extend({
+
+	}),
+	GameView: Em.View.extend({
+		templateName: 'game',
+		classNames: 'game-view'.w(),
+		scoreBinding: 'Trivia.gameController.score',
+		questionBinding: 'Trivia.gameController.currentQuestion',
+		answersView: Em.CollectionView.extend({
+			tagName: 'ul',
+			contentBinding: 'Trivia.gameController.currentQuestion.answers',
+			itemViewClass: Em.View.extend({
+				didInsertElement: function(){
+					/*
+					setTimeout(function(){
+						$('li.answer-view').css({opacity: 0.999999});
+						console.log('kek');
+					},1000);
+					*/
+
+					/*
+					console.log($(this.get('element')))
+					$(this.get('element')).hide();
+					$(this.get('element')).show();
+					*/
+				},
+				classNames: 'answer-view btn',
+
+				click: function(){
+					$(this.get('element')).addClass('selected');
+
+					$(this.get('element')).parent().find('li').each(function(key, element){
+						console.log(element);
+						if (!$(element).hasClass('selected')){
+							//$(element).fadeOut();
+							$(element).css('visibility', 'hidden');
+						}
+					})
+
+
+
+					if (Trivia.gameController.checkAnswer(this.get('content'))){
+						//$(this.get('element')).addClass('btn-success');
+					} else {
+						//$(this.get('element')).addClass('btn-danger');
+					}
+					console.log(this.get('content'));
+				}
+			})
+		}),
+		mediaView: Em.View.extend({
+		}),
+		countdownView: Em.View.extend({
+			isVisibleBinding: 'Trivia.gameController.countdownViewVisible',
+			classNames: 'countdown-view instructions-box alert'.w(),
+			content: 'Valmistaudu vastaamaan!'
+		}),
+		instructionView: Em.View.extend({
+			isVisibleBinding: 'Trivia.gameController.instructionViewVisible',
+			classNames: 'countdown-view instructions-box alert-info alert'.w(),
+			content: 'Miten kappale jatkuu?'
+		}),
+		messageView: Em.View.extend({
+			isVisibleBinding: 'Trivia.gameController.messageViewVisible',
+			classNames: 'message-view instructions-box alert alert-info'.w()
+		}),
+		gameEndView: Em.View.extend({
+			isVisibleBinding: 'Trivia.gameController.gameEndViewVisible',
+			classNames: 'correct-answer-view instructions-box alert'.w(),
+			content: 'Peli loppui.'
+		}),
+		correctAnswerView: Em.View.extend({
+			isVisibleBinding: 'Trivia.gameController.correctAnswerViewVisible',
+			classNames: 'correct-answer-view instructions-box alert alert-success'.w(),
+			content: 'Hyvä, vastasit oikein!'
+		}),
+		wrongAnswerView: Em.View.extend({
+			isVisibleBinding: 'Trivia.gameController.wrongAnswerViewVisible',
+			classNames: 'wrong-answer-view instructions-box alert alert-error'.w(),
+			content: 'Vastasit väärin.'
+		}),
+
+		questionView: Em.View.extend({
+			classNames: 'question-view'.w(),
+
+			controlsView: Em.View.extend({
+				classNames: 'controls-view'.w()
+
+			}),
+			mediaDisplayView: Em.View.extend({
+				classNames: 'media-display-view'.w(),
+				//contentBinding: 'Trivia.gameController.game.image',
+				contentDidChange: function(){
+					console.log('album content changed');
+					if (this.get('content')){
+						console.log('content changed', this.get('content'));
+						console.log('background changed', this.get('element'));
+						$(this.get('element')).css({
+							'background-image': 'url(' + this.get('content') + ')'
+						})
+					}
+				}.observes('content'),
+
+				didInsertElement: function(){
+					//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
+					this.contentDidChange();
+				},
+				click: function(){
+					console.log(this.get('content'))
+				}
+
+			})
+
+		})
+	}),
+	GameController: Em.Controller.extend({
+
+	}),
+	Game1Controller: Em.Controller.extend({}),
+	Game1View: Em.View.extend({
+		templateName: 'game1'
+	}),
+	Router:Ember.Router.extend({
+		root:Ember.Route.extend({
+			enter:function () {
+			},
+			index:Ember.Route.extend({
+				route:'/',
+				enter:function () {
+				},
+				redirectsTo:'games'
+			}),
+			games:Ember.Route.extend({
+				route:'/games',
+				index: Em.Route.extend({
+					route: '/',
+					connectOutlets: function(router){
+						console.log('connecting outlets', router.get('applicationController'));
+						router.get('applicationController').connectOutlet('games', Trivia.games)
+					},
+					startGame: function(router, event){
+						router.transitionTo('game', event.context);
+						console.log('starting game', router, event, event.context);
+						//router.set('applicatioinController.gameController.game', event.context);
+					}
+				}),
+				game: Em.Route.extend({
+					route: '/:game_id',
+
+					enter: function(){
+						console.log('entered game');
+					},
+					deserialize: function(router, params){
+						var game_id = params.game_id;
+						return Trivia.games.findProperty('guid', parseInt(game_id))
+						//console.log('deserializing', game_id);
+					},
+					serialize: function(router, context){
+						return {
+							game_id: context.get('guid')
+						}
+						//console.log('serializing', context);
+					},
+					connectOutlets: function(router, game){
+						console.log('connecting outlets, context:', game)
+						router.get('applicationController').connectOutlet('game', game);
+					},
+					back: function(router, context){
+						console.log('back');
+						router.transitionTo('root.games');
+					},
+					gameStopped: Em.Route.extend({
+						route: '/',
+						enter: function(router){
+							console.log('game stopped');
+							//router.transitionTo('gameStarted');
+						},
+						connectOutlets: function(router, context){
+							console.log('context', context);
+						}
+					}),
+					gameStarted: Em.Route.extend({
+						route: '/started',
+						enter: function(){
+							console.log('game started');
+						}
+					})
+
+					/*
+					startGame: function(router, event) {
+						console.log('starting game')
+			          	router.transitionTo('game1', {});
+			        },
+					*/
+					/*
+					back: function(router, event) {
+						console.log('getting back from game')
+			          router.transitionTo('index', {});
+			        }
+					*/
+					/*
+					game1: Em.Route.extend({
+						route: 'bar',
+						enter: function(){
+							console.log('entered game 1');
+						},
+						connectOutlets: function(router){
+							router.get('applicationController').connectOutlet('games', {})
+							router.get('gamesController').connectOutlet('game1', {})
+						},
+						back: function(){
+							console.log('getting back from game1');
+						}
+					})
+					*/
+				})
+			})
+		})
+	})
+
+});
+
 
 Trivia.Game = Em.Object.extend({
     guid: null,
@@ -127,7 +387,10 @@ Trivia.games = [
 ];
 
 soundManager.defaultOptions = {
-	autoLoad: true
+	autoLoad: true,
+	onstop: function(){
+		Trivia.gameController.onMediaStop()
+	}
 }
 soundManager.onready(function() {
     Trivia.medias = [
@@ -1317,125 +1580,7 @@ Trivia.questions = [
     })
 ];
 
-Trivia.SelectGameView = Em.View.extend({
-    templateName: 'selectGameView',
-    selectGameCollectionView: Em.CollectionView.extend({
-        tagName: 'ul',
-        contentBinding: 'Trivia.games',
-        itemViewClass: Em.View.extend({
-            tagName: 'li',
-            classNames: 'answer-view',
-			bgStyle: function(){
-				if (this.get('content.image')){
-					return 'background-image: url(' + this.get('content.image') + ')';
-				}
-			}.property('content.image'),
-			/*
-			didInsertElement: function(){
-				var height = (100 - 2) / this.getPath('parentView.content.length');
-				console.log(height);
-			},
-			*/
-            click: function() {
-                Trivia.gameController.set('game', this.get('content'));
-                Trivia.gameController.set('showGameSelector', false);
-            }
-        })
-   })
-});
-
-Trivia.GameView = Em.View.extend({
-	templateName: 'game',
-	scoreBinding: 'Trivia.gameController.score',
-	questionBinding: 'Trivia.gameController.currentQuestion',
-	questionView: Em.View.extend({
-
-
-        contentBinding: 'Trivia.gameController.currentQuestion'
-
-	}),
-	answersView: Em.CollectionView.extend({
-		tagName: 'ul',
-		contentBinding: 'Trivia.gameController.currentQuestion.answers',
-		itemViewClass: Em.View.extend({
-			didInsertElement: function(){
-				/*
-				setTimeout(function(){
-					$('li.answer-view').css({opacity: 0.999999});
-					console.log('kek');
-				},1000);
-				*/
-
-				/*
-				console.log($(this.get('element')))
-				$(this.get('element')).hide();
-				$(this.get('element')).show();
-				*/
-
-			},
-			classNames: 'answer-view btn',
-			click: function(){
-				
-				if (Trivia.gameController.checkAnswer(this.get('content'))){
-					//$(this.get('element')).addClass('btn-success');
-				} else {
-					//$(this.get('element')).addClass('btn-danger');
-				}
-				console.log(this.get('content'));
-			}
-		})
-	}),
-    mediaView: Em.View.extend({
-        click: function() {
-            Trivia.gameController.playMedia();
-        }
-    }),
-	countdownView: Em.View.extend({
-		classNames: 'countdown-view instructions-box'.w()
-
-	}),
-	/*
-	messageView: Em.View.extend({
-		classNames: 'message-view instructions-box'.w()
-	}),
-	correctAnswerView: Em.View.extend({
-		classNames: 'correct-answer-view instructions-box'.w()
-	}),
-	wrongAnswerView: Em.View.extend({
-		classNames: 'wrong-answer-view instructions-box'.w()
-	}),
-	*/
-	questionView: Em.View.extend({
-		classNames: 'question-view'.w(),
-
-		controlsView: Em.View.extend({
-			classNames: 'controls-view'.w()
-
-		}),
-		mediaDisplayView: Em.View.extend({
-			classNames: 'media-display-view'.w(),
-			contentBinding: 'Trivia.gameController.game.image',
-			contentDidChange: function(){
-
-
-				if (this.get('content')){
-					console.log('content changed', this.get('content'));
-					$(this.get('element')).css({
-						'background-image': 'url(' + this.get('content') + ')'
-					})
-				}
-
-
-			}.observes('content'),
-			click: function(){
-
-				console.log(this.get('element'))
-			}
-
-		})
-
-	})
-});
+//Trivia.;
 
 Trivia.GameCompletedView = Em.View.extend({
     templateName: 'gameCompleted',
@@ -1451,15 +1596,21 @@ Trivia.ProgressbarView = Em.View.extend({
 	templateName: 'progressbarView',
 	classNames: 'progressbar-view'.w(),
 	valueDidChange: function(){
+		console.log('progress bar value changed', this.get('value'))
 		$(this.get('element')).find('.progress .bar').css({width: this.get('value') * 100 + '%'});
 	}.observes('value'),
+	didInsertElement: function(){
+		//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
+		this.markerPositionsDidChange();
+	},
 	markerPositionsDidChange: function(){
+		console.log('marker positionchange')
 		var markers = this.get('markerPositions');
 
 		var wrapper = $(this.get('element')).find('.markers').html('');
 
 		markers.forEach(function(marker){
-			console.log()
+			console.log(marker)
 			var markerElement = $('<div class="marker"></div>').css({
 				left: marker * 100 + '%'
 			})
@@ -1526,7 +1677,7 @@ Trivia.gameController = Em.Object.create({
     continueMediaFrom: 0,
     media: null,
     playLabel: 'Soita',
-    game: false,
+    gameBinding: 'Trivia.router.gameController.content',
 	questionIndex: 0,
     questions: null,
 	currentQuestion: null,
@@ -1535,9 +1686,30 @@ Trivia.gameController = Em.Object.create({
     showMediaView: false,
     gameCompleted: false,
 	score: 0,
+
+	setVisible: function(viewName){
+		this.set('countdownViewVisible', false);
+		this.set('instructionViewVisible', false);
+		this.set('messageViewVisible', false);
+		this.set('gameEndViewVisible', false);
+		this.set('correctAnswerViewVisible', false);
+		this.set('wrongAnswerViewVisible', false);
+		this.set(viewName, true);
+	},
+	countdownViewVisible: false,
+	instructionViewVisible: false,
+	messageViewVisible: false,
+	gameEndViewVisible: false,
+	correctAnswerViewVisible: false,
+	wrongAnswerViewVisible: false,
+
 	answerReward: 10,
     image:null,
     caption:null,
+	next: function(){
+		this.nextQuestion();
+		this.playMedia();
+	},
 	nextQuestion: function(){
 		if (this.get('questionIndex') <= this.get('questions').length){
 			this.set('questionIndex', parseInt(this.get('questionIndex')) + 1);
@@ -1568,6 +1740,9 @@ Trivia.gameController = Em.Object.create({
 
 	},
     playMedia: function() {
+		console.log('playing media')
+		this.setVisible('countdownViewVisible');
+
         if (this.get('media')) {
             if (this.get('media').get('mediaType') == 'mp3') {
                 if (this.get('media').get('media').playState == 0) {
@@ -1590,27 +1765,48 @@ Trivia.gameController = Em.Object.create({
         }
     },
     onMediaStop: function() {
+		console.log('media stopped');
+		this.setVisible('instructionViewVisible')
 		Trivia.gameController.set('mediaPlaying', false);
+
+
+
+
         //this.set('playLabel', 'Soita');
     },
 	checkAnswer: function(answer){
 		console.log('answered', answer);
 		var self = this;
+
+		/*
 		setTimeout(function(){
 			self.nextQuestion();
 
 		}, 500);
+		*/
+
+		console.log(answer);
+		$('.collection-wrapper ul li');
+		//answer.set('classNames', 'selected'.w())
+
+
 
 		if (answer.get('correct')){
-			console.log('correct!');
-			//this.nextQuestion();
 
+			console.log('correct!');
+
+
+
+			this.setVisible('correctAnswerViewVisible');
+
+			//this.nextQuestion();
 
 			this.set('score', this.get('score') + this.get('answerReward'));
 			return true;
 
 		} else {
-			console.log('false')
+			console.log('false');
+			this.setVisible('wrongAnswerViewVisible');
 			return false;
 		}
 
@@ -1625,14 +1821,6 @@ Trivia.gameController = Em.Object.create({
     }
 })
 
-foo = Em.Object.create({
-	foo: 'bar'
-
-})
-
-bar = Em.Object.create({
-	fooBinding: 'foo.foo'
-})
 var resizeText = function(){
 	var win = $(window);
 		var width = win.innerWidth();
@@ -1656,6 +1844,17 @@ var setLineHeights = function(){
 		element.css('line-height', element.height() + 'px');
 	})
 }
+
+
+$(document).ready(function(){
+	setTimeout(function(){
+		Trivia.initialize();
+	},500);
+
+});
+
+
+//Trivia.initialize();
 
 $(document).ready(resizeText);
 $(window).resize(resizeText);
