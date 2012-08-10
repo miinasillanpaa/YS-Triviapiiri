@@ -381,7 +381,7 @@ Trivia.games = [
         caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
-        guid: 17,
+        guid: 16,
         name: 'Vastakohtien yhdistäminen'
     })
 ];
@@ -399,7 +399,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                     id: 'kulkurin valssi',
-                    url: 'assets/Kulkurinvalssi.mp3',
+                    url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kulkurinvalssi.mp3',
                     whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -408,7 +408,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'lapsuuden toverille',
-                url: 'assets/Lapsuudentoverille.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Lapsuudentoverille.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -417,7 +417,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'valiaikainen',
-                url: 'assets/Valiaikainen.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Valiaikainen.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -426,7 +426,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'tulipunaruusut',
-                url: 'assets/Tulipunaruusut.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Tulipunaruusut.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -435,7 +435,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'suutarin emannan kehtolaulu',
-                url: 'assets/Suutarinemannankehtolaulu.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Suutarinemannankehtolaulu.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -444,7 +444,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'voi tuota muistia',
-                url: 'assets/Voituotamuistia.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Voituotamuistia.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -453,7 +453,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'puhelinlangat laulaa',
-                url: 'assets/Puhelinlangatlaulaa.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Puhelinlangatlaulaa.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -462,7 +462,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'sellanen ol viipuri',
-                url: 'assets/Sellanenolviipuri.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Sellanenolviipuri.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -471,7 +471,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'kotkan poikii ilman siipii',
-                url: 'assets/Kotkanpoikiiilmansiipii.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kotkanpoikiiilmansiipii.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         }),
@@ -480,7 +480,7 @@ soundManager.onready(function() {
             mediaType: 'mp3',
             media: soundManager.createSound({
                 id: 'satumaa',
-                url: 'assets/Satumaa.mp3',
+                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Satumaa.mp3',
                 whileplaying: Trivia.gameController.whileMediaPlaying
             })
         })
@@ -1502,11 +1502,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'halki aavan meren lennän' })
         ]
     }),
-
-
-
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: MATALA',
         answers: [
             Trivia.Answer.create({ answerText: 'laaja' }),
@@ -1517,7 +1514,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: PAINAVA',
         answers: [
             Trivia.Answer.create({ answerText: 'raskas' }),
@@ -1528,7 +1525,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: ISO',
         answers: [
             Trivia.Answer.create({ answerText: 'kookas' }),
@@ -1538,7 +1535,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: TUMMA',
         answers: [
             Trivia.Answer.create({ answerText: 'musta' }),
@@ -1549,7 +1546,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: KALLIS',
         answers: [
             Trivia.Answer.create({ answerText: 'arvokas' }),
@@ -1559,7 +1556,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: NOPEA',
         answers: [
             Trivia.Answer.create({ answerText: 'iloinen' }),
@@ -1569,7 +1566,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 17,
+        gameId: 16,
         questionText: 'Mikä on vastakohta: HILPEÄ',
         answers: [
             Trivia.Answer.create({ answerText: 'hauska' }),
