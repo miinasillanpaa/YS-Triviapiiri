@@ -1,3 +1,6 @@
+
+
+
 var Trivia = Em.Application.create({
 	ApplicationController: Em.Controller.extend({
 
@@ -40,14 +43,64 @@ var Trivia = Em.Application.create({
 	GamesController: Em.ObjectController.extend({
 
 	}),
+	GameLoadingController: Em.Controller.extend({}),
+
+	GameLoadingView: Em.View.extend({
+		templateName: 'game-loading'
+	}),
+	GameWrapperController: Em.Controller.extend({}),
+	GameWrapperView: Em.View.extend({
+		templateName: 'game'
+	}),
 	GameView: Em.View.extend({
-		templateName: 'game',
+		templateName: 'game-in-progress',
 		classNames: 'game-view'.w(),
 		scoreBinding: 'Trivia.gameController.score',
 		questionBinding: 'Trivia.gameController.currentQuestion',
 		answersView: Em.CollectionView.extend({
+			//visibilityBinding: "Trivia.router.gameController.showAnswers",
+
+			isVisibleBinding:  "Trivia.router.gameController.showAnswers",
+			displayBinding: 'Trivia.router.gameController.gameViewDisplay',
+
+			isVisibleObserver: function(){
+				console.log('visibility changed');
+				var element = $(this.get('element'));
+				if (this.get('isVisible')){
+					if (this.get('display') === 'block'){
+						element.removeClass('display-box');
+						element.addClass('display-block');
+
+					} else if (this.get('display') === 'box'){
+						element.removeClass('display-block');
+						element.addClass('display-box');
+					}
+				} else {
+					element.removeClass('display-box');
+					element.removeClass('display-block');
+				}
+			}.observes('isVisible'),
+			/*
+			visibilityObserver: function(){
+				console.log('visibility changed');
+				var element = $(this.get('element'));
+
+				if (this.get('visibility')){
+					element.show();
+					element.addClass('display-box');
+				} else {
+					element.hide();
+				}
+			}.observes('visibility'),
+
+
+			didInsertElement: function(){
+				this.visibilityObserver();
+			},
+			*/
+			classNames: 'answers-view'.w(),
 			tagName: 'ul',
-			contentBinding: 'Trivia.gameController.currentQuestion.answers',
+			contentBinding: 'Trivia.router.gameController.currentQuestion.answers',
 			itemViewClass: Em.View.extend({
 				didInsertElement: function(){
 					/*
@@ -65,58 +118,88 @@ var Trivia = Em.Application.create({
 				},
 				classNames: 'answer-view btn',
 
-				click: function(){
+				click: function(event){
+
+					//see if we already clicked this
+					if (this.get('clicked')){
+						event.preventDefault();
+						return true;
+					}
+
+
+					var element = $(this.get('element'));
+
+					//give the element initial position
+					element.css('top', element.position().top + 'px');
+
+					//console.log('top', element.position().top);
+
+					//give the element an explicit height
+					element.height(element.height()  + 'px');
+
+					//set element position to relative to make positioning possible
+					element.css('position', 'relative');
+					//console.log('top', element.position().top)
+
+					//set parent to block
+					//element.parent().css('display', 'block');
+
+					element.parent().addClass('display-block');
+
 					$(this.get('element')).addClass('selected');
 
-					$(this.get('element')).parent().find('li').each(function(key, element){
-						console.log(element);
-						if (!$(element).hasClass('selected')){
-							//$(element).fadeOut();
-							$(element).css('visibility', 'hidden');
-						}
-					})
-
-
-
-					if (Trivia.gameController.checkAnswer(this.get('content'))){
-						//$(this.get('element')).addClass('btn-success');
+					if (this.get('content.correct')){
+						$(this.get('element')).addClass('btn-success');
 					} else {
-						//$(this.get('element')).addClass('btn-danger');
+						$(this.get('element')).addClass('btn-danger');
 					}
+
+					element.parent().find('li:not(.selected)').hide();
+
+					element.animate({ top: 0}, 500, function(){
+						$('.next-question.btn').fadeIn().css({'display': 'block'});
+					});
+
+					this.set('clicked', true);
+
+					Trivia.router.send('checkAnswer', this.get('content'));
 					console.log(this.get('content'));
 				}
 			})
 		}),
 		mediaView: Em.View.extend({
 		}),
-		countdownView: Em.View.extend({
-			isVisibleBinding: 'Trivia.gameController.countdownViewVisible',
-			classNames: 'countdown-view instructions-box alert'.w(),
-			content: 'Valmistaudu vastaamaan!'
-		}),
-		instructionView: Em.View.extend({
-			isVisibleBinding: 'Trivia.gameController.instructionViewVisible',
-			classNames: 'countdown-view instructions-box alert-info alert'.w(),
-			content: 'Miten kappale jatkuu?'
-		}),
-		messageView: Em.View.extend({
-			isVisibleBinding: 'Trivia.gameController.messageViewVisible',
-			classNames: 'message-view instructions-box alert alert-info'.w()
-		}),
-		gameEndView: Em.View.extend({
-			isVisibleBinding: 'Trivia.gameController.gameEndViewVisible',
-			classNames: 'correct-answer-view instructions-box alert'.w(),
-			content: 'Peli loppui.'
-		}),
-		correctAnswerView: Em.View.extend({
-			isVisibleBinding: 'Trivia.gameController.correctAnswerViewVisible',
-			classNames: 'correct-answer-view instructions-box alert alert-success'.w(),
-			content: 'Hyvä, vastasit oikein!'
-		}),
-		wrongAnswerView: Em.View.extend({
-			isVisibleBinding: 'Trivia.gameController.wrongAnswerViewVisible',
-			classNames: 'wrong-answer-view instructions-box alert alert-error'.w(),
-			content: 'Vastasit väärin.'
+		instructionContainer: Em.View.extend({
+			classNames: 'instructions-box'.w(),
+			countdownView: Em.View.extend({
+				isVisibleBinding: 'Trivia.router.gameController.countdownViewVisible',
+				classNames: 'countdown-view alert'.w(),
+				content: 'Valmistaudu vastaamaan!'
+			}),
+			instructionView: Em.View.extend({
+				isVisibleBinding: 'Trivia.router.gameController.instructionViewVisible',
+				classNames: 'countdown-view alert-info alert'.w(),
+				content: 'Miten kappale jatkuu?'
+			}),
+			messageView: Em.View.extend({
+				isVisibleBinding: 'Trivia.router.gameController.messageViewVisible',
+				classNames: 'message-view alert alert-info'.w()
+			}),
+			gameEndView: Em.View.extend({
+				isVisibleBinding: 'Trivia.router.gameController.gameEndViewVisible',
+				classNames: 'correct-answer-view alert'.w(),
+				content: 'Peli loppui.'
+			}),
+			correctAnswerView: Em.View.extend({
+				isVisibleBinding: 'Trivia.router.gameController.correctAnswerViewVisible',
+				classNames: 'correct-answer-view alert alert-success'.w(),
+				content: 'Hyvä, vastasit oikein!'
+			}),
+			wrongAnswerView: Em.View.extend({
+				isVisibleBinding: 'Trivia.router.gameController.wrongAnswerViewVisible',
+				classNames: 'wrong-answer-view alert alert-error'.w(),
+				content: 'Vastasit väärin.'
+			})
 		}),
 
 		questionView: Em.View.extend({
@@ -147,18 +230,151 @@ var Trivia = Em.Application.create({
 				click: function(){
 					console.log(this.get('content'))
 				}
-
 			})
-
 		})
 	}),
 	GameController: Em.Controller.extend({
 
+
+		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
+		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
+		captionBinding: 'content.caption', //Copyright info. Not implemented
+
+		mediaPosition: 0, //Media position in milliseconds from the start. Updated on the fly by playInterval()
+
+		mediaState: 'stopped', //can be either 'stopped' or 'playing'
+
+		markerPositions: function(){
+			var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
+			var positions = this.get('questions').map(
+				function(question){
+					return question.options.playTo / media.get('res').duration
+			});
+
+			return positions;
+		}.property('questions').cacheable(),
+
+		questionIndex: 0,
+		media: null,
+
+		showAnswers: false,
+		gameViewDisplay: 'box',
+
+		countdownViewVisible: false,
+		instructionViewVisible: false,
+		messageViewVisible: false,
+		gameEndViewVisible: false,
+		correctAnswerViewVisible: false,
+		wrongAnswerViewVisible: false,
+
+		setAlertVisible: function(viewName){
+			this.set('countdownViewVisible', false);
+			this.set('instructionViewVisible', false);
+			this.set('messageViewVisible', false);
+			this.set('gameEndViewVisible', false);
+			this.set('correctAnswerViewVisible', false);
+			this.set('wrongAnswerViewVisible', false);
+			this.set(viewName + 'ViewVisible', true);
+		},
+
+		mediaDidChange: function(){
+
+			var mediaId = this.get('currentQuestion.mediaId');
+
+			var media = Trivia.medias.findProperty('guid', mediaId);
+			if (media && media.get('mediaType') === 'mp3'){
+				media.reopen({
+					res: soundManager.createSound({
+						id: 'trivia-' + mediaId,
+						url: media.get('url'),
+						onload: function(){
+							//notify router of finished asset loading
+							Trivia.router.send('assetLoadingComplete');
+						}
+					})
+				})
+			}
+
+			this.set('media', media);
+
+			console.log('media changed');
+		}.observes('currentQuestion.mediaId'),
+
+		/**
+		 * plays the current song interval specified by Trivia.Question.media.
+		 * @param fromEnd used to replay fromEnd amount of seconds from the end of the interval
+		 */
+		playInterval: function(fromEnd){
+			var startingPosition = 0;
+
+			if (this.get('questionIndex') > 0){
+				//get previous question
+				var previousQuestion = this.get('questions').objectAt(this.get('questionIndex') - 1);
+				startingPosition =  previousQuestion.get('options.playTo');
+				if (!startingPosition){
+					throw 'no startin position!';
+				}
+			}
+
+			var playTo = this.get('currentQuestion.options.playTo');
+
+			if (fromEnd){
+				startingPosition = playTo - fromEnd;
+
+				if (startingPosition >= 0){
+					console.log('playback starts at', fromEnd, '-', playTo);
+				} else {
+					throw 'trying to seek past the sound file'
+				}
+			}
+
+			console.log('playing from', startingPosition, 'to', this.get('currentQuestion.options.playTo'));
+
+			if (this.get('media.res')){
+
+				this.get('media.res').play({
+					position: startingPosition,
+					whileplaying: function(){
+						console.log('playing at', this.position);
+						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
+						Trivia.router.set('gameController.mediaPlaying', true);
+					},
+					onstop: function(){
+						Trivia.router.set('gameController.mediaPlaying', false);
+					}
+				}).onPosition(playTo, function(){
+					this.stop();
+					this.clearOnPosition(playTo);
+
+					Trivia.router.send('finishedPlayingInterval', playTo);
+				});
+
+			} else {
+				throw 'no media found'
+			}
+		},
+
+		currentQuestion: function(){
+			if (this.get('questions')){
+				return this.get('questions').objectAt(this.get('questionIndex'));
+			} else {
+				return false;
+			}
+		}.property('questionIndex', 'questions'),
+
+		contentDidChange: function(){
+			//get questions
+
+			//console.info('game controller content changed', this.get('content'))
+		}.observes('content')
 	}),
+
+	/*
 	Game1Controller: Em.Controller.extend({}),
 	Game1View: Em.View.extend({
 		templateName: 'game1'
 	}),
+	*/
 	Router:Ember.Router.extend({
 		root:Ember.Route.extend({
 			enter:function () {
@@ -175,13 +391,14 @@ var Trivia = Em.Application.create({
 					route: '/',
 					connectOutlets: function(router){
 						console.log('connecting outlets', router.get('applicationController'));
-						router.get('applicationController').connectOutlet('games', Trivia.games)
-					},
+						router.get('applicationController').connectOutlet('games', Trivia.games);
+					}
+					/*,
 					startGame: function(router, event){
 						router.transitionTo('game', event.context);
 						console.log('starting game', router, event, event.context);
 						//router.set('applicatioinController.gameController.game', event.context);
-					}
+					}*/
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
@@ -201,7 +418,8 @@ var Trivia = Em.Application.create({
 						//console.log('serializing', context);
 					},
 					connectOutlets: function(router, game){
-						console.log('connecting outlets, context:', game)
+						console.log('connecting outlets');
+						//inject game controller to application controller and set the game object as gamecontroller's content
 						router.get('applicationController').connectOutlet('game', game);
 					},
 					back: function(router, context){
@@ -214,15 +432,155 @@ var Trivia = Em.Application.create({
 							console.log('game stopped');
 							//router.transitionTo('gameStarted');
 						},
-						connectOutlets: function(router, context){
-							console.log('context', context);
-						}
+						connectOutlets: function(router){
+							var gameController = router.get('gameController');
+							//get questions
+							var gameId = parseInt(router.get('gameController.content.guid'));
+							var questions = Trivia.questions.filterProperty('gameId', gameId);
+							router.set('gameController.questions', questions);
+							gameController.set('questionIndex', 0);
+							router.get('applicationController').connectOutlet('gameLoading', router.get('gameController.content'));
+							//router.get('applicationController').connectOutlet('gameWrapper', router.get('gameController.content'));
+						},
+
+						startGame: function(router){
+							console.log('starting game');
+
+						},
+						assetsPending: Em.Route.extend({
+							route: '/',
+							enter: function(){
+								console.log('assets not loaded');
+							},
+							startGame: function(){
+								console.log('assets not loaded, not starting yet');
+							},
+							assetLoadingComplete: function(router){
+								console.log('asset loading complete');
+								router.transitionTo('assetsLoaded');
+							}
+						}),
+						assetsLoaded: Em.Route.extend({
+							enter: function(router){
+								console.log('assets loaded');
+								//router.send('startGame');
+							},
+							connectOutlets: function(router){
+								router.send('startGame');
+							},
+							startGame: function(router){
+								console.log('starting game');
+								router.transitionTo('gameStarted');
+							}
+						})
 					}),
+
 					gameStarted: Em.Route.extend({
-						route: '/started',
-						enter: function(){
-							console.log('game started');
-						}
+						enter: function(router, context){
+
+						},
+						connectOutlets: function(router, context){
+							router.get('applicationController').connectOutlet('game', router.get('gameController.content'));
+							console.log('hiding answers');
+							router.set('gameController.showAnswers', false);
+							router.transitionTo('mediaStopped');
+						},
+
+						mediaStopped: Em.Route.extend({
+							initialState: 'answerNotChecked',
+							enter: function(router){
+								console.log('mediaStopped');
+
+							},
+							connectOutlets: function(router){
+								router.transitionTo('answerNotChecked');
+							},
+
+							answerNotChecked: Em.Route.extend({
+
+								enter: function(router){
+									console.log('entered not checked');
+
+
+								},
+								start: function(router){
+									console.log('playing interval');
+									router.get('gameController').playInterval();
+									router.transitionTo('mediaPlaying');
+
+								},
+								replay: function(router){
+									router.get('gameController').playInterval(2000);
+								},
+								checkAnswer: function(router, answer){
+									console.log('checking answer', answer);
+
+									if (answer){
+										if (answer.get('correct')){
+											router.get('gameController').setAlertVisible('correctAnswer');
+										} else {
+											router.get('gameController').setAlertVisible('wrongAnswer');
+										}
+
+										router.transitionTo('answerChecked');
+
+									} else {
+										throw 'no answer provided';
+									}
+
+								}
+							}),
+							answerChecked: Em.Route.extend({
+								enter: function(){
+									console.log('entered answerchecked');
+								},
+								nextQuestion: function(router){
+
+									var gameController = router.get('gameController');
+
+
+									console.log('next question!');
+
+
+									$('.next-question.btn').fadeOut(function(){
+
+										//$('.answers-view').hide();
+
+
+										router.set('gameController.gameViewDisplay', 'box');
+										router.gameController.set('showAnswers', false);
+
+										if (parseInt(gameController.get('questionIndex')) + 1  <  gameController.get('questions.length')){
+												console.log('next question');
+												gameController.set('questionIndex', gameController.get('questionIndex') + 1);
+
+												//$('.answers-view').show();
+												console.log('hiding answers');
+												router.set('gameController.showAnswers', false);
+												router.transitionTo('answerNotChecked');
+												router.send('start');
+											} else {
+												console.log('out of questions');
+											}
+									});
+								}
+							})
+
+						}),
+						mediaPlaying: Em.Route.extend({
+							enter: function(router){
+								console.log('mediaPlaying');
+								router.get('gameController').setAlertVisible('countdown');
+								router.set('gameController.showAnswers', false);
+							},
+							finishedPlayingInterval: function(router){
+								router.set('gameController.showAnswers', true);
+								router.transitionTo('mediaStopped');
+							}
+						})
+
+
+
 					})
 
 					/*
@@ -258,8 +616,6 @@ var Trivia = Em.Application.create({
 	})
 
 });
-
-
 Trivia.Game = Em.Object.extend({
     guid: null,
     name: null,
@@ -385,108 +741,6 @@ Trivia.games = [
         name: 'Vastakohtien yhdistäminen'
     })
 ];
-
-soundManager.defaultOptions = {
-	autoLoad: true,
-	onstop: function(){
-		Trivia.gameController.onMediaStop()
-	}
-}
-soundManager.onready(function() {
-    Trivia.medias = [
-        Trivia.Media.create({
-            guid: 1,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                    id: 'kulkurin valssi',
-                    url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kulkurinvalssi.mp3',
-                    whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 2,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'lapsuuden toverille',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Lapsuudentoverille.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 3,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'valiaikainen',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Valiaikainen.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 4,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'tulipunaruusut',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Tulipunaruusut.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 5,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'suutarin emannan kehtolaulu',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Suutarinemannankehtolaulu.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 6,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'voi tuota muistia',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Voituotamuistia.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 7,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'puhelinlangat laulaa',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Puhelinlangatlaulaa.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 8,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'sellanen ol viipuri',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Sellanenolviipuri.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 9,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'kotkan poikii ilman siipii',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kotkanpoikiiilmansiipii.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        }),
-        Trivia.Media.create({
-            guid: 10,
-            mediaType: 'mp3',
-            media: soundManager.createSound({
-                id: 'satumaa',
-                url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Satumaa.mp3',
-                whileplaying: Trivia.gameController.whileMediaPlaying
-            })
-        })
-    ];
-});
-
 Trivia.questions = [
 	Trivia.Question.create({
 		questionText: 'Vaaleaorakas on?',
@@ -605,7 +859,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 25800},
+        options: {playTo: 3000},
         answers: [
             Trivia.Answer.create({ answerText: 'miten hauskaa voi olla tää vaan' }),
             Trivia.Answer.create({ answerText: 'sydän kylmä voi olla kuin jää', correct: true }),
@@ -616,7 +870,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 56000},
+        options: {playTo: 5000},
         answers: [
             Trivia.Answer.create({ answerText: 'ja loistettaan välkehtii' }),
             Trivia.Answer.create({ answerText: 'lasit kristallin välkehtii' }),
@@ -627,7 +881,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 112900},
+        options: {playTo: 6000},
         answers: [
             Trivia.Answer.create({ answerText: 'raitilla valssiks' }),
             Trivia.Answer.create({ answerText: 'raitilla tanssiks', correct: true }),
@@ -638,7 +892,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 132900},
+        options: {playTo: 7000},
         answers: [
             Trivia.Answer.create({ answerText: 'rakastan ja kaihoan ain\'', correct: true }),
             Trivia.Answer.create({ answerText: 'minä aina ikävöin vain' }),
@@ -649,7 +903,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 146700},
+        options: {playTo: 8000},
         answers: [
             Trivia.Answer.create({ answerText: 'unelmat repussaan' }),
             Trivia.Answer.create({ answerText: 'kantaen kohtaloaan', correct: true }),
@@ -660,7 +914,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Kuuntele ote kappaleesta ja arvaa miten sanat jatkuvat',
-        options: {playTo: 144600},
+        options: {playTo: 9000},
         answers: [
             Trivia.Answer.create({ answerText: 'kiristää vyö', correct: true }),
             Trivia.Answer.create({ answerText: 'ahdistaa työ'}),
@@ -1577,7 +1831,69 @@ Trivia.questions = [
     })
 ];
 
-//Trivia.;
+Trivia.medias = [
+        Trivia.Media.create({
+            guid: 1,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kulkurinvalssi.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 2,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Lapsuudentoverille.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 3,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Valiaikainen.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 4,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Tulipunaruusut.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 5,
+			mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Suutarinemannankehtolaulu.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 6,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Voituotamuistia.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 7,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Puhelinlangatlaulaa.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 8,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Sellanenolviipuri.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 9,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kotkanpoikiiilmansiipii.mp3'
+        }),
+        Trivia.Media.create({
+            guid: 10,
+            mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Satumaa.mp3'
+        })
+    ];
+
+soundManager.defaultOptions = {
+	autoLoad: true,
+	onstop: function(){
+		Trivia.gameController.onMediaStop()
+	}
+}
+soundManager.onready(function() {
+
+});
+
 
 Trivia.GameCompletedView = Em.View.extend({
     templateName: 'gameCompleted',
@@ -1601,7 +1917,6 @@ Trivia.ProgressbarView = Em.View.extend({
 		this.markerPositionsDidChange();
 	},
 	markerPositionsDidChange: function(){
-		console.log('marker positionchange')
 		var markers = this.get('markerPositions');
 
 		var wrapper = $(this.get('element')).find('.markers').html('');
@@ -1628,7 +1943,8 @@ Trivia.gameController = Em.Object.create({
 	init: function(){
 		console.log('gamecontroller started');
 	},
-    populateQuestions: function() {
+		populateQuestions: function() {
+			return;
         if (this.get('game')) {
             var questions = Trivia.questions.filterProperty('gameId', this.get('game').get('guid'));
 
@@ -1764,7 +2080,7 @@ Trivia.gameController = Em.Object.create({
     onMediaStop: function() {
 		console.log('media stopped');
 		this.setVisible('instructionViewVisible')
-		Trivia.gameController.set('mediaPlaying', false);
+		//Trivia.gameController.set('mediaPlaying', false);
 
 
 
