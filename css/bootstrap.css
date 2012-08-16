@@ -1074,6 +1074,29 @@ body {
   -webkit-box-orient: vertical;
   -webkit-box-flex: 1;
 }
+.app .workspace .game-loading-view {
+  -moz-box-flex: 1;
+  -webkit-box-flex: 1;
+  box-flex: 1;
+  display: -moz-box;
+  display: -webkit-box;
+  display: box;
+  -moz-box-align: center;
+  -webkit-box-align: center;
+  box-align: center;
+  -moz-box-orient: vertical;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -moz-box-pack: center;
+  -webkit-box-pack: center;
+  box-pack: center;
+}
+.app .workspace .game-loading-view h1 {
+  height: 2em;
+}
+.app .workspace .game-loading-view .progressbar-view {
+  width: 90%;
+}
 .app .workspace .select-game-view {
   -moz-box-flex: 5;
   -webkit-box-flex: 5;

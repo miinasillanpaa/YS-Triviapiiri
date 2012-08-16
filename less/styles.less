@@ -97,7 +97,23 @@ body {
 		}
 
 		background: grey;
+		.game-loading-view {
+			.box-flex(1);
+			.display-box();
+			.box-align(center);
+			.box-orient(vertical);
+			.box-pack(center);
 
+			h1 {
+				height: 2em;
+				//.box-flex(1);
+			}
+			.progressbar-view {
+				//.box-flex(1);
+				width: 90%;
+			}
+
+		}
 		.select-game-view {
 			.box-flex(5);
 			.display-box();
