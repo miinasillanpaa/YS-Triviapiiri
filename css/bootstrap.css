@@ -763,6 +763,52 @@ input[type="submit"].btn.btn-mini {
 .alert-block p + p {
   margin-top: 5px;
 }
+.badge {
+  padding: 1px 9px 2px;
+  font-size: 12.025px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: #ffffff;
+  background-color: #999999;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+.badge:hover {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+.badge-error {
+  background-color: #b94a48;
+}
+.badge-error:hover {
+  background-color: #953b39;
+}
+.badge-warning {
+  background-color: #f89406;
+}
+.badge-warning:hover {
+  background-color: #c67605;
+}
+.badge-success {
+  background-color: #468847;
+}
+.badge-success:hover {
+  background-color: #356635;
+}
+.badge-info {
+  background-color: #3a87ad;
+}
+.badge-info:hover {
+  background-color: #2d6987;
+}
+.badge-inverse {
+  background-color: #333333;
+}
+.badge-inverse:hover {
+  background-color: #1a1a1a;
+}
 @-webkit-keyframes progress-bar-stripes {
   from {
     background-position: 0 0;
@@ -958,9 +1004,7 @@ input[type="submit"].btn.btn-mini {
   visibility: hidden;
 }
 .display-box {
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
 }
 .ember-application > .ember-view,
 html,
@@ -971,103 +1015,92 @@ html,
 body {
   width: 100%;
   height: 100%;
+  text-shadow: 1px 1px 0px white;
 }
 .btn {
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
 }
 .btn span {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .instructions-box.default {
   background: #cccccc;
 }
+@-webkit-keyframes greenPulse {
+  from {
+    background-color: #749a02;
+    -webkit-box-shadow: 0 0 0.25em #333;
+  }
+  50% {
+    background-color: #91bd09;
+    -webkit-box-shadow: 0 0 1em #91bd09;
+  }
+  to {
+    background-color: #749a02;
+    -webkit-box-shadow: 0 0 0.25em #333;
+  }
+}
 .app {
-  display: -moz-box;
+  background-image: url(../assets/img/background.png);
+  background-size: cover;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
 }
 .app .menubar {
-  -moz-box-flex: 1;
-  -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
+  height: 3rem;
+  background-color: #037fb3;
+  background-image: -moz-linear-gradient(top, #049cdb, #025577);
+  background-image: -ms-linear-gradient(top, #049cdb, #025577);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#049cdb), to(#025577));
+  background-image: -webkit-linear-gradient(top, #049cdb, #025577);
+  background-image: -o-linear-gradient(top, #049cdb, #025577);
+  background-image: linear-gradient(top, #049cdb, #025577);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#049cdb', endColorstr='#025577', GradientType=0);
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  text-shadow: 1px 1px 1px black;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: horizontal;
   -webkit-box-orient: horizontal;
-  box-orient: horizontal;
-  background: #ccc;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 .app .menubar button.back {
-  -moz-box-flex: 1;
+  margin: 0.25em;
   -webkit-box-flex: 1;
-  box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+.app .menubar button.back span {
+  -webkit-box-flex: 1;
 }
 .app .menubar section.spacer {
-  -moz-box-flex: 10;
   -webkit-box-flex: 10;
-  box-flex: 10;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
-  -moz-box-align: center;
   -webkit-box-align: center;
-  box-align: center;
 }
 .app .menubar section.spacer span {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .menubar section.score {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
 }
 .app .menubar section.score span {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace {
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-flex: 19;
   -webkit-box-flex: 19;
-  box-flex: 19;
-  background: grey;
 }
 .app .workspace > div {
   display: -webkit-box;
@@ -1075,21 +1108,11 @@ body {
   -webkit-box-flex: 1;
 }
 .app .workspace .game-loading-view {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-align: center;
   -webkit-box-align: center;
-  box-align: center;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
 }
 .app .workspace .game-loading-view h1 {
   height: 2em;
@@ -1098,52 +1121,28 @@ body {
   width: 90%;
 }
 .app .workspace .select-game-view {
-  -moz-box-flex: 5;
   -webkit-box-flex: 5;
-  box-flex: 5;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-align: center;
   -webkit-box-align: center;
-  box-align: center;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
 }
 .app .workspace .select-game-view .intro {
-  -moz-box-flex: 12;
   -webkit-box-flex: 12;
-  box-flex: 12;
   width: 70%;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
 }
 .app .workspace .select-game-view .intro span {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
   line-height: 1.5;
 }
 .app .workspace .select-game-view h2 {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace .select-game-view .wrapper {
-  -moz-box-flex: 20;
   -webkit-box-flex: 20;
-  box-flex: 20;
-  -moz-box-align: center;
   -webkit-box-align: center;
-  box-align: center;
 }
 .app .workspace .select-game-view .wrapper ul {
   overflow: auto;
@@ -1171,6 +1170,7 @@ body {
 .app .workspace .select-game-view .wrapper ul li div.cover {
   background-size: cover;
   position: relative;
+  text-shadow: 1px 1px 1px black;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -1208,50 +1208,26 @@ body {
   overflow: hidden;
 }
 .app .workspace .game-view {
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: horizontal;
   -webkit-box-orient: horizontal;
-  box-orient: horizontal;
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace .game-view .qa-section {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: horizontal;
   -webkit-box-orient: horizontal;
-  box-orient: horizontal;
 }
 .app .workspace .game-view .qa-section .question-container {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
   width: 0;
 }
 .app .workspace .game-view .qa-section .question-container .question-view {
   position: relative;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view {
   position: absolute;
@@ -1259,17 +1235,12 @@ body {
   right: 0.8em;
   top: 0.5em;
   height: 6em;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-flex: 2;
   -webkit-box-flex: 2;
-  box-flex: 2;
   background: rgba(0, 0, 0, 0.8);
   box-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+  text-shadow: 1px 1px 0px black;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -1279,34 +1250,28 @@ body {
   margin-bottom: 0.25em;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .game-name {
-  -moz-box-flex: 2;
   -webkit-box-flex: 2;
-  box-flex: 2;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
-  -moz-box-align: center;
   -webkit-box-align: center;
-  box-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .game-name span {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .progressbar-view {
-  -moz-box-flex: 2;
   -webkit-box-flex: 2;
-  box-flex: 2;
   margin-left: 1em;
   margin-right: 1em;
   position: relative;
+}
+.app .workspace .game-view .qa-section .question-container .question-view .controls-view .progressbar-view .progress {
+  height: 1em;
+}
+.app .workspace .game-view .qa-section .question-container .question-view .controls-view .progressbar-view .progress .bar {
+  height: 1rem;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .progressbar-view .markers {
   position: absolute;
@@ -1317,37 +1282,32 @@ body {
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .progressbar-view .marker {
   width: 1px;
-  height: 18px;
-  background: rgba(0, 0, 0, 0.44);
-  border-left: 1px solid white;
+  height: 1em;
+  background: rgba(0, 0, 0, 0.8);
   position: absolute;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .playing-indicator {
-  -moz-box-flex: 2;
   -webkit-box-flex: 2;
-  box-flex: 2;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
-  -moz-box-align: center;
   -webkit-box-align: center;
-  box-align: center;
+}
+.app .workspace .game-view .qa-section .question-container .question-view .controls-view .playing-indicator .badge {
+  font-size: 1em;
+  text-shadow: 1px 1px 1px black;
+}
+.app .workspace .game-view .qa-section .question-container .question-view .controls-view .playing-indicator .badge-success {
+  -webkit-animation-name: greenPulse;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .playing-indicator span {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .media-display-view {
-  -moz-box-flex: 5;
   -webkit-box-flex: 5;
-  box-flex: 5;
+  box-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.3);
   height: 0;
   background: #cccccc;
   background-size: cover;
@@ -1359,16 +1319,11 @@ body {
   width: 200px;
 }
 .app .workspace .game-view .qa-section .answers-container {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
   width: 0;
+  position: relative;
   /*
 					.answer-view {
 						.box-flex(1);
@@ -1378,64 +1333,92 @@ body {
 					*/
 
 }
+.app .workspace .game-view .qa-section .answers-container .game-start-instructions {
+  position: absolute;
+  top: 0.5em;
+  bottom: 0.5em;
+  left: 0.25em;
+  right: 0.5em;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-box-align: stretch;
+  font-size: 1.2em;
+  line-height: 2;
+  font-weight: bold;
+}
+.app .workspace .game-view .qa-section .answers-container .game-start-instructions button {
+  margin-top: 3em;
+  height: 4em;
+  line-height: 4em;
+}
+.app .workspace .game-view .qa-section .answers-container .game-start-instructions span {
+  line-height: 1;
+}
+.app .workspace .game-view .qa-section .answers-container .game-finished {
+  position: absolute;
+  top: 0.5em;
+  bottom: 0.5em;
+  left: 0.25em;
+  right: 0.5em;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-box-align: stretch;
+  background-image: url(../assets/img/trophy.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 7em;
+  background-position: 0 0em;
+}
+.app .workspace .game-view .qa-section .answers-container .game-finished div {
+  margin-left: 8rem;
+  line-height: 1;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 1rem;
+}
+.app .workspace .game-view .qa-section .answers-container .game-finished div + div {
+  border-top: 1px solid rgba(0, 0, 0, 0.8);
+  border-bottom: none;
+  padding-top: 1rem;
+}
+.app .workspace .game-view .qa-section .answers-container .game-finished button {
+  margin-top: 1em;
+  height: 5em;
+  line-height: 5em;
+}
 .app .workspace .game-view .qa-section .answers-container .instructions-box {
   margin: 0.5em;
   margin-bottom: 0.25em;
   margin-left: 0.25em;
   border-radius: 6px;
-  -moz-box-flex: 2;
   -webkit-box-flex: 2;
-  box-flex: 2;
   height: 0;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: justify;
   -webkit-box-pack: justify;
-  box-pack: justify;
-  -moz-box-align: stretch;
   -webkit-box-align: stretch;
-  box-align: stretch;
 }
 .app .workspace .game-view .qa-section .answers-container .instructions-box .alert {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: center;
   -webkit-box-pack: center;
-  box-pack: center;
-  -moz-box-align: center;
   -webkit-box-align: center;
-  box-align: center;
   margin-bottom: 0;
 }
 .app .workspace .game-view .qa-section .answers-container .instructions-box .alert span {
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper {
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-flex: 5;
   -webkit-box-flex: 5;
-  box-flex: 5;
-  -moz-box-pack: justify;
   -webkit-box-pack: justify;
-  box-pack: justify;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
   height: 0;
   margin: 0.5em;
   margin-top: 0.25em;
@@ -1451,18 +1434,10 @@ body {
 }
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper ul {
   display: none !important;
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
-  display: -moz-box;
   display: -webkit-box;
-  display: box;
-  -moz-box-orient: vertical;
   -webkit-box-orient: vertical;
-  box-orient: vertical;
-  -moz-box-pack: justify;
   -webkit-box-pack: justify;
-  box-pack: justify;
   margin: 0;
   width: 100%;
   position: relative;
@@ -1472,9 +1447,7 @@ body {
 }
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper ul li {
   height: 0;
-  -moz-box-flex: 1;
   -webkit-box-flex: 1;
-  box-flex: 1;
 }
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper ul li + li {
   margin-top: 0.5em;
@@ -1498,4 +1471,7 @@ body {
 */
 .btn {
   font-size: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.3);
 }

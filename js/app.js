@@ -55,9 +55,9 @@ var Trivia = Em.Application.create({
 		classNames: 'game-view'.w(),
 		scoreBinding: 'Trivia.gameController.score',
 		questionBinding: 'Trivia.gameController.currentQuestion',
-		answersView: Em.CollectionView.extend({
-			//visibilityBinding: "Trivia.router.gameController.showAnswers",
 
+
+		answersView: Em.CollectionView.extend({
 			isVisibleBinding:  "Trivia.router.gameController.showAnswers",
 			displayBinding: 'Trivia.router.gameController.gameViewDisplay',
 
@@ -167,6 +167,24 @@ var Trivia = Em.Application.create({
 		}),
 		mediaView: Em.View.extend({
 		}),
+		gameStartInstructions: Em.View.extend({
+
+			classNames: 'game-start-instructions'.w(),
+			isVisible: function(){
+				return !this.get('gameInProgress');
+			}.property('gameInProgress'),
+			gameInProgressBinding: 'Trivia.router.gameController.gameInProgress',
+		}),
+		gameFinished: Em.View.extend({
+			classNames: 'game-finished'.w(),
+			isVisibleBinding: 'Trivia.router.gameController.gameFinished',
+			feedbackText: 'Hienoa, muistit kappaleen sanat melko hyvin!',
+			successRate: function(){
+				return Math.floor(parseInt(this.get('correctAnswers')) / Trivia.get('router.gameController.questions.length') * 100);
+			}.property('correctAnswers'),
+			correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
+
+		}),
 		instructionContainer: Em.View.extend({
 			classNames: 'instructions-box'.w(),
 			countdownView: Em.View.extend({
@@ -204,7 +222,15 @@ var Trivia = Em.Application.create({
 			classNames: 'question-view'.w(),
 
 			controlsView: Em.View.extend({
-				classNames: 'controls-view'.w()
+				classNames: 'controls-view'.w(),
+				playClass: function(){
+					if (this.get('mediaState') === 'playing'){
+						return 'badge badge-success';
+					} else {
+						return 'badge badge-warning';
+					}
+				}.property('mediaState'),
+				mediaStateBinding: 'Trivia.router.gameController.mediaState'
 
 			}),
 			mediaDisplayView: Em.View.extend({
@@ -233,15 +259,16 @@ var Trivia = Em.Application.create({
 	}),
 	GameController: Em.Controller.extend({
 
-
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
 		captionBinding: 'content.caption', //Copyright info. Not implemented
 
 		mediaPosition: 0, //Media position in milliseconds from the start. Updated on the fly by playInterval()
 
-		mediaState: 'stopped', //can be either 'stopped' or 'playing'
+		gameFinished: false,
 
+		mediaState: 'stopped', //can be either 'stopped' or 'playing'
+		gameInProgress: false,
 		markerPositions: function(){
 			var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
 			var positions = this.get('questions').map(
@@ -254,6 +281,8 @@ var Trivia = Em.Application.create({
 
 		questionIndex: 0,
 		media: null,
+
+		correctAnswers: 0, //amount of correct answers
 
 		showAnswers: false,
 		gameViewDisplay: 'box',
@@ -272,7 +301,9 @@ var Trivia = Em.Application.create({
 			this.set('gameEndViewVisible', false);
 			this.set('correctAnswerViewVisible', false);
 			this.set('wrongAnswerViewVisible', false);
-			this.set(viewName + 'ViewVisible', true);
+			if (viewName){
+				this.set(viewName + 'ViewVisible', true);
+			}
 		},
 
 		mediaDidChange: function(){
@@ -289,12 +320,14 @@ var Trivia = Em.Application.create({
 						autoplay: false,
 						onload: function(){
 							//notify router of finished asset loading
+							console.log('onload')
 							Trivia.router.send('assetLoadingComplete');
 						},
 						onplay: function(){
 							console.log('playing song', this)
 						},
 						whileloading: function(){
+							console.log('loading');
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
 						}
 
@@ -472,13 +505,13 @@ var Trivia = Em.Application.create({
 							},
 							assetLoadingComplete: function(router){
 								console.log('asset loading complete');
-								//router.transitionTo('assetsLoaded');
+								router.transitionTo('assetsLoaded');
 							}
 						}),
 						assetsLoaded: Em.Route.extend({
 							enter: function(router){
 								console.log('assets loaded');
-								//router.send('startGame');
+								router.send('startGame');
 							},
 							connectOutlets: function(router){
 								router.send('startGame');
@@ -491,9 +524,6 @@ var Trivia = Em.Application.create({
 					}),
 
 					gameStarted: Em.Route.extend({
-						enter: function(router, context){
-
-						},
 						connectOutlets: function(router, context){
 							router.get('applicationController').connectOutlet('game', router.get('gameController.content'));
 							console.log('hiding answers');
@@ -505,6 +535,7 @@ var Trivia = Em.Application.create({
 							initialState: 'answerNotChecked',
 							enter: function(router){
 								console.log('mediaStopped');
+								router.set('gameController.mediaState', 'stopped');
 
 							},
 							connectOutlets: function(router){
@@ -522,6 +553,7 @@ var Trivia = Em.Application.create({
 									console.log('playing interval');
 									router.get('gameController').playInterval();
 									router.transitionTo('mediaPlaying');
+									Trivia.set('router.gameController.gameInProgress', true);
 
 								},
 								replay: function(router){
@@ -532,9 +564,12 @@ var Trivia = Em.Application.create({
 
 									if (answer){
 										if (answer.get('correct')){
+											router.set('gameController.correctAnswers', router.get('gameController.correctAnswers') + 1);
 											router.get('gameController').setAlertVisible('correctAnswer');
+											soundManager.getSoundById('tada').play()
 										} else {
 											router.get('gameController').setAlertVisible('wrongAnswer');
+											soundManager.getSoundById('sadtrombone').play()
 										}
 
 										router.transitionTo('answerChecked');
@@ -575,6 +610,7 @@ var Trivia = Em.Application.create({
 												router.transitionTo('answerNotChecked');
 												router.send('start');
 											} else {
+												router.transitionTo('gameFinished');
 												console.log('out of questions');
 											}
 									});
@@ -587,10 +623,22 @@ var Trivia = Em.Application.create({
 								console.log('mediaPlaying');
 								router.get('gameController').setAlertVisible('countdown');
 								router.set('gameController.showAnswers', false);
+								router.set('gameController.mediaState', 'playing');
 							},
 							finishedPlayingInterval: function(router){
 								router.set('gameController.showAnswers', true);
 								router.transitionTo('mediaStopped');
+							}
+						}),
+						gameFinished: Em.Route.extend({
+							enter: function(router){
+								console.log('entered game finished');
+								router.set('gameController.gameFinished');
+								soundManager.getSoundById('winner').play()
+								router.get('gameController').setAlertVisible();
+							},
+							back: function(router){
+								router.transitionTo('index');
 							}
 						})
 
@@ -669,85 +717,85 @@ Trivia.games = [
     }),
     Trivia.Game.create({
         guid: 2,
-        name: 'Yhteinen Sävel - Kulkurin Valssi I',
+        name: 'Kulkurin Valssi I',
         image: 'assets/img/kulkurin_valssi.jpg',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 3,
-        name: 'Yhteinen Sävel - Kulkurin Valssi II',
+        name: 'Kulkurin Valssi II',
         image: 'assets/img/kulkurin_valssi.jpg',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 4,
-        name: 'Yhteinen Sävel - Lapsuuden Toverille I',
+        name: 'Lapsuuden Toverille I',
         image: 'assets/img/lapsuuden_toverille.jpg',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 5,
-        name: 'Yhteinen Sävel - Lapsuuden Toverille II',
+        name: 'Lapsuuden Toverille II',
         image: 'assets/img/lapsuuden_toverille.jpg',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 6,
-        name: 'Yhteinen Sävel - Väliaikainen I',
+        name: 'Väliaikainen I',
         image: 'assets/img/valiaikainen.jpg',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 7,
-        name: 'Yhteinen Sävel - Väliaikainen II',
+        name: 'Väliaikainen II',
         image: 'assets/img/valiaikainen.jpg',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 8,
-        name: 'Yhteinen Sävel - Tulipunaruusut I',
+        name: 'Tulipunaruusut I',
         image: 'assets/img/tulipunaruusut.jpg',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 9,
-        name: 'Yhteinen Sävel - Tulipunaruusut II',
+        name: 'Tulipunaruusut II',
         image: 'assets/img/tulipunaruusut.jpg',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 10,
-        name: 'Yhteinen Sävel - Suutarin emännän kehtolaulu',
+        name: 'Suutarin emännän kehtolaulu',
         image: 'assets/img/suutarin_emanta.jpg',
         caption: 'Old sewing machine - Petr Kratochvil (Public Domain)'
     }),
     Trivia.Game.create({
         guid: 11,
-        name: 'Yhteinen Sävel - Voi tuota muistia',
+        name: 'Voi tuota muistia',
         image: 'assets/img/voi_tuota_muistia.jpg',
         caption: '15062007(005) - Mikko Koponen (CC BY 2.0)'
     }),
     Trivia.Game.create({
         guid: 12,
-        name: 'Yhteinen Sävel - Puhelinlangat laulaa',
+        name: 'Puhelinlangat laulaa',
         image: 'assets/img/puhelinlangat.jpg',
         caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 13,
-        name: 'Yhteinen Sävel - Sellanen ol Viipuri',
+        name: 'Sellanen ol Viipuri',
         image: 'assets/img/viipuri.jpg',
         caption: 'Fortress in Vyborg - Paukrus (CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 14,
-        name: 'Yhteinen Sävel - Kotkan poikii ilman siipii',
+        name: 'Kotkan poikii ilman siipii',
         image: 'assets/img/kotkan_poikii.jpg',
         caption: 'Sea Eagle - Asbjorn Floden (CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 15,
-        name: 'Yhteinen Sävel - Satumaa',
+        name: 'Satumaa',
         image: 'assets/img/satumaa.jpg',
         caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
     }),
@@ -1901,14 +1949,29 @@ Trivia.medias = [
 
 soundManager.defaultOptions = {
 	autoLoad: true,
+	preferFlash: false,
 	autoPlay: false,
 	stream: false,
 	onstop: function(){
 		Trivia.gameController.onMediaStop()
 	}
 }
+soundManager.setupOptions = {
+	preferFlash: false,
+}
 soundManager.onready(function() {
-
+	soundManager.createSound({
+		url: 'assets/sound/tada.mp3',
+		id: 'tada'
+	})
+	soundManager.createSound({
+		url: 'assets/sound/sadtrombone.mp3',
+		id: 'sadtrombone'
+	})
+	soundManager.createSound({
+		url: 'assets/sound/winner.wav',
+		id: 'winner'
+	})
 });
 
 
@@ -2169,6 +2232,7 @@ var resizeText = function(){
 		}
 		fontSize = width*0.02;
 		$('body').css('fontSize', fontSize);
+		$('html').css('fontSize', fontSize);
 
 }
 
@@ -2187,7 +2251,9 @@ $(document).ready(function(){
 	},500);
 
 });
-
+soundManager.onready = function(){
+	console.log('soundManager ready')
+}
 
 //Trivia.initialize();
 

@@ -10,10 +10,9 @@
   <meta name="author" content="">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+	<!--script src="http://debug.phonegap.com/target/target-script-min.js#asd"></script-->
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
   <link href="css/bootstrap.css" media="screen" rel="stylesheet" type="text/css" />
   <!--[if lt IE 9]>
   <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -57,9 +56,10 @@
 								{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaPosition" markerPositionsBinding="Trivia.router.gameController.markerPositions" activeBinding="Trivia.router.gameController.mediaPlaying"}}
 
 
-								<div class="playing-indicator" {{bindAttr class="Trivia.gameController.mediaPlaying:media-playing"}}>
-									<span>
-									{{#if Trivia.gameController.mediaPlaying }}
+								<div class="playing-indicator">
+									<span {{bindAttr class="view.playClass"}}>
+
+									{{#if Trivia.router.gameController.mediaPlaying }}
 										Musiikki soi
 									{{else}}
 										Pysäytetty
@@ -76,6 +76,21 @@
 			</div>
 
 		<div class="answers-container">
+			{{#view view.gameStartInstructions}}
+				<span>
+					Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu kun kappale on soitettu.
+				</span>
+				<button class="btn btn-primary" {{action start}}>Aloita peli</button>
+			{{/view}}
+
+			{{#view view.gameFinished}}
+				<div class="feedback-text">{{view.feedbackText}}</div>
+				<div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
+
+				<button class="btn btn-primary" {{action back}}>Pelaa uudestaan</button>
+			{{/view}}
+
+
 			{{#view view.instructionContainer}}
 
 				{{#view view.countdownView}}
@@ -182,7 +197,7 @@
 			<button class="btn back" {{action back}}>
 				<span>Takaisin</span>
 			</button>
-			<section class="spacer"><span>{{Trivia.gameController.gameName}}</span></section>
+			<section class="spacer"><span>Sanat sekaisin</span></section>
 			<section class="score">Pisteet: <span class="badge badge-warning">{{Trivia.gameController.score}}</span>
 			</section>
 		</section>
@@ -194,17 +209,31 @@
 	</section>
   </script>
 
-  <script src="js/libs/soundmanager2-nodebug-jsmin.js" type="text/javascript"></script>
+  <script src="js/libs/soundmanager2.js" type="text/javascript"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="js/libs/handlebars-1.0.0.beta.6.js"></script>
 
 
 	<script src="js/libs/ember-1.0.pre.js"></script>
-	<script src="js/libs/ember-data-latest.js"></script>
   <script src="js/app.js"></script>
 
-  <script>
+  <script type="text/javascript">
       soundManager.url = 'js/libs/';
+	  soundManager.preferFlash = false;
+	  soundManager.useHTML5Audio = true;
+	  soundManager.debugMode = false;
+	  soundManager.consoleOnly = false;
+
+
+	  /*
+	  soundManager.audioFormats = {
+		  'mp3': {
+		     'type': ['audio/mpeg; codecs="mp3"', 'audio/mpeg', 'audio/mp3', 'audio/MPA', 'audio/mpa-robust'],
+		     'required': false
+		   }
+	  }
+
+	  */
   </script>
 </body>
 </html>
