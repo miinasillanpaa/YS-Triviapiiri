@@ -356,14 +356,14 @@ var Trivia = Em.Application.create({
 						autoplay: false,
 						onload: function(){
 							//notify router of finished asset loading
-							console.log('onload')
+							console.log('asset onload');
 							Trivia.router.send('assetLoadingComplete');
 						},
 						onplay: function(){
 							console.log('playing song', this)
 						},
 						whileloading: function(){
-							console.log('loading');
+							//console.log('loading');
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
 						}
 
@@ -412,7 +412,6 @@ var Trivia = Em.Application.create({
 				this.get('media.res').play({
 					position: startingPosition,
 					whileplaying: function(){
-						console.log('playing at', this.position);
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
 						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
 						Trivia.router.set('gameController.mediaPlaying', true);
@@ -454,7 +453,7 @@ var Trivia = Em.Application.create({
 	}),
 	*/
 	Router:Ember.Router.extend({
-		//enableLogging: true,
+		enableLogging: true,
 		root:Ember.Route.extend({
 			enter:function () {
 			},
@@ -473,14 +472,15 @@ var Trivia = Em.Application.create({
 						router.get('applicationController').connectOutlet('games', Trivia.games);
 					},
 					startGame: function(router, event){
-						router.transitionTo('game', event.context);
 						console.log('starting game', router, event, event.context.get('name'));
+						router.transitionTo('game', event.context);
+
 						//router.set('applicatioinController.gameController.game', event.context);
 					}
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
-
+					initialState: 'gameStopped',
 					enter: function(){
 						console.log('entered game');
 					},
@@ -490,6 +490,7 @@ var Trivia = Em.Application.create({
 						//console.log('deserializing', game_id);
 					},
 					serialize: function(router, context){
+						console.log('serial', context);
 						console.log('serializing!', context.get('guid'));
 						return {
 							game_id: context.get('guid')
@@ -512,14 +513,13 @@ var Trivia = Em.Application.create({
 						router.set('gameController.questions', questions);
 						gameController.set('questionIndex', 0);
 
-
 					},
 					back: function(router, context){
 						console.log('back');
 						router.transitionTo('root.games');
 					},
 					gameStopped: Em.Route.extend({
-						route: '/',
+						initialState: 'assetsPending',
 						enter: function(router){
 							console.log('game stopped');
 							//router.transitionTo('gameStarted');
@@ -534,9 +534,11 @@ var Trivia = Em.Application.create({
 
 						},
 						assetsPending: Em.Route.extend({
-							route: '/',
-							enter: function(){
-								console.log('assets not loaded');
+							connectOutlets: function(router){
+								console.log('entered assets not loaded');
+								if (router.get('gameController.media.res.loaded')){
+									router.send('assetLoadingComplete');
+								}
 							},
 							startGame: function(){
 								console.log('assets not loaded, not starting yet');
@@ -549,7 +551,6 @@ var Trivia = Em.Application.create({
 						assetsLoaded: Em.Route.extend({
 							enter: function(router){
 								console.log('assets loaded');
-								router.send('startGame');
 							},
 							connectOutlets: function(router){
 								router.send('startGame');
@@ -562,11 +563,15 @@ var Trivia = Em.Application.create({
 					}),
 
 					gameStarted: Em.Route.extend({
+						initialState: 'mediaStopped',
 						connectOutlets: function(router, context){
 							router.get('applicationController').connectOutlet('game', router.get('gameController.content'));
 							console.log('hiding answers');
 							router.set('gameController.showAnswers', false);
-							router.transitionTo('mediaStopped');
+							//router.transitionTo('mediaStopped');
+						},
+						back: function(router){
+							router.transitionTo('root.games.index');
 						},
 
 						mediaStopped: Em.Route.extend({
@@ -577,7 +582,7 @@ var Trivia = Em.Application.create({
 
 							},
 							connectOutlets: function(router){
-								router.transitionTo('answerNotChecked');
+								//router.transitionTo('answerNotChecked');
 							},
 
 							answerNotChecked: Em.Route.extend({
@@ -2031,7 +2036,6 @@ Trivia.ProgressbarView = Em.View.extend({
 	templateName: 'progressbarView',
 	classNames: 'progressbar-view'.w(),
 	valueDidChange: function(){
-		console.log('progress bar value changed', this.get('value'))
 		$(this.get('element')).find('.progress .bar').css({width: this.get('value') * 100 + '%'});
 	}.observes('value'),
 	didInsertElement: function(){
@@ -2049,7 +2053,6 @@ Trivia.ProgressbarView = Em.View.extend({
 		var wrapper = $(this.get('element')).find('.markers').html('');
 
 		markers.forEach(function(marker){
-			console.log(marker)
 			var markerElement = $('<div class="marker"></div>').css({
 				left: marker * 100 + '%'
 			})
@@ -2288,14 +2291,18 @@ var setLineHeights = function(){
 
 
 $(document).ready(function(){
-	setTimeout(function(){
+	//setTimeout(function(){
 		Trivia.initialize();
-	},500);
+		console.log('soundManager.ok()', soundManager.ok())
+	//},500);
 
 });
+
+/*
 soundManager.onready = function(){
 	console.log('soundManager ready')
 }
+*/
 
 //Trivia.initialize();
 
