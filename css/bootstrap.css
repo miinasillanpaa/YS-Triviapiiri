@@ -1295,7 +1295,7 @@ body {
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .playing-indicator .badge {
   font-size: 1em;
-  text-shadow: 1px 1px 1px black;
+  text-shadow: 1px 1px 0px #a6a6a6;
 }
 .app .workspace .game-view .qa-section .question-container .question-view .controls-view .playing-indicator .badge-success {
   -webkit-animation-name: greenPulse;
@@ -1342,16 +1342,42 @@ body {
   -webkit-box-flex: 1;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-box-pack: center;
+  -webkit-box-pack: justify;
   -webkit-box-align: stretch;
   font-size: 1.2em;
   line-height: 2;
   font-weight: bold;
 }
+.app .workspace .game-view .qa-section .answers-container .game-start-instructions .intro {
+  background: rgba(0, 0, 0, 0.7);
+  color: #f5f5f5;
+  text-shadow: 1px 1px 1px black;
+  padding: 0.5em;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+.app .workspace .game-view .qa-section .answers-container .game-start-instructions .dividerr {
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+}
+.app .workspace .game-view .qa-section .answers-container .game-start-instructions .dividerr span {
+  font-size: 3rem;
+  line-height: 3rem;
+  text-align: center;
+}
+.app .workspace .game-view .qa-section .answers-container .game-start-instructions .buttons {
+  -webkit-box-orient: vertical;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+}
 .app .workspace .game-view .qa-section .answers-container .game-start-instructions button {
-  margin-top: 3em;
   height: 4em;
   line-height: 4em;
+  margin-top: 0.5em;
 }
 .app .workspace .game-view .qa-section .answers-container .game-start-instructions span {
   line-height: 1;
@@ -1414,6 +1440,17 @@ body {
 .app .workspace .game-view .qa-section .answers-container .instructions-box .alert span {
   -webkit-box-flex: 1;
 }
+.app .workspace .game-view .qa-section .answers-container .instructions-box .countdown-view {
+  position: relative;
+}
+.app .workspace .game-view .qa-section .answers-container .instructions-box .countdown-view h2 {
+  font-size: 5rem;
+  line-height: 5rem;
+}
+.app .workspace .game-view .qa-section .answers-container .instructions-box .countdown-view span {
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+}
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper {
   display: -webkit-box;
   -webkit-box-flex: 5;
@@ -1448,11 +1485,16 @@ body {
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper ul li {
   height: 0;
   -webkit-box-flex: 1;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 500ms ease-out;
+  line-height: 1.5;
 }
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper ul li + li {
   margin-top: 0.5em;
 }
 .app .workspace .game-view .qa-section .answers-container .collection-wrapper .next-question.btn {
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-transition: opacity 2s ease-out;
   height: 5em;
   display: none;
 }

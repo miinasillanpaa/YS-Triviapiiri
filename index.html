@@ -77,10 +77,18 @@
 
 		<div class="answers-container">
 			{{#view view.gameStartInstructions}}
-				<span>
-					Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu kun kappale on soitettu.
-				</span>
-				<button class="btn btn-primary" {{action start}}>Aloita peli</button>
+				<div class="intro">
+					<span>
+						Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu kun kappale on soitettu.
+					</span>
+				</div>
+				<div class="dividerr">
+					<span>Aloita peli:</span>
+				</div>
+				<div class="buttons">
+					<button class="btn btn-primary" {{action start}}>Pelaan yksin</button>
+					<button class="btn" {{action start2P}}>Pelaan jonkun muun kanssa</button>
+				</div>
 			{{/view}}
 
 			{{#view view.gameFinished}}
@@ -94,6 +102,7 @@
 			{{#view view.instructionContainer}}
 
 				{{#view view.countdownView}}
+				<h2>{{Trivia.router.gameController.secondsToStop}}</h2>
 					<span>
 					{{view.content}}
 					</span>
@@ -109,7 +118,8 @@
 					<span>
 					{{view.content}}
 					</span>
-					<button class="btn">Kuuntele uudestaan</button>
+
+					<button class="btn" {{action replay}}>Kuuntele uudestaan</button>
 				{{/view}}
 
 				{{#view view.correctAnswerView}}

@@ -154,9 +154,25 @@ var Trivia = Em.Application.create({
 
 					element.parent().find('li:not(.selected)').hide();
 
-					element.animate({ top: 0}, 500, function(){
-						$('.next-question.btn').fadeIn().css({'display': 'block'});
+					this.get('element').addEventListener("webkitTransitionEnd", function(a,b,c){
+						$('.next-question.btn').show().css({'display': 'block'});
+					}, true);
+
+					//element.position().top
+					element.css({
+						'-webkit-transform': 'translate3d(0, -'+ element.position().top +'px, 0)'
 					});
+
+
+
+
+
+					/*
+					element.animate({ top: 0}, 500, function(){
+					});
+					*/
+					//
+
 
 					this.set('clicked', true);
 
@@ -227,7 +243,7 @@ var Trivia = Em.Application.create({
 					if (this.get('mediaState') === 'playing'){
 						return 'badge badge-success';
 					} else {
-						return 'badge badge-warning';
+						return 'badge';
 					}
 				}.property('mediaState'),
 				mediaStateBinding: 'Trivia.router.gameController.mediaState'
@@ -263,11 +279,31 @@ var Trivia = Em.Application.create({
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
 		captionBinding: 'content.caption', //Copyright info. Not implemented
 
-		mediaPosition: 0, //Media position in milliseconds from the start. Updated on the fly by playInterval()
+		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
+		mediaAbsolutePosition: 0,
 
 		gameFinished: false,
 
 		mediaState: 'stopped', //can be either 'stopped' or 'playing'
+
+		secondsToStop: function(){
+
+			var playTo = parseInt(Trivia.router.get('gameController.currentQuestion.options.playTo'));
+
+			var position = this.get('mediaAbsolutePosition') / 1000;
+
+			if (playTo > 0){
+
+				return Math.floor((playTo / 1000) - position);
+			}
+
+
+
+			return false;
+
+
+		}.property('mediaAbsolutePosition'),
+
 		gameInProgress: false,
 		markerPositions: function(){
 			var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
@@ -378,6 +414,7 @@ var Trivia = Em.Application.create({
 					whileplaying: function(){
 						console.log('playing at', this.position);
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
+						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
 						Trivia.router.set('gameController.mediaPlaying', true);
 					},
 					onstop: function(){
@@ -417,6 +454,7 @@ var Trivia = Em.Application.create({
 	}),
 	*/
 	Router:Ember.Router.extend({
+		//enableLogging: true,
 		root:Ember.Route.extend({
 			enter:function () {
 			},
@@ -546,18 +584,22 @@ var Trivia = Em.Application.create({
 
 								enter: function(router){
 									console.log('entered not checked');
-
-
 								},
 								start: function(router){
-									console.log('playing interval');
+									console.log('starting one player game');
+									router.send('_startGame');
+								},
+								start2P: function(router){
+									console.log('starting two player game');
+									router.send('_startGame');
+								},
+								_startGame: function(router){
 									router.get('gameController').playInterval();
 									router.transitionTo('mediaPlaying');
 									Trivia.set('router.gameController.gameInProgress', true);
-
 								},
 								replay: function(router){
-									router.get('gameController').playInterval(2000);
+									router.get('gameController').playInterval(10000);
 								},
 								checkAnswer: function(router, answer){
 									console.log('checking answer', answer);
@@ -577,7 +619,6 @@ var Trivia = Em.Application.create({
 									} else {
 										throw 'no answer provided';
 									}
-
 								}
 							}),
 							answerChecked: Em.Route.extend({
@@ -627,6 +668,7 @@ var Trivia = Em.Application.create({
 							},
 							finishedPlayingInterval: function(router){
 								router.set('gameController.showAnswers', true);
+								Trivia.router.get('gameController').setAlertVisible('instruction');
 								router.transitionTo('mediaStopped');
 							}
 						}),

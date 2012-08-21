@@ -340,9 +340,10 @@ body {
 								.box-orient(vertical);
 								.box-pack(center);
 								.box-align(center);
+
 								.badge {
 									font-size: 1em;
-									text-shadow: 1px 1px 1px black;
+									text-shadow: 1px 1px 0px #a6a6a6;
 								}
 								.badge-success {
 									-webkit-animation-name: greenPulse;
@@ -393,12 +394,41 @@ body {
 						.box-flex(1);
 						.display-box();
 						.box-orient(vertical);
-						.box-pack(center);
+						.box-pack(justify);
 						.box-align(stretch);
+
+						.intro{
+							background: rgba(0,0,0,0.7);
+							color: #f5f5f5;
+							text-shadow: 1px 1px 1px black;
+							padding: 0.5em;
+							.border-radius(6px);
+						}
+
+						.dividerr {
+							.display-box();
+							.box-flex(1);
+							.box-orient(vertical);
+							.box-pack(center);
+							.box-align(center);
+
+							span {
+								font-size: 3rem;
+								line-height: 3rem;
+								text-align: center;
+							}
+						}
+						.buttons {
+							.box-orient(vertical);
+							.box-flex(1);
+							.display-box();
+
+						}
+
 						button {
-							margin-top: 3em;
 							height: 4em;
 							line-height: 4em;
+							margin-top: 0.5em;
 						}
 						span {
 							line-height: 1;
@@ -474,6 +504,20 @@ body {
 							}
 
 						}
+
+						.countdown-view{
+							position: relative;
+							h2 {
+								font-size: 5rem;
+								line-height: 5rem;
+							}
+							span {
+								font-size: 1.5rem;
+								line-height: 1.5rem;
+							}
+
+						}
+
 					}
 
 					.collection-wrapper{
@@ -512,6 +556,9 @@ body {
 							li {
 								height: 0;
 								.box-flex(1);
+								-webkit-transform: translate3d(0, 0, 0);
+								-webkit-transition: -webkit-transform 500ms ease-out;
+								line-height: 1.5;
 							}
 							li + li {
 								margin-top: 0.5em;
@@ -519,6 +566,8 @@ body {
 						}
 
 						.next-question.btn {
+							-webkit-transform: translate3d(0, 0, 0);
+							-webkit-transition: opacity 2s ease-out;
 							height: 5em;
 							//margin-bottom: 0.5em;
 							//margin-left: 0.25em;
