@@ -85,7 +85,6 @@ body {
 			span{
 				.box-flex(1);
 			}
-
 		}
 
 		section.spacer {
@@ -166,23 +165,21 @@ body {
 				//overflow-y: auto;
 				.box-flex(20);
 				.box-align(center);
+				position: relative;
 
 				ul {
 					overflow: auto;
-					display: block;
-					//margin: 10px;
-					//.display-box();
-					//.box-orient(horizontal);
-					//.box-flex(10);
-					height: 17.2em;
-					width: 43.6em;
-
+					display: block; //margin: 10px;
+					.box-flex(10); //height: 17.2em;
 					margin: 0;
 					padding: 0;
-					//.box-pack(justify);
-					//.box-align(center);
-					li {
+					width: 43.6em;
+					margin-left: -43.6em/2;
+					position: absolute;
+					bottom: 0;
+					top: 0;
 
+					li {
 						float: left;
 						display: block;
 						list-style-type: none;

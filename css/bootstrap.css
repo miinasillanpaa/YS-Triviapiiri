@@ -1143,14 +1143,19 @@ body {
 .app .workspace .select-game-view .wrapper {
   -webkit-box-flex: 20;
   -webkit-box-align: center;
+  position: relative;
 }
 .app .workspace .select-game-view .wrapper ul {
   overflow: auto;
   display: block;
-  height: 17.2em;
-  width: 43.6em;
+  -webkit-box-flex: 10;
   margin: 0;
   padding: 0;
+  width: 43.6em;
+  margin-left: -21.8em;
+  position: absolute;
+  bottom: 0;
+  top: 0;
 }
 .app .workspace .select-game-view .wrapper ul li {
   float: left;
