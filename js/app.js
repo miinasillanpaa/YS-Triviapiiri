@@ -452,6 +452,131 @@ var Trivia = Em.Application.create({
 		templateName: 'game1'
 	}),
 	*/
+
+	Router: Ember.Router.extend({
+		enableLogging: true,
+		root: Ember.Route.extend({
+			index: Ember.Route.extend({}),
+			games: Ember.Route.extend({
+				route: '/games',
+				index: Em.Route.extend({
+					route: '/'
+				}),
+				game: Em.Route.extend({
+					route: '/:game_id',
+					initialState: 'notLoaded',
+					notLoaded: Em.Route.extend({
+						loadingComplete: function(router){
+							router.transitionTo('loaded');
+						},
+						back: function(router){
+							router.transitionTo('games');
+						}
+					}),
+					loaded: Em.Route.extend({
+
+						initialState: 'notStarted',
+
+						notStarted: Em.Route.extend({
+							startGame: function(router){
+								router.transitionTo('started');
+							}
+						}),
+						started: Em.Route.extend({
+							nextQuestion: function(router){
+								//TODO: check question media type
+							},
+							connectOutlets: function(router, context){
+								//TODO: check if we have a question with media or not
+							},
+							mediaQuestion: Em.Route.extend({
+
+								initialState: 'mediaNotStarted',
+
+								mediaNotStarted: Em.Route.extend({
+
+									initialState: 'answerNotChecked',
+
+									answerNotChecked: Em.Route.extend({
+										checkAnswer: function(router, answer){
+
+										},
+										playInterval: function(router){
+
+										},
+										replay: function(router){
+
+										}
+									}),
+									answerChecked: Em.Route.extend({
+										nextQuestion: function(router){
+
+										}
+									})
+								}),
+								mediaStarted: Em.Route.extend({
+
+									initialState: 'mediaPlaying',
+
+									mediaPlaying: Em.Route.extend({
+										pause: function(router){
+											router.transitionTo('mediaPaused');
+										},
+										finishedPlaying: function(router){
+
+										}
+									}),
+									mediaPaused: Em.Route.extend({
+										resume: function(router){
+											router.transitionTo('mediaPlaying');
+										}
+									})
+								})
+							}),
+							plainQuestion: Em.Route.extend({
+
+								initialState: 'answerNotChecked',
+
+								answerNotChecked: Em.Route.extend({
+									checkAnswer: function(router, answer){
+
+									}
+								}),
+								answerChecked: Em.Route.extend({
+									nextQuestion: function(router){
+
+									}
+								})
+							})
+						}),
+						finished: Em.Route.extend({
+							connectOutlets: function(router, context){
+								//TODO: switch state based on media
+							},
+							noMedia: Em.Route.extend({
+
+							}),
+							mediaStopped: Em.Route.extend({
+								fullReplay: function(router){
+
+								}
+							}),
+							mediaStarted: Em.Route.extend({
+								mediaFinished: function(router){
+
+								},
+								back: function(){
+
+								}
+							})
+						})
+					})
+				})
+			})
+		})
+	})
+	/*
+	,
 	Router:Ember.Router.extend({
 		enableLogging: true,
 		root:Ember.Route.extend({
@@ -719,19 +844,27 @@ var Trivia = Em.Application.create({
 							console.log('getting back from game1');
 						}
 					})
-					*/
+
 				})
 			})
+
 		})
 	})
-
+	*/
 });
 Trivia.Game = Em.Object.extend({
     guid: null,
     name: null,
     image: null,
-    caption: null
+    caption: null,
+	/*
+	find: function(id){
+
+	}*/
 });
+Trivia.Game.find = function(){
+	return Trivia.games.findProperty('guid', parseInt(id));
+}
 
 Trivia.Question = Em.Object.extend({
     guid: null,
