@@ -46,6 +46,10 @@ var Trivia = Em.Application.create({
 	GameStartedView: Em.View.extend({
 		templateName: 'game-started'
 	}),
+	GameFinishedView: Em.View.extend({
+		templateName: 'game-finished'
+	}),
+	GameFinishedController: Em.Controller.extend({}),
 	MediaQuestionView: Em.View.extend({
 		templateName: 'media-question'
 	}),
@@ -53,6 +57,7 @@ var Trivia = Em.Application.create({
 	AnswersView: Em.View.extend({
 		templateName: 'answers'
 	}),
+	AnswersController: Em.Controller.extend({}),
 	MediaIndicatorStoppedView: Em.View.extend({
 		classNames: 'badge'.w(),
 		template: Handlebars.compile('Pysäytetty')
@@ -61,7 +66,6 @@ var Trivia = Em.Application.create({
 		classNames: 'badge badge-success'.w(),
 		template: Handlebars.compile('Soi')
 	}),
-	AnswersController: Em.Controller.extend({}),
 
 	ChoicesView: Em.View.extend({
 		templateName: 'choices'
@@ -606,8 +610,9 @@ var Trivia = Em.Application.create({
 											router.get('answersController').connectOutlet('choices', 'choices');
 										},
 										checkAnswer: function(router, answer){
+
 											if (answer){
-												console.log('checking answer, correct');
+												console.log('checking answer, correct', answer);
 												router.transitionTo('answerChecked.answeredRight');
 
 											} else {
@@ -662,8 +667,17 @@ var Trivia = Em.Application.create({
 										nextQuestion: function(router){
 											console.log('setting next question');
 											var questionIndex = router.get('gameController.questionIndex');
-											router.set('gameController.questionIndex', parseInt(questionIndex) + 1);
-											router.send('_nextQuestion');
+
+											var gameController = router.get('gameController');
+
+											if (parseInt(gameController.get('questionIndex')) + 1  <  gameController.get('questions.length')){
+												console.log('next question');
+												gameController.set('questionIndex', gameController.get('questionIndex') + 1);
+												router.send('_nextQuestion');
+											} else {
+												router.transitionTo('finished');
+												console.log('out of questions');
+											}
 
 										}
 									})
@@ -716,10 +730,15 @@ var Trivia = Em.Application.create({
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
 								//TODO: switch state based on media
+								console.log('connecting them outlets');
+								router.get('gameStartedController').connectOutlet('right', 'gameFinished');
+
 							},
+							/*
 							noMedia: Em.Route.extend({
 
 							}),
+							*/
 							mediaStopped: Em.Route.extend({
 								fullReplay: function(router){
 

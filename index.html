@@ -44,6 +44,7 @@
  	</script>
   	<script type="text/x-handlebars" data-template-name="game-started">
 		<h2>game in progress!</h2>
+		  <h3>question: {{Trivia.router.gameController.questionIndex}}</h3>
 		  {{outlet left}} {{outlet right}}
 	</script>
  	 <script type="text/x-handlebars" data-template-name="media-question">
@@ -72,6 +73,15 @@
 	<script type="text/x-handlebars" data-template-name="game-halves">
 		{{outlet left}} {{outlet right}}
 	</script>
+
+  <script type="text/x-handlebars" data-template-name="game-finished">
+  		<h1>Onneksi olkoon</h1>
+	  	<p>Läpäisit pelin ja oot vähän helvetin <strong>kova jätkä</strong></p>
+
+	  	<button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button>
+	  	<button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button>
+
+  	</script>
 
 	<script type="text/x-handlebars" data-template-name="game-loading">
 		<h1>Ladataan</h1>
