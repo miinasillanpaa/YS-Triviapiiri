@@ -46,6 +46,49 @@ var Trivia = Em.Application.create({
 	GameStartedView: Em.View.extend({
 		templateName: 'game-started'
 	}),
+	MediaQuestionView: Em.View.extend({
+		templateName: 'media-question'
+	}),
+	MediaQuestionController: Em.Controller.extend({}),
+	AnswersView: Em.View.extend({
+		templateName: 'answers'
+	}),
+	MediaIndicatorStoppedView: Em.View.extend({
+		classNames: 'badge'.w(),
+		template: Handlebars.compile('Pysäytetty')
+	}),
+	MediaIndicatorPlayingView: Em.View.extend({
+		classNames: 'badge badge-success'.w(),
+		template: Handlebars.compile('Soi')
+	}),
+	AnswersController: Em.Controller.extend({}),
+
+	ChoicesView: Em.View.extend({
+		templateName: 'choices'
+	}),
+	EmptyView: Em.View.extend({}),
+	AlertQuestionView: Em.View.extend({
+		templateName: 'alert-question',
+		classNames: 'alert alert-warn'.w()
+	}),
+	AlertQuestionController: Em.Controller.extend({}),
+	AlertCorrectAnswerView: Em.View.extend({
+		templateName: 'alert-correct',
+		classNames: 'alert alert-success'.w()
+	}),
+	AlertWrongAnswerView: Em.View.extend({
+		templateName: 'alert-wrong',
+		classNames: 'alert alert-danger'.w()
+	}),
+	ProceedButtonView: Em.View.extend({
+		classNames: 'btn btn-default'.w(),
+		template: Handlebars.compile('Seuraava kysymys'),
+		click: function(){
+			Trivia.router.send('nextQuestion');
+		}
+	}),
+
+	GameStartedController: Em.Controller.extend({}),
 	GameView2: Em.View.extend({
 		templateName: 'game-in-progress',
 		classNames: 'game-view'.w(),
@@ -504,27 +547,41 @@ var Trivia = Em.Application.create({
 							},
 							startGame: function(router){
 								router.transitionTo('started');
+								//router.send('playInterval');
 							}
 						}),
 						started: Em.Route.extend({
-							nextQuestion: function(router){
-								//TODO: check question media type
-							},
-							connectOutlets: function(router, context){
-								router.get('gameController').connectOutlet('gameStarted');
+							_nextQuestion: function(router){
+
+								console.log('setting next question');
+
+								//router.transitionTo('');
+
 								//TODO: check if we have a question with media or not
 								var media = router.get('gameController.media');
 								if (media) {
 									if (media.mediaType === 'mp3'){
 										router.transitionTo('mediaQuestion');
+										router.send('playInterval');
 									} else {
 										throw "unknow media type " + media.mediaType
 									}
 								} else {
 									router.transitionTo('plainQuestion');
 								}
+
+							},
+							connectOutlets: function(router, context){
+								router.get('gameController').connectOutlet('gameStarted');
+								router.send('_nextQuestion');
+
 							},
 							mediaQuestion: Em.Route.extend({
+
+								connectOutlets: function(router){
+									router.get('gameStartedController').connectOutlet('left', 'mediaQuestion');
+									router.get('gameStartedController').connectOutlet('right', 'answers');
+								},
 
 								initialState: 'mediaNotStarted',
 
@@ -532,19 +589,81 @@ var Trivia = Em.Application.create({
 
 									initialState: 'answerNotChecked',
 
+									connectOutlets: function(router){
+										router.get('mediaQuestionController').connectOutlet('mediaIndicatorStopped');
+									},
+
 									answerNotChecked: Em.Route.extend({
+
+										connectOutlets: function(router){
+											router.get('answersController').connectOutlet('alert', 'empty');
+											router.get('answersController').connectOutlet('action', 'empty');
+											router.get('answersController').connectOutlet('choices', 'empty');
+										},
+										showChoices: function(router){
+											var question = router.get('gameController.currentQuestion');
+											router.get('answersController').connectOutlet('alert', 'alertQuestion', question);
+											router.get('answersController').connectOutlet('choices', 'choices');
+										},
 										checkAnswer: function(router, answer){
+											if (answer){
+												console.log('checking answer, correct');
+												router.transitionTo('answerChecked.answeredRight');
+
+											} else {
+												console.log('checking answer, wrong');
+												router.transitionTo('answerChecked.answeredWrong');
+											}
+
+										},
+
+										replay: function(router){
 
 										},
 										playInterval: function(router){
+											console.log('playing interval');
 
-										},
-										replay: function(router){
+											router.transitionTo('mediaStarted');
 
+
+											//TODO: Placeholder for actual media playback stuff
+											setTimeout(function(){
+												router.send('finishedPlaying');
+											},1500);
 										}
 									}),
 									answerChecked: Em.Route.extend({
+
+										connectOutlets: function(router){
+											/*
+											if (router.get('gameController.questionIndex') === 0){
+												router.send('playInterval');
+											}
+											*/
+
+											router.get('answersController').connectOutlet('action', 'proceedButton');
+											router.get('answersController').connectOutlet('choices', 'empty');
+
+										},
+
+										start: Em.Route.extend({
+
+										}),
+										answeredWrong: Em.Route.extend({
+											connectOutlets: function(router){
+												router.get('answersController').connectOutlet('alert', 'alertWrongAnswer');
+											}
+										}),
+										answeredRight: Em.Route.extend({
+											connectOutlets: function(router){
+												router.get('answersController').connectOutlet('alert', 'alertCorrectAnswer');
+											}
+										}),
 										nextQuestion: function(router){
+											console.log('setting next question');
+											var questionIndex = router.get('gameController.questionIndex');
+											router.set('gameController.questionIndex', parseInt(questionIndex) + 1);
+											router.send('_nextQuestion');
 
 										}
 									})
@@ -553,15 +672,25 @@ var Trivia = Em.Application.create({
 
 									initialState: 'mediaPlaying',
 
+									connectOutlets: function(router){
+									},
 									mediaPlaying: Em.Route.extend({
+										connectOutlets: function(router){
+											router.get('mediaQuestionController').connectOutlet('mediaIndicatorPlaying');
+										},
 										pause: function(router){
 											router.transitionTo('mediaPaused');
 										},
-										finishedPlaying: function(router){
 
+										finishedPlaying: function(router){
+											router.transitionTo('mediaNotStarted');
+											router.send('showChoices');
 										}
 									}),
 									mediaPaused: Em.Route.extend({
+										connectOutlets: function(router){
+											router.get('mediaQuestionController').connectOutlet('mediaIndicatorStopped');
+										},
 										resume: function(router){
 											router.transitionTo('mediaPlaying');
 										}

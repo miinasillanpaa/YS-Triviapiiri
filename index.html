@@ -44,6 +44,29 @@
  	</script>
   	<script type="text/x-handlebars" data-template-name="game-started">
 		<h2>game in progress!</h2>
+		  {{outlet left}} {{outlet right}}
+	</script>
+ 	 <script type="text/x-handlebars" data-template-name="media-question">
+	  mediaa täällä ja sillee
+	  {{outlet}}
+	</script>
+  	<script type="text/x-handlebars" data-template-name="answers">
+  	  {{outlet alert}}
+	  {{outlet choices}}
+	  {{outlet action}}
+  	</script>
+  	<script type="text/x-handlebars" data-template-name="choices">
+ 		<button class="btn span4 btn-success" {{action checkAnswer "true"}}>Juu</button>
+	    <button class="btn span4 btn-danger" {{action checkAnswer }}>Ei</button>
+ 	</script>
+    <script type="text/x-handlebars" data-template-name="alert-question">
+		{{content.questionText}}
+    </script>
+    <script type="text/x-handlebars" data-template-name="alert-correct">
+      Oikein!
+	</script>
+	<script type="text/x-handlebars" data-template-name="alert-wrong">
+	  Väärin!
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="game-halves">
