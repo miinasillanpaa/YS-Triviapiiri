@@ -68,8 +68,20 @@ var Trivia = Em.Application.create({
 	}),
 
 	ChoicesView: Em.View.extend({
+		//contentBinding: 'Trivia.router.gameController.currentQuestion.answers',
+		collectionView: Em.CollectionView.extend({
+			tagName: 'div',
+			itemViewClass: Ember.View.extend({
+				classNames: 'btn btn-block'.w(),
+				click: function(){
+					Trivia.router.send('checkAnswer', this.get('content'));
+				}
+			})
+		}),
 		templateName: 'choices'
 	}),
+	ChoicesController: Em.Controller.extend({}),
+
 	EmptyView: Em.View.extend({}),
 	AlertQuestionView: Em.View.extend({
 		templateName: 'alert-question',
@@ -607,11 +619,11 @@ var Trivia = Em.Application.create({
 										showChoices: function(router){
 											var question = router.get('gameController.currentQuestion');
 											router.get('answersController').connectOutlet('alert', 'alertQuestion', question);
-											router.get('answersController').connectOutlet('choices', 'choices');
+											router.get('answersController').connectOutlet('choices', 'choices', question.get('answers'));
 										},
 										checkAnswer: function(router, answer){
 
-											if (answer){
+											if (answer.get('correct')){
 												console.log('checking answer, correct', answer);
 												router.transitionTo('answerChecked.answeredRight');
 
