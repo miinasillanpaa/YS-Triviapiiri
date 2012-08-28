@@ -20,19 +20,6 @@ var Trivia = Em.Application.create({
 						return 'background-image: url(' + this.get('content.image') + ')';
 					}
 				}.property('content.image')
-				/*
-				 didInsertElement: function(){
-				 var height = (100 - 2) / this.getPath('parentView.content.length');
-				 console.log(height);
-				 },
-				 */
-				/*
-				click:function () {
-					Trivia.gameController.set('game', this.get('content'));
-					Trivia.gameController.set('showGameSelector', false);
-				}
-
-				*/
 			})
 		})
 
@@ -51,6 +38,15 @@ var Trivia = Em.Application.create({
 		templateName: 'game'
 	}),
 	GameView: Em.View.extend({
+		templateName: 'game'
+	}),
+	GameNotStartedView: Em.View.extend({
+		templateName: 'game-not-started'
+	}),
+	GameStartedView: Em.View.extend({
+		templateName: 'game-started'
+	}),
+	GameView2: Em.View.extend({
 		templateName: 'game-in-progress',
 		classNames: 'game-view'.w(),
 		scoreBinding: 'Trivia.gameController.score',
@@ -162,17 +158,6 @@ var Trivia = Em.Application.create({
 					element.css({
 						'-webkit-transform': 'translate3d(0, -'+ element.position().top +'px, 0)'
 					});
-
-
-
-
-
-					/*
-					element.animate({ top: 0}, 500, function(){
-					});
-					*/
-					//
-
 
 					this.set('clicked', true);
 
@@ -306,7 +291,11 @@ var Trivia = Em.Application.create({
 
 		gameInProgress: false,
 		markerPositions: function(){
-			var media = Trivia.medias.findProperty('guid', this.get('currentQuestion').get('mediaId'));
+			var media = Trivia.medias.findProperty('guid', this.get('currentQuestion.mediaId'));
+			if(Em.empty(media)){
+				return false;
+			}
+
 			var positions = this.get('questions').map(
 				function(question){
 					return question.options.playTo / media.get('res').duration
@@ -455,8 +444,12 @@ var Trivia = Em.Application.create({
 
 	Router: Ember.Router.extend({
 		enableLogging: true,
+		location: 'hash',
 		root: Ember.Route.extend({
-			index: Ember.Route.extend({}),
+			index: Ember.Route.extend({
+				route: '/',
+				redirectsTo: 'games.index'
+			}),
 			games: Ember.Route.extend({
 				route: '/games',
 				index: Em.Route.extend({
@@ -465,9 +458,37 @@ var Trivia = Em.Application.create({
 				game: Em.Route.extend({
 					route: '/:game_id',
 					initialState: 'notLoaded',
+					serialize: function(router, game){
+						return {game_id: game.guid};
+					},
+					deserialize: function(router, params){
+						console.log(params);
+						return Trivia.games.findProperty('guid', parseInt(params.game_id));
+					},
+					connectOutlets: function(router, game){
+						router.get('applicationController').connectOutlet('game', game);
+
+						//hook up the questions
+						var gameId = parseInt(router.get('gameController.content.guid'));
+						var questions = Trivia.questions.filterProperty('gameId', gameId);
+						router.get('gameController').set('questionIndex', 0);
+						router.set('gameController.questions', questions);
+					},
+
 					notLoaded: Em.Route.extend({
+						connectOutlets: function(router){
+							router.get('gameController').connectOutlet('gameLoading');
+
+							if (!router.get('gameController.media')){
+								//proceed further if no media
+								router.send('loadingComplete');
+							}
+						},
 						loadingComplete: function(router){
 							router.transitionTo('loaded');
+						},
+						assetLoadingComplete: function(router){
+							this.loadingComplete(router);
 						},
 						back: function(router){
 							router.transitionTo('games');
@@ -478,6 +499,9 @@ var Trivia = Em.Application.create({
 						initialState: 'notStarted',
 
 						notStarted: Em.Route.extend({
+							connectOutlets: function(router){
+								router.get('gameController').connectOutlet('gameNotStarted');
+							},
 							startGame: function(router){
 								router.transitionTo('started');
 							}
@@ -487,7 +511,18 @@ var Trivia = Em.Application.create({
 								//TODO: check question media type
 							},
 							connectOutlets: function(router, context){
+								router.get('gameController').connectOutlet('gameStarted');
 								//TODO: check if we have a question with media or not
+								var media = router.get('gameController.media');
+								if (media) {
+									if (media.mediaType === 'mp3'){
+										router.transitionTo('mediaQuestion');
+									} else {
+										throw "unknow media type " + media.mediaType
+									}
+								} else {
+									router.transitionTo('plainQuestion');
+								}
 							},
 							mediaQuestion: Em.Route.extend({
 
@@ -632,11 +667,11 @@ var Trivia = Em.Application.create({
 						var gameController = router.get('gameController');
 
 						//get questions
-						var gameId = parseInt(router.get('gameController.content.guid'));
-						var questions = Trivia.questions.filterProperty('gameId', gameId);
+						//var gameId = parseInt(router.get('gameController.content.guid'));
+						//var questions = Trivia.questions.filterProperty('gameId', gameId);
 
-						router.set('gameController.questions', questions);
-						gameController.set('questionIndex', 0);
+						//router.set('gameController.questions', questions);
+						//gameController.set('questionIndex', 0);
 
 					},
 					back: function(router, context){
@@ -856,15 +891,17 @@ Trivia.Game = Em.Object.extend({
     guid: null,
     name: null,
     image: null,
-    caption: null,
+    caption: null
 	/*
 	find: function(id){
 
 	}*/
 });
-Trivia.Game.find = function(){
+/*
+Trivia.Game.find = function(id){
 	return Trivia.games.findProperty('guid', parseInt(id));
 }
+*/
 
 Trivia.Question = Em.Object.extend({
     guid: null,

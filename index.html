@@ -35,8 +35,21 @@
     </script>
 
 	<script type="text/x-handlebars" data-template-name="game">
+		<h1>game on!</h1>
 		{{outlet}}
 	</script>
+  	<script type="text/x-handlebars" data-template-name="game-not-started">
+ 		<h2>not started yet!</h2>
+ 		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
+ 	</script>
+  	<script type="text/x-handlebars" data-template-name="game-started">
+		<h2>game in progress!</h2>
+	</script>
+
+	<script type="text/x-handlebars" data-template-name="game-halves">
+		{{outlet left}} {{outlet right}}
+	</script>
+
 	<script type="text/x-handlebars" data-template-name="game-loading">
 		<h1>Ladataan</h1>
 		{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaLoadProgress"  active=true}}
