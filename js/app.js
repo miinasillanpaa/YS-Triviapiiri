@@ -96,6 +96,10 @@ var Trivia = Em.Application.create({
 		templateName: 'alert-wrong',
 		classNames: 'alert alert-danger'.w()
 	}),
+	AlertCountdownView: Em.View.extend({
+		templateName: 'alert-countdown',
+		classNames: 'alert alert-countdown alert-warning'.w()
+	}),
 	ProceedButtonView: Em.View.extend({
 		classNames: 'btn btn-default'.w(),
 		template: Handlebars.compile('Seuraava kysymys'),
@@ -703,6 +707,7 @@ var Trivia = Em.Application.create({
 									mediaPlaying: Em.Route.extend({
 										connectOutlets: function(router){
 											router.get('mediaQuestionController').connectOutlet('mediaIndicatorPlaying');
+											router.get('answersController').connectOutlet('alert', 'alertCountdown');
 										},
 										pause: function(router){
 											router.transitionTo('mediaPaused');

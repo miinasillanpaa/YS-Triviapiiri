@@ -56,20 +56,27 @@
 	  {{outlet choices}}
 	  {{outlet action}}
   	</script>
-  	<script type="text/x-handlebars" data-template-name="choices">
-		 {{#collection view.collectionView content=content}}
-		  	{{view.content.answerText}}
-		  {{/collection}}
- 	</script>
-    <script type="text/x-handlebars" data-template-name="alert-question">
-		{{content.questionText}}
-    </script>
-    <script type="text/x-handlebars" data-template-name="alert-correct">
-      Oikein!
-	</script>
-	<script type="text/x-handlebars" data-template-name="alert-wrong">
+  <script type="text/x-handlebars" data-template-name="choices">
+	  {{#collection view.collectionView content=content}}
+	  {{view.content.answerText}}
+	  {{/collection}}
+  </script>
+  <script type="text/x-handlebars" data-template-name="alert-question">
+	  {{content.questionText}}
+  </script>
+  <script type="text/x-handlebars" data-template-name="alert-correct">
+	  Oikein!
+  </script>
+  <script type="text/x-handlebars" data-template-name="alert-wrong">
 	  Väärin!
-	</script>
+  </script>
+  <script type="text/x-handlebars" data-template-name="alert-countdown">
+	  höbl
+	  <h2>{{Trivia.router.gameController.secondsToStop}}</h2>
+	  <span>
+		{{view.content}}
+      </span>
+  </script>
 
 	<script type="text/x-handlebars" data-template-name="game-halves">
 		{{outlet left}} {{outlet right}}
