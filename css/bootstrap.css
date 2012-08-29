@@ -1107,6 +1107,74 @@ body {
   -webkit-box-orient: vertical;
   -webkit-box-flex: 1;
 }
+.app .workspace .game-view {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-flex: 1;
+}
+.app .workspace .game-view > div {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-flex: 1;
+}
+.app .workspace .game-view .game-started-view {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-flex: 1;
+}
+.app .workspace .game-view .game-started-view .left {
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  width: 0;
+}
+.app .workspace .game-view .game-started-view .left .media-question-view {
+  -webkit-box-flex: 1;
+}
+.app .workspace .game-view .game-started-view .right {
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  width: 0;
+}
+.app .workspace .game-view .game-started-view .right .answers-view {
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  -webkit-box-orient: vertical;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .alert-outlet {
+  height: 0;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .alert-outlet > div {
+  -webkit-box-flex: 1;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .choices-outlet {
+  height: 0;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .choices-outlet > div {
+  -webkit-box-flex: 1;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .choices-outlet .choices-collection {
+  height: 0;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .choices-outlet .choices-collection > div {
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .action-outlet {
+  height: 0;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .action-outlet > div {
+  -webkit-box-flex: 1;
+}
 .app .workspace .game-loading-view {
   -webkit-box-flex: 1;
   display: -webkit-box;

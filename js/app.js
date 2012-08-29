@@ -38,12 +38,14 @@ var Trivia = Em.Application.create({
 		templateName: 'game'
 	}),
 	GameView: Em.View.extend({
+		classNames: 'game-view',
 		templateName: 'game'
 	}),
 	GameNotStartedView: Em.View.extend({
 		templateName: 'game-not-started'
 	}),
 	GameStartedView: Em.View.extend({
+		classNames: 'game-started-view'.w(),
 		templateName: 'game-started'
 	}),
 	GameFinishedView: Em.View.extend({
@@ -51,7 +53,7 @@ var Trivia = Em.Application.create({
 	}),
 	GameFinishedController: Em.Controller.extend({}),
 	MediaQuestionView: Em.View.extend({
-
+		classNames: 'media-question-view'.w(),
 		templateName: 'media-question'
 	}),
 	MediaQuestionController: Em.Controller.extend({}),
@@ -82,7 +84,9 @@ var Trivia = Em.Application.create({
 	MediaControlsView: Em.View.extend({
 		templateName: 'media-controls'
 	}),
+	MediaControlsController: Em.Controller.extend({}),
 	AnswersView: Em.View.extend({
+		classNames: 'answers-view'.w(),
 		templateName: 'answers'
 	}),
 	AnswersController: Em.Controller.extend({}),
@@ -98,6 +102,7 @@ var Trivia = Em.Application.create({
 	ChoicesView: Em.View.extend({
 		//contentBinding: 'Trivia.router.gameController.currentQuestion.answers',
 		collectionView: Em.CollectionView.extend({
+			classNames: 'choices-collection'.w(),
 			tagName: 'div',
 			itemViewClass: Ember.View.extend({
 				classNames: 'btn btn-block'.w(),
@@ -637,7 +642,7 @@ var Trivia = Em.Application.create({
 									initialState: 'answerNotChecked',
 
 									connectOutlets: function(router){
-										router.get('mediaQuestionController').connectOutlet('mediaIndicatorStopped');
+										router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
 									},
 									back: function(router){
 										console.log('back!');
@@ -742,7 +747,7 @@ var Trivia = Em.Application.create({
 									},
 									mediaPlaying: Em.Route.extend({
 										connectOutlets: function(router){
-											router.get('mediaQuestionController').connectOutlet('mediaIndicatorPlaying');
+											router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorPlaying');
 											router.get('answersController').connectOutlet('alert', 'alertCountdown');
 										},
 										back: function(router){
@@ -769,7 +774,7 @@ var Trivia = Em.Application.create({
 									}),
 									mediaPaused: Em.Route.extend({
 										connectOutlets: function(router){
-											router.get('mediaQuestionController').connectOutlet('mediaIndicatorStopped');
+											router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
 										},
 										resumeWithAlert: function(router){
 											alert('Paina jatkaaksesi');
@@ -2449,11 +2454,6 @@ Trivia.ProgressbarView = Em.View.extend({
 			wrapper.append(markerElement);
 		});
 
-		/*
-		for (var i = 0; i < markers.length; i++) {
-
-		}
-		*/
 	}.observes('markerPositions'),
 	activeDidChange: function(){
 	}.observes('active')

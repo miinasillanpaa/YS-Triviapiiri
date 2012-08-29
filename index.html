@@ -35,7 +35,6 @@
     </script>
 
 	<script type="text/x-handlebars" data-template-name="game">
-		<h1>{{Trivia.router.gameController.content.name}}</h1>
 		{{outlet}}
 	</script>
   	<script type="text/x-handlebars" data-template-name="game-not-started">
@@ -43,8 +42,7 @@
  		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
  	</script>
   	<script type="text/x-handlebars" data-template-name="game-started">
-		  <h3>question: {{Trivia.router.gameController.questionIndex}}</h3>
-		  {{outlet left}} {{outlet right}}
+		  {{outlet left class="left"}} {{outlet right class="right"}}
 	</script>
 
  	 <script type="text/x-handlebars" data-template-name="media-question">
@@ -55,19 +53,19 @@
   <script type="text/x-handlebars" data-template-name="media-controls">
 	<div class="media-controls">
 		<h2>{{Trivia.router.gameController.game.name}}</h2>
-		Progress bar here <br/>
+		{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaPosition" markerPositionsBinding="Trivia.router.gameController.markerPositions" activeBinding="Trivia.router.gameController.mediaPlaying"}}
 		{{outlet mediaIndicator}}
 	</div>
   </script>
 
   <script type="text/x-handlebars" data-template-name="answers">
-  	  {{outlet alert}}
-	  {{outlet choices}}
-	  {{outlet action}}
+  	  {{outlet alert class="alert-outlet"}}
+	  {{outlet choices class="choices-outlet"}}
+	  {{outlet action class="action-outlet"}}
   	</script>
   <script type="text/x-handlebars" data-template-name="choices">
 	  {{#collection view.collectionView content=content}}
-	  {{view.content.answerText}}
+	  	{{view.content.answerText}}
 	  {{/collection}}
   </script>
   <script type="text/x-handlebars" data-template-name="alert-question">

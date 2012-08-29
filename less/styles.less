@@ -122,6 +122,89 @@ body {
 			-webkit-box-flex: 1;
 		}
 
+		//new
+		.game-view{
+			.display-box();
+			.box-orient(vertical);
+			.box-flex(1);
+
+			& > div {
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-box-flex: 1;
+			}
+
+			.game-started-view{
+				.display-box();
+				.box-orient(horizontal);
+				.box-flex(1);
+
+				.left{
+					.box-flex(1);
+					.display-box();
+					width: 0;
+					.media-question-view{
+						.box-flex(1);
+					}
+
+				}
+				.right{
+					.box-flex(1);
+					.display-box();
+					width: 0;
+
+					.answers-view{
+						.display-box();
+						.box-flex(1);
+						.box-orient(vertical);
+						.alert-outlet{
+							& > div {
+								.box-flex(1);
+							}
+							height: 0;
+							.box-flex(1);
+							.display-box();
+						}
+						.choices-outlet{
+							& > div {
+								.box-flex(1);
+							}
+							height: 0;
+							.box-flex(1);
+							.display-box();
+
+
+							.choices-collection{
+								height: 0;
+								.box-flex(1);
+								.display-box();
+								.box-orient(vertical);
+								& > div {
+									.box-flex(1);
+									.display-box();
+									.box-orient(vertical);
+								}
+							}
+						}
+						.action-outlet{
+							& > div {
+								.box-flex(1);
+							}
+							height: 0;
+							.box-flex(1);
+							.display-box();
+						}
+
+					}
+
+
+
+				}
+			}
+
+		}
+
+
 		.game-loading-view {
 			.box-flex(1);
 			.display-box();
