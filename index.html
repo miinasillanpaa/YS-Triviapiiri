@@ -46,12 +46,21 @@
 		  <h3>question: {{Trivia.router.gameController.questionIndex}}</h3>
 		  {{outlet left}} {{outlet right}}
 	</script>
+
  	 <script type="text/x-handlebars" data-template-name="media-question">
-		<div class="well">
-		{{outlet}}
-		</div>
+		{{outlet controls}}
+		{{outlet media}}
 	</script>
-  	<script type="text/x-handlebars" data-template-name="answers">
+
+  <script type="text/x-handlebars" data-template-name="media-controls">
+	<div class="media-controls">
+		<h2>{{Trivia.router.gameController.game.name}}</h2>
+		Progress bar here <br/>
+		{{outlet mediaIndicator}}
+	</div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="answers">
   	  {{outlet alert}}
 	  {{outlet choices}}
 	  {{outlet action}}

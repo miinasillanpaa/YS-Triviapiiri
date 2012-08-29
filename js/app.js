@@ -51,9 +51,37 @@ var Trivia = Em.Application.create({
 	}),
 	GameFinishedController: Em.Controller.extend({}),
 	MediaQuestionView: Em.View.extend({
+
 		templateName: 'media-question'
 	}),
 	MediaQuestionController: Em.Controller.extend({}),
+
+	MediaDisplayView: Em.View.extend({
+		classNames:'media-display-view'.w(),
+		contentBinding: 'Trivia.router.gameController.image',
+		contentDidChange:function () {
+			if (this.get('content')) {
+				console.log('content changed', this.get('content'));
+				console.log('background changed', this.get('element'));
+				$(this.get('element')).css({
+					'background-image':'url(' + this.get('content') + ')'
+				})
+			}
+		}.observes('content'),
+
+		didInsertElement:function () {
+			console.warn('element added');
+			//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
+			this.contentDidChange();
+		},
+		click:function () {
+			console.log(this.get('content'))
+		}
+	}),
+	MediaDisplayController: Em.Controller.extend({}),
+	MediaControlsView: Em.View.extend({
+		templateName: 'media-controls'
+	}),
 	AnswersView: Em.View.extend({
 		templateName: 'answers'
 	}),
@@ -297,29 +325,8 @@ var Trivia = Em.Application.create({
 				}.property('mediaState'),
 				mediaStateBinding: 'Trivia.router.gameController.mediaState'
 
-			}),
-			mediaDisplayView: Em.View.extend({
-				classNames: 'media-display-view'.w(),
-				//contentBinding: 'Trivia.gameController.game.image',
-				contentDidChange: function(){
-					console.log('album content changed');
-					if (this.get('content')){
-						console.log('content changed', this.get('content'));
-						console.log('background changed', this.get('element'));
-						$(this.get('element')).css({
-							'background-image': 'url(' + this.get('content') + ')'
-						})
-					}
-				}.observes('content'),
-
-				didInsertElement: function(){
-					//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
-					this.contentDidChange();
-				},
-				click: function(){
-					console.log(this.get('content'))
-				}
 			})
+
 		})
 	}),
 	GameController: Em.Controller.extend({
@@ -617,6 +624,9 @@ var Trivia = Em.Application.create({
 								connectOutlets: function(router){
 									router.get('gameStartedController').connectOutlet('left', 'mediaQuestion');
 									router.get('gameStartedController').connectOutlet('right', 'answers');
+
+									router.get('mediaQuestionController').connectOutlet('controls', 'mediaControls');
+									router.get('mediaQuestionController').connectOutlet('media', 'mediaDisplay');
 								},
 
 								initialState: 'mediaNotStarted',
