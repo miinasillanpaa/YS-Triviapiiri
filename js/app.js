@@ -453,7 +453,8 @@ var Trivia = Em.Application.create({
 				if (startingPosition >= 0){
 					console.log('playback starts at', fromEnd, '-', playTo);
 				} else {
-					throw 'trying to seek past the sound file'
+					startingPosition = 0;
+					console.log('trying to seek past the sound file, starting from 0');
 				}
 			}
 
@@ -475,7 +476,7 @@ var Trivia = Em.Application.create({
 					this.stop();
 					this.clearOnPosition(playTo);
 
-					Trivia.router.send('finishedPlayingInterval', playTo);
+					Trivia.router.send('finishedPlaying', playTo);
 				});
 
 			} else {
@@ -658,19 +659,22 @@ var Trivia = Em.Application.create({
 
 										},
 
-										replay: function(router){
+										instantReplay: function(router){
+											router.get('gameController').playInterval(5000);
+											router.transitionTo('mediaStarted');
 
 										},
 										playInterval: function(router){
 											console.log('playing interval');
-
+											router.get('gameController').playInterval();
 											router.transitionTo('mediaStarted');
 
-
+											/*
 											//TODO: Placeholder for actual media playback stuff
 											setTimeout(function(){
 												router.send('finishedPlaying');
 											},1500);
+											*/
 										}
 									}),
 									answerChecked: Em.Route.extend({
