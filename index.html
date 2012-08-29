@@ -219,7 +219,7 @@
 		<div class="wrapper">
         {{#collection view.selectGameCollectionView }}
 			<div class="cover" {{bindAttr style="view.bgStyle"}}>
-			<a {{action startGame view.content}}>
+			<a href="#/games/{{unbound view.content.guid}}">
             	<span>{{view.content.name}}</span>
 				</a>
 			</div>

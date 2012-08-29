@@ -8,7 +8,7 @@ var Trivia = Em.Application.create({
 	GamesView: Em.View.extend({
 		templateName:'games',
 		classNames: 'select-game-view'.w(),
-		selectGameCollectionView:Em.CollectionView.extend({
+		selectGameCollectionView: Em.CollectionView.extend({
 			classNames: 'select-game-view'.w(),
 			tagName:'ul',
 			contentBinding:'Trivia.games',
@@ -24,7 +24,7 @@ var Trivia = Em.Application.create({
 		})
 
 	}),
-	GamesController: Em.ObjectController.extend({
+	GamesController: Em.Controller.extend({
 
 	}),
 	GameLoadingController: Em.Controller.extend({}),
@@ -516,7 +516,16 @@ var Trivia = Em.Application.create({
 			games: Ember.Route.extend({
 				route: '/games',
 				index: Em.Route.extend({
-					route: '/'
+					route: '/',
+					connectOutlets: function(router){
+						router.get('applicationController').connectOutlet('games');
+					}
+					/*,
+					startGame: function(router, game, a){
+						console.log('startGame', game, a);
+						router.transitionTo('game', game);
+					}
+					*/
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
@@ -528,7 +537,8 @@ var Trivia = Em.Application.create({
 						console.log(params);
 						return Trivia.games.findProperty('guid', parseInt(params.game_id));
 					},
-					connectOutlets: function(router, game){
+					connectOutlets: function(router, game, a){
+						console.log('connecting game outlets', game, a);
 						router.get('applicationController').connectOutlet('game', game);
 
 						//hook up the questions
@@ -537,13 +547,17 @@ var Trivia = Em.Application.create({
 						router.get('gameController').set('questionIndex', 0);
 						router.set('gameController.questions', questions);
 					},
-
+					back: function(router){
+						router.transitionTo('root.games.index');
+					},
 					notLoaded: Em.Route.extend({
 						connectOutlets: function(router){
 							router.get('gameController').connectOutlet('gameLoading');
 
 							if (!router.get('gameController.media')){
 								//proceed further if no media
+								router.send('loadingComplete');
+							} else if (router.get('gameController.media.res.loaded')){
 								router.send('loadingComplete');
 							}
 						},
@@ -607,12 +621,18 @@ var Trivia = Em.Application.create({
 
 								mediaNotStarted: Em.Route.extend({
 
+
 									initialState: 'answerNotChecked',
 
 									connectOutlets: function(router){
 										router.get('mediaQuestionController').connectOutlet('mediaIndicatorStopped');
 									},
-
+									back: function(router){
+										console.log('back!');
+										if (confirm('Haluatko varmasti palata takaisin? Peli lopetaan.')){
+											router.transitionTo('root.index');
+										}
+									},
 									answerNotChecked: Em.Route.extend({
 
 										connectOutlets: function(router){
@@ -694,7 +714,6 @@ var Trivia = Em.Application.create({
 												router.transitionTo('finished');
 												console.log('out of questions');
 											}
-
 										}
 									})
 								}),
