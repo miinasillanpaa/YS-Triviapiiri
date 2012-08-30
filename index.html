@@ -39,12 +39,14 @@
 	</script>
   	<script type="text/x-handlebars" data-template-name="game-not-started">
  		<h2>kohta musaa</h2>
- 		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
+ 		<button class="btn btn-success"{{action startGame1P}}>Pelaan yksin</button>
+		<button class="btn"{{action startGame2P}}>Pelaan parin kanssa</button>
  	</script>
 
   <script type="text/x-handlebars" data-template-name="game-not-started-plain">
 		<h2>kohta tehtävä</h2>
-		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
+	  <button class="btn btn-success"{{action startGame1P}}>Pelaan yksin</button>
+		<button class="btn"{{action startGame2P}}>Pelaan parin kanssa</button>
   </script>
 
 
