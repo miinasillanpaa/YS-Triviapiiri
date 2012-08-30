@@ -1180,8 +1180,8 @@ body {
   background-size: cover;
   border-radius: 6px;
   margin: 0.5em;
-  margin-left: 0.25em;
-  margin-top: 0.25em;
+  margin-left: 0.25rem;
+  margin-top: 0.25rem;
 }
 .app .workspace .game-view .game-started-view .right {
   -webkit-box-flex: 1;
@@ -1197,12 +1197,6 @@ body {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   height: 7rem;
-  /*
-							margin: 0.5em;
-							margin-left: 0.25em;
-							margin-bottom: 0.25em;
-							*/
-
 }
 .app .workspace .game-view .game-started-view .right .answers-view .alert-outlet .alert {
   margin: 0.5rem;
