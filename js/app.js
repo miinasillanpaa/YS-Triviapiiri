@@ -477,10 +477,13 @@ var Trivia = Em.Application.create({
 			if (this.get('questionIndex') > 0){
 				//get previous question
 				var previousQuestion = this.get('questions').objectAt(this.get('questionIndex') - 1);
-				startingPosition =  previousQuestion.get('options.playTo');
+
+				startingPosition =  previousQuestion.get('options.playTo') ? previousQuestion.get('options.playTo') : 0;
+				/*
 				if (!startingPosition){
 					throw 'no startin position!';
 				}
+				*/
 			}
 
 			var playTo = this.get('currentQuestion.options.playTo');
