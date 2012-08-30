@@ -38,13 +38,16 @@
 		{{outlet}}
 	</script>
   	<script type="text/x-handlebars" data-template-name="game-not-started">
- 		<h2>kohta musaa</h2>
- 		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
+ 		<h2>{{Trivia.router.gameController.title}}</h2>
+		<p>Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu kun kappale on soitettu.</p>
+ 		<button class="btn btn-success"{{action startGame1P}}>Pelaan yksin</button>
+		<button class="btn"{{action startGame2P}}>Pelaan parin kanssa</button>
  	</script>
 
   <script type="text/x-handlebars" data-template-name="game-not-started-plain">
 		<h2>kohta tehtävä</h2>
-		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
+	  <button class="btn btn-success"{{action startGame1P}}>Pelaan yksin</button>
+		<button class="btn"{{action startGame2P}}>Pelaan parin kanssa</button>
   </script>
 
 
@@ -57,10 +60,16 @@
   </script>
   <script type="text/x-handlebars" data-template-name="plain-question-label">
 	  {{content.questionText}}
+	  <div class="question-indicator">
+		  {{#if Trivia.router.gameController.questions}}
+		  	<span class="question-number">{{view.questionNumber}}</span><span class="slash">/</span><span></span>
+
+		  {{/if}}
+	  </div>
   </script>
  	 <script type="text/x-handlebars" data-template-name="media-question">
-		{{outlet controls}}
-		{{outlet media}}
+		{{outlet controls class="controls-outlet"}}
+		{{outlet media class="media-outlet"}}
 	</script>
 
   <script type="text/x-handlebars" data-template-name="media-controls">
@@ -111,9 +120,10 @@
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
-	  <button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button>
+	  <!--button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button -->
+	  <button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button>
 	  <button class="btn btn-success" {{action back}}>Palaa päävalikkoon</button>
-	  	<!--button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button-->
+
 
   	</script>
   <script type="text/x-handlebars" data-template-name="game-finished-plain">

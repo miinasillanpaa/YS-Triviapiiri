@@ -56,10 +56,21 @@ var Trivia = Em.Application.create({
 	GameFinishedView: Em.View.extend({
 		templateName: 'game-finished',
 		classNames: 'game-finished'.w(),
-		feedbackText: 'Hienoa, muistit kappaleen sanat melko hyvin!',
-		successRate: function(){
-			return Math.floor(parseInt(this.get('correctAnswers')) / Trivia.get('router.gameController.questions.length') * 100);
-		}.property('correctAnswers'),
+		feedbackText: function(){
+			var successRate = this.get('successRate');
+			if (successRate === 0){
+				return 'Harmin paikka. Et saanut yhtään vastausta oikein. Yritä uudelleen.';
+			} else if (successRate < 30){
+				return 'Olet kehityskelpoinen. Jatka harjoittelua.';
+			} else if (successRate < 60){
+				return 'Hyvä tulos, jatka samaan malliin.';
+			} else if (successRate < 90){
+				return 'Hyvä, sait suurimman osan kysymyksistä oikein!';
+			} else {
+				return 'Loistosuoritus! Olet tainnut pelata peliä aikaisemminkin?';
+			}
+		}.property('successRate'),
+		successRateBinding: 'Trivia.router.gameController.successRate',
 		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
 	}),
 	GameFinishedController: Em.Controller.extend({}),
@@ -67,10 +78,21 @@ var Trivia = Em.Application.create({
 	GameFinishedPlainView: Em.View.extend({
 		templateName: 'game-finished-plain',
 		classNames: 'game-finished'.w(),
-		feedbackText: 'Hienoa, muistit kappaleen sanat melko hyvin!',
-		successRate: function(){
-			return Math.floor(parseInt(this.get('correctAnswers')) / Trivia.get('router.gameController.questions.length') * 100);
-		}.property('correctAnswers'),
+		feedbackText: function(){
+			var successRate = this.get('successRate');
+			if (successRate === 0){
+				return 'Harmin paikka. Et saanut yhtään vastausta oikein. Yritä uudelleen.';
+			} else if (successRate < 30){
+				return 'Olet kehityskelpoinen. Jatka harjoittelua.';
+			} else if (successRate < 60){
+				return 'Hyvä tulos, jatka samaan malliin.';
+			} else if (successRate < 90){
+				return 'Hyvä, sait suurimman osan kysymyksistä oikein!';
+			} else {
+				return 'Loistosuoritus! Olet tainnut pelata peliä aikaisemminkin?';
+			}
+		}.property('successRate'),
+		successRateBinding: 'Trivia.router.gameController.successRate',
 		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
 	}),
 	GameFinishedPlainController: Em.View.extend({}),
@@ -112,7 +134,8 @@ var Trivia = Em.Application.create({
 	}),
 	MediaDisplayController: Em.Controller.extend({}),
 	MediaControlsView: Em.View.extend({
-		templateName: 'media-controls'
+		templateName: 'media-controls',
+		classNames: 'media-controls-view'.w()
 	}),
 	MediaControlsController: Em.Controller.extend({}),
 	AnswersView: Em.View.extend({
@@ -402,6 +425,10 @@ var Trivia = Em.Application.create({
 
 		}.property('mediaAbsolutePosition'),
 
+		successRate: function(){
+			return Math.floor(parseInt(this.get('correctAnswers')) / Trivia.get('router.gameController.questions.length') * 100);
+		}.property('correctAnswers'),
+
 		gameInProgress: false,
 		markerPositions: function(){
 			var media = Trivia.medias.findProperty('guid', this.get('currentQuestion.mediaId'));
@@ -461,9 +488,6 @@ var Trivia = Em.Application.create({
 							console.log('asset onload');
 							Trivia.router.send('assetLoadingComplete');
 						},
-						onplay: function(){
-							console.log('playing song', this)
-						},
 						whileloading: function(){
 							//console.log('loading');
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
@@ -483,6 +507,26 @@ var Trivia = Em.Application.create({
 		 * plays the current song interval specified by Trivia.Question.media.
 		 * @param fromEnd used to replay fromEnd amount of seconds from the end of the interval
 		 */
+		fullReplay: function(){
+			if (this.get('media.res')){
+				Trivia.router.send('startedPlaying');
+				this.get('media.res').play({
+					position: 0,
+					whileplaying: function(){
+						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
+						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
+						Trivia.router.set('gameController.mediaPlaying', true);
+					},
+					onfinish: function(){
+						Trivia.router.set('gameController.mediaPlaying', false);
+						Trivia.router.send('finishedPlaying');
+					}
+				})
+
+			} else {
+				throw 'no media found'
+			}
+		},
 		playInterval: function(fromEnd){
 			var startingPosition = 0;
 
@@ -622,8 +666,17 @@ var Trivia = Em.Application.create({
 								}
 
 							},
-							startGame: function(router){
+							_startGame: function(router){
 								router.transitionTo('started');
+							},
+							startGame1P: function(router){
+								router.send('_startGame');
+								console.log('started 1 player game');
+
+							},
+							startGame2P: function(router){
+								router.send('_startGame');
+								console.log('started 2 player game');
 							}
 						}),
 						started: Em.Route.extend({
@@ -710,7 +763,7 @@ var Trivia = Em.Application.create({
 										},
 
 										instantReplay: function(router){
-											router.get('gameController').playInterval(5000);
+											router.get('gameController').playInterval(10000);
 											router.transitionTo('mediaStarted');
 
 										},
@@ -778,7 +831,6 @@ var Trivia = Em.Application.create({
 											} else {
 												router.send('resume');
 											}
-
 										},
 										pause: function(router){
 											router.get('gameController.media.res').pause();
@@ -897,7 +949,7 @@ var Trivia = Em.Application.create({
 						}),
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
-								//TODO: switch state based on media
+
 
 								if (router.get('gameController.gameType') === 'audio'){
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
@@ -905,24 +957,40 @@ var Trivia = Em.Application.create({
 									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
 								}
 
+								if (router.get('gameController.gameType') === 'audio'){
+									router.transitionTo('mediaStopped');
+								} else {
+									router.transitionTo('noMedia');
+								}
+
 
 							},
-							/*
+
 							noMedia: Em.Route.extend({
 
 							}),
-							*/
-							mediaStopped: Em.Route.extend({
-								fullReplay: function(router){
 
+							mediaStopped: Em.Route.extend({
+								connectOutlets: function(router){
+									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
+								},
+								fullReplay: function(router){
+									router.get('gameController').fullReplay();
+								},
+								startedPlaying: function(router){
+									router.transitionTo('mediaStarted');
 								}
 							}),
 							mediaStarted: Em.Route.extend({
-								mediaFinished: function(router){
-
+								connectOutlets: function(router){
+									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorPlaying');
 								},
-								back: function(){
-
+								finishedPlaying: function(router){
+									router.transitionTo('mediaStopped');
+								},
+								back: function(router){
+									router.get('gameController.media.res').stop();
+									router.transitionTo('root.games.index');
 								}
 							})
 						})
@@ -2460,10 +2528,7 @@ soundManager.defaultOptions = {
 	autoLoad: true,
 	preferFlash: false,
 	autoPlay: false,
-	stream: false,
-	onstop: function(){
-		Trivia.gameController.onMediaStop()
-	}
+	stream: false
 }
 soundManager.setupOptions = {
 	preferFlash: false
