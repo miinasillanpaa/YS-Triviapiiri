@@ -54,12 +54,24 @@ var Trivia = Em.Application.create({
 		templateName: 'game-started'
 	}),
 	GameFinishedView: Em.View.extend({
-		templateName: 'game-finished'
+		templateName: 'game-finished',
+		classNames: 'game-finished'.w(),
+		feedbackText: 'Hienoa, muistit kappaleen sanat melko hyvin!',
+		successRate: function(){
+			return Math.floor(parseInt(this.get('correctAnswers')) / Trivia.get('router.gameController.questions.length') * 100);
+		}.property('correctAnswers'),
+		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
 	}),
 	GameFinishedController: Em.Controller.extend({}),
 
 	GameFinishedPlainView: Em.View.extend({
-		templateName: 'game-finished-plain'
+		templateName: 'game-finished-plain',
+		classNames: 'game-finished'.w(),
+		feedbackText: 'Hienoa, muistit kappaleen sanat melko hyvin!',
+		successRate: function(){
+			return Math.floor(parseInt(this.get('correctAnswers')) / Trivia.get('router.gameController.questions.length') * 100);
+		}.property('correctAnswers'),
+		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
 	}),
 	GameFinishedPlainController: Em.View.extend({}),
 	MediaQuestionView: Em.View.extend({
