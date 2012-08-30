@@ -38,9 +38,16 @@
 		{{outlet}}
 	</script>
   	<script type="text/x-handlebars" data-template-name="game-not-started">
- 		<h2>not started yet!</h2>
+ 		<h2>kohta musaa</h2>
  		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
  	</script>
+
+  <script type="text/x-handlebars" data-template-name="game-not-started-plain">
+		<h2>kohta tehtävä</h2>
+		<button class="btn btn-success"{{action startGame}}>Aloita peli!</button>
+  </script>
+
+
   	<script type="text/x-handlebars" data-template-name="game-started">
 		  {{outlet left class="left"}} {{outlet right class="right"}}
 	</script>
@@ -78,6 +85,10 @@
 	  {{content.questionText}}
 	  <button class="btn" {{action instantReplay}}>Kuuntele uudestaan</button>
   </script>
+  <script type="text/x-handlebars" data-template-name="alert-plain-question">
+	  {{content.questionText}}
+  </script>
+
   <script type="text/x-handlebars" data-template-name="alert-correct">
 	  Oikein!
   </script>
@@ -101,7 +112,15 @@
 	  	<p>Läpäisit pelin ja oot vähän helvetin <strong>kova jätkä</strong></p>
 
 	  	<button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button>
-	  	<button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button>
+	  	<!--button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button-->
+
+  	</script>
+  <script type="text/x-handlebars" data-template-name="game-finished-plain">
+  		<h1>Onneksi olkoon</h1>
+	  	<p>Läpäisit pelin ja oot vähän helvetin <strong>kova jätkä</strong></p>
+
+	  	<button class="btn" {{action back}}>Palaa päävalikkoon</button>
+	  	<!--button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button-->
 
   	</script>
 

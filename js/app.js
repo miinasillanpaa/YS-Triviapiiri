@@ -44,6 +44,11 @@ var Trivia = Em.Application.create({
 	GameNotStartedView: Em.View.extend({
 		templateName: 'game-not-started'
 	}),
+
+	GameNotStartedPlainView: Em.View.extend({
+		templateName: 'game-not-started-plain'
+	}),
+	GameNotStartedPlainController: Em.View.extend({}),
 	GameStartedView: Em.View.extend({
 		classNames: 'game-started-view'.w(),
 		templateName: 'game-started'
@@ -52,6 +57,11 @@ var Trivia = Em.Application.create({
 		templateName: 'game-finished'
 	}),
 	GameFinishedController: Em.Controller.extend({}),
+
+	GameFinishedPlainView: Em.View.extend({
+		templateName: 'game-finished-plain'
+	}),
+	GameFinishedPlainController: Em.View.extend({}),
 	MediaQuestionView: Em.View.extend({
 		classNames: 'media-question-view'.w(),
 		templateName: 'media-question'
@@ -129,6 +139,13 @@ var Trivia = Em.Application.create({
 		classNames: 'alert alert-warn'.w()
 	}),
 	AlertQuestionController: Em.Controller.extend({}),
+
+	AlertPlainQuestionView: Em.View.extend({
+		templateName: 'alert-plain-question',
+		classNames: 'alert alert-warn'.w()
+	}),
+	AlertPlainQuestionController: Em.View.extend({}),
+
 	AlertCorrectAnswerView: Em.View.extend({
 		templateName: 'alert-correct',
 		classNames: 'alert alert-success'.w()
@@ -347,7 +364,7 @@ var Trivia = Em.Application.create({
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
 		captionBinding: 'content.caption', //Copyright info. Not implemented
-
+		gameTypeBinding: 'content.gameType',
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
 		mediaAbsolutePosition: 0,
 
@@ -582,7 +599,12 @@ var Trivia = Em.Application.create({
 
 						notStarted: Em.Route.extend({
 							connectOutlets: function(router){
-								router.get('gameController').connectOutlet('gameNotStarted');
+								if (router.get('gameController.gameType') === 'audio'){
+									router.get('gameController').connectOutlet('gameNotStarted');
+								}else {
+									router.get('gameController').connectOutlet('gameNotStartedPlain');
+								}
+
 							},
 							startGame: function(router){
 								router.transitionTo('started');
@@ -784,7 +806,8 @@ var Trivia = Em.Application.create({
 									connectOutlets: function(router){
 
 										var question = router.get('gameController.currentQuestion');
-										router.get('answersController').connectOutlet('alert', 'alertQuestion', question);
+										router.get('answersController').connectOutlet('alert', 'alertPlainQuestion', question);
+
 										router.get('answersController').connectOutlet('choices', 'choices', question.get('answers'));
 
 										//router.get('answersController').connectOutlet('alert', 'empty');
@@ -849,8 +872,13 @@ var Trivia = Em.Application.create({
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
 								//TODO: switch state based on media
-								console.log('connecting them outlets');
-								router.get('gameStartedController').connectOutlet('right', 'gameFinished');
+
+								if (router.get('gameController.gameType') === 'audio'){
+									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
+								} else {
+									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
+								}
+
 
 							},
 							/*
@@ -882,7 +910,8 @@ Trivia.Game = Em.Object.extend({
     guid: null,
     name: null,
     image: null,
-    caption: null
+    caption: null,
+	gameType: null
 	/*
 	find: function(id){
 
@@ -927,90 +956,109 @@ Trivia.games = [
         guid: 2,
         name: 'Kulkurin Valssi I',
         image: 'assets/img/kulkurin_valssi.jpg',
+		gameType: 'audio',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
+
     }),
     Trivia.Game.create({
         guid: 3,
         name: 'Kulkurin Valssi II',
         image: 'assets/img/kulkurin_valssi.jpg',
+		gameType: 'audio',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 4,
         name: 'Lapsuuden Toverille I',
         image: 'assets/img/lapsuuden_toverille.jpg',
+		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 5,
         name: 'Lapsuuden Toverille II',
         image: 'assets/img/lapsuuden_toverille.jpg',
+		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 6,
         name: 'Väliaikainen I',
         image: 'assets/img/valiaikainen.jpg',
+		gameType: 'audio',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 7,
         name: 'Väliaikainen II',
         image: 'assets/img/valiaikainen.jpg',
+		gameType: 'audio',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 8,
         name: 'Tulipunaruusut I',
         image: 'assets/img/tulipunaruusut.jpg',
+		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 9,
         name: 'Tulipunaruusut II',
         image: 'assets/img/tulipunaruusut.jpg',
+		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 10,
         name: 'Suutarin emännän kehtolaulu',
         image: 'assets/img/suutarin_emanta.jpg',
+		gameType: 'audio',
         caption: 'Old sewing machine - Petr Kratochvil (Public Domain)'
     }),
     Trivia.Game.create({
         guid: 11,
         name: 'Voi tuota muistia',
         image: 'assets/img/voi_tuota_muistia.jpg',
+		gameType: 'audio',
         caption: '15062007(005) - Mikko Koponen (CC BY 2.0)'
     }),
     Trivia.Game.create({
         guid: 12,
         name: 'Puhelinlangat laulaa',
         image: 'assets/img/puhelinlangat.jpg',
+		gameType: 'audio',
         caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 13,
         name: 'Sellanen ol Viipuri',
         image: 'assets/img/viipuri.jpg',
+		gameType: 'audio',
         caption: 'Fortress in Vyborg - Paukrus (CC BY-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 14,
         name: 'Kotkan poikii ilman siipii',
         image: 'assets/img/kotkan_poikii.jpg',
+		gameType: 'audio',
         caption: 'Sea Eagle - Asbjorn Floden (CC BY-NC 2.0)'
     }),
     Trivia.Game.create({
         guid: 15,
         name: 'Satumaa',
         image: 'assets/img/satumaa.jpg',
+		gameType: 'audio',
         caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
     }),
     Trivia.Game.create({
         guid: 16,
         name: 'Vastakohtien yhdistäminen'
-    })
+    }),
+	Trivia.Game.create({
+		guid: 17,
+		name: 'Mixed media (experimental)'
+	})
 ];
 Trivia.questions = [
 	Trivia.Question.create({
@@ -2099,7 +2147,80 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'mukava' }),
             Trivia.Answer.create({ answerText: 'synkkä', correct: true })
         ]
-    })
+    }),
+	Trivia.Question.create({
+		questionText: 'Vaaleaorakas on?',
+        gameId: 17,
+		answers: [
+			Trivia.Answer.create({ answerText: 'Kissarotu' }),
+			Trivia.Answer.create({ answerText: 'Kukka' }),
+			Trivia.Answer.create({ answerText: 'Sieni', correct: true }),
+			Trivia.Answer.create({ answerText: 'Tammenterho' })
+		]
+	}),
+	Trivia.Question.create({
+	 gameId: 17,
+	 mediaId: 8,
+	 questionText: 'Miten kappaleen sanat jatkuvat?',
+	 options: {playTo: 127290},
+	 answers: [
+		 Trivia.Answer.create({ answerText: 'viipurlaise rakkaus assuupi vain', correct:true }),
+		 Trivia.Answer.create({ answerText: 'viipurissa iloista elämä on' }),
+		 Trivia.Answer.create({ answerText: 'rakkaudest viipuriin iloiseen' })
+	 ]
+ 	}),
+	Trivia.Question.create({
+		questionText: 'Alaston ase -elokuvien pääroolia näytteli?',
+        gameId: 17,
+		answers: [
+			Trivia.Answer.create({ answerText: 'Leslie Nielsen', correct: true  }),
+			Trivia.Answer.create({ answerText: 'Sean Connery' }),
+			Trivia.Answer.create({ answerText: 'Tom Cruise' }),
+			Trivia.Answer.create({ answerText: 'Tom Hanks' })
+		]
+	}),
+	Trivia.Question.create({
+     gameId: 17,
+     mediaId: 8,
+     questionText: 'Miten kappaleen sanat jatkuvat?',
+     options: {playTo: 78080},
+     answers: [
+         Trivia.Answer.create({ answerText: 'pöydässä niin hilpeässä', correct:true }),
+         Trivia.Answer.create({ answerText: 'kapakassa nauravassa' }),
+         Trivia.Answer.create({ answerText: 'illan tumman saapuessa' })
+     ]
+	 }),
+	Trivia.Question.create({
+		questionText: 'Lapatossu-elokuvassa rakennetaan?',
+        gameId: 17,
+		answers: [
+			Trivia.Answer.create({ answerText: 'Kirkkoa' }),
+			Trivia.Answer.create({ answerText: 'Omakotitaloa' }),
+			Trivia.Answer.create({ answerText: 'Rautatietä', correct: true }),
+			Trivia.Answer.create({ answerText: 'Satamaa' })
+		]
+	}),
+	Trivia.Question.create({
+		questionText: 'Minkä automerkin automalli on Xantia?',
+        gameId: 17,
+		answers: [
+			Trivia.Answer.create({ answerText: 'Audin' }),
+			Trivia.Answer.create({ answerText: 'BMW:n' }),
+			Trivia.Answer.create({ answerText: 'Citroenin', correct: true }),
+			Trivia.Answer.create({ answerText: 'Dodgen' })
+		]
+	}),
+	 Trivia.Question.create({
+		 gameId: 17,
+		 mediaId: 8,
+		 questionText: 'Miten kappaleen sanat jatkuvat?',
+		 options: {playTo: 142990},
+		 answers: [
+			 Trivia.Answer.create({ answerText: 'Linnan muuril me kun illan suussa kohdattiin' }),
+			 Trivia.Answer.create({ answerText: 'Monrepoos myö kuuta ko niin kahen katseltiin', correct:true }),
+			 Trivia.Answer.create({ answerText: 'Torkkelissa kauniin kuusen alla suudeltiin' })
+		 ]
+	 })
 ];
 
 Trivia.medias = [
@@ -2165,7 +2286,7 @@ soundManager.defaultOptions = {
 	}
 }
 soundManager.setupOptions = {
-	preferFlash: false,
+	preferFlash: false
 }
 soundManager.onready(function() {
 	soundManager.createSound({
