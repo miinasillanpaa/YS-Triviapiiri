@@ -134,7 +134,8 @@ var Trivia = Em.Application.create({
 	}),
 	MediaDisplayController: Em.Controller.extend({}),
 	MediaControlsView: Em.View.extend({
-		templateName: 'media-controls'
+		templateName: 'media-controls',
+		classNames: 'media-controls-view'.w()
 	}),
 	MediaControlsController: Em.Controller.extend({}),
 	AnswersView: Em.View.extend({

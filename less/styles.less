@@ -147,12 +147,29 @@ body {
 						.display-box();
 						.box-flex(1);
 						.box-orient(vertical);
-						.media-controls{
-							.well();
+						.controls-outlet {
+							height: 17rem;
+							.display-box();
+							.box-orient(vertical);
+
+							.media-controls{
+								.well();
+								.display-box();
+								.box-flex(1);
+								.box-orient(vertical);
+								.box-pack(justify);
+							}
+							.media-controls-view {
+								.box-orient(vertical);
+								.box-flex(1);
+								.display-box();
+							}
 						}
+
 						.media-outlet {
 							.box-flex(1);
 							.display-box();
+
 							.media-display-view {
 								.box-flex(1);
 								.display-box();

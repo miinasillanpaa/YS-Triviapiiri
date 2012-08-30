@@ -1132,7 +1132,12 @@ body {
   -webkit-box-flex: 1;
   -webkit-box-orient: vertical;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .media-controls {
+.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet {
+  height: 17rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet .media-controls {
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
@@ -1145,10 +1150,19 @@ body {
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: justify;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .media-controls blockquote {
+.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet .media-controls blockquote {
   border-color: #ddd;
   border-color: rgba(0, 0, 0, 0.15);
+}
+.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet .media-controls-view {
+  -webkit-box-orient: vertical;
+  -webkit-box-flex: 1;
+  display: -webkit-box;
 }
 .app .workspace .game-view .game-started-view .left .media-question-view .media-outlet {
   -webkit-box-flex: 1;
