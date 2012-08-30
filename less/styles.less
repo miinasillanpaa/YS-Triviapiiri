@@ -143,9 +143,23 @@ body {
 					.box-flex(1);
 					.display-box();
 					width: 0;
-					.media-question-view{
+					.media-question-view {
+						.display-box();
 						.box-flex(1);
+						.box-orient(vertical);
+						.media-controls{
+							.well();
+						}
+						.media-outlet {
+							.box-flex(1);
+							.display-box();
+							.media-display-view {
+								.box-flex(1);
+								.display-box();
+							}
+						}
 					}
+
 
 				}
 				.right{
@@ -173,9 +187,13 @@ body {
 							.box-flex(1);
 							.display-box();
 
+							//outlet
+							& > .ember-view{
+								.box-flex(1);
+								.display-box();
+							}
 
 							.choices-collection{
-								height: 0;
 								.box-flex(1);
 								.display-box();
 								.box-orient(vertical);
@@ -196,9 +214,6 @@ body {
 						}
 
 					}
-
-
-
 				}
 			}
 
