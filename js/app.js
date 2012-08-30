@@ -461,9 +461,6 @@ var Trivia = Em.Application.create({
 							console.log('asset onload');
 							Trivia.router.send('assetLoadingComplete');
 						},
-						onplay: function(){
-							console.log('playing song', this)
-						},
 						whileloading: function(){
 							//console.log('loading');
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
@@ -483,6 +480,26 @@ var Trivia = Em.Application.create({
 		 * plays the current song interval specified by Trivia.Question.media.
 		 * @param fromEnd used to replay fromEnd amount of seconds from the end of the interval
 		 */
+		fullReplay: function(){
+			if (this.get('media.res')){
+				Trivia.router.send('startedPlaying');
+				this.get('media.res').play({
+					position: 0,
+					whileplaying: function(){
+						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
+						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
+						Trivia.router.set('gameController.mediaPlaying', true);
+					},
+					onfinish: function(){
+						Trivia.router.set('gameController.mediaPlaying', false);
+						Trivia.router.send('finishedPlaying');
+					}
+				})
+
+			} else {
+				throw 'no media found'
+			}
+		},
 		playInterval: function(fromEnd){
 			var startingPosition = 0;
 
@@ -897,7 +914,7 @@ var Trivia = Em.Application.create({
 						}),
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
-								//TODO: switch state based on media
+
 
 								if (router.get('gameController.gameType') === 'audio'){
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
@@ -905,24 +922,36 @@ var Trivia = Em.Application.create({
 									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
 								}
 
+								if (router.get('gameController.gameType') === 'audio'){
+									router.transitionTo('mediaStopped');
+								} else {
+									router.transitionTo('noMedia');
+								}
+
 
 							},
-							/*
+
 							noMedia: Em.Route.extend({
 
 							}),
-							*/
-							mediaStopped: Em.Route.extend({
-								fullReplay: function(router){
 
+							mediaStopped: Em.Route.extend({
+								connectOutlets: function(router){
+									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
+								},
+								fullReplay: function(router){
+									router.get('gameController').fullReplay();
+								},
+								startedPlaying: function(router){
+									router.transitionTo('mediaStarted');
 								}
 							}),
 							mediaStarted: Em.Route.extend({
-								mediaFinished: function(router){
-
+								connectOutlets: function(router){
+									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorPlaying');
 								},
-								back: function(){
-
+								finishedPlaying: function(router){
+									router.transitionTo('mediaStopped');
 								}
 							})
 						})

@@ -57,6 +57,12 @@
   </script>
   <script type="text/x-handlebars" data-template-name="plain-question-label">
 	  {{content.questionText}}
+	  <div class="question-indicator">
+		  {{#if Trivia.router.gameController.questions}}
+		  	<span class="question-number">{{view.questionNumber}}</span><span class="slash">/</span><span></span>
+
+		  {{/if}}
+	  </div>
   </script>
  	 <script type="text/x-handlebars" data-template-name="media-question">
 		{{outlet controls}}
@@ -112,8 +118,9 @@
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
 	  <button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button>
+	  <button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button>
 	  <button class="btn btn-success" {{action back}}>Palaa päävalikkoon</button>
-	  	<!--button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button-->
+
 
   	</script>
   <script type="text/x-handlebars" data-template-name="game-finished-plain">
