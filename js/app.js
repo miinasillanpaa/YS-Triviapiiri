@@ -809,7 +809,8 @@ var Trivia = Em.Application.create({
 									connectOutlets: function(router){
 
 										var question = router.get('gameController.currentQuestion');
-										router.get('answersController').connectOutlet('alert', 'alertPlainQuestion', question);
+
+										router.get('answersController').connectOutlet('alert', 'empty');
 
 										router.get('answersController').connectOutlet('choices', 'choices', question.get('answers'));
 
