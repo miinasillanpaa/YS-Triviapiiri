@@ -582,6 +582,7 @@ var Trivia = Em.Application.create({
 						var gameId = parseInt(router.get('gameController.content.guid'));
 						var questions = Trivia.questions.filterProperty('gameId', gameId);
 						router.get('gameController').set('questionIndex', 0);
+						router.get('gameController').set('correctAnswers', 0);
 						router.set('gameController.questions', questions);
 					},
 					back: function(router){
@@ -692,6 +693,11 @@ var Trivia = Em.Application.create({
 
 											if (answer.get('correct')){
 												console.log('checking answer, correct', answer);
+
+												//add points
+												var points = router.get('gameController.correctAnswers');
+												router.set('gameController.correctAnswers', parseInt(points) + 1);
+
 												soundManager.getSoundById('tada').play();
 												router.transitionTo('answerChecked.answeredRight');
 
@@ -834,6 +840,10 @@ var Trivia = Em.Application.create({
 									checkAnswer: function(router, answer){
 										if (answer.get('correct')){
 											console.log('checking answer, correct', answer);
+
+											var points = router.get('gameController.correctAnswers');
+											router.set('gameController.correctAnswers', parseInt(points) + 1);
+
 											soundManager.getSoundById('tada').play();
 											router.transitionTo('answerChecked.answeredRight');
 
