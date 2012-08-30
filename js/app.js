@@ -56,6 +56,14 @@ var Trivia = Em.Application.create({
 		classNames: 'media-question-view'.w(),
 		templateName: 'media-question'
 	}),
+	PlainQuestionView: Em.View.extend({
+		templateName: 'plain-question'
+	}),
+	PlainQuestionLabelView: Em.View.extend({
+		templateName: 'plain-question-label'
+	}),
+	PlainQuestionLabelController: Em.Controller.extend({}),
+	PlainQuestionController: Em.Controller.extend({}),
 	MediaQuestionController: Em.Controller.extend({}),
 
 	MediaDisplayView: Em.View.extend({
@@ -791,15 +799,80 @@ var Trivia = Em.Application.create({
 							plainQuestion: Em.Route.extend({
 
 								initialState: 'answerNotChecked',
+								connectOutlets: function(router){
+
+
+
+									router.get('gameStartedController').connectOutlet('left', 'plainQuestion');
+									router.get('gameStartedController').connectOutlet('right', 'answers');
+
+									router.get('plainQuestionController').connectOutlet('question', 'plainQuestionLabel', router.get('gameController.currentQuestion'));
+									router.get('plainQuestionController').connectOutlet('media', 'mediaDisplay');
+
+								},
 
 								answerNotChecked: Em.Route.extend({
-									checkAnswer: function(router, answer){
+									connectOutlets: function(router){
 
+										var question = router.get('gameController.currentQuestion');
+										router.get('answersController').connectOutlet('alert', 'alertQuestion', question);
+										router.get('answersController').connectOutlet('choices', 'choices', question.get('answers'));
+
+										//router.get('answersController').connectOutlet('alert', 'empty');
+										router.get('answersController').connectOutlet('action', 'empty');
+										//router.get('answersController').connectOutlet('choices', 'empty');
+									},
+
+									checkAnswer: function(router, answer){
+										if (answer.get('correct')){
+											console.log('checking answer, correct', answer);
+											soundManager.getSoundById('tada').play();
+											router.transitionTo('answerChecked.answeredRight');
+
+										} else {
+											console.log('checking answer, wrong');
+											soundManager.getSoundById('sadtrombone').play();
+											router.transitionTo('answerChecked.answeredWrong');
+										}
 									}
 								}),
 								answerChecked: Em.Route.extend({
+									connectOutlets: function(router){
+
+										router.get('answersController').connectOutlet('action', 'proceedButton');
+										router.get('answersController').connectOutlet('choices', 'empty');
+
+									},
 									nextQuestion: function(router){
 
+									},
+									start: Em.Route.extend({
+
+									}),
+									answeredWrong: Em.Route.extend({
+										connectOutlets: function(router){
+											router.get('answersController').connectOutlet('alert', 'alertWrongAnswer');
+										}
+									}),
+									answeredRight: Em.Route.extend({
+										connectOutlets: function(router){
+											router.get('answersController').connectOutlet('alert', 'alertCorrectAnswer');
+										}
+									}),
+									nextQuestion: function(router){
+										console.log('setting next question');
+										var questionIndex = router.get('gameController.questionIndex');
+
+										var gameController = router.get('gameController');
+
+										if (parseInt(gameController.get('questionIndex')) + 1  <  gameController.get('questions.length')){
+											console.log('next question');
+											gameController.set('questionIndex', gameController.get('questionIndex') + 1);
+											router.send('_nextQuestion');
+										} else {
+											router.transitionTo('finished');
+											console.log('out of questions');
+										}
 									}
 								})
 							})
