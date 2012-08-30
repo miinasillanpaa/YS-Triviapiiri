@@ -511,21 +511,10 @@ var Trivia = Em.Application.create({
 			} else {
 				return false;
 			}
-		}.property('questionIndex', 'questions'),
-
-		contentDidChange: function(){
-			//get questions
-
-			//console.info('game controller content changed', this.get('content'))
-		}.observes('content')
+		}.property('questionIndex', 'questions')
 	}),
 
-	/*
-	Game1Controller: Em.Controller.extend({}),
-	Game1View: Em.View.extend({
-		templateName: 'game1'
-	}),
-	*/
+
 
 	Router: Ember.Router.extend({
 		enableLogging: true,
@@ -542,12 +531,6 @@ var Trivia = Em.Application.create({
 					connectOutlets: function(router){
 						router.get('applicationController').connectOutlet('games');
 					}
-					/*,
-					startGame: function(router, game, a){
-						console.log('startGame', game, a);
-						router.transitionTo('game', game);
-					}
-					*/
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
@@ -603,7 +586,6 @@ var Trivia = Em.Application.create({
 							},
 							startGame: function(router){
 								router.transitionTo('started');
-								//router.send('playInterval');
 							}
 						}),
 						started: Em.Route.extend({
@@ -611,7 +593,6 @@ var Trivia = Em.Application.create({
 
 								console.log('setting next question');
 
-								//router.transitionTo('');
 
 								//TODO: check if we have a question with media or not
 								var media = router.get('gameController.media');
@@ -695,23 +676,11 @@ var Trivia = Em.Application.create({
 											router.get('gameController').playInterval();
 											router.transitionTo('mediaStarted');
 
-											/*
-											//TODO: Placeholder for actual media playback stuff
-											setTimeout(function(){
-												router.send('finishedPlaying');
-											},1500);
-											*/
 										}
 									}),
 									answerChecked: Em.Route.extend({
 
 										connectOutlets: function(router){
-											/*
-											if (router.get('gameController.questionIndex') === 0){
-												router.send('playInterval');
-											}
-											*/
-
 											router.get('answersController').connectOutlet('action', 'proceedButton');
 											router.get('answersController').connectOutlet('choices', 'empty');
 
