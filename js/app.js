@@ -606,6 +606,7 @@ var Trivia = Em.Application.create({
 					route: '/',
 					connectOutlets: function(router){
 						router.get('applicationController').connectOutlet('games');
+						soundManager.stopAll();
 					}
 				}),
 				game: Em.Route.extend({
