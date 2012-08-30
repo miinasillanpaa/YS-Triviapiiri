@@ -1084,7 +1084,11 @@ Trivia.games = [
 	Trivia.Game.create({
 		guid: 17,
 		name: 'Mixed media (experimental)'
-	})
+	}),
+    Trivia.Game.create({
+        guid: 18,
+        name: 'Lehtivisailu'
+    })
 ];
 Trivia.questions = [
 	Trivia.Question.create({
@@ -2246,7 +2250,157 @@ Trivia.questions = [
 			 Trivia.Answer.create({ answerText: 'Monrepoos myö kuuta ko niin kahen katseltiin', correct:true }),
 			 Trivia.Answer.create({ answerText: 'Torkkelissa kauniin kuusen alla suudeltiin' })
 		 ]
-	 })
+	 }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa Aamulehti julkaistaan?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Pori' }),
+            Trivia.Answer.create({ answerText: 'Kouvola' }),
+            Trivia.Answer.create({ answerText: 'Tampere', correct: true }),
+            Trivia.Answer.create({ answerText: 'Jyväskylä' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa Kainuun Sanomat julkaistaan?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Rovaniemi' }),
+            Trivia.Answer.create({ answerText: 'Oulu' }),
+            Trivia.Answer.create({ answerText: 'Kouvola'}),
+            Trivia.Answer.create({ answerText: 'Kajaani', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa julkaistaan Lapin Kansa?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Rovaniemi', correct:true }),
+            Trivia.Answer.create({ answerText: 'Oulu' }),
+            Trivia.Answer.create({ answerText: 'Kuusamo' }),
+            Trivia.Answer.create({ answerText: 'Kajaani' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa julkaistaan Koillismaa?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Rovaniemi' }),
+            Trivia.Answer.create({ answerText: 'Oulu' }),
+            Trivia.Answer.create({ answerText: 'Kuusamo' , correct:true }),
+            Trivia.Answer.create({ answerText: 'Joensuu' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa Hufvudstadsbladet julkaistaan?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Oulu' }),
+            Trivia.Answer.create({ answerText: 'Helsinki', correct: true }),
+            Trivia.Answer.create({ answerText: 'Jyväskylä' }),
+            Trivia.Answer.create({ answerText: 'Porvoo' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa Bårgo Bladet julkaistaan?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Tampere' }),
+            Trivia.Answer.create({ answerText: 'Helsinki' }),
+            Trivia.Answer.create({ answerText: 'Turku'}),
+            Trivia.Answer.create({ answerText: 'Porvoo', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa Kalevala julkaistaan?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Rovaniemi' }),
+            Trivia.Answer.create({ answerText: 'Oulu', correct: true }),
+            Trivia.Answer.create({ answerText: 'Kouvola'}),
+            Trivia.Answer.create({ answerText: 'Jyväskylä' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa Keskisuomalainen julkaistaan?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Pori' }),
+            Trivia.Answer.create({ answerText: 'Kuopio' }),
+            Trivia.Answer.create({ answerText: 'Kouvola', correct: true }),
+            Trivia.Answer.create({ answerText: 'Kajaani' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä kaupungissa julkaistaan Satakunnan Kansa?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Porvoo' }),
+            Trivia.Answer.create({ answerText: 'Turku' }),
+            Trivia.Answer.create({ answerText: 'Joensuu'}),
+            Trivia.Answer.create({ answerText: 'Jyväskylä', correct: true })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä maassa ilmestyy Svenska Dagbladet?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Suomi' }),
+            Trivia.Answer.create({ answerText: 'Ruotsi', correct: true }),
+            Trivia.Answer.create({ answerText: 'Norja'}),
+            Trivia.Answer.create({ answerText: 'Tanska' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä maassa ilmestyy Le Monde?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Englanti' }),
+            Trivia.Answer.create({ answerText: 'Hollanti'}),
+            Trivia.Answer.create({ answerText: 'Ranska', correct: true }),
+            Trivia.Answer.create({ answerText: 'Kanada' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä maassa ilmestyy Dagens Nyheter?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Islanti' }),
+            Trivia.Answer.create({ answerText: 'Ruotsi', correct: true }),
+            Trivia.Answer.create({ answerText: 'Suomi'}),
+            Trivia.Answer.create({ answerText: 'Tanska' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä maassa ilmestyy New York Times?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Yhdysvalloissa', correct: true }),
+            Trivia.Answer.create({ answerText: 'Australia' }),
+            Trivia.Answer.create({ answerText: 'Uusi-Seelanti'}),
+            Trivia.Answer.create({ answerText: 'Englanti' })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä maassa ilmestyy Deutsche Allgemeine Zeitung',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Suomi' }),
+            Trivia.Answer.create({ answerText: 'Hollanti'}),
+            Trivia.Answer.create({ answerText: 'Ranska' }),
+            Trivia.Answer.create({ answerText: 'Saksa', correct: true  })
+        ]
+    }),
+    Trivia.Question.create({
+        questionText: 'Missä maassa ilmestyy Pravda?',
+        gameId: 18,
+        answers: [
+            Trivia.Answer.create({ answerText: 'Venäjä', correct: true }),
+            Trivia.Answer.create({ answerText: 'Tsekki' }),
+            Trivia.Answer.create({ answerText: 'Viro' }),
+            Trivia.Answer.create({ answerText: 'Valkovenäjä' })
+        ]
+    })
 ];
 
 Trivia.medias = [
