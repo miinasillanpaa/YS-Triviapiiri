@@ -1042,6 +1042,38 @@ body {
     -webkit-box-shadow: 0 0 0.25em #333;
   }
 }
+/** components */
+.progressbar-view {
+  position: relative;
+  /*
+	.markers {
+		position: absolute;
+		.marker {
+			position: absolute;
+		}
+	}
+*/
+
+}
+.progressbar-view .progress {
+  height: 1em;
+}
+.progressbar-view .progress .bar {
+  height: 1rem;
+}
+.progressbar-view .markers {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.progressbar-view .marker {
+  width: 1px;
+  height: 1em;
+  background: rgba(0, 0, 0, 0.8);
+  position: absolute;
+}
 .app {
   background-image: url(../assets/img/background.png);
   background-size: cover;
