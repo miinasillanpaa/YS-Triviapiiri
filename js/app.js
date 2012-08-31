@@ -112,7 +112,7 @@ var Trivia = Em.Application.create({
 
 	MediaDisplayView: Em.View.extend({
 		classNames:'media-display-view'.w(),
-		contentBinding: 'Trivia.router.gameController.image',
+		contentBinding: 'Trivia.router.gameController.questionImage',
 		contentDidChange:function () {
 			if (this.get('content')) {
 				console.log('content changed', this.get('content'));
@@ -404,6 +404,16 @@ var Trivia = Em.Application.create({
 
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
+		questionImage: function(){
+			if (this.get('currentQuestion.image')){
+				return this.get('currentQuestion.image');
+			} else if ( this.get('image')){
+				return this.get('image');
+			} else {
+				return false;
+			}
+		}.property('image', 'currentQuestion'),
+
 		captionBinding: 'content.caption', //Copyright info. Not implemented
 		gameTypeBinding: 'content.gameType',
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
@@ -920,9 +930,6 @@ var Trivia = Em.Application.create({
 
 										router.get('answersController').connectOutlet('action', 'proceedButton');
 										router.get('answersController').connectOutlet('choices', 'empty');
-
-									},
-									nextQuestion: function(router){
 
 									},
 									start: Em.Route.extend({
@@ -2535,7 +2542,7 @@ Trivia.questions = [
          Trivia.Answer.create({ answerText: 'minä aina ikävöin vain' }),
          Trivia.Answer.create({ answerText: 'koskaan mä unhoita en' })
      ]
- }),
+ })
 ];
 
 Trivia.medias = [
