@@ -871,7 +871,7 @@ var Trivia = Em.Application.create({
 									router.get('gameStartedController').connectOutlet('left', 'plainQuestion');
 									router.get('gameStartedController').connectOutlet('right', 'answers');
 
-									router.get('plainQuestionController').connectOutlet('question', 'plainQuestionLabel', router.get('gameController.currentQuestion'));
+
 									router.get('plainQuestionController').connectOutlet('media', 'mediaDisplay');
 
 								},
@@ -880,6 +880,8 @@ var Trivia = Em.Application.create({
 									connectOutlets: function(router){
 
 										var question = router.get('gameController.currentQuestion');
+
+										router.get('plainQuestionController').connectOutlet('question', 'plainQuestionLabel', router.get('gameController.currentQuestion'));
 
 										router.get('answersController').connectOutlet('alert', 'empty');
 
