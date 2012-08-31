@@ -142,6 +142,12 @@ var Trivia = Em.Application.create({
 		classNames: 'answers-view'.w(),
 		templateName: 'answers'
 	}),
+	MoodmeterView: Em.View.extend({
+		templateName: 'moodmeter'
+	}),
+	MoodmeterController: Em.Controller.extend({
+		value: null
+	}),
 	AnswersController: Em.Controller.extend({}),
 	MediaIndicatorStoppedView: Em.View.extend({
 		classNames: 'badge'.w(),
@@ -954,11 +960,18 @@ var Trivia = Em.Application.create({
 							connectOutlets: function(router, context){
 
 
+
 								if (router.get('gameController.gameType') === 'audio'){
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
+
+									router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
+
 								} else {
 									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
+									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								}
+
+
 
 								if (router.get('gameController.gameType') === 'audio'){
 									router.transitionTo('mediaStopped');
@@ -995,7 +1008,26 @@ var Trivia = Em.Application.create({
 									router.get('gameController.media.res').stop();
 									router.transitionTo('root.games.index');
 								}
-							})
+							}),
+							_setMood: function(router, mood){
+								console.log('mood set');
+								if (mood){
+									router.get('moodmeterController').set('value', mood);
+								} else {
+									throw 'no mood set';
+								}
+
+
+							},
+							setMood1: function(router){
+								this._setMood(router, 1);
+							},
+							setMood2: function(router){
+								this._setMood(router, 2);
+							},
+							setMood3: function(router){
+								this._setMood(router, 3);
+							}
 						})
 					})
 				})
@@ -1160,7 +1192,12 @@ Trivia.games = [
     Trivia.Game.create({
         guid: 18,
         name: 'Lehtivisailu'
-    })
+    }),
+	Trivia.Game.create({
+     guid: 19,
+     name: 'Tosi lyhyt testipeli',
+	 gameType: 'audio'
+ })
 ];
 Trivia.questions = [
 	Trivia.Question.create({
@@ -2487,7 +2524,18 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Viro' }),
             Trivia.Answer.create({ answerText: 'Valkovenäjä' })
         ]
-    })
+    }),
+	Trivia.Question.create({
+     gameId: 19,
+     mediaId: 1,
+     questionText: 'Miten kappaleen sanat jatkuvat?',
+     options: {playTo: 1000},
+     answers: [
+         Trivia.Answer.create({ answerText: 'rakastan ja kaihoan ain\'', correct: true }),
+         Trivia.Answer.create({ answerText: 'minä aina ikävöin vain' }),
+         Trivia.Answer.create({ answerText: 'koskaan mä unhoita en' })
+     ]
+ }),
 ];
 
 Trivia.medias = [

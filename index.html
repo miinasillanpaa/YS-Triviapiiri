@@ -48,6 +48,8 @@
 		<h2>kohta tehtävä</h2>
 	  <button class="btn btn-success"{{action startGame1P}}>Pelaan yksin</button>
 		<button class="btn"{{action startGame2P}}>Pelaan parin kanssa</button>
+
+	  {{view progressbarview }}
   </script>
 
 
@@ -101,9 +103,11 @@
   <script type="text/x-handlebars" data-template-name="alert-correct">
 	  Oikein!
   </script>
+
   <script type="text/x-handlebars" data-template-name="alert-wrong">
 	  Väärin!
   </script>
+
   <script type="text/x-handlebars" data-template-name="alert-countdown">
 
 	  <h2>{{Trivia.router.gameController.secondsToStop}}</h2>
@@ -120,56 +124,67 @@
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
+	  {{outlet moodmeter}}
+
 	  <!--button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button -->
 	  <button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button>
 	  <button class="btn btn-success" {{action back}}>Palaa päävalikkoon</button>
-
 
   	</script>
   <script type="text/x-handlebars" data-template-name="game-finished-plain">
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
+	  	{{outlet moodmeter}}
+
 	  	<button class="btn" {{action back}}>Palaa päävalikkoon</button>
 	  	<!--button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button-->
 
   	</script>
+  <script type="text/x-handlebars" data-template-name="moodmeter">
+	  {{#if value}}
+	  	  <h3>Kiitos palautteesta!</h3>
+	  {{else}}
+		  <h3>Mikä on fiiliksesi?</h3>
+		  <button class="btn btn-success" {{action setMood1 }}>:)</button>
+		  <button class="btn btn-warning" {{action setMood2 }}>:|</button>
+		  <button class="btn btn-error" {{action setMood3 }}>:(</button>
+	  {{/if}}
 
+  </script>
 	<script type="text/x-handlebars" data-template-name="game-loading">
 		<h1>Ladataan</h1>
 		{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaLoadProgress"  active=true}}
 	</script>
 	<script type="text/x-handlebars" data-template-name="game-in-progress">
-
 		<div class="qa-section">
 			<div class="question-container">
 
+				{{#view view.questionView classNames="question-view"}}
 
-						{{#view view.questionView classNames="question-view"}}
+					{{#view view.controlsView}}
 
-							{{#view view.controlsView}}
+						<div class="game-name"><span>{{ title }}</span></div>
 
-								<div class="game-name"><span>{{ title }}</span></div>
-
-								{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaPosition" markerPositionsBinding="Trivia.router.gameController.markerPositions" activeBinding="Trivia.router.gameController.mediaPlaying"}}
+						{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaPosition" markerPositionsBinding="Trivia.router.gameController.markerPositions" activeBinding="Trivia.router.gameController.mediaPlaying"}}
 
 
-								<div class="playing-indicator">
-									<span {{bindAttr class="view.playClass"}}>
+						<div class="playing-indicator">
+							<span {{bindAttr class="view.playClass"}}>
 
-									{{#if Trivia.router.gameController.mediaPlaying }}
-										Musiikki soi
-									{{else}}
-										Pysäytetty
-									{{/if}}
-									</span>
-								</div>
+							{{#if Trivia.router.gameController.mediaPlaying }}
+								Musiikki soi
+							{{else}}
+								Pysäytetty
+							{{/if}}
+							</span>
+						</div>
 
-							{{/view}}
+					{{/view}}
 
-							{{view view.mediaDisplayView contentBinding="Trivia.gameController.game.image"}}
+					{{view view.mediaDisplayView contentBinding="Trivia.gameController.game.image"}}
 
-						{{/view}}
+				{{/view}}
 
 			</div>
 
