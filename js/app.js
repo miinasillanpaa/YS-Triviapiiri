@@ -622,6 +622,8 @@ var Trivia = Em.Application.create({
 					route: '/',
 					connectOutlets: function(router){
 						router.get('applicationController').connectOutlet('games');
+
+						//make sure zombie songs stop playing
 						soundManager.stopAll();
 					},
 					back: function(){
