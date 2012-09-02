@@ -649,6 +649,13 @@ var Trivia = Em.Application.create({
 						var questions = Trivia.questions.filterProperty('gameId', gameId);
 						router.get('gameController').set('questionIndex', 0);
 						router.get('gameController').set('correctAnswers', 0);
+
+
+						//randomize the questions if we're not on an audio game
+						if (game.get('gameType') != 'audio'){
+							questions = questions.sort(function() {return 0.5 - Math.random()});
+						}
+
 						router.set('gameController.questions', questions);
 					},
 					back: function(router){
