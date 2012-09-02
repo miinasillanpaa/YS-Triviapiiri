@@ -527,13 +527,20 @@ var Trivia = Em.Application.create({
         saveGameEnd: function() {
             console.log('saving game end to backend');
             var rightAnswers = this.get('correctAnswers');
-            var participants = 'alone';
-            if (rightAnswers && participants) {
-                console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants);
+            var participants = 'unknown';
+            console.log('is single player game' + this.get('isSinglePlayerGame'));
+            if (this.get('isSinglePlayerGame') === true) {
+                participants = 'alone';
+            } else if (this.get('isSinglePlayerGame') === false) {
+                participants = 'with friend';
+            }
+            var playedGameId = Trivia.GameController.playedGameId;
+            if (rightAnswers && participants && playedGameId) {
+                console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
                 $.ajax({
                     url:'http://pienipiiri.fi/saveEvent',
                     type: 'POST',
-                    data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants },
+                    data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants, playedGameId: playedGameId },
                     success: function(response) {
 
                     }
