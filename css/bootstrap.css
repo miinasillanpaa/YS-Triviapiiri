@@ -1275,6 +1275,7 @@ body {
   height: 7rem;
 }
 .app .workspace .game-view .game-started-view .right .answers-view .alert-outlet .alert {
+  position: relative;
   margin: 0.5rem;
   margin-left: 0.25rem;
   margin-bottom: 0.25rem;
@@ -1283,6 +1284,14 @@ body {
   -webkit-box-orient: vertical;
   -webkit-box-align: center;
   -webkit-box-pack: center;
+}
+.app .workspace .game-view .game-started-view .right .answers-view .alert-outlet .alert button {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  height: 1.5rem;
+  line-height: 1.1rem;
+  width: 15rem;
 }
 .app .workspace .game-view .game-started-view .right .answers-view .choices-outlet {
   height: 0;
