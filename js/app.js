@@ -117,7 +117,14 @@ var Trivia = Em.Application.create({
 		classNames: 'label-view'.w(),
 		templateName: 'plain-question-label'
 	}),
-	PlainQuestionLabelController: Em.Controller.extend({}),
+	PlainQuestionLabelController: Em.Controller.extend({
+		questionNumber: function(){
+			return (Trivia.get('router.gameController.questionIndex') + 1);
+		}.property('questionIndex'),
+		questionIndexBinding: 'Trivia.router.gameController.questionIndex',
+		questionAmountBinding: 'Trivia.router.gameController.questions.length'
+
+	}),
 	PlainQuestionController: Em.Controller.extend({}),
 	MediaQuestionController: Em.Controller.extend({}),
 

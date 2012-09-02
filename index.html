@@ -63,8 +63,9 @@
 	  {{content.questionText}}
 	  <div class="question-indicator">
 		  {{#if Trivia.router.gameController.questions}}
-		  	<span class="question-number">{{view.questionNumber}}</span><span class="slash">/</span><span></span>
 
+
+		  	<span class="question-label">Kysymys</span></span><span class="question-number">{{questionNumber}}</span><span class="slash">/</span><span class="question-amount">{{questionAmount}}</span>
 		  {{/if}}
 	  </div>
   </script>
