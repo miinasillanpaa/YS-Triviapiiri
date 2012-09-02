@@ -104,7 +104,7 @@ var Trivia = Em.Application.create({
 		successRateBinding: 'Trivia.router.gameController.successRate',
 		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
 	}),
-	GameFinishedPlainController: Em.View.extend({}),
+	GameFinishedPlainController: Em.Controller.extend({}),
 	MediaQuestionView: Em.View.extend({
 		classNames: 'question-view media-question-view'.w(),
 		templateName: 'media-question'
@@ -1156,6 +1156,7 @@ var Trivia = Em.Application.create({
 									router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
 
 								} else {
+									console.log('game finished plain');
 									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
 									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								}

@@ -133,14 +133,18 @@
 		  <button class="btn btn-success" {{action back}}>Palaa päävalikkoon</button>
 	  </div>
   	</script>
+
   <script type="text/x-handlebars" data-template-name="game-finished-plain">
+	  <h2>Peli loppui</h2>
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
-	  	{{outlet moodmeter class="moodmeter-outlet"}}
+	  {{outlet moodmeter class="moodmeter-outlet"}}
 
-	  	<button class="btn" {{action back}}>Palaa päävalikkoon</button>
-	  	<!--button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button-->
+	  <!--button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button -->
+	  <div class="actions">
+		  <button class="btn btn-success" {{action back}}>Palaa päävalikkoon</button>
+	  </div>
 
   	</script>
   <script type="text/x-handlebars" data-template-name="moodmeter">

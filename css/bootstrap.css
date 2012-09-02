@@ -1390,18 +1390,18 @@ body {
 .app .workspace .game-view .game-started-view .right .answers-view .action-outlet > div {
   -webkit-box-flex: 1;
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view {
+.app .workspace .game-view .game-started-view .right .game-finished {
   margin: 0.5rem;
   margin-left: 0.25rem;
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view h2 {
+.app .workspace .game-view .game-started-view .right .game-finished h2 {
   font-size: 2rem;
   line-height: 2rem;
   text-transform: uppercase;
   padding-top: 1rem;
   text-align: center;
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view .success-rate {
+.app .workspace .game-view .game-started-view .right .game-finished .success-rate {
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
@@ -1417,28 +1417,28 @@ body {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view .success-rate blockquote {
+.app .workspace .game-view .game-started-view .right .game-finished .success-rate blockquote {
   border-color: #ddd;
   border-color: rgba(0, 0, 0, 0.15);
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view .feedback-text {
+.app .workspace .game-view .game-started-view .right .game-finished .feedback-text {
   margin-top: 1rem;
   font-size: 1.2rem;
   margin-bottom: 1rem;
   line-height: 1.5rem;
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view .actions {
+.app .workspace .game-view .game-started-view .right .game-finished .actions {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-box-pack: center;
   -webkit-box-align: justify;
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view .actions button {
+.app .workspace .game-view .game-started-view .right .game-finished .actions button {
   -webkit-box-flex: 1;
   height: 3rem;
   line-height: 2.8rem;
 }
-.app .workspace .game-view .game-started-view .right .game-finished-view .actions button + button {
+.app .workspace .game-view .game-started-view .right .game-finished .actions button + button {
   margin-top: 0.5rem;
 }
 .app .workspace .game-view .game-outlet {
