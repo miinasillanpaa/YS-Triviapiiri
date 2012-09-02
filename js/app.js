@@ -526,7 +526,8 @@ var Trivia = Em.Application.create({
                         data: { type: 'startGame', gameId: gameId, userId: userId },
                         success: function(response) {
                             if (response && !isNaN(response)) {
-                                Trivia.GameController.playedGameId = response;
+                                //Trivia.GameController.playedGameId = response;
+                                this.set('playedGameId', response);
                             }
                         }
                     });
@@ -544,7 +545,8 @@ var Trivia = Em.Application.create({
             } else if (this.get('isSinglePlayerGame') === false) {
                 participants = 'with friend';
             }
-            var playedGameId = Trivia.GameController.playedGameId;
+            var playedGameId = Trivia.get('router.gameController.playedGameId');
+            //var playedGameId = Trivia.GameController.playedGameId;
             if (rightAnswers && participants && playedGameId) {
                 console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
                 $.ajax({
@@ -560,8 +562,9 @@ var Trivia = Em.Application.create({
 
         saveGameFeedback: function(mood) {
             console.log('saving game feedback to backend');
-            if (Trivia.GameController.playedGameId && mood) {
-                var playedGameId = Trivia.GameController.playedGameId;
+            var playedGameId = Trivia.get('router.gameController.playedGameId');
+            if (playedGameId && mood) {
+                //var playedGameId = Trivia.GameController.playedGameId;
                 var mood = mood;
                 console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
                 $.ajax({
