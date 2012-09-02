@@ -427,6 +427,9 @@ var Trivia = Em.Application.create({
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
 		mediaAbsolutePosition: 0,
 
+
+		moodRatingBinding: 'Trivia.router.moodmeterController.value',
+
 		gameFinished: false,
 
 		mediaState: 'stopped', //can be either 'stopped' or 'playing'
@@ -982,8 +985,6 @@ var Trivia = Em.Application.create({
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
 
-
-
 								if (router.get('gameController.gameType') === 'audio'){
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
 
@@ -994,14 +995,11 @@ var Trivia = Em.Application.create({
 									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								}
 
-
-
 								if (router.get('gameController.gameType') === 'audio'){
 									router.transitionTo('mediaStopped');
 								} else {
 									router.transitionTo('noMedia');
 								}
-
 
 							},
 
