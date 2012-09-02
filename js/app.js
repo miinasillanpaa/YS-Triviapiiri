@@ -538,11 +538,11 @@ var Trivia = Em.Application.create({
             }
         },
 
-        saveGameFeedback: function() {
+        saveGameFeedback: function(mood) {
             console.log('saving game feedback to backend');
-            if (this.get('playedGameId') && Trivia.MoodmeterController.get('value')) {
-                var playedGameId = this.get('playedGameId');
-                var mood = Trivia.MoodmeterController.get('value');
+            if (Trivia.GameController.playedGameId && mood) {
+                var playedGameId = Trivia.GameController.playedGameId;
+                var mood = mood;
                 console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
                 $.ajax({
                     url: 'http://pienipiiri.fi/saveEvent',
@@ -553,7 +553,7 @@ var Trivia = Em.Application.create({
                     }
                 });
             }
-        }.observes('moodmeterController.value'),
+        },
 
 		mediaDidChange: function(){
 
@@ -1106,6 +1106,7 @@ var Trivia = Em.Application.create({
 								console.log('mood set');
 								if (mood){
 									router.get('moodmeterController').set('value', mood);
+                                    router.get('gameController').saveGameFeedback(mood);
 								} else {
 									throw 'no mood set';
 								}
@@ -1113,13 +1114,13 @@ var Trivia = Em.Application.create({
 
 							},
 							setMood1: function(router){
-								this._setMood(router, 1);
+								this._setMood(router, 'positive');
 							},
 							setMood2: function(router){
-								this._setMood(router, 2);
+								this._setMood(router, 'neutral');
 							},
 							setMood3: function(router){
-								this._setMood(router, 3);
+								this._setMood(router, 'negative');
 							}
 						})
 					})
