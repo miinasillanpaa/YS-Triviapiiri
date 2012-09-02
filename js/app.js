@@ -717,7 +717,12 @@ var Trivia = Em.Application.create({
 						soundManager.stopAll();
 					},
 					back: function(){
-						window.location = "http://pienipiiri.fi/mobile";
+                        var userId = Trivia.get('router.applicationController.userId');
+                        if (userId) {
+                            window.location = "http://pienipiiri.fi/mobile/?userId="+userId;
+                        } else {
+						    window.location = "http://pienipiiri.fi/mobile";
+                        }
 					}
 				}),
 				game: Em.Route.extend({
@@ -2354,7 +2359,7 @@ Trivia.questions = [
         gameId: 15,
         mediaId: 10,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        v: {playTo: 60670},
+        options: {playTo: 60670},
         answers: [
             Trivia.Answer.create({ answerText: 'vanki olen maan', correct:true }),
             Trivia.Answer.create({ answerText: 'sinne kaipaan vaan' }),
