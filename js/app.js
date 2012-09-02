@@ -623,6 +623,9 @@ var Trivia = Em.Application.create({
 					connectOutlets: function(router){
 						router.get('applicationController').connectOutlet('games');
 						soundManager.stopAll();
+					},
+					back: function(){
+						window.location = "http://pienipiiri.fi/";
 					}
 				}),
 				game: Em.Route.extend({
