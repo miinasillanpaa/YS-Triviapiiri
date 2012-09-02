@@ -48,11 +48,13 @@ var Trivia = Em.Application.create({
 		templateName: 'game'
 	}),
 	GameNotStartedView: Em.View.extend({
-		templateName: 'game-not-started'
+		templateName: 'game-not-started',
+		classNames: 'game-not-started-view'.w()
 	}),
 
 	GameNotStartedPlainView: Em.View.extend({
-		templateName: 'game-not-started-plain'
+		templateName: 'game-not-started-plain',
+		classNames: 'game-not-started-plain-view'.w()
 	}),
 	GameNotStartedPlainController: Em.View.extend({}),
 	GameStartedView: Em.View.extend({
@@ -61,7 +63,7 @@ var Trivia = Em.Application.create({
 	}),
 	GameFinishedView: Em.View.extend({
 		templateName: 'game-finished',
-		classNames: 'game-finished'.w(),
+		classNames: 'game-finished game-finished-view'.w(),
 		feedbackText: function(){
 			var successRate = this.get('successRate');
 			if (successRate === 0){
@@ -83,7 +85,7 @@ var Trivia = Em.Application.create({
 
 	GameFinishedPlainView: Em.View.extend({
 		templateName: 'game-finished-plain',
-		classNames: 'game-finished'.w(),
+		classNames: 'game-finished game-finished-plain-view'.w(),
 		feedbackText: function(){
 			var successRate = this.get('successRate');
 			if (successRate === 0){
@@ -151,7 +153,8 @@ var Trivia = Em.Application.create({
 		templateName: 'answers'
 	}),
 	MoodmeterView: Em.View.extend({
-		templateName: 'moodmeter'
+		templateName: 'moodmeter',
+		classNames: 'moodmeter-view'.w()
 	}),
 	MoodmeterController: Em.Controller.extend({
 		value: null
@@ -167,6 +170,7 @@ var Trivia = Em.Application.create({
 	}),
 
 	ChoicesView: Em.View.extend({
+		classNames: 'choices-view'.w(),
 		//contentBinding: 'Trivia.router.gameController.currentQuestion.answers',
 		collectionView: Em.CollectionView.extend({
 			classNames: 'choices-collection'.w(),
@@ -209,7 +213,7 @@ var Trivia = Em.Application.create({
 		classNames: 'alert alert-countdown alert-warning'.w()
 	}),
 	ProceedButtonView: Em.View.extend({
-		classNames: 'btn btn-default'.w(),
+		classNames: 'btn btn-default process-button-view'.w(),
 		template: Handlebars.compile('Seuraava kysymys'),
 		click: function(){
 			Trivia.router.send('nextQuestion');
@@ -703,7 +707,7 @@ var Trivia = Em.Application.create({
 						return Trivia.games.findProperty('guid', parseInt(params.game_id));
 					},
 					connectOutlets: function(router, game, a){
-						console.log('connecting game outlets', game, a);
+						console.warn('connecting game outlets', game, game.get('name'));
 						router.get('applicationController').connectOutlet('game', game);
 
 						//hook up the questions
@@ -712,13 +716,18 @@ var Trivia = Em.Application.create({
 						router.get('gameController').set('questionIndex', 0);
 						router.get('gameController').set('correctAnswers', 0);
 
-
 						//randomize the questions if we're not on an audio game
 						if (game.get('gameType') != 'audio'){
 							questions = questions.sort(function() {return 0.5 - Math.random()});
 						}
 
 						router.set('gameController.questions', questions);
+					},
+					exit: function(router){
+						router.set('gameController.content', null);
+					},
+					disconnectOutlets: function(router){
+						console.warn('disconnecting outlets');
 					},
 					back: function(router){
 						router.transitionTo('root.games.index');
@@ -750,9 +759,14 @@ var Trivia = Em.Application.create({
 
 						notStarted: Em.Route.extend({
 							connectOutlets: function(router){
+
+								console.log('connecting notStarted outets', router.get('gameController.content'));
+
 								if (router.get('gameController.gameType') === 'audio'){
+									console.warn('audio notStarted', router.get('gameController.title'));
 									router.get('gameController').connectOutlet('gameNotStarted');
 								}else {
+									console.warn('plain notStarted');
 									router.get('gameController').connectOutlet('gameNotStartedPlain');
 								}
 
