@@ -885,14 +885,26 @@ var Trivia = Em.Application.create({
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-												var sound = soundManager.getSoundById('tada');
+												//var sound = soundManager.getSoundById('tada');
+
+                                                var sound = soundManager.createSound({
+                                                    url: 'assets/sound/tada.mp3',
+                                                    id: 'tada'
+                                                });
+
                                                 sound.setPosition(0);
                                                 sound.play();
 												router.transitionTo('answerChecked.answeredRight');
 
 											} else {
 												console.log('checking answer, wrong');
-												var sound = soundManager.getSoundById('sadtrombone');
+												//var sound = soundManager.getSoundById('sadtrombone');
+
+                                                var sound = soundManager.createSound({
+                                                    url: 'assets/sound/sadtrombone.mp3',
+                                                    id: 'sadtrombone'
+                                                })
+
                                                 sound.setPosition(0);
                                                 sound.play();
 												router.transitionTo('answerChecked.answeredWrong');
@@ -1036,14 +1048,24 @@ var Trivia = Em.Application.create({
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-											var sound = soundManager.getSoundById('tada');
+											//var sound = soundManager.getSoundById('tada');
+                                            var sound = soundManager.createSound({
+                                                url: 'assets/sound/tada.mp3',
+                                                id: 'tada'
+                                            })
+
                                             sound.setPosition(0);
                                             sound.play();
 											router.transitionTo('answerChecked.answeredRight');
 
 										} else {
 											console.log('checking answer, wrong');
-											var sound = soundManager.getSoundById('sadtrombone');
+											//var sound = soundManager.getSoundById('sadtrombone');
+                                            soundManager.createSound({
+                                                url: 'assets/sound/sadtrombone.mp3',
+                                                id: 'sadtrombone'
+                                            });
+
                                             sound.setPosition(0);
                                             sound.play();
 											router.transitionTo('answerChecked.answeredWrong');
