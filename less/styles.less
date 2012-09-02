@@ -87,7 +87,61 @@ body {
 	}
 */
 }
+.moodmeter-view {
+	height: 6rem;
+	.display-box();
+	.box-align(stretch);
+	.box-orient(vertical);
+	margin-bottom: 1rem;
+	h3 {
+		font-size: 1.1rem;
+		line-height: 1.1rem;
+		text-align: center;
+		text-transform: uppercase;
+		margin-bottom: 0.5rem;
+	}
+	.container {
+		height: 0;
+		.box-flex(1);
+		.display-box();
+		.box-orient(horizontal);
+		.box-pack(justify);
+		button {
+			.box-flex(1);
+			.display-box();
+			.box-orient(horizontal);
+			.box-pack(center);
+			.box-align(center);
+			text-align: center;
+			span {
+				text-align: center;
+				height: 0;
+				.box-flex(1);
+			}
+			background: none;
+			border: none;
+			box-shadow: none;
+			background-size: contain;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+		button.btn-success{
+			background-image: url(../assets/img/face_happy.png);
+		}
+		button.btn-default{
+			background-image: url(../assets/img/face_neutral.png);
+		}
+		button.btn-danger{
+			background-image: url(../assets/img/face_sad.png);
+		}
 
+		button + button {
+			margin-left: 0.5rem;
+
+		}
+	}
+
+}
 .app {
 	background-image: url(../assets/img/background.png);
 	background-size: cover;
@@ -347,6 +401,42 @@ body {
 							.display-box();
 						}
 
+					}
+					.game-finished-view {
+						margin: 0.5rem;
+						margin-left: 0.25rem;
+						h2 {
+							font-size: 2rem;
+							line-height: 2rem;
+							text-transform: uppercase;
+							padding-top: 1rem;
+							text-align: center;
+						}
+						.success-rate {
+							.well();
+							margin-top: 1rem;
+							margin-bottom: 1rem;
+						}
+						.feedback-text {
+							margin-top: 1rem;
+							font-size: 1.2rem;
+							margin-bottom: 1rem;
+							line-height: 1.5rem;
+						}
+						.actions{
+							.display-box();
+							.box-orient(vertical);
+							.box-pack(center);
+							.box-align(justify);
+							button {
+								.box-flex(1);
+								height: 3rem;
+								line-height: 2.8rem;
+							}
+							button + button {
+								margin-top: 0.5rem;
+							}
+						}
 					}
 				}
 			}
