@@ -421,6 +421,9 @@ var Trivia = Em.Application.create({
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
 		mediaAbsolutePosition: 0,
 
+
+		moodRating: null,
+
 		gameFinished: false,
 
 		mediaState: 'stopped', //can be either 'stopped' or 'playing'
