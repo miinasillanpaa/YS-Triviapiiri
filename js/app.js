@@ -141,7 +141,10 @@ var Trivia = Em.Application.create({
 		},
 		click:function () {
 			console.log(this.get('content'))
-		}
+		},
+        touchStart: function() {
+            console.log(this.get('content'))
+        }
 	}),
 	MediaDisplayController: Em.Controller.extend({}),
 	MediaControlsView: Em.View.extend({
@@ -180,7 +183,10 @@ var Trivia = Em.Application.create({
 				classNames: 'btn btn-block'.w(),
 				click: function(){
 					Trivia.router.send('checkAnswer', this.get('content'));
-				}
+				},
+                touchStart: function(){
+                    Trivia.router.send('checkAnswer', this.get('content'));
+                }
 			})
 		}),
 		templateName: 'choices'
@@ -218,7 +224,10 @@ var Trivia = Em.Application.create({
 		template: Handlebars.compile('Seuraava kysymys'),
 		click: function(){
 			Trivia.router.send('nextQuestion');
-		}
+		},
+        touchStart: function() {
+            Trivia.router.send('nextQuestion');
+        }
 	}),
 
 	GameStartedController: Em.Controller.extend({}),
@@ -528,13 +537,20 @@ var Trivia = Em.Application.create({
         saveGameEnd: function() {
             console.log('saving game end to backend');
             var rightAnswers = this.get('correctAnswers');
-            var participants = 'alone';
-            if (rightAnswers && participants) {
-                console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants);
+            var participants = 'unknown';
+            console.log('is single player game' + this.get('isSinglePlayerGame'));
+            if (this.get('isSinglePlayerGame') === true) {
+                participants = 'alone';
+            } else if (this.get('isSinglePlayerGame') === false) {
+                participants = 'with friend';
+            }
+            var playedGameId = Trivia.GameController.playedGameId;
+            if (rightAnswers && participants && playedGameId) {
+                console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
                 $.ajax({
                     url:'http://pienipiiri.fi/saveEvent',
                     type: 'POST',
-                    data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants },
+                    data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants, playedGameId: playedGameId },
                     success: function(response) {
 
                     }
@@ -870,12 +886,16 @@ var Trivia = Em.Application.create({
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-												soundManager.getSoundById('tada').play();
+												var sound = soundManager.getSoundById('tada');
+                                                sound.setPosition(0);
+                                                sound.play();
 												router.transitionTo('answerChecked.answeredRight');
 
 											} else {
 												console.log('checking answer, wrong');
-												soundManager.getSoundById('sadtrombone').play();
+												var sound = soundManager.getSoundById('sadtrombone');
+                                                sound.setPosition(0);
+                                                sound.play();
 												router.transitionTo('answerChecked.answeredWrong');
 											}
 
@@ -1017,12 +1037,16 @@ var Trivia = Em.Application.create({
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-											soundManager.getSoundById('tada').play();
+											var sound = soundManager.getSoundById('tada');
+                                            sound.setPosition(0);
+                                            sound.play();
 											router.transitionTo('answerChecked.answeredRight');
 
 										} else {
 											console.log('checking answer, wrong');
-											soundManager.getSoundById('sadtrombone').play();
+											var sound = soundManager.getSoundById('sadtrombone');
+                                            sound.setPosition(0);
+                                            sound.play();
 											router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
