@@ -873,12 +873,16 @@ var Trivia = Em.Application.create({
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-												soundManager.getSoundById('tada').play();
+												var sound = soundManager.getSoundById('tada');
+                                                sound.setPosition(0);
+                                                sound.play();
 												router.transitionTo('answerChecked.answeredRight');
 
 											} else {
 												console.log('checking answer, wrong');
-												soundManager.getSoundById('sadtrombone').play();
+												var sound = soundManager.getSoundById('sadtrombone');
+                                                sound.setPosition(0);
+                                                sound.play();
 												router.transitionTo('answerChecked.answeredWrong');
 											}
 
