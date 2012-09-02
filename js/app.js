@@ -2,11 +2,12 @@ var Trivia = Em.Application.create({
     ready: function() {
         var userId = getURLParameter('userId');
         if (userId) {
-            Trivia.GameController.userId = userId;
+            Trivia.set('applicationController.userId', parseInt(userId));
         }
     },
 	ApplicationController: Em.Controller.extend({
-        backendHost: 'http://pienipiiri.fi/'
+        backendHost: 'http://pienipiiri.fi/',
+		userId: null
 	}),
 	ApplicationView: Em.View.extend({
 		templateName: 'application'
@@ -413,7 +414,6 @@ var Trivia = Em.Application.create({
 		})
 	}),
 	GameController: Em.Controller.extend({
-        userId: null,
         playedGameId: null,
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
@@ -507,7 +507,8 @@ var Trivia = Em.Application.create({
             console.log('saving game start to backend');
             if (this.get('content')) {
                 var gameId = this.get('content.guid');
-                var userId = Trivia.GameController.userId;
+                var userId = Trivia.get('router.applicationController.userId');
+
                 console.log('saving game start to backend with parameters gameId: ' + gameId + ' userId: ' + userId);
                 if (gameId && userId) {
                     $.ajax({
