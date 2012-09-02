@@ -149,9 +149,9 @@ var Trivia = Em.Application.create({
 		click:function () {
 			console.log(this.get('content'))
 		},
-        touchStart: function() {
-            console.log(this.get('content'))
-        }
+        //touchStart: function() {
+        //    console.log(this.get('content'))
+        //}
 	}),
 	MediaDisplayController: Em.Controller.extend({}),
 	MediaControlsView: Em.View.extend({
@@ -191,9 +191,9 @@ var Trivia = Em.Application.create({
 				click: function(){
 					Trivia.router.send('checkAnswer', this.get('content'));
 				},
-                touchStart: function(){
-                    Trivia.router.send('checkAnswer', this.get('content'));
-                }
+                //touchStart: function(){
+                  //  Trivia.router.send('checkAnswer', this.get('content'));
+                //}
 			})
 		}),
 		templateName: 'choices'
@@ -232,9 +232,9 @@ var Trivia = Em.Application.create({
 		click: function(){
 			Trivia.router.send('nextQuestion');
 		},
-        touchStart: function() {
-            Trivia.router.send('nextQuestion');
-        }
+        //touchStart: function() {
+          //  Trivia.router.send('nextQuestion');
+        //}
 	}),
 
 	GameStartedController: Em.Controller.extend({}),
@@ -533,8 +533,7 @@ var Trivia = Em.Application.create({
                         data: { type: 'startGame', gameId: gameId, userId: userId },
                         success: function(response) {
                             if (response && !isNaN(response)) {
-                                //Trivia.GameController.playedGameId = response;
-                                this.set('playedGameId', response);
+                                Trivia.set('router.gameController.playedGameId', response);
                             }
                         }
                     });
@@ -571,7 +570,6 @@ var Trivia = Em.Application.create({
             console.log('saving game feedback to backend');
             var playedGameId = Trivia.get('router.gameController.playedGameId');
             if (playedGameId && mood) {
-                //var playedGameId = Trivia.GameController.playedGameId;
                 var mood = mood;
                 console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
                 $.ajax({
@@ -2823,7 +2821,13 @@ function getURLParameter(name) {
 $(document).ready(function(){
 	//setTimeout(function(){
 		Trivia.initialize();
-		console.log('soundManager.ok()', soundManager.ok())
+		console.log('soundManager.ok()', soundManager.ok());
+
+        Ember.View.reopen({
+            touchStart: function(evt) {
+                this.fire('click', evt);
+            }
+        });
 	//},500);
 
 });
