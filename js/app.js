@@ -2,7 +2,7 @@ var Trivia = Em.Application.create({
     ready: function() {
         var userId = getURLParameter('userId');
         if (userId) {
-            Trivia.set('applicationController.userId', parseInt(userId));
+            Trivia.set('router.applicationController.userId', parseInt(userId));
         }
     },
 	ApplicationController: Em.Controller.extend({
