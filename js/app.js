@@ -145,9 +145,6 @@ var Trivia = Em.Application.create({
 			console.warn('element added');
 			//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
 			this.contentDidChange();
-		},
-		click:function () {
-			console.log(this.get('content'))
 		}
 	}),
 	MediaDisplayController: Em.Controller.extend({}),
@@ -186,7 +183,13 @@ var Trivia = Em.Application.create({
 			itemViewClass: Ember.View.extend({
 				classNames: 'btn btn-block'.w(),
 				click: function(){
-					Trivia.router.send('checkAnswer', this.get('content'));
+
+					//piggyback the dom element with the answer so we can hilight and hide the right elements when checking for answer
+					var answer = this.get('content');
+					answer.reopen({
+						element: this.get('element')
+					})
+					Trivia.router.send('checkAnswer', answer);
 				}
 			})
 		}),
@@ -877,6 +880,20 @@ var Trivia = Em.Application.create({
 											router.get('answersController').connectOutlet('choices', 'choices', question.get('answers'));
 										},
 										checkAnswer: function(router, answer){
+											$('.choices-collection div.btn').each(function(key, item){
+												if (item === answer.element){
+													console.log('element found', item);
+													if (answer.get('correct')){
+														$(item).addClass('btn-success');
+													} else {
+														$(item).addClass('btn-danger');
+													}
+
+												} else {
+													$(item).addClass('fade');
+												}
+												//if (item.id != answer.get('element.id'))
+											});
 
 											if (answer.get('correct')){
 												console.log('checking answer, correct', answer);
@@ -932,9 +949,10 @@ var Trivia = Em.Application.create({
 									}),
 									answerChecked: Em.Route.extend({
 
-										connectOutlets: function(router){
+										connectOutlets: function(router, foo, bar){
+											console.log('answerChecked', foo, bar, this);
 											router.get('answersController').connectOutlet('action', 'proceedButton');
-											router.get('answersController').connectOutlet('choices', 'empty');
+											//router.get('answersController').connectOutlet('choices', 'empty');
 
 										},
 
@@ -1048,6 +1066,21 @@ var Trivia = Em.Application.create({
 									},
 
 									checkAnswer: function(router, answer){
+										$('.choices-collection div.btn').each(function(key, item){
+											if (item === answer.element){
+												console.log('element found', item);
+												if (answer.get('correct')){
+													$(item).addClass('btn-success');
+												} else {
+													$(item).addClass('btn-danger');
+												}
+
+											} else {
+												$(item).addClass('fade');
+											}
+											//if (item.id != answer.get('element.id'))
+										});
+
 										if (answer.get('correct')){
 											console.log('checking answer, correct', answer);
 
@@ -1070,16 +1103,8 @@ var Trivia = Em.Application.create({
 										} else {
 											console.log('checking answer, wrong');
 											var sound = soundManager.getSoundById('sadtrombone');
-                                            if (sound) {
-                                                sound.destruct();
-                                            }
-                                            var sound = soundManager.createSound({
-                                                url: 'assets/sound/sadtrombone.mp3',
-                                                id: 'sadtrombone'
-                                            });
-
-                                            sound.setPosition(0);
-                                            sound.play();
+                                               sound.setPosition(0);
+                                               sound.play();
 											router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
@@ -1088,7 +1113,7 @@ var Trivia = Em.Application.create({
 									connectOutlets: function(router){
 
 										router.get('answersController').connectOutlet('action', 'proceedButton');
-										router.get('answersController').connectOutlet('choices', 'empty');
+										//router.get('answersController').connectOutlet('choices', 'empty');
 
 									},
 									start: Em.Route.extend({
@@ -2844,17 +2869,12 @@ function getURLParameter(name) {
 
 
 $(document).ready(function(){
-	//setTimeout(function(){
-		Trivia.initialize();
-		console.log('soundManager.ok()', soundManager.ok());
-
-        Ember.View.reopen({
-            touchStart: function(evt) {
-                this.fire('click', evt);
-            }
-        });
-	//},500);
-
+	Ember.View.reopen({
+		 touchStart: function(evt) {
+			 this.fire('click', evt);
+		 }
+	});
+	Trivia.initialize();
 });
 
 $(document).ready(resizeText);
