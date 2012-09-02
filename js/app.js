@@ -627,7 +627,7 @@ var Trivia = Em.Application.create({
 						soundManager.stopAll();
 					},
 					back: function(){
-						window.location = "http://pienipiiri.fi/";
+						window.location = "http://pienipiiri.fi/mobile";
 					}
 				}),
 				game: Em.Route.extend({
