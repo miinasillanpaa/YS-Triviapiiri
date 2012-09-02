@@ -1245,6 +1245,25 @@ body {
   border-color: #ddd;
   border-color: rgba(0, 0, 0, 0.15);
 }
+.app .workspace .game-view .game-started-view .left .question-view .controls-outlet .media-controls h2 {
+  text-align: center;
+}
+.app .workspace .game-view .game-started-view .left .question-view .controls-outlet .media-controls .badge {
+  font-size: 1em;
+  text-shadow: 1px 1px 0px #a6a6a6;
+  height: 1.2rem;
+  line-height: 1.2rem;
+  width: 6rem;
+  text-align: center;
+  margin-top: 0.4rem;
+  float: right;
+  text-shadow: 1px 1px 0px black;
+}
+.app .workspace .game-view .game-started-view .left .question-view .controls-outlet .media-controls .badge-success {
+  -webkit-animation-name: greenPulse;
+  -webkit-animation-duration: 2s;
+  -webkit-animation-iteration-count: infinite;
+}
 .app .workspace .game-view .game-started-view .left .question-view .controls-outlet .media-controls-view {
   -webkit-box-orient: vertical;
   -webkit-box-flex: 1;
@@ -1455,7 +1474,7 @@ body {
 }
 .app .workspace .game-view .game-outlet .game-not-started h2 {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   line-height: 2.5rem;
   height: 2.5rem;
   margin-top: 2rem;
