@@ -711,9 +711,8 @@ var Trivia = Em.Application.create({
 					},
 					connectOutlets: function(router, game){
 						console.warn('connecting game outlets', game, game.get('name'));
+
 						router.get('applicationController').connectOutlet('game', game);
-
-
 
 						//hook up the questions
 						var gameId = parseInt(router.get('gameController.content.guid'));
@@ -765,12 +764,10 @@ var Trivia = Em.Application.create({
 						notStarted: Em.Route.extend({
 							connectOutlets: function(router){
 
-								console.log('connecting notStarted outets', router.get('gameController.content'));
-
-								if (router.get('gameController.gameType') === 'audio'){
+								if (router.get('gameController.content.gameType') === 'audio'){
 									console.warn('audio notStarted', router.get('gameController.title'));
 									router.get('gameController').connectOutlet('gameNotStarted');
-								}else {
+								} else {
 									console.warn('plain notStarted');
 									router.get('gameController').connectOutlet('gameNotStartedPlain');
 								}
