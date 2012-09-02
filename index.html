@@ -35,7 +35,7 @@
     </script>
 
 	<script type="text/x-handlebars" data-template-name="game">
-		{{outlet}}
+		{{outlet class="game-outlet"}}
 	</script>
   	<script type="text/x-handlebars" data-template-name="game-not-started">
  		<h2>{{Trivia.router.gameController.title}}</h2>
@@ -76,7 +76,7 @@
 	<div class="media-controls">
 		<h2>{{Trivia.router.gameController.title}}</h2>
 		{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaPosition" markerPositionsBinding="Trivia.router.gameController.markerPositions" activeBinding="Trivia.router.gameController.mediaPlaying"}}
-		{{outlet mediaIndicator}}
+		{{outlet mediaIndicator class="media-indicator-outlet"}}
 	</div>
   </script>
 
@@ -115,14 +115,14 @@
   </script>
 
 	<script type="text/x-handlebars" data-template-name="game-halves">
-		{{outlet left}} {{outlet right}}
+		{{outlet left class="left-outlet"}} {{outlet right class="right-outlet"}}
 	</script>
 
   <script type="text/x-handlebars" data-template-name="game-finished">
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
-	  {{outlet moodmeter}}
+	  {{outlet moodmeter class="moodmeter-outlet"}}
 
 	  <!--button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button -->
 	  <button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button>
@@ -133,7 +133,7 @@
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
-	  	{{outlet moodmeter}}
+	  	{{outlet moodmeter class="moodmeter-outlet"}}
 
 	  	<button class="btn" {{action back}}>Palaa päävalikkoon</button>
 	  	<!--button class="btn" {{action fullReplay}}>Kuuntele koko kappale alusta</button-->
