@@ -143,8 +143,9 @@ body {
 
 }
 .app {
-	background-image: url(../assets/img/background.png);
-	background-size: cover;
+	background-image: url(../assets/img/gray_bg_noise.jpg);
+	//background: #cccccc;
+	//background-size: cover;
 	.display-box();
 	.box-orient(vertical);
 	.menubar {
@@ -210,6 +211,15 @@ body {
 		}
 
 		//new
+		.right {
+			//background: -webkit-linear-gradient(left, rgba(0,0,0,0.5), rgba(0,0,0,0.3) 2rem);
+			background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.0) 1rem);
+			padding-left: 1rem;
+		}
+		.left {
+			background: rgba(176,176,176,1);
+			border-right: 1px solid gray;
+		}
 		.game-view{
 			.display-box();
 			.box-orient(vertical);
@@ -233,17 +243,30 @@ body {
 					width: 0;
 
 					.question-view {
+						position: relative;
+
 						.display-box();
 						.box-flex(1);
 						.box-orient(vertical);
 						.controls-outlet {
+							position: absolute;
+							left: 0.25rem;
+							right: 0.25rem;
+							top: 0.25rem;
 							height: 7rem;
 							.display-box();
 							.box-orient(vertical);
 
 							.media-controls{
-								//.well();
-								.well();
+								background: rgba(0,0,0,0.7);
+								box-sizing: border-box;
+								padding: 1rem;
+								color: white;
+								text-shadow: 1px 1px 1px black;
+								border: 1px solid whitesmoke;
+								.border-radius(6px);
+								box-shadow: 0.25rem 0.25rem 0.5rem rgba(0,0,0,0.5);
+
 								margin: 0;
 								.display-box();
 								.box-flex(1);
@@ -288,12 +311,12 @@ body {
 								.box-flex(1);
 								.display-box();
 								box-shadow: 0.1em 0.1em 0.1em rgba(0,0,0,0.3);
-								background: #cccccc;
+								//background: #cccccc;
 								background-size: cover;
-								border-radius:(6px);
-								margin: 0.5em;
-								margin-left: 0.25rem;
-								margin-top: 0.25rem;
+								//border-radius:(6px);
+								//margin: 0.5em;
+								//margin-left: 0.25rem;
+								//margin-top: 0.25rem;
 								background-position: center center;
 							}
 						}
@@ -351,6 +374,7 @@ body {
 							height: 7rem;
 
 							.alert{
+								box-shadow: 0.1rem 0.1rem 0.1rem rgba(0,0,0,0.4);
 								position: relative;
 								margin: 0.5rem;
 								margin-left: 0.25rem;
