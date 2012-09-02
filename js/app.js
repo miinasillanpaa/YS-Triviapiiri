@@ -2328,7 +2328,7 @@ Trivia.questions = [
         gameId: 15,
         mediaId: 10,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        v: {playTo: 60670},
+        options: {playTo: 60670},
         answers: [
             Trivia.Answer.create({ answerText: 'vanki olen maan', correct:true }),
             Trivia.Answer.create({ answerText: 'sinne kaipaan vaan' }),
