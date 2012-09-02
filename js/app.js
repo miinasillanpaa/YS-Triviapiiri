@@ -889,7 +889,7 @@ var Trivia = Em.Application.create({
 
                                                 var sound = soundManager.createSound({
                                                     url: 'assets/sound/tada.mp3',
-                                                    id: 'tada'
+                                                    id: 'tada' + Math.random()
                                                 });
 
                                                 sound.setPosition(0);
@@ -902,7 +902,7 @@ var Trivia = Em.Application.create({
 
                                                 var sound = soundManager.createSound({
                                                     url: 'assets/sound/sadtrombone.mp3',
-                                                    id: 'sadtrombone'
+                                                    id: 'sadtrombone' + Math.random()
                                                 })
 
                                                 sound.setPosition(0);
@@ -1051,7 +1051,7 @@ var Trivia = Em.Application.create({
 											//var sound = soundManager.getSoundById('tada');
                                             var sound = soundManager.createSound({
                                                 url: 'assets/sound/tada.mp3',
-                                                id: 'tada'
+                                                id: 'tada' + Math.random()
                                             })
 
                                             sound.setPosition(0);
@@ -1063,7 +1063,7 @@ var Trivia = Em.Application.create({
 											//var sound = soundManager.getSoundById('sadtrombone');
                                             soundManager.createSound({
                                                 url: 'assets/sound/sadtrombone.mp3',
-                                                id: 'sadtrombone'
+                                                id: 'sadtrombone' + Math.random()
                                             });
 
                                             sound.setPosition(0);
