@@ -885,11 +885,14 @@ var Trivia = Em.Application.create({
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-												//var sound = soundManager.getSoundById('tada');
+												var sound = soundManager.getSoundById('tada');
+                                                if (sound) {
+                                                    sound.destruct();
+                                                }
 
                                                 var sound = soundManager.createSound({
                                                     url: 'assets/sound/tada.mp3',
-                                                    id: 'tada' + Math.random()
+                                                    id: 'tada'
                                                 });
 
                                                 sound.setPosition(0);
@@ -898,11 +901,14 @@ var Trivia = Em.Application.create({
 
 											} else {
 												console.log('checking answer, wrong');
-												//var sound = soundManager.getSoundById('sadtrombone');
+												var sound = soundManager.getSoundById('sadtrombone');
+                                                if (sound) {
+                                                    sound.destruct();
+                                                }
 
                                                 var sound = soundManager.createSound({
                                                     url: 'assets/sound/sadtrombone.mp3',
-                                                    id: 'sadtrombone' + Math.random()
+                                                    id: 'sadtrombone'
                                                 })
 
                                                 sound.setPosition(0);
@@ -1048,10 +1054,13 @@ var Trivia = Em.Application.create({
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-											//var sound = soundManager.getSoundById('tada');
+											var sound = soundManager.getSoundById('tada');
+                                            if (sound) {
+                                                sound.destruct();
+                                            }
                                             var sound = soundManager.createSound({
                                                 url: 'assets/sound/tada.mp3',
-                                                id: 'tada' + Math.random()
+                                                id: 'tada'
                                             })
 
                                             sound.setPosition(0);
@@ -1060,10 +1069,13 @@ var Trivia = Em.Application.create({
 
 										} else {
 											console.log('checking answer, wrong');
-											//var sound = soundManager.getSoundById('sadtrombone');
-                                            soundManager.createSound({
+											var sound = soundManager.getSoundById('sadtrombone');
+                                            if (sound) {
+                                                sound.destruct();
+                                            }
+                                            var sound = soundManager.createSound({
                                                 url: 'assets/sound/sadtrombone.mp3',
-                                                id: 'sadtrombone' + Math.random()
+                                                id: 'sadtrombone'
                                             });
 
                                             sound.setPosition(0);
