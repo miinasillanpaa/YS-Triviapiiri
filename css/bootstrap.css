@@ -1159,17 +1159,17 @@ body {
   display: -webkit-box;
   width: 0;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view {
+.app .workspace .game-view .game-started-view .left .question-view {
   display: -webkit-box;
   -webkit-box-flex: 1;
   -webkit-box-orient: vertical;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet {
+.app .workspace .game-view .game-started-view .left .question-view .controls-outlet {
   height: 7rem;
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet .media-controls {
+.app .workspace .game-view .game-started-view .left .question-view .controls-outlet .media-controls {
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
@@ -1188,11 +1188,11 @@ body {
   -webkit-box-orient: vertical;
   -webkit-box-pack: justify;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet .media-controls blockquote {
+.app .workspace .game-view .game-started-view .left .question-view .controls-outlet .media-controls blockquote {
   border-color: #ddd;
   border-color: rgba(0, 0, 0, 0.15);
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .controls-outlet .media-controls-view {
+.app .workspace .game-view .game-started-view .left .question-view .controls-outlet .media-controls-view {
   -webkit-box-orient: vertical;
   -webkit-box-flex: 1;
   display: -webkit-box;
@@ -1200,11 +1200,11 @@ body {
   margin-left: 0.25em;
   margin-bottom: 0.25em;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .media-outlet {
+.app .workspace .game-view .game-started-view .left .question-view .media-outlet {
   -webkit-box-flex: 1;
   display: -webkit-box;
 }
-.app .workspace .game-view .game-started-view .left .media-question-view .media-outlet .media-display-view {
+.app .workspace .game-view .game-started-view .left .question-view .media-outlet .media-display-view {
   -webkit-box-flex: 1;
   display: -webkit-box;
   box-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.3);
@@ -1214,6 +1214,48 @@ body {
   margin: 0.5em;
   margin-left: 0.25rem;
   margin-top: 0.25rem;
+}
+.app .workspace .game-view .game-started-view .left .plain-question-view {
+  position: relative;
+}
+.app .workspace .game-view .game-started-view .left .plain-question-view .controls-outlet {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.app .workspace .game-view .game-started-view .left .plain-question-view .controls-outlet .label-view {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #eee;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.7);
+  border: 0.25rem solid white;
+  box-shadow: 0.25rem 0.25rem 0.25rem rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  margin: 0;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  right: 1rem;
+  color: #f5f5f5;
+  text-shadow: 1px 1px 0px black;
+  font-size: 1.5rem;
+  line-height: 1.5;
+}
+.app .workspace .game-view .game-started-view .left .plain-question-view .controls-outlet .label-view blockquote {
+  border-color: #ddd;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 .app .workspace .game-view .game-started-view .right {
   -webkit-box-flex: 1;

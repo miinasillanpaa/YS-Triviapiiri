@@ -97,13 +97,15 @@ var Trivia = Em.Application.create({
 	}),
 	GameFinishedPlainController: Em.View.extend({}),
 	MediaQuestionView: Em.View.extend({
-		classNames: 'media-question-view'.w(),
+		classNames: 'question-view media-question-view'.w(),
 		templateName: 'media-question'
 	}),
 	PlainQuestionView: Em.View.extend({
+		classNames: 'question-view plain-question-view'.w(),
 		templateName: 'plain-question'
 	}),
 	PlainQuestionLabelView: Em.View.extend({
+		classNames: 'label-view'.w(),
 		templateName: 'plain-question-label'
 	}),
 	PlainQuestionLabelController: Em.Controller.extend({}),
@@ -433,8 +435,6 @@ var Trivia = Em.Application.create({
 
 				return Math.floor((playTo / 1000) - position);
 			}
-
-
 
 			return false;
 
@@ -1198,7 +1198,8 @@ Trivia.games = [
 	}),
     Trivia.Game.create({
         guid: 18,
-        name: 'Lehtivisailu'
+        name: 'Lehtivisailu',
+		image: 'assets/img/lehtivisailu.jpg',
     }),
 	Trivia.Game.create({
      guid: 19,
@@ -2392,7 +2393,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa julkaistaan Lapin Kansa?',
         gameId: 18,
-        image: 'assets/img/lapinkansa.jpg',
+        //image: 'assets/img/lapinkansa.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi', correct:true }),
             Trivia.Answer.create({ answerText: 'Oulu' }),
@@ -2403,7 +2404,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa julkaistaan Koillismaa?',
         gameId: 18,
-        image: 'assets/img/koillismaa.jpg',
+        //image: 'assets/img/koillismaa.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi' }),
             Trivia.Answer.create({ answerText: 'Oulu' }),
@@ -2414,7 +2415,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Hufvudstadsbladet julkaistaan?',
         gameId: 18,
-        image: 'assets/img/hufvudstadbladet.jpg',
+        //image: 'assets/img/hufvudstadbladet.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Oulu' }),
             Trivia.Answer.create({ answerText: 'Helsinki', correct: true }),
@@ -2425,7 +2426,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Bårgo Bladet julkaistaan?',
         gameId: 18,
-        image: 'assets/img/bargo.jpg',
+        //image: 'assets/img/bargo.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Tampere' }),
             Trivia.Answer.create({ answerText: 'Helsinki' }),
