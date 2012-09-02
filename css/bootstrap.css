@@ -1214,6 +1214,7 @@ body {
   margin: 0.5em;
   margin-left: 0.25rem;
   margin-top: 0.25rem;
+  background-position: center center;
 }
 .app .workspace .game-view .game-started-view .left .plain-question-view {
   position: relative;
@@ -1390,6 +1391,7 @@ body {
 }
 .app .workspace .select-game-view .wrapper ul li div.cover {
   background-size: cover;
+  background-position: center center;
   position: relative;
   text-shadow: 1px 1px 1px black;
   -webkit-border-radius: 6px;
@@ -1530,6 +1532,7 @@ body {
   -webkit-box-flex: 5;
   box-shadow: 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.3);
   height: 0;
+  background-position: center center;
   background: #cccccc;
   background-size: cover;
   border-radius: 6px;
