@@ -422,6 +422,9 @@ var Trivia = Em.Application.create({
 
 		captionBinding: 'content.caption', //Copyright info. Not implemented
 		gameTypeBinding: 'content.gameType',
+
+		isSinglePlayerGame: null,
+
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
 		mediaAbsolutePosition: 0,
 
@@ -647,15 +650,20 @@ var Trivia = Em.Application.create({
 						console.log(params);
 						return Trivia.games.findProperty('guid', parseInt(params.game_id));
 					},
-					connectOutlets: function(router, game, a){
+					connectOutlets: function(router, game){
 						console.warn('connecting game outlets', game, game.get('name'));
 						router.get('applicationController').connectOutlet('game', game);
+
+
 
 						//hook up the questions
 						var gameId = parseInt(router.get('gameController.content.guid'));
 						var questions = Trivia.questions.filterProperty('gameId', gameId);
-						router.get('gameController').set('questionIndex', 0);
-						router.get('gameController').set('correctAnswers', 0);
+
+						router.get('gameController.questionIndex', 0);
+						router.set('gameController.correctAnswers', 0);
+						router.set('gameController.moodRating', null);
+						router.set('gameController.isSinglePlayerGame', null);
 
 						//randomize the questions if we're not on an audio game
 						if (game.get('gameType') != 'audio'){
@@ -665,10 +673,7 @@ var Trivia = Em.Application.create({
 						router.set('gameController.questions', questions);
 					},
 					exit: function(router){
-						router.set('gameController.content', null);
-					},
-					disconnectOutlets: function(router){
-						console.warn('disconnecting outlets');
+						console.warn('exiting game');
 					},
 					back: function(router){
 						router.transitionTo('root.games.index');
@@ -716,11 +721,15 @@ var Trivia = Em.Application.create({
 								router.transitionTo('started');
 							},
 							startGame1P: function(router){
+								router.set('gameController.isSinglePlayerGame', true);
+
 								router.send('_startGame');
+
 								console.log('started 1 player game');
 
 							},
 							startGame2P: function(router){
+								router.set('gameController.isSinglePlayerGame', false);
 								router.send('_startGame');
 								console.log('started 2 player game');
 							}
