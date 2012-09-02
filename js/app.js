@@ -145,13 +145,7 @@ var Trivia = Em.Application.create({
 			console.warn('element added');
 			//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
 			this.contentDidChange();
-		},
-		click:function () {
-			console.log(this.get('content'))
-		},
-        touchStart: function() {
-            console.log(this.get('content'))
-        }
+		}
 	}),
 	MediaDisplayController: Em.Controller.extend({}),
 	MediaControlsView: Em.View.extend({
@@ -187,7 +181,6 @@ var Trivia = Em.Application.create({
 			classNames: 'choices-collection'.w(),
 			tagName: 'div',
 			itemViewClass: Ember.View.extend({
-
 				classNames: 'btn btn-block'.w(),
 				click: function(){
 
@@ -235,10 +228,7 @@ var Trivia = Em.Application.create({
 		template: Handlebars.compile('Seuraava kysymys'),
 		click: function(){
 			Trivia.router.send('nextQuestion');
-		},
-        touchStart: function() {
-            Trivia.router.send('nextQuestion');
-        }
+		}
 	}),
 
 	GameStartedController: Em.Controller.extend({}),
@@ -537,7 +527,7 @@ var Trivia = Em.Application.create({
                         data: { type: 'startGame', gameId: gameId, userId: userId },
                         success: function(response) {
                             if (response && !isNaN(response)) {
-                                Trivia.GameController.playedGameId = response;
+                                Trivia.set('router.gameController.playedGameId', response);
                             }
                         }
                     });
@@ -555,7 +545,8 @@ var Trivia = Em.Application.create({
             } else if (this.get('isSinglePlayerGame') === false) {
                 participants = 'with friend';
             }
-            var playedGameId = Trivia.GameController.playedGameId;
+            var playedGameId = Trivia.get('router.gameController.playedGameId');
+            //var playedGameId = Trivia.GameController.playedGameId;
             if (rightAnswers && participants && playedGameId) {
                 console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
                 $.ajax({
@@ -571,8 +562,8 @@ var Trivia = Em.Application.create({
 
         saveGameFeedback: function(mood) {
             console.log('saving game feedback to backend');
-            if (Trivia.GameController.playedGameId && mood) {
-                var playedGameId = Trivia.GameController.playedGameId;
+            var playedGameId = Trivia.get('router.gameController.playedGameId');
+            if (playedGameId && mood) {
                 var mood = mood;
                 console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
                 $.ajax({
@@ -882,7 +873,6 @@ var Trivia = Em.Application.create({
 											router.get('answersController').connectOutlet('alert', 'empty');
 											router.get('answersController').connectOutlet('action', 'empty');
 											router.get('answersController').connectOutlet('choices', 'empty');
-
 										},
 										showChoices: function(router){
 											var question = router.get('gameController.currentQuestion');
@@ -913,6 +903,15 @@ var Trivia = Em.Application.create({
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
 
 												var sound = soundManager.getSoundById('tada');
+                                                if (sound) {
+                                                    sound.destruct();
+                                                }
+
+                                                var sound = soundManager.createSound({
+                                                    url: 'assets/sound/tada.mp3',
+                                                    id: 'tada'
+                                                });
+
                                                 sound.setPosition(0);
                                                 sound.play();
 												router.transitionTo('answerChecked.answeredRight');
@@ -920,6 +919,15 @@ var Trivia = Em.Application.create({
 											} else {
 												console.log('checking answer, wrong');
 												var sound = soundManager.getSoundById('sadtrombone');
+                                                if (sound) {
+                                                    sound.destruct();
+                                                }
+
+                                                var sound = soundManager.createSound({
+                                                    url: 'assets/sound/sadtrombone.mp3',
+                                                    id: 'sadtrombone'
+                                                })
+
                                                 sound.setPosition(0);
                                                 sound.play();
 												router.transitionTo('answerChecked.answeredWrong');
@@ -945,8 +953,6 @@ var Trivia = Em.Application.create({
 											console.log('answerChecked', foo, bar, this);
 											router.get('answersController').connectOutlet('action', 'proceedButton');
 											//router.get('answersController').connectOutlet('choices', 'empty');
-
-
 
 										},
 
@@ -1078,13 +1084,20 @@ var Trivia = Em.Application.create({
 										if (answer.get('correct')){
 											console.log('checking answer, correct', answer);
 
-											//add points
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
 											var sound = soundManager.getSoundById('tada');
-                                               sound.setPosition(0);
-                                               sound.play();
+                                            if (sound) {
+                                                sound.destruct();
+                                            }
+                                            var sound = soundManager.createSound({
+                                                url: 'assets/sound/tada.mp3',
+                                                id: 'tada'
+                                            })
+
+                                            sound.setPosition(0);
+                                            sound.play();
 											router.transitionTo('answerChecked.answeredRight');
 
 										} else {
@@ -2856,11 +2869,12 @@ function getURLParameter(name) {
 
 
 $(document).ready(function(){
-	//setTimeout(function(){
-		Trivia.initialize();
-		console.log('soundManager.ok()', soundManager.ok())
-	//},500);
-
+	Ember.View.reopen({
+		 touchStart: function(evt) {
+			 this.fire('click', evt);
+		 }
+	});
+	Trivia.initialize();
 });
 
 $(document).ready(resizeText);
