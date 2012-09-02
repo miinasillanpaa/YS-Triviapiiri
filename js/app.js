@@ -187,13 +187,17 @@ var Trivia = Em.Application.create({
 			classNames: 'choices-collection'.w(),
 			tagName: 'div',
 			itemViewClass: Ember.View.extend({
+
 				classNames: 'btn btn-block'.w(),
 				click: function(){
-					Trivia.router.send('checkAnswer', this.get('content'));
-				},
-                touchStart: function(){
-                    Trivia.router.send('checkAnswer', this.get('content'));
-                }
+
+					//piggyback the dom element with the answer so we can hilight and hide the right elements when checking for answer
+					var answer = this.get('content');
+					answer.reopen({
+						element: this.get('element')
+					})
+					Trivia.router.send('checkAnswer', answer);
+				}
 			})
 		}),
 		templateName: 'choices'
@@ -878,6 +882,7 @@ var Trivia = Em.Application.create({
 											router.get('answersController').connectOutlet('alert', 'empty');
 											router.get('answersController').connectOutlet('action', 'empty');
 											router.get('answersController').connectOutlet('choices', 'empty');
+
 										},
 										showChoices: function(router){
 											var question = router.get('gameController.currentQuestion');
@@ -885,6 +890,20 @@ var Trivia = Em.Application.create({
 											router.get('answersController').connectOutlet('choices', 'choices', question.get('answers'));
 										},
 										checkAnswer: function(router, answer){
+											$('.choices-collection div.btn').each(function(key, item){
+												if (item === answer.element){
+													console.log('element found', item);
+													if (answer.get('correct')){
+														$(item).addClass('btn-success');
+													} else {
+														$(item).addClass('btn-danger');
+													}
+
+												} else {
+													$(item).addClass('fade');
+												}
+												//if (item.id != answer.get('element.id'))
+											});
 
 											if (answer.get('correct')){
 												console.log('checking answer, correct', answer);
@@ -922,9 +941,12 @@ var Trivia = Em.Application.create({
 									}),
 									answerChecked: Em.Route.extend({
 
-										connectOutlets: function(router){
+										connectOutlets: function(router, foo, bar){
+											console.log('answerChecked', foo, bar, this);
 											router.get('answersController').connectOutlet('action', 'proceedButton');
-											router.get('answersController').connectOutlet('choices', 'empty');
+											//router.get('answersController').connectOutlet('choices', 'empty');
+
+
 
 										},
 
@@ -1038,22 +1060,38 @@ var Trivia = Em.Application.create({
 									},
 
 									checkAnswer: function(router, answer){
+										$('.choices-collection div.btn').each(function(key, item){
+											if (item === answer.element){
+												console.log('element found', item);
+												if (answer.get('correct')){
+													$(item).addClass('btn-success');
+												} else {
+													$(item).addClass('btn-danger');
+												}
+
+											} else {
+												$(item).addClass('fade');
+											}
+											//if (item.id != answer.get('element.id'))
+										});
+
 										if (answer.get('correct')){
 											console.log('checking answer, correct', answer);
 
+											//add points
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
 											var sound = soundManager.getSoundById('tada');
-                                            sound.setPosition(0);
-                                            sound.play();
+                                               sound.setPosition(0);
+                                               sound.play();
 											router.transitionTo('answerChecked.answeredRight');
 
 										} else {
 											console.log('checking answer, wrong');
 											var sound = soundManager.getSoundById('sadtrombone');
-                                            sound.setPosition(0);
-                                            sound.play();
+                                               sound.setPosition(0);
+                                               sound.play();
 											router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
@@ -1062,7 +1100,7 @@ var Trivia = Em.Application.create({
 									connectOutlets: function(router){
 
 										router.get('answersController').connectOutlet('action', 'proceedButton');
-										router.get('answersController').connectOutlet('choices', 'empty');
+										//router.get('answersController').connectOutlet('choices', 'empty');
 
 									},
 									start: Em.Route.extend({

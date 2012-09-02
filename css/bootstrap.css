@@ -1304,7 +1304,11 @@ body {
   display: -webkit-box;
   -webkit-box-orient: vertical;
 }
+.app .workspace .game-view .game-started-view .right .answers-view .choices-outlet .choices-collection div.btn.fade {
+  opacity: 0.2;
+}
 .app .workspace .game-view .game-started-view .right .answers-view .choices-outlet .choices-collection > div.btn {
+  -webkit-transform: -webkit-translate3d(0, 0, 0);
   height: 0;
   line-height: 1;
   -webkit-box-flex: 1;
