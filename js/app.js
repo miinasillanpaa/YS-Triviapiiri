@@ -140,7 +140,10 @@ var Trivia = Em.Application.create({
 		},
 		click:function () {
 			console.log(this.get('content'))
-		}
+		},
+        touchStart: function() {
+            console.log(this.get('content'))
+        }
 	}),
 	MediaDisplayController: Em.Controller.extend({}),
 	MediaControlsView: Em.View.extend({
@@ -179,7 +182,10 @@ var Trivia = Em.Application.create({
 				classNames: 'btn btn-block'.w(),
 				click: function(){
 					Trivia.router.send('checkAnswer', this.get('content'));
-				}
+				},
+                touchStart: function(){
+                    Trivia.router.send('checkAnswer', this.get('content'));
+                }
 			})
 		}),
 		templateName: 'choices'
@@ -217,7 +223,10 @@ var Trivia = Em.Application.create({
 		template: Handlebars.compile('Seuraava kysymys'),
 		click: function(){
 			Trivia.router.send('nextQuestion');
-		}
+		},
+        touchStart: function() {
+            Trivia.router.send('nextQuestion');
+        }
 	}),
 
 	GameStartedController: Em.Controller.extend({}),
