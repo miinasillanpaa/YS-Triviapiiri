@@ -49,12 +49,12 @@ var Trivia = Em.Application.create({
 	}),
 	GameNotStartedView: Em.View.extend({
 		templateName: 'game-not-started',
-		classNames: 'game-not-started-view'.w()
+		classNames: 'game-not-started-view game-not-started'.w()
 	}),
 
 	GameNotStartedPlainView: Em.View.extend({
 		templateName: 'game-not-started-plain',
-		classNames: 'game-not-started-plain-view'.w()
+		classNames: 'game-not-started-plain-view game-not-started'.w()
 	}),
 	GameNotStartedPlainController: Em.View.extend({}),
 	GameStartedView: Em.View.extend({
@@ -432,14 +432,13 @@ var Trivia = Em.Application.create({
 
 		isSinglePlayerGame: null,
 
+		mediaState: 'stopped', //can be either 'stopped' or 'playing'
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
 		mediaAbsolutePosition: 0,
 
 		moodRatingBinding: 'Trivia.router.moodmeterController.value',
 
 		gameFinished: false,
-
-		mediaState: 'stopped', //can be either 'stopped' or 'playing'
 
 		secondsToStop: function(){
 
@@ -477,6 +476,7 @@ var Trivia = Em.Application.create({
 		}.property('questions').cacheable(),
 
 		questionIndex: 0,
+
 		media: null,
 
 		correctAnswers: 0, //amount of correct answers
@@ -570,14 +570,16 @@ var Trivia = Em.Application.create({
 						id: 'trivia-' + mediaId,
 						url: media.get('url'),
 						autoplay: false,
-						onload: function(){
+						onload: function(status){
 							//notify router of finished asset loading
-							console.log('asset onload');
+							console.log('asset onload', status);
 							Trivia.router.send('assetLoadingComplete');
 						},
 						whileloading: function(){
-							//console.log('loading');
+
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
+							console.log('loading media', this.bytesLoaded / this.bytesTotal, this.bytesLoaded, this.bytesTotal)
+
 						}
 
 
@@ -712,19 +714,20 @@ var Trivia = Em.Application.create({
 					connectOutlets: function(router, game){
 						console.warn('connecting game outlets', game, game.get('name'));
 
+
 						router.get('applicationController').connectOutlet('game', game);
 
 						//hook up the questions
 						var gameId = parseInt(router.get('gameController.content.guid'));
 						var questions = Trivia.questions.filterProperty('gameId', gameId);
 
-						router.get('gameController.questionIndex', 0);
+						router.set('gameController.questionIndex', 0);
 						router.set('gameController.correctAnswers', 0);
 						router.set('gameController.moodRating', null);
 						router.set('gameController.isSinglePlayerGame', null);
 
 						//randomize the questions if we're not on an audio game
-						if (game.get('gameType') != 'audio'){
+						if (game.get('gameType') !== 'audio'){
 							questions = questions.sort(function() {return 0.5 - Math.random()});
 						}
 
@@ -748,7 +751,10 @@ var Trivia = Em.Application.create({
 							}
 						},
 						loadingComplete: function(router){
+							console.log('loading complete', router.get('gameController.mediaLoadProgress'));
+							//router.set('gameController.mediaLoadProgress', 1);
 							router.transitionTo('loaded');
+
 						},
 						assetLoadingComplete: function(router){
 							this.loadingComplete(router);
@@ -1061,7 +1067,7 @@ var Trivia = Em.Application.create({
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
 
-								if (router.get('gameController.gameType') === 'audio'){
+								if (router.get('gameController.content.gameType') === 'audio'){
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
 
 									router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
@@ -1071,7 +1077,7 @@ var Trivia = Em.Application.create({
 									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								}
 
-								if (router.get('gameController.gameType') === 'audio'){
+								if (router.get('gameController.content.gameType') === 'audio'){
 									router.transitionTo('mediaStopped');
 								} else {
 									router.transitionTo('noMedia');

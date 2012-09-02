@@ -45,8 +45,9 @@
  	</script>
 
   <script type="text/x-handlebars" data-template-name="game-not-started-plain">
-		<h2>kohta tehtävä</h2>
-	  <button class="btn btn-success"{{action startGame1P}}>Pelaan yksin</button>
+	  <h2>{{Trivia.router.gameController.title}}</h2>
+		<p>Kohta tulee kysymyksiä. Keksitään järkevämmät ohjeet tähän.</p>
+ 		<button class="btn btn-success"{{action startGame1P}}>Pelaan yksin</button>
 		<button class="btn"{{action startGame2P}}>Pelaan parin kanssa</button>
   </script>
 
@@ -152,7 +153,7 @@
   </script>
 	<script type="text/x-handlebars" data-template-name="game-loading">
 		<h1>Ladataan</h1>
-		{{view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaLoadProgress"  active=true}}
+		{{!view Trivia.ProgressbarView valueBinding="Trivia.router.gameController.mediaLoadProgress"  active=true}}
 	</script>
 	<script type="text/x-handlebars" data-template-name="game-in-progress">
 		<div class="qa-section">
@@ -339,7 +340,7 @@
 	  soundManager.useHTML5Audio = true;
 	  soundManager.debugMode = false;
 	  soundManager.consoleOnly = true;
-	  soundManager.html5PollingInterval = 50;
+	  soundManager.html5PollingInterval = 10;
 	  /*
 	  soundManager.audioFormats = {
 		  'mp3': {
