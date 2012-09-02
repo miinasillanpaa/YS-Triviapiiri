@@ -1,6 +1,12 @@
 var Trivia = Em.Application.create({
+    ready: function() {
+        var userId = getURLParameter('userId');
+        if (userId) {
+            Trivia.GameController.userId = userId;
+        }
+    },
 	ApplicationController: Em.Controller.extend({
-
+        backendHost: 'http://pienipiiri.fi/'
 	}),
 	ApplicationView: Em.View.extend({
 		templateName: 'application'
@@ -407,7 +413,8 @@ var Trivia = Em.Application.create({
 		})
 	}),
 	GameController: Em.Controller.extend({
-
+        userId: null,
+        playedGameId: null,
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
 		questionImage: function(){
@@ -427,7 +434,6 @@ var Trivia = Em.Application.create({
 
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
 		mediaAbsolutePosition: 0,
-
 
 		moodRatingBinding: 'Trivia.router.moodmeterController.value',
 
@@ -496,6 +502,61 @@ var Trivia = Em.Application.create({
 				this.set(viewName + 'ViewVisible', true);
 			}
 		},
+
+        saveGameStart: function() {
+            console.log('saving game start to backend');
+            if (this.get('content')) {
+                var gameId = this.get('content.guid');
+                var userId = Trivia.GameController.userId;
+                console.log('saving game start to backend with parameters gameId: ' + gameId + ' userId: ' + userId);
+                if (gameId && userId) {
+                    $.ajax({
+                        url: 'http://pienipiiri.fi/saveEvent',
+                        type: 'POST',
+                        data: { type: 'startGame', gameId: gameId, userId: userId },
+                        success: function(response) {
+                            if (response && !isNaN(response)) {
+                                Trivia.GameController.playedGameId = response;
+                            }
+                        }
+                    });
+                }
+            }
+        },
+
+        saveGameEnd: function() {
+            console.log('saving game end to backend');
+            var rightAnswers = this.get('correctAnswers');
+            var participants = 'alone';
+            if (rightAnswers && participants) {
+                console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants);
+                $.ajax({
+                    url:'http://pienipiiri.fi/saveEvent',
+                    type: 'POST',
+                    data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants },
+                    success: function(response) {
+
+                    }
+                });
+            }
+        },
+
+        saveGameFeedback: function(mood) {
+            console.log('saving game feedback to backend');
+            if (Trivia.GameController.playedGameId && mood) {
+                var playedGameId = Trivia.GameController.playedGameId;
+                var mood = mood;
+                console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
+                $.ajax({
+                    url: 'http://pienipiiri.fi/saveEvent',
+                    type: 'POST',
+                    data: { type: 'gameFeedback', playedGameId: playedGameId, feedback: mood },
+                    success: function(response) {
+
+                    }
+                });
+            }
+        },
 
 		mediaDidChange: function(){
 
@@ -615,8 +676,6 @@ var Trivia = Em.Application.create({
 			}
 		}.property('questionIndex', 'questions')
 	}),
-
-
 
 	Router: Ember.Router.extend({
 		enableLogging: true,
@@ -755,6 +814,7 @@ var Trivia = Em.Application.create({
 
 							},
 							connectOutlets: function(router, context){
+                                router.get('gameController').saveGameStart();
 								router.get('gameController').connectOutlet('gameStarted');
 								router.send('_nextQuestion');
 
@@ -1020,6 +1080,8 @@ var Trivia = Em.Application.create({
 									router.transitionTo('noMedia');
 								}
 
+                                router.get('gameController').saveGameEnd();
+
 							},
 
 							noMedia: Em.Route.extend({
@@ -1053,6 +1115,7 @@ var Trivia = Em.Application.create({
 								console.log('mood set');
 								if (mood){
 									router.get('moodmeterController').set('value', mood);
+                                    router.get('gameController').saveGameFeedback(mood);
 								} else {
 									throw 'no mood set';
 								}
@@ -1060,13 +1123,13 @@ var Trivia = Em.Application.create({
 
 							},
 							setMood1: function(router){
-								this._setMood(router, 1);
+								this._setMood(router, 'positive');
 							},
 							setMood2: function(router){
-								this._setMood(router, 2);
+								this._setMood(router, 'neutral');
 							},
 							setMood3: function(router){
-								this._setMood(router, 3);
+								this._setMood(router, 'negative');
 							}
 						})
 					})
@@ -2710,6 +2773,12 @@ var setLineHeights = function(){
 		var element = $(item);
 		element.css('line-height', element.height() + 'px');
 	})
+}
+
+function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
 }
 
 
