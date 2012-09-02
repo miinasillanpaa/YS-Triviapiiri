@@ -1,4 +1,10 @@
 var Trivia = Em.Application.create({
+    ready: function() {
+        var userId = getURLParameter('userId');
+        if (userId) {
+            Trivia.GameController.userId = userId;
+        }
+    },
 	ApplicationController: Em.Controller.extend({
 
 	}),
@@ -403,7 +409,7 @@ var Trivia = Em.Application.create({
 		})
 	}),
 	GameController: Em.Controller.extend({
-
+        userId: null,
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
 		questionImage: function(){
@@ -605,8 +611,6 @@ var Trivia = Em.Application.create({
 			}
 		}.property('questionIndex', 'questions')
 	}),
-
-
 
 	Router: Ember.Router.extend({
 		enableLogging: true,
@@ -2689,6 +2693,12 @@ var setLineHeights = function(){
 		var element = $(item);
 		element.css('line-height', element.height() + 'px');
 	})
+}
+
+function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
 }
 
 
