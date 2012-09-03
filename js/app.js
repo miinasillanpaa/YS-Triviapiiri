@@ -224,8 +224,8 @@ var Trivia = Em.Application.create({
 		classNames: 'alert alert-countdown alert-warning'.w()
 	}),
 	ProceedButtonView: Em.View.extend({
-		classNames: 'btn btn-default process-button-view'.w(),
-		template: Handlebars.compile('Seuraava kysymys'),
+		classNames: 'btn btn-primary process-button-view'.w(),
+		template: Handlebars.compile('Soita seuraava katkelma <i class=" icon-circle-arrow-right"></i>'),
 		click: function(){
 			Trivia.router.send('nextQuestion');
 		}
