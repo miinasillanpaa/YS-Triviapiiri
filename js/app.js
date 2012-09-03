@@ -2883,5 +2883,18 @@ $(document).ready(function(){
 	Trivia.initialize();
 });
 
+$(window).unload(function() {
+    var sounds = ['tada', 'sadtrombone', 'winner'];
+    for (var i = 0; i < sounds.length; i++) {
+        soundManager.destroySound(sounds[i]);
+    }
+    if (Trivia.medias.length) {
+        for (var i = 0; i < Trivia.medias.length; i++) {
+            var media = Trivia.medias[i];
+            soundManager.destroySound('trivia-'+media.get('guid'));
+        }
+    }
+});
+
 $(document).ready(resizeText);
 $(window).resize(resizeText);
