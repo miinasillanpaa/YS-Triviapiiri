@@ -2702,7 +2702,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä maassa ilmestyy Deutsche Allgemeine Zeitung',
         gameId: 18,
-        image: 'assets/img/deutscheallgemeinezeitung.jpg',
+        image: 'assets/img/Deutscheallgemeinezeitung.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Suomi' }),
             Trivia.Answer.create({ answerText: 'Hollanti'}),
