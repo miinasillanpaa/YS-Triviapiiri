@@ -2559,7 +2559,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Aamulehti julkaistaan?',
         gameId: 18,
-        image: 'assets/img/aamulehti.jpg',
+        image: 'assets/img/aamulehti.png',
         answers: [
             Trivia.Answer.create({ answerText: 'Pori' }),
             Trivia.Answer.create({ answerText: 'Kouvola' }),
@@ -2581,7 +2581,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa julkaistaan Lapin Kansa?',
         gameId: 18,
-        //image: 'assets/img/lapinkansa.jpg',
+        image: 'assets/img/lapinkansa.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi', correct:true }),
             Trivia.Answer.create({ answerText: 'Oulu' }),
@@ -2592,7 +2592,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa julkaistaan Koillismaa?',
         gameId: 18,
-        //image: 'assets/img/koillismaa.jpg',
+        image: 'assets/img/koillismaa.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi' }),
             Trivia.Answer.create({ answerText: 'Oulu' }),
@@ -2603,7 +2603,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Hufvudstadsbladet julkaistaan?',
         gameId: 18,
-        //image: 'assets/img/hufvudstadbladet.jpg',
+        image: 'assets/img/hufvudstadsbladet.gif',
         answers: [
             Trivia.Answer.create({ answerText: 'Oulu' }),
             Trivia.Answer.create({ answerText: 'Helsinki', correct: true }),
@@ -2614,7 +2614,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Bårgo Bladet julkaistaan?',
         gameId: 18,
-        //image: 'assets/img/bargo.jpg',
+        image: 'assets/img/bargo.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Tampere' }),
             Trivia.Answer.create({ answerText: 'Helsinki' }),
@@ -2625,7 +2625,7 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Kaleva julkaistaan?',
         gameId: 18,
-        image: 'assets/img/kaleva.jpg',
+        image: 'assets/img/kalevala.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi' }),
             Trivia.Answer.create({ answerText: 'Oulu', correct: true }),
