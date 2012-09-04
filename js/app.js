@@ -2892,11 +2892,6 @@ function getURLParameter(name) {
 
 
 $(document).ready(function(){
-	Ember.View.reopen({
-		 touchStart: function(evt) {
-			 this.fire('click', evt);
-		 }
-	});
 	Trivia.initialize();
 });
 
