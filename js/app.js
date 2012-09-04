@@ -80,7 +80,13 @@ var Trivia = Em.Application.create({
 			}
 		}.property('successRate'),
 		successRateBinding: 'Trivia.router.gameController.successRate',
-		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
+		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers',
+		proceedView: Em.View.extend({
+			tagName: 'button',
+			classNames: 'btn btn-primary'.w(),
+			template: Handlebars.compile('Joo'),
+
+		})
 	}),
 	GameFinishedController: Em.Controller.extend({}),
 
@@ -1273,10 +1279,12 @@ Trivia.Answer = Em.Object.extend({
 });
 
 Trivia.games = [
+		/*
     Trivia.Game.create({
         guid: 1,
         name: 'Visailu 1 (testi)'
     }),
+    */
     Trivia.Game.create({
         guid: 2,
         name: 'Kulkurin Valssi I',
@@ -1292,6 +1300,7 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
     }),
+
     Trivia.Game.create({
         guid: 4,
         name: 'Lapsuuden Toverille I',
@@ -1299,6 +1308,7 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
+	/*
     Trivia.Game.create({
         guid: 5,
         name: 'Lapsuuden Toverille II',
@@ -1306,6 +1316,7 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
+    */
     Trivia.Game.create({
         guid: 6,
         name: 'Väliaikainen I',
@@ -1327,6 +1338,7 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
+	/*
     Trivia.Game.create({
         guid: 9,
         name: 'Tulipunaruusut II',
@@ -1334,6 +1346,7 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
+    */
     Trivia.Game.create({
         guid: 10,
         name: 'Suutarin emännän kehtolaulu',
@@ -1380,19 +1393,23 @@ Trivia.games = [
         guid: 16,
         name: 'Vastakohtien yhdistäminen'
     }),
+		/*
 	Trivia.Game.create({
 		guid: 17,
 		name: 'Mixed media (experimental)'
 	}),
+		*/
     Trivia.Game.create({
         guid: 18,
         name: 'Lehtivisailu',
-		image: 'assets/img/lehtivisailu.jpg',
-    }),
+		image: 'assets/img/lehtivisailu.jpg'
+    })
+	,
 	Trivia.Game.create({
      guid: 19,
      name: 'Tosi lyhyt testipeli',
 	 gameType: 'audio'
+
  })
 ];
 Trivia.questions = [
