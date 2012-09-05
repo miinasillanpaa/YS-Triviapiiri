@@ -2699,8 +2699,8 @@ function getURLParameter(name) {
     );
 }
 
-
 $(document).ready(function(){
+	new FastClick(document.body);
 	Trivia.initialize();
 });
 
