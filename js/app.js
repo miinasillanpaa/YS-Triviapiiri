@@ -514,7 +514,7 @@ var Trivia = Em.Application.create({
 	}),
 
 	Router: Ember.Router.extend({
-		enableLogging: true,
+		//enableLogging: true,
 		location: 'hash',
 		root: Ember.Route.extend({
 			index: Ember.Route.extend({
@@ -547,7 +547,6 @@ var Trivia = Em.Application.create({
 						return {game_id: game.guid};
 					},
 					deserialize: function(router, params){
-						console.log(params);
 						return Trivia.games.findProperty('guid', parseInt(params.game_id));
 					},
 					connectOutlets: function(router, game){
@@ -2719,3 +2718,14 @@ $(window).unload(function() {
 
 $(document).ready(resizeText);
 $(window).resize(resizeText);
+
+
+$('body').on('mousedown', '*[data-ember-action]', function(a,b,c){
+	console.log('setting active class');
+	var self = this;
+	$(this).addClass('active');
+
+	setTimeout(function(){
+		$(self).removeClass('active');
+	}, 300);
+});
