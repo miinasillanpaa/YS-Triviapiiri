@@ -120,7 +120,7 @@ var Trivia = Em.Application.create({
 		templateName: 'plain-question'
 	}),
 	PlainQuestionLabelView: Em.View.extend({
-		classNames: 'label-view'.w(),
+		classNames: 'plain-question-label-view'.w(),
 		templateName: 'plain-question-label'
 	}),
 	PlainQuestionLabelController: Em.Controller.extend({
