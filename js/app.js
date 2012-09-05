@@ -2720,7 +2720,7 @@ $(document).ready(resizeText);
 $(window).resize(resizeText);
 
 
-$('body').on('mousedown', '*[data-ember-action]', function(a,b,c){
+$('body').on('touchstart', '*[data-ember-action]', function(a,b,c){
 	console.log('setting active class');
 	var self = this;
 	$(this).addClass('active');
