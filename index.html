@@ -115,7 +115,7 @@
 
   <script type="text/x-handlebars" data-template-name="alert-countdown">
 
-	  <h2>{{Trivia.router.gameController.secondsToStop}}</h2>
+	  <h2>{{Trivia.router.gameController.secondsToStop}} <span>sekuntia taukoon</span></h2>
 	  <span>
 		{{view.content}}
       </span>
@@ -326,7 +326,7 @@
 	<section class="app">
 		<section class="menubar">
 			<button class="btn back" {{action back}}">
-				<span>Takaisin</span>
+			<i class="icon-circle-arrow-left"></i> <span>Takaisin</span>
 			</button>
 			<section class="spacer"><span>Sanat sekaisin</span></section>
 			<section class="score"></span>

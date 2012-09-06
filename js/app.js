@@ -236,6 +236,13 @@ var Trivia = Em.Application.create({
 			Trivia.router.send('nextQuestion');
 		}
 	}),
+	ProceedButtonPlainView: Em.View.extend({
+		classNames: 'btn btn-primary process-button-view'.w(),
+		template: Handlebars.compile('Seuraava kysymys <i class=" icon-circle-arrow-right"></i>'),
+		click: function(){
+			Trivia.router.send('nextQuestion');
+		}
+	}),
 
 	GameStartedController: Em.Controller.extend({}),
 	GameController: Em.Controller.extend({
@@ -931,7 +938,7 @@ var Trivia = Em.Application.create({
 								answerChecked: Em.Route.extend({
 									connectOutlets: function(router){
 
-										router.get('answersController').connectOutlet('action', 'proceedButton');
+										router.get('answersController').connectOutlet('action', 'proceedButtonPlain');
 										//router.get('answersController').connectOutlet('choices', 'empty');
 
 									},
