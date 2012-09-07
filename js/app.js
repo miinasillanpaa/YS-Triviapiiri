@@ -490,22 +490,28 @@ var Trivia = Em.Application.create({
 			if (this.get('media.res')){
 
 				this.get('media.res').play({
-					position: startingPosition,
+					from: startingPosition,
+					to: playTo,
 					whileplaying: function(){
+						console.log('playTo', playTo, this.position);
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
 						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
 						Trivia.router.set('gameController.mediaPlaying', true);
 					},
 					onstop: function(){
 						Trivia.router.set('gameController.mediaPlaying', false);
-					}
-				}).onPosition(playTo - 50, function(){
+						Trivia.router.send('finishedPlaying', playTo);
 
+						console.log('stopped');
+					}
+				});
+				/*.onPosition(playTo - 50, function(){
 					this.stop();
 					this.clearOnPosition(playTo - 50);
 					console.log('finished playing', playTo, this.position, this.position - playTo);
 					Trivia.router.send('finishedPlaying', playTo);
 				});
+				*/
 
 			} else {
 				throw 'no media found'
