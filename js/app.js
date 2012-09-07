@@ -417,14 +417,14 @@ var Trivia = Em.Application.create({
 							Trivia.router.send('assetLoadingComplete');
 						},
 						whileloading: function(){
-
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
 							console.log('loading media', this.bytesLoaded / this.bytesTotal, this.bytesLoaded, this.bytesTotal)
 
 						}
-
-
 					})
+					/*,
+					bRes:
+					 */
 				})
 			}
 
@@ -499,10 +499,11 @@ var Trivia = Em.Application.create({
 					onstop: function(){
 						Trivia.router.set('gameController.mediaPlaying', false);
 					}
-				}).onPosition(playTo, function(){
-					this.stop();
-					this.clearOnPosition(playTo);
+				}).onPosition(playTo - 50, function(){
 
+					this.stop();
+					this.clearOnPosition(playTo - 50);
+					console.log('finished playing', playTo, this.position, this.position - playTo);
 					Trivia.router.send('finishedPlaying', playTo);
 				});
 
@@ -546,6 +547,7 @@ var Trivia = Em.Application.create({
 						    window.location = "http://pienipiiri.fi/mobile";
                         }
 					}
+
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
