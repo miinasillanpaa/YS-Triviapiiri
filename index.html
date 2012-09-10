@@ -288,7 +288,7 @@
 		<div class="wrapper">
         {{#collection view.selectGameCollectionView }}
 			<div class="cover" {{bindAttr style="view.bgStyle"}}>
-			<a href="#/games/{{unbound view.content.guid}}">
+			<a href="#/games/{{unbound Trivia.router.gamesController.gameType}}/{{unbound view.content.guid}}">
             	<span>{{view.content.name}}</span>
 				</a>
 			</div>

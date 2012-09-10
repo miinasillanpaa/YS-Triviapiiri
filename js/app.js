@@ -536,7 +536,31 @@ var Trivia = Em.Application.create({
 				redirectsTo: 'games.index'
 			}),
 			games: Ember.Route.extend({
-				route: '/games',
+				route: '/games/:gameType',
+				serialize: function(router, context){
+					return {
+						gameType: router.get('gamesController.gameType')
+				  	}
+				},
+				deserialize: function(router, params){
+					console.log('deserializing', params);
+
+					var gameType= params.gameType;
+
+					if (gameType === 'music'){
+						router.set('gamesController.gameType', 'music');
+					} else {
+						router.set('gamesController.gameType', 'plain');
+					}
+				},
+				connectOutlets: function(router){
+					if (router.get('gamesController.gameType') === 'music'){
+						Trivia.set('games', Trivia.gameObjects.music);
+					} else {
+						Trivia.set('games', Trivia.gameObjects.plain);
+					}
+				},
+
 				index: Em.Route.extend({
 					route: '/',
 					connectOutlets: function(router){
@@ -622,7 +646,6 @@ var Trivia = Em.Application.create({
 
 						notStarted: Em.Route.extend({
 							connectOutlets: function(router){
-
 								if (router.get('gameController.content.gameType') === 'audio'){
 									console.warn('audio notStarted', router.get('gameController.title'));
 									router.get('gameController').connectOutlet('gameNotStarted');
@@ -630,7 +653,6 @@ var Trivia = Em.Application.create({
 									console.warn('plain notStarted');
 									router.get('gameController').connectOutlet('gameNotStartedPlain');
 								}
-
 							},
 							_startGame: function(router){
 								router.transitionTo('started');
@@ -1100,14 +1122,9 @@ Trivia.Answer = Em.Object.extend({
 	answered: false,
 	correct: false
 });
+Trivia.gameObjects = {};
 
-Trivia.games = [
-		/*
-    Trivia.Game.create({
-        guid: 1,
-        name: 'Visailu 1 (testi)'
-    }),
-    */
+Trivia.gameObjects.music = [
     Trivia.Game.create({
         guid: 2,
         name: 'Kulkurin Valssi I',
@@ -1131,7 +1148,6 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
-	/*
     Trivia.Game.create({
         guid: 5,
         name: 'Lapsuuden Toverille II',
@@ -1139,7 +1155,6 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
     }),
-    */
     Trivia.Game.create({
         guid: 6,
         name: 'Väliaikainen I',
@@ -1161,7 +1176,6 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
-	/*
     Trivia.Game.create({
         guid: 9,
         name: 'Tulipunaruusut II',
@@ -1169,7 +1183,6 @@ Trivia.games = [
 		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
     }),
-    */
     Trivia.Game.create({
         guid: 10,
         name: 'Suutarin emännän kehtolaulu',
@@ -1211,30 +1224,30 @@ Trivia.games = [
         image: 'assets/img/satumaa.jpg',
 		gameType: 'audio',
         caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
-    }),
-    Trivia.Game.create({
-        guid: 16,
-        name: 'Vastakohtien yhdistäminen'
-    }),
-		/*
-	Trivia.Game.create({
-		guid: 17,
-		name: 'Mixed media (experimental)'
-	}),
-		*/
-    Trivia.Game.create({
-        guid: 18,
-        name: 'Lehtivisailu',
-		image: 'assets/img/lehtivisailu.jpg'
     })
-	,
-	Trivia.Game.create({
-     guid: 19,
-     name: 'Tosi lyhyt testipeli',
-	 gameType: 'audio'
-
- })
 ];
+
+Trivia.gameObjects.plain = [
+	Trivia.Game.create({
+		guid:16,
+		name:'Vastakohtien yhdistäminen'
+	}),
+	Trivia.Game.create({
+		guid:17,
+		name:'Mixed media (experimental)'
+	}),
+	Trivia.Game.create({
+		guid:18,
+		name:'Lehtivisailu',
+		image:'assets/img/lehtivisailu.jpg'
+	}),
+	Trivia.Game.create({
+		guid:19,
+		name:'Tosi lyhyt testipeli',
+		gameType:'audio'
+	})
+];
+
 Trivia.questions = [
 	Trivia.Question.create({
 		questionText: 'Vaaleaorakas on?',
