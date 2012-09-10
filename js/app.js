@@ -491,7 +491,7 @@ var Trivia = Em.Application.create({
 
 				this.get('media.res').play({
 					from: startingPosition,
-					to: playTo,
+					to: playTo - 400,
 					whileplaying: function(){
 						console.log('playTo', playTo, this.position);
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
