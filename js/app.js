@@ -826,6 +826,7 @@ var Trivia = Em.Application.create({
 											}
 										}),
 										nextQuestion: function(router){
+                                            soundManager.stopAll();
 											console.log('setting next question');
 											var questionIndex = router.get('gameController.questionIndex');
 
@@ -1355,7 +1356,7 @@ Trivia.questions = [
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         //options: {playTo: 15750},
-		options: {playTo: 1750},
+		options: {playTo: 15750},
         answers: [
             Trivia.Answer.create({ answerText: 'on morsiamell\' kruunattu pää', correct: true }),
             Trivia.Answer.create({ answerText: 'on morsian ja sulhanen tääl'}),
@@ -1366,7 +1367,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 3000},
+        options: {playTo: 25800},
         answers: [
             Trivia.Answer.create({ answerText: 'miten hauskaa voi olla tää vaan' }),
             Trivia.Answer.create({ answerText: 'sydän kylmä voi olla kuin jää', correct: true }),
@@ -1377,7 +1378,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 5000},
+        options: {playTo: 56000},
         answers: [
             Trivia.Answer.create({ answerText: 'ja loistettaan välkehtii' }),
             Trivia.Answer.create({ answerText: 'lasit kristallin välkehtii' }),
@@ -1388,7 +1389,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 6000},
+        options: {playTo: 72900},
         answers: [
             Trivia.Answer.create({ answerText: 'raitilla valssiks' }),
             Trivia.Answer.create({ answerText: 'raitilla tanssiks', correct: true }),
@@ -1399,7 +1400,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 7000},
+        options: {playTo: 92900},
         answers: [
             Trivia.Answer.create({ answerText: 'rakastan ja kaihoan ain\'', correct: true }),
             Trivia.Answer.create({ answerText: 'minä aina ikävöin vain' }),
@@ -1410,7 +1411,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 8000},
+        options: {playTo: 106700},
         answers: [
             Trivia.Answer.create({ answerText: 'unelmat repussaan' }),
             Trivia.Answer.create({ answerText: 'kantaen kohtaloaan', correct: true }),
@@ -1421,7 +1422,7 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 9000},
+        options: {playTo: 144600},
         answers: [
             Trivia.Answer.create({ answerText: 'kiristää vyö', correct: true }),
             Trivia.Answer.create({ answerText: 'ahdistaa työ'}),
