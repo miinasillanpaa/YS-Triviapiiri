@@ -761,7 +761,7 @@ var Trivia = Em.Application.create({
 												//var sound = soundManager.getSoundById('tada');
 
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
-                                                var sound = soundEffect.get('sound');
+                                                var sound = soundEffect.getSound();
                                                 sound.play({position:0});
 
                                                 /*
@@ -791,10 +791,9 @@ var Trivia = Em.Application.create({
                                                 })*/
 
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
-                                                var sound = soundEffect.get('sound');
+                                                var sound = soundEffect.getSound();
                                                 sound.play({position:0});
 
-                                                //sound.play({position: 0});
 												router.transitionTo('answerChecked.answeredWrong');
 											}
 
@@ -956,7 +955,7 @@ var Trivia = Em.Application.create({
 											//var sound = soundManager.getSoundById('tada');
 
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
-                                            var sound = soundEffect.get('sound');
+                                            var sound = soundEffect.createSound();
                                             sound.play({position:0});
 
                                             /*
@@ -979,7 +978,7 @@ var Trivia = Em.Application.create({
                                                 sound.play({position: 0});
                                             }*/
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
-                                            var sound = soundEffect.get('sound');
+                                            var sound = soundEffect.createSound();
                                             sound.play({position:0});
 											router.transitionTo('answerChecked.answeredWrong');
 										}
@@ -2676,27 +2675,35 @@ soundManager.setupOptions = {
 }
 soundManager.onready(function() {
     Trivia.soundEffects = [
-    Trivia.SoundEffect.create({
-        name: 'correct',
-        sound: soundManager.createSound({
-                url: 'assets/sound/tada.mp3',
-                id: 'tada'
-               })
-    }),
-    Trivia.SoundEffect.create({
-        name: 'wrong',
-        sound: soundManager.createSound({
-                url: 'assets/sound/sadtrombone.mp3',
-                id: 'sadtrombone'
-               })
-    }),
-    Trivia.SoundEffect.create({
-        name: 'winner',
-        sound: soundManager.createSound({
-                url: 'assets/sound/winner.wav',
-                id: 'winner'
-               })
-    })];
+        Trivia.SoundEffect.create({
+            name: 'correct',
+            getSound: function() {
+                return soundManager.createSound({
+                    url: 'assets/sound/tada.mp3',
+                    id: 'tada'
+                })
+            }
+        }),
+        Trivia.SoundEffect.create({
+            name: 'wrong',
+            getSound: function() {
+                return soundManager.createSound({
+                    url: 'assets/sound/sadtrombone.mp3',
+                    id: 'sadtrombone'
+                })
+            }
+        }),
+        Trivia.SoundEffect.create({
+            name: 'winner',
+            sound: null,
+            getSound: function() {
+                return soundManager.createSound({
+                    url: 'assets/sound/winner.wav',
+                    id: 'winner'
+                })
+            }
+        })
+    ];
 });
 
 Trivia.ProgressbarView = Em.View.extend({
