@@ -757,6 +757,7 @@ var Trivia = Em.Application.create({
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
                                                 var sound = soundEffect.getSound();
                                                 sound.play({position:0});
+                                                sound.play({position:0});
 
 												router.transitionTo('answerChecked.answeredRight');
 
@@ -765,6 +766,7 @@ var Trivia = Em.Application.create({
 
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
                                                 var sound = soundEffect.getSound();
+                                                sound.play({position:0});
                                                 sound.play({position:0});
 
 												router.transitionTo('answerChecked.answeredWrong');
@@ -928,6 +930,7 @@ var Trivia = Em.Application.create({
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
                                             var sound = soundEffect.createSound();
                                             sound.play({position:0});
+                                            sound.play({position:0});
 
 											router.transitionTo('answerChecked.answeredRight');
 
@@ -936,6 +939,7 @@ var Trivia = Em.Application.create({
 
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
                                             var sound = soundEffect.createSound();
+                                            sound.play({position:0});
                                             sound.play({position:0});
 											router.transitionTo('answerChecked.answeredWrong');
 										}
