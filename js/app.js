@@ -67,16 +67,14 @@ var Trivia = Em.Application.create({
 		classNames: 'game-finished game-finished-view'.w(),
 		feedbackText: function(){
 			var successRate = this.get('successRate');
-			if (successRate === 0){
-				return 'Harmin paikka. Et saanut yhtään vastausta oikein. Yritä uudelleen.';
-			} else if (successRate < 30){
-				return 'Olet kehityskelpoinen. Jatka harjoittelua.';
-			} else if (successRate < 60){
-				return 'Hyvä tulos, jatka samaan malliin.';
-			} else if (successRate < 90){
-				return 'Hyvä, sait suurimman osan kysymyksistä oikein!';
+			if (successRate <= 50){
+				return 'Harjoitellaan vielä!';
+			} else if (successRate <= 70){
+				return 'Mainiosti tiedetty!';
+			} else if (successRate <= 90){
+				return 'Erinomaista työtä!';
 			} else {
-				return 'Loistosuoritus! Olet tainnut pelata peliä aikaisemminkin?';
+				return 'Mahtavaa muistamista!';
 			}
 		}.property('successRate'),
 		successRateBinding: 'Trivia.router.gameController.successRate',
@@ -95,17 +93,15 @@ var Trivia = Em.Application.create({
 		classNames: 'game-finished game-finished-plain-view'.w(),
 		feedbackText: function(){
 			var successRate = this.get('successRate');
-			if (successRate === 0){
-				return 'Harmin paikka. Et saanut yhtään vastausta oikein. Yritä uudelleen.';
-			} else if (successRate < 30){
-				return 'Olet kehityskelpoinen. Jatka harjoittelua.';
-			} else if (successRate < 60){
-				return 'Hyvä tulos, jatka samaan malliin.';
-			} else if (successRate < 90){
-				return 'Hyvä, sait suurimman osan kysymyksistä oikein!';
-			} else {
-				return 'Loistosuoritus! Olet tainnut pelata peliä aikaisemminkin?';
-			}
+            if (successRate <= 50){
+                return 'Harjoitellaan vielä!';
+            } else if (successRate <= 70){
+                return 'Mainiosti tiedetty!';
+            } else if (successRate <= 90){
+                return 'Erinomaista työtä!';
+            } else {
+                return 'Mahtavaa muistamista!';
+            }
 		}.property('successRate'),
 		successRateBinding: 'Trivia.router.gameController.successRate',
 		correctAnswersBinding: 'Trivia.router.gameController.correctAnswers'
