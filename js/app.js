@@ -454,6 +454,36 @@ var Trivia = Em.Application.create({
 				throw 'no media found'
 			}
 		},
+		playEnd: function(){
+			var startingPosition = this.get('currentQuestion.options.playTo');
+
+			if (this.get('media.res')){
+				Trivia.router.send('startedPlaying');
+				this.get('media.res').play({
+					from: startingPosition,
+					whileplaying: function(){
+						//console.log('playTo', playTo, this.position);
+						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
+						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
+						Trivia.router.set('gameController.mediaPlaying', true);
+					},
+					onstop: function(){
+						Trivia.router.set('gameController.mediaPlaying', false);
+						Trivia.router.send('finishedPlaying');
+
+						console.log('stopped');
+					}
+				});
+			}
+		},
+		stopPlaying: function(){
+			if (this.get('media.res')){
+				this.get('media.res').stop();
+				Trivia.router.set('gameController.mediaPlaying', false);
+
+			}
+
+		},
 		playInterval: function(fromEnd){
 			var startingPosition = 0;
 
@@ -488,7 +518,7 @@ var Trivia = Em.Application.create({
 
 				this.get('media.res').play({
 					from: startingPosition,
-					to: playTo - 400,
+					to: playTo - 400, //take html5 audio lag into account
 					whileplaying: function(){
 						//console.log('playTo', playTo, this.position);
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
@@ -758,7 +788,6 @@ var Trivia = Em.Application.create({
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
                                                 var sound = soundEffect.getSound();
                                                 sound.play({position:0});
-                                                sound.play({position:0});
 
 												router.transitionTo('answerChecked.answeredRight');
 
@@ -767,7 +796,6 @@ var Trivia = Em.Application.create({
 
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
                                                 var sound = soundEffect.getSound();
-                                                sound.play({position:0});
                                                 sound.play({position:0});
 
 												router.transitionTo('answerChecked.answeredWrong');
@@ -786,7 +814,6 @@ var Trivia = Em.Application.create({
 											console.log('playing interval');
 											router.get('gameController').playInterval();
 											router.transitionTo('mediaStarted');
-
 										}
 									}),
 									answerChecked: Em.Route.extend({
@@ -824,6 +851,7 @@ var Trivia = Em.Application.create({
 												router.send('_nextQuestion');
 											} else {
 												router.transitionTo('finished');
+												router.send('playEnd');
 												console.log('out of questions');
 											}
 										}
@@ -933,7 +961,6 @@ var Trivia = Em.Application.create({
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
                                             var sound = soundEffect.createSound();
                                             sound.play({position:0});
-                                            sound.play({position:0});
 
 											router.transitionTo('answerChecked.answeredRight');
 
@@ -942,7 +969,6 @@ var Trivia = Em.Application.create({
 
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
                                             var sound = soundEffect.createSound();
-                                            sound.play({position:0});
                                             sound.play({position:0});
 											router.transitionTo('answerChecked.answeredWrong');
 										}
@@ -991,7 +1017,6 @@ var Trivia = Em.Application.create({
 
 								if (router.get('gameController.content.gameType') === 'audio'){
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
-
 									router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
 
 								} else {
@@ -1017,6 +1042,10 @@ var Trivia = Em.Application.create({
 							mediaStopped: Em.Route.extend({
 								connectOutlets: function(router){
 									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
+									//router.send('playEnd');
+								},
+								playEnd: function(router){
+									router.get('gameController').playEnd();
 								},
 								fullReplay: function(router){
 									router.get('gameController').fullReplay();
@@ -1028,6 +1057,10 @@ var Trivia = Em.Application.create({
 							mediaStarted: Em.Route.extend({
 								connectOutlets: function(router){
 									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorPlaying');
+								},
+								fullReplay: function(router){
+									router.get('gameController').stopPlaying();
+									router.get('gameController').fullReplay();
 								},
 								finishedPlaying: function(router){
 									router.transitionTo('mediaStopped');
