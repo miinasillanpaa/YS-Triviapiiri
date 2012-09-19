@@ -243,6 +243,7 @@ var Trivia = Em.Application.create({
 	GameStartedController: Em.Controller.extend({}),
 	GameController: Em.Controller.extend({
         playedGameId: null,
+		instantReplayPlayed: false,
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
 		questionImage: function(){
@@ -489,7 +490,7 @@ var Trivia = Em.Application.create({
 					from: startingPosition,
 					to: playTo - 400,
 					whileplaying: function(){
-						console.log('playTo', playTo, this.position);
+						//console.log('playTo', playTo, this.position);
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
 						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
 						Trivia.router.set('gameController.mediaPlaying', true);
@@ -669,7 +670,7 @@ var Trivia = Em.Application.create({
 						}),
 						started: Em.Route.extend({
 							_nextQuestion: function(router){
-
+								router.set('gameController.instantReplayPlayed', false);
 								console.log('setting next question');
 
 
@@ -776,7 +777,9 @@ var Trivia = Em.Application.create({
 
 										instantReplay: function(router){
 											router.get('gameController').playInterval(10000);
+											router.set('gameController.instantReplayPlayed', true);
 											router.transitionTo('mediaStarted');
+
 
 										},
 										playInterval: function(router){

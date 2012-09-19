@@ -99,7 +99,9 @@
   </script>
   <script type="text/x-handlebars" data-template-name="alert-question">
 	  {{content.questionText}}
-	  <button class="btn" {{action instantReplay}}><i class="icon-music"></i> Kuuntele uudestaan</button>
+	  {{#unless Trivia.router.gameController.instantReplayPlayed}}
+	  	<button class="btn" {{action instantReplay}}><i class="icon-music"></i> Kuuntele uudestaan</button>
+	  {{/unless}}
   </script>
   <script type="text/x-handlebars" data-template-name="alert-plain-question">
 	  {{content.questionText}}
