@@ -959,17 +959,24 @@ var Trivia = Em.Application.create({
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
-                                            var sound = soundEffect.createSound();
-                                            sound.play({position:0});
+
+												if (soundEffect && soundEffect.getSound){
+												var sound = soundEffect.getSound();
+												sound.play({position:0});
+											}
+
 
 											router.transitionTo('answerChecked.answeredRight');
 
 										} else {
 											console.log('checking answer, wrong');
 
-                                            var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
-                                            var sound = soundEffect.createSound();
-                                            sound.play({position:0});
+											var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
+
+											if (soundEffect && soundEffect.getSound){
+												var sound = soundEffect.getSound();
+												sound.play({position:0});
+											}
 											router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
