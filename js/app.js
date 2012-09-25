@@ -785,18 +785,20 @@ var Trivia = Em.Application.create({
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
 
+                                                /*
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
                                                 var sound = soundEffect.getSound();
-                                                sound.play({position:0});
+                                                sound.play({position:0});*/
 
 												router.transitionTo('answerChecked.answeredRight');
 
 											} else {
 												console.log('checking answer, wrong');
 
+                                                /*
                                                 var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
                                                 var sound = soundEffect.getSound();
-                                                sound.play({position:0});
+                                                sound.play({position:0});*/
 
 												router.transitionTo('answerChecked.answeredWrong');
 											}
@@ -958,12 +960,12 @@ var Trivia = Em.Application.create({
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
+                                            /*
                                             var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
-
-												if (soundEffect && soundEffect.getSound){
+											if (soundEffect && soundEffect.getSound){
 												var sound = soundEffect.getSound();
 												sound.play({position:0});
-											}
+											}*/
 
 
 											router.transitionTo('answerChecked.answeredRight');
@@ -971,12 +973,12 @@ var Trivia = Em.Application.create({
 										} else {
 											console.log('checking answer, wrong');
 
+                                            /*
 											var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
-
 											if (soundEffect && soundEffect.getSound){
 												var sound = soundEffect.getSound();
 												sound.play({position:0});
-											}
+											}*/
 											router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
