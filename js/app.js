@@ -603,8 +603,10 @@ var Trivia = Em.Application.create({
                         } else {
 						    window.location = "http://pienipiiri.fi/mobile";
                         }
-					}
+					},
+                    finishedPlaying: function() {
 
+                    }
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
