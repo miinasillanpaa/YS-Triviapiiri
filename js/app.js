@@ -1268,7 +1268,32 @@ Trivia.gameObjects.plain = [
 		guid:18,
 		name:'Lehtivisailu',
 		image:'assets/img/lehtivisailu.jpg'
-	})
+	}),
+    Trivia.Game.create({
+        guid:20,
+        name:'Kirjailijat I'
+    }),
+    Trivia.Game.create({
+        guid:21,
+        name:'Kirjailijat II'
+    }),
+    Trivia.Game.create({
+        guid:22,
+        name:'Kirjailijat III'
+    }),
+    Trivia.Game.create({
+        guid:23,
+        name:'Sananlaskut I'
+    }),
+    Trivia.Game.create({
+        guid:24,
+        name:'Sananlaskut II'
+    }),
+    Trivia.Game.create({
+        guid:25,
+        name:'Sananlaskut III'
+    })
+
 ];
 
 Trivia.questions = [
@@ -2607,7 +2632,857 @@ Trivia.questions = [
          Trivia.Answer.create({ answerText: 'minä aina ikävöin vain' }),
          Trivia.Answer.create({ answerText: 'koskaan mä unhoita en' })
      ]
- })
+ }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Sinuhe Egyptiläinen', correct:true }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' }),
+            Trivia.Answer.create({ answerText: 'Ihmisen osa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Mikael Karvajalka', correct:true }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
+            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Taikatalvi' }),
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Turms Kuolematon', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Muumipappa ja meri' }),
+            Trivia.Answer.create({ answerText: 'Tuntematon sotilas', correct:true }),
+            Trivia.Answer.create({ answerText: 'Seitsemän Veljestä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Veitikka' }),
+            Trivia.Answer.create({ answerText: 'Ihmisiä suviyössä' }),
+            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Iisakin kirkko' }),
+            Trivia.Answer.create({ answerText: 'Seitsemän Veljestä', correct:true }),
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Nummisuutarit', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' }),
+            Trivia.Answer.create({ answerText: 'Tuntematon sotilas' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Jumalan sana' }),
+            Trivia.Answer.create({ answerText: 'Ihmisen osa' }),
+            Trivia.Answer.create({ answerText: 'Kihlaus', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Lea', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Turms Kuolematon' }),
+            Trivia.Answer.create({ answerText: 'Veitikka' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Punainen Lanka'  }),
+            Trivia.Answer.create({ answerText: 'Havukka-ahon ajattelija', correct:true }),
+            Trivia.Answer.create({ answerText: 'Kauppa-Lopo' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Lampaan syöjät', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Komisario Palmu' }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Nummisuutarit'  }),
+            Trivia.Answer.create({ answerText: 'Veitikka', correct:true }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Taikatalvi'  }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
+            Trivia.Answer.create({ answerText: 'Rasvamaksa', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Konsta Pylkkänen etsii kortteeria', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Papin Rouva' }),
+            Trivia.Answer.create({ answerText: 'Seitsemän veljestä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Nuori Johannes', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Seitsemän veljestä' }),
+            Trivia.Answer.create({ answerText: 'Muumipappa ja meri' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Komisario Palmun erehdys', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Arto Paasilinnan kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Taikatalvi' }),
+            Trivia.Answer.create({ answerText: 'Veitikka' }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Arto Paasilinnan kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Stalinin lehmät' }),
+            Trivia.Answer.create({ answerText: 'Jäniksen vuosi', correct:true }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Puhallus', correct:true }),
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Reijo Mäen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Sheriffi', correct:true }),
+            Trivia.Answer.create({ answerText: 'Tuomiopäivän aurinko nousee' }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Henning Mankelin kijoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Maailman paras kylä' }),
+            Trivia.Answer.create({ answerText: 'Likainen enkeli', correct:true }),
+            Trivia.Answer.create({ answerText: 'Seitsemän päivää' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Jari Tervon kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Layla', correct:true }),
+            Trivia.Answer.create({ answerText: 'Hurkas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Eeva Joenpellon kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Aatami ja Eeva' }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
+            Trivia.Answer.create({ answerText: 'Vetää kaikista ovista', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Seppo Jokisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Ajomies', correct:true }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Antti Tuurin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' }),
+            Trivia.Answer.create({ answerText: 'Ikitie', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Kun kyyhkyset katosivat', correct:true }),
+            Trivia.Answer.create({ answerText: 'Neitosten karkuretki' }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        questionText: 'Mikä kirjoista on Agatha Christien kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Tapaus Bruus ja muita kertomuksia' }),
+            Trivia.Answer.create({ answerText: 'Kuolema Niilillä', correct:true }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Kaari Utrion kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Leijat Helsingin yllä' }),
+            Trivia.Answer.create({ answerText: 'Oppinut neiti', correct:true }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Virpi-Hämeenanttilan kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Railo', correct:true }),
+            Trivia.Answer.create({ answerText: 'Ikitie' }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Antti Tuurin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Ajomies' }),
+            Trivia.Answer.create({ answerText: 'Surmanpelto', correct: true }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Laila Hietaniemen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Seisemän veljestä' }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' }),
+            Trivia.Answer.create({ answerText: 'Kallis kotimaa', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Kjell Wästön kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Missä Kuljimme kerran', correct:true }),
+            Trivia.Answer.create({ answerText: 'Seitsemän veljestä' }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Herman Melvillen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Aukko taivaassa' }),
+            Trivia.Answer.create({ answerText: 'Tuulen puolella' }),
+            Trivia.Answer.create({ answerText: 'Valkoinen valas', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Matti Yrjänä Joensuun kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Rannalla' }),
+            Trivia.Answer.create({ answerText: 'Harjunpää ja ahdistelija', correct:true }),
+            Trivia.Answer.create({ answerText: 'Uhrilehto' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Anja Snellmanin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Lemmikkikaupan tytöt', correct: true }),
+            Trivia.Answer.create({ answerText: 'Ilkeät sisarpuolet' }),
+            Trivia.Answer.create({ answerText: 'Uhkapelimerkit' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Reino Lehväslaihon kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Raja' }),
+            Trivia.Answer.create({ answerText: 'Kosto' }),
+            Trivia.Answer.create({ answerText: 'Seesjärven sissit', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Antti Hyryn kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Uuni', correct:true }),
+            Trivia.Answer.create({ answerText: 'Taivaspaikka' }),
+            Trivia.Answer.create({ answerText: 'Tuulen varjo' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Stig Larssonin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Voitonmerkki' }),
+            Trivia.Answer.create({ answerText: 'Miehet, jotka vihaavat naisia', correct:true }),
+            Trivia.Answer.create({ answerText: 'Takatalvi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on John Grishamin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Henkivartija' }),
+            Trivia.Answer.create({ answerText: 'Valkoinen kääpiö' }),
+            Trivia.Answer.create({ answerText: 'Avustaja', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Stig Larssonin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Tyttö, joka leikki tulella', correct:true }),
+            Trivia.Answer.create({ answerText: 'Hylynryöstäjä' }),
+            Trivia.Answer.create({ answerText: 'Silminnäkijä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 22,
+        questionText: 'Mikä kirjoista on Kalle Päätalon kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Syksyksi kotiin' }),
+            Trivia.Answer.create({ answerText: 'Kallen inttivuosi' }),
+            Trivia.Answer.create({ answerText: 'Kannaksen lomajuna', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Parempi pyy pivossa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin naapurin padassa' }),
+            Trivia.Answer.create({ answerText: 'kuin puun latvassa' }),
+            Trivia.Answer.create({ answerText: 'kuin kymmenen oksalla', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Parempi myöhään',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin ei milloinkaan', correct:true }),
+            Trivia.Answer.create({ answerText: 'kuin liian aikaisin' }),
+            Trivia.Answer.create({ answerText: 'kuin aamulla varhain' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Minkä lapsena oppii',
+        answers: [
+            Trivia.Answer.create({ answerText: 'sen vanhana unohtaa' }),
+            Trivia.Answer.create({ answerText: 'sen vanhana taitaa', correct:true }),
+            Trivia.Answer.create({ answerText: 'sen vanhana opettaa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Ei kukko',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kiekumaan käy' }),
+            Trivia.Answer.create({ answerText: 'kävele' }),
+            Trivia.Answer.create({ answerText: 'käskien laula', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Odottaa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin hepo heinää' }),
+            Trivia.Answer.create({ answerText: 'kuin hepo kesää', correct:true }),
+            Trivia.Answer.create({ answerText: 'kuin hepo kuumaa puuroa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Kiertää',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin kissa kuumaa puuroa', correct:true }),
+            Trivia.Answer.create({ answerText: 'kuin koira kopissa' }),
+            Trivia.Answer.create({ answerText: 'kuin kissa kartanolla' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Hyvä antaa vähästäänkin',
+        answers: [
+            Trivia.Answer.create({ answerText: 'paha ei paljon piittaa' }),
+            Trivia.Answer.create({ answerText: 'paha päälle sylkee' }),
+            Trivia.Answer.create({ answerText: 'paha ei paljostaan', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Pienilläkin',
+        answers: [
+            Trivia.Answer.create({ answerText: 'korvat kuulee' }),
+            Trivia.Answer.create({ answerText: 'on silmät päässä' }),
+            Trivia.Answer.create({ answerText: 'on korvat', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Alku aina hankalaa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'lopussa kiitos seisoo', correct:true }),
+            Trivia.Answer.create({ answerText: 'loppu vielä hankalampaa' }),
+            Trivia.Answer.create({ answerText: 'kaikesta kuitenkin selvitään' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Mikä laulaen tulee',
+        answers: [
+            Trivia.Answer.create({ answerText: 'se helposti tulee' }),
+            Trivia.Answer.create({ answerText: 'se viheltäen menee', correct:true }),
+            Trivia.Answer.create({ answerText: 'on pian kulutettu' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Parempi on katsoa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin katua', correct:true }),
+            Trivia.Answer.create({ answerText: 'kuin kaatua' }),
+            Trivia.Answer.create({ answerText: 'ja kuunnella' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Kel\' onni on',
+        answers: [
+            Trivia.Answer.create({ answerText: 'sen kaikille kertokoon' }),
+            Trivia.Answer.create({ answerText: 'sen sydän riemuitsee' }),
+            Trivia.Answer.create({ answerText: 'se onnen kätkeköön', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Ei niin pahaa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'ettei syödä voisi' }),
+            Trivia.Answer.create({ answerText: 'ettei jotain hyvääkin', correct:true }),
+            Trivia.Answer.create({ answerText: 'kuin luulisi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Sitä kuusta kuuleminen',
+        answers: [
+            Trivia.Answer.create({ answerText: 'jonka juurella asuvi', correct:true }),
+            Trivia.Answer.create({ answerText: 'jonka oksia sahaa' }),
+            Trivia.Answer.create({ answerText: 'jonka jouluna koristelee' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 23,
+        questionText: 'Jos ei nyt',
+        answers: [
+            Trivia.Answer.create({ answerText: 'niin milloin?' }),
+            Trivia.Answer.create({ answerText: 'niin ainakin ensi vuonna' }),
+            Trivia.Answer.create({ answerText: 'niin ei milloinkaan', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Niin metsä vastaa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin itse tahtoo' }),
+            Trivia.Answer.create({ answerText: 'kuin siltä kysytään' }),
+            Trivia.Answer.create({ answerText: 'kuin sinne huudetaan', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Työmies on paikkansa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'ansainnut', correct:true }),
+            Trivia.Answer.create({ answerText: 'arvoinen' }),
+            Trivia.Answer.create({ answerText: 'mittainen' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Kenen leipää syöt',
+        answers: [
+            Trivia.Answer.create({ answerText: 'sen käskyjä kuuntelet' }),
+            Trivia.Answer.create({ answerText: 'sitä ruuasta kiität' }),
+            Trivia.Answer.create({ answerText: 'sen lauluja laulat', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Onni yksillä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'murhe muilla' }),
+            Trivia.Answer.create({ answerText: 'kesä kaikilla', correct:true }),
+            Trivia.Answer.create({ answerText: 'taivaanranta kaikilla' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Ei yö niin pitkä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kuin unettomasta tuntuu' }),
+            Trivia.Answer.create({ answerText: 'ettei aamu sarasta' }),
+            Trivia.Answer.create({ answerText: 'ettei päivä perässä', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Ei suuret sanat',
+        answers: [
+            Trivia.Answer.create({ answerText: 'suuta halkaise', correct:true }),
+            Trivia.Answer.create({ answerText: 'suuta sulje' }),
+            Trivia.Answer.create({ answerText: 'vaan suuret teot' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Uni ja ruoka maittaa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'mutta työ sitä haittaa' }),
+            Trivia.Answer.create({ answerText: 'mutta työ on kuin tervaa', correct:true }),
+            Trivia.Answer.create({ answerText: 'mutta aika päälle painaa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Ahkeruus',
+        answers: [
+            Trivia.Answer.create({ answerText: 'aina palkitaan' }),
+            Trivia.Answer.create({ answerText: 'on onnen äiti' }),
+            Trivia.Answer.create({ answerText: 'kovankin onnen voittaa', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Ei vara',
+        answers: [
+            Trivia.Answer.create({ answerText: 'venettä kaada', correct:true }),
+            Trivia.Answer.create({ answerText: 'pankkeja kaada' }),
+            Trivia.Answer.create({ answerText: 'ole vaaraksi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Hätä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'lukee lakia' }),
+            Trivia.Answer.create({ answerText: 'keinot keksii', correct:true }),
+            Trivia.Answer.create({ answerText: 'keinot karkottaa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Suo siellä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'vettä täällä' }),
+            Trivia.Answer.create({ answerText: 'kangasmetsä täällä' }),
+            Trivia.Answer.create({ answerText: 'vetelä täällä', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Jos haluat rauhaa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'valmistaudu sotaan', correct:true }),
+            Trivia.Answer.create({ answerText: 'rakenna sopu' }),
+            Trivia.Answer.create({ answerText: 'älä jännitä joustasi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Myöhäistä on tuoda vettä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kun jano on sammunut' }),
+            Trivia.Answer.create({ answerText: 'kun talo on palanut', correct:true }),
+            Trivia.Answer.create({ answerText: 'kun kiuas on kylmennyt' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Seinilläkin on',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kovaääniset' }),
+            Trivia.Answer.create({ answerText: 'kauiuttimet' }),
+            Trivia.Answer.create({ answerText: 'korvat', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 24,
+        questionText: 'Kaikki tiet vievät',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Roomaan', correct:true }),
+            Trivia.Answer.create({ answerText: 'perille' }),
+            Trivia.Answer.create({ answerText: 'sinne minne jalkasi osoittavat' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Anna sen kiven olla',
+        answers: [
+            Trivia.Answer.create({ answerText: 'joka talaosi kannattaa' }),
+            Trivia.Answer.create({ answerText: 'jota et jaksa kantaa', correct:true }),
+            Trivia.Answer.create({ answerText: 'joka kirkkauttaan kiiltää' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Jokainen on oman',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kohtalonsa vanki' }),
+            Trivia.Answer.create({ answerText: 'onnensa onkija' }),
+            Trivia.Answer.create({ answerText: 'onnensa seppä', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Joka toiselle kuoppaa kaivaa',
+        answers: [
+            Trivia.Answer.create({ answerText: 'se itse siihen lankeaa', correct:true }),
+            Trivia.Answer.create({ answerText: 'se mieltä myöhemmin vaivaa' }),
+            Trivia.Answer.create({ answerText: 'se omaa onneansa raivaa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Arvaa oma tilasi',
+        answers: [
+            Trivia.Answer.create({ answerText: 'ja korjaa pahat pilasi' }),
+            Trivia.Answer.create({ answerText: 'anna arvo toisillekin', correct:true }),
+            Trivia.Answer.create({ answerText: 'tunne omat vikasi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Pata kattilaa soimaan',
+        answers: [
+            Trivia.Answer.create({ answerText: 'samat hiilet kummallakin' }),
+            Trivia.Answer.create({ answerText: 'sama keitto kummassakin' }),
+            Trivia.Answer.create({ answerText: 'musta kylki kummallakin', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Itku',
+        answers: [
+            Trivia.Answer.create({ answerText: 'pitkästä ilosta', correct:true }),
+            Trivia.Answer.create({ answerText: 'suuresta surusta' }),
+            Trivia.Answer.create({ answerText: 'mielen parantaa' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Nauru',
+        answers: [
+            Trivia.Answer.create({ answerText: 'ilon pirttiin tuopi' }),
+            Trivia.Answer.create({ answerText: 'pidentää ikää', correct:true }),
+            Trivia.Answer.create({ answerText: 'on itkun kääntöpuoli' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Oma apu',
+        answers: [
+            Trivia.Answer.create({ answerText: 'onnen tuopi' }),
+            Trivia.Answer.create({ answerText: 'aina lähellä' }),
+            Trivia.Answer.create({ answerText: 'paras apu', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Joka tuuleen kylvää',
+        answers: [
+            Trivia.Answer.create({ answerText: 'se myrskyä niittää', correct:true }),
+            Trivia.Answer.create({ answerText: 'se myrskyssä seilaa' }),
+            Trivia.Answer.create({ answerText: 'sen ei sielu tyventä löydä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Sanasta miestä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'hännästä hevosta' }),
+            Trivia.Answer.create({ answerText: 'sarvista härkää', correct:true }),
+            Trivia.Answer.create({ answerText: 'liekistä lohikäärmettä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Älä usko',
+        answers: [
+            Trivia.Answer.create({ answerText: 'ennen kuin todistetaan' }),
+            Trivia.Answer.create({ answerText: 'ennen kuin kuulet uutisista' }),
+            Trivia.Answer.create({ answerText: 'ennen kuin näet', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Varmaa on se',
+        answers: [
+            Trivia.Answer.create({ answerText: 'mikä on kädessä', correct:true }),
+            Trivia.Answer.create({ answerText: 'mikä on sydämessä' }),
+            Trivia.Answer.create({ answerText: 'mikä lukee lehdessä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Ei kettu sovi tuomariksi',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kanalan kahakkaan' }),
+            Trivia.Answer.create({ answerText: 'hanhen oikeusjuttuun', correct:true }),
+            Trivia.Answer.create({ answerText: 'korpin puolesta puhujaksi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Ei yksi pääsky',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kesää aloita' }),
+            Trivia.Answer.create({ answerText: 'suvea soita' }),
+            Trivia.Answer.create({ answerText: 'kesää tee', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Joka miekkaan tarttuu',
+        answers: [
+            Trivia.Answer.create({ answerText: 'se miekkaan kaatuu', correct:true }),
+            Trivia.Answer.create({ answerText: 'se ei rauhaa rakasta' }),
+            Trivia.Answer.create({ answerText: 'ei kunnian kujalla kävele' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Sanoista',
+        answers: [
+            Trivia.Answer.create({ answerText: 'sovinto syntyy' }),
+            Trivia.Answer.create({ answerText: 'sodat tulevat', correct:true }),
+            Trivia.Answer.create({ answerText: 'rauha rakentuu' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Hullu paljon työtä tekee',
+        answers: [
+            Trivia.Answer.create({ answerText: 'laiskajaakko ei laisinkaan' }),
+            Trivia.Answer.create({ answerText: 'vaikka ei ois paikka' }),
+            Trivia.Answer.create({ answerText: 'viisas pääsee vähemmällä', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Työ tekijäänsä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'kiittää', correct:true }),
+            Trivia.Answer.create({ answerText: 'neuvoo' }),
+            Trivia.Answer.create({ answerText: 'elättää' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Ei kaikki ole sitä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'mitä tilaat' }),
+            Trivia.Answer.create({ answerText: 'miltä näyttää', correct:true }),
+            Trivia.Answer.create({ answerText: 'eikä tätä' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 25,
+        questionText: 'Ei sota yhtä',
+        answers: [
+            Trivia.Answer.create({ answerText: 'juhlaa ole' }),
+            Trivia.Answer.create({ answerText: 'eikä toistakaan' }),
+            Trivia.Answer.create({ answerText: 'miestä kaipaa', correct:true })
+        ]
+    }),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ];
 
 Trivia.medias = [
