@@ -1265,18 +1265,9 @@ Trivia.gameObjects.plain = [
 		name:'Vastakohtien yhdistäminen'
 	}),
 	Trivia.Game.create({
-		guid:17,
-		name:'Mixed media (experimental)'
-	}),
-	Trivia.Game.create({
 		guid:18,
 		name:'Lehtivisailu',
 		image:'assets/img/lehtivisailu.jpg'
-	}),
-	Trivia.Game.create({
-		guid:19,
-		name:'Tosi lyhyt testipeli',
-		gameType:'audio'
 	})
 ];
 
