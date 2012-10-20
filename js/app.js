@@ -1,8 +1,15 @@
 var Trivia = Em.Application.create({
+    exitUrl: null,
     ready: function() {
         var userId = getURLParameter('userId');
-        if (userId) {
+        if (userId && userId != 'null') {
             Trivia.set('router.applicationController.userId', parseInt(userId));
+        }
+        var source = getURLParameter('source');
+        if (source == 'ios') {
+            this.set('exitUrl', 'http://pienipiiri.fi/webapp/?userId=' + userId);
+        } else if (source == 'null' || !source) {
+            this.set('exitUrl', 'http://pienipiiri.fi/mobile/?userId=' + userId);
         }
     },
 	ApplicationController: Em.Controller.extend({
@@ -598,8 +605,9 @@ var Trivia = Em.Application.create({
 					},
 					back: function(){
                         var userId = Trivia.get('router.applicationController.userId');
-                        if (userId) {
-                            window.location = "http://pienipiiri.fi/mobile/?userId="+userId;
+                        var exitUrl = Trivia.get('exitUrl');
+                        if (userId && exitUrl) {
+                            window.location = exitUrl;
                         } else {
 						    window.location = "http://pienipiiri.fi/mobile";
                         }
