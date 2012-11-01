@@ -47,7 +47,7 @@
 
   <script type="text/x-handlebars" data-template-name="game-not-started-plain">
 	  <h2>{{Trivia.router.gameController.title}}</h2>
-		<p>Kohta tulee kysymyksiä. Keksitään järkevämmät ohjeet tähän.</p>
+		<p>{{Trivia.router.gameController.gameTitle}}</p>
 	  	<button class="btn btn-primary"{{action startGame1P}}><i class="icon-user"></i> Pelaan yksin</button>
 		<button class="btn"{{action startGame2P}}><i class="icon-group"></i> Pelaan parin kanssa</button>
   </script>
