@@ -246,6 +246,7 @@ var Trivia = Em.Application.create({
 		instantReplayPlayed: false,
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
+        gameTitleBinding: 'content.gameIntro',
 		questionImage: function(){
 			if (this.get('currentQuestion.image')){
 				return this.get('currentQuestion.image');
@@ -1262,35 +1263,57 @@ Trivia.gameObjects.music = [
 Trivia.gameObjects.plain = [
 	Trivia.Game.create({
 		guid:16,
+        gameType: 'quiz',
+        gameIntro: 'Yhdistä vastakohdat toisiinsa.',
 		name:'Vastakohtien yhdistäminen'
 	}),
 	Trivia.Game.create({
 		guid:18,
+        gameType: 'quiz',
+        gameIntro: 'Lehtivisailu: missä kaupungissa kukin lehti julkaistaan?',
 		name:'Lehtivisailu',
 		image:'assets/img/lehtivisailu.jpg'
 	}),
     Trivia.Game.create({
         guid:20,
-        name:'Kirjailijat I'
+        gameType: 'quiz',
+        gameIntro: 'Yhdistä oikea kirja kirjailijaan',
+        name:'Kirjailijat I',
+        image:'assets/img/kirjailijat/kir1.jpg'
     }),
     Trivia.Game.create({
         guid:21,
+        gameType: 'quiz',
+        gameIntro: 'Yhdistä oikea kirja kirjailijaan',
+        image:'assets/img/kirjailijat/kir5.jpg',
         name:'Kirjailijat II'
     }),
     Trivia.Game.create({
         guid:22,
+        gameType: 'quiz',
+        gameIntro: 'Yhdistä oikea kirja kirjailijaan',
+        image:'assets/img/kirjailijat/kir10.jpg',
         name:'Kirjailijat III'
     }),
     Trivia.Game.create({
         guid:23,
+        gameType: 'quiz',
+        gameIntro: 'Miten eri sananlaskut jatkuvat?',
+        image:'assets/img/sananlaskut/san1.jpg',
         name:'Sananlaskut I'
     }),
     Trivia.Game.create({
         guid:24,
+        gameType: 'quiz',
+        gameIntro: 'Miten eri sananlaskut jatkuvat?',
+        image:'assets/img/sananlaskut/san10.jpg',
         name:'Sananlaskut II'
     }),
     Trivia.Game.create({
         guid:25,
+        gameType: 'quiz',
+        gameIntro: 'Miten eri sananlaskut jatkuvat?',
+        image:'assets/img/sananlaskut/san15.jpg',
         name:'Sananlaskut III'
     })
 
@@ -2635,6 +2658,7 @@ Trivia.questions = [
  }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir1.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Sinuhe Egyptiläinen', correct:true }),
@@ -2644,6 +2668,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir2.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Mikael Karvajalka', correct:true }),
@@ -2653,6 +2678,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir3.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Taikatalvi' }),
@@ -2662,6 +2688,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir4.jpg',
         questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Muumipappa ja meri' }),
@@ -2671,6 +2698,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir5.jpg',
         questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Veitikka' }),
@@ -2680,6 +2708,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir6.jpg',
         questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Iisakin kirkko' }),
@@ -2689,6 +2718,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir7.jpg',
         questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Nummisuutarit', correct:true  }),
@@ -2698,6 +2728,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir8.jpg',
         questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Jumalan sana' }),
@@ -2707,6 +2738,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir9.jpg',
         questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Lea', correct:true  }),
@@ -2716,6 +2748,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir10.jpg',
         questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Punainen Lanka'  }),
@@ -2725,6 +2758,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir11.jpg',
         questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Lampaan syöjät', correct:true  }),
@@ -2734,6 +2768,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir12.jpg',
         questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Nummisuutarit'  }),
@@ -2743,6 +2778,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir13.jpg',
         questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Taikatalvi'  }),
@@ -2752,6 +2788,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
+        image: 'assets/img/kirjailijat/kir14.jpg',
         questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Konsta Pylkkänen etsii kortteeria', correct:true  }),
@@ -2761,6 +2798,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir1.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Nuori Johannes', correct:true  }),
@@ -2770,6 +2808,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir1.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Komisario Palmun erehdys', correct:true  }),
@@ -2779,6 +2818,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir18.jpg',
         questionText: 'Mikä kirjoista on Arto Paasilinnan kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Taikatalvi' }),
@@ -2788,6 +2828,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir19.jpg',
         questionText: 'Mikä kirjoista on Arto Paasilinnan kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Stalinin lehmät' }),
@@ -2797,6 +2838,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir20.jpg',
         questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Puhallus', correct:true }),
@@ -2806,6 +2848,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir21.jpg',
         questionText: 'Mikä kirjoista on Reijo Mäen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Sheriffi', correct:true }),
@@ -2815,6 +2858,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir23.jpg',
         questionText: 'Mikä kirjoista on Henning Mankelin kijoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Maailman paras kylä' }),
@@ -2824,6 +2868,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir24.jpg',
         questionText: 'Mikä kirjoista on Jari Tervon kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Layla', correct:true }),
@@ -2833,6 +2878,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir25.jpg',
         questionText: 'Mikä kirjoista on Eeva Joenpellon kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Aatami ja Eeva' }),
@@ -2842,6 +2888,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir26.jpg',
         questionText: 'Mikä kirjoista on Seppo Jokisen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
@@ -2851,6 +2898,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir27.jpg',
         questionText: 'Mikä kirjoista on Antti Tuurin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
@@ -2860,6 +2908,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir20.jpg',
         questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Kun kyyhkyset katosivat', correct:true }),
@@ -2869,6 +2918,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
+        image: 'assets/img/kirjailijat/kir28.jpg',
         questionText: 'Mikä kirjoista on Agatha Christien kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Tapaus Bruus ja muita kertomuksia' }),
@@ -2878,6 +2928,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir30.jpg',
         questionText: 'Mikä kirjoista on Kaari Utrion kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Leijat Helsingin yllä' }),
@@ -2887,6 +2938,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir31.jpg',
         questionText: 'Mikä kirjoista on Virpi-Hämeenanttilan kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Railo', correct:true }),
@@ -2896,6 +2948,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir32.jpg',
         questionText: 'Mikä kirjoista on Antti Tuurin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Ajomies' }),
@@ -2905,6 +2958,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir33.jpg',
         questionText: 'Mikä kirjoista on Laila Hietaniemen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Seisemän veljestä' }),
@@ -2914,7 +2968,8 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
-        questionText: 'Mikä kirjoista on Kjell Wästön kirjoittama?',
+        image: 'assets/img/kirjailijat/kir34.jpg',
+        questionText: 'Mikä kirjoista on Kjell Westön kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Missä Kuljimme kerran', correct:true }),
             Trivia.Answer.create({ answerText: 'Seitsemän veljestä' }),
@@ -2923,6 +2978,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir35.jpg',
         questionText: 'Mikä kirjoista on Herman Melvillen kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Aukko taivaassa' }),
@@ -2932,6 +2988,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir36.jpg',
         questionText: 'Mikä kirjoista on Matti Yrjänä Joensuun kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Rannalla' }),
@@ -2941,6 +2998,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir37.jpg',
         questionText: 'Mikä kirjoista on Anja Snellmanin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Lemmikkikaupan tytöt', correct: true }),
@@ -2950,6 +3008,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir38.jpg',
         questionText: 'Mikä kirjoista on Reino Lehväslaihon kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Raja' }),
@@ -2959,6 +3018,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir39.jpg',
         questionText: 'Mikä kirjoista on Antti Hyryn kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Uuni', correct:true }),
@@ -2968,7 +3028,8 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
-        questionText: 'Mikä kirjoista on Stig Larssonin kirjoittama?',
+
+        questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Voitonmerkki' }),
             Trivia.Answer.create({ answerText: 'Miehet, jotka vihaavat naisia', correct:true }),
@@ -2977,6 +3038,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir41.jpg',
         questionText: 'Mikä kirjoista on John Grishamin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Henkivartija' }),
@@ -2986,7 +3048,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
-        questionText: 'Mikä kirjoista on Stig Larssonin kirjoittama?',
+        questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Tyttö, joka leikki tulella', correct:true }),
             Trivia.Answer.create({ answerText: 'Hylynryöstäjä' }),
@@ -2995,6 +3057,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+        image: 'assets/img/kirjailijat/kir43.jpg',
         questionText: 'Mikä kirjoista on Kalle Päätalon kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Syksyksi kotiin' }),
@@ -3004,6 +3067,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san1.jpg',
         questionText: 'Parempi pyy pivossa',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin naapurin padassa' }),
@@ -3013,6 +3077,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san2.jpg',
         questionText: 'Parempi myöhään',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin ei milloinkaan', correct:true }),
@@ -3022,6 +3087,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san3.jpg',
         questionText: 'Minkä lapsena oppii',
         answers: [
             Trivia.Answer.create({ answerText: 'sen vanhana unohtaa' }),
@@ -3031,6 +3097,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san4.jpg',
         questionText: 'Ei kukko',
         answers: [
             Trivia.Answer.create({ answerText: 'kiekumaan käy' }),
@@ -3040,6 +3107,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san5.jpg',
         questionText: 'Odottaa',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin hepo heinää' }),
@@ -3049,6 +3117,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san6.jpg',
         questionText: 'Kiertää',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin kissa kuumaa puuroa', correct:true }),
@@ -3058,6 +3127,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san7.jpg',
         questionText: 'Hyvä antaa vähästäänkin',
         answers: [
             Trivia.Answer.create({ answerText: 'paha ei paljon piittaa' }),
@@ -3067,6 +3137,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san8.jpg',
         questionText: 'Pienilläkin',
         answers: [
             Trivia.Answer.create({ answerText: 'korvat kuulee' }),
@@ -3076,6 +3147,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san9.jpg',
         questionText: 'Alku aina hankalaa',
         answers: [
             Trivia.Answer.create({ answerText: 'lopussa kiitos seisoo', correct:true }),
@@ -3085,6 +3157,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san10.jpg',
         questionText: 'Mikä laulaen tulee',
         answers: [
             Trivia.Answer.create({ answerText: 'se helposti tulee' }),
@@ -3094,6 +3167,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san11.jpg',
         questionText: 'Parempi on katsoa',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin katua', correct:true }),
@@ -3103,6 +3177,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san12.jpg',
         questionText: 'Kel\' onni on',
         answers: [
             Trivia.Answer.create({ answerText: 'sen kaikille kertokoon' }),
@@ -3112,6 +3187,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san13.jpg',
         questionText: 'Ei niin pahaa',
         answers: [
             Trivia.Answer.create({ answerText: 'ettei syödä voisi' }),
@@ -3121,6 +3197,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san14.jpg',
         questionText: 'Sitä kuusta kuuleminen',
         answers: [
             Trivia.Answer.create({ answerText: 'jonka juurella asuvi', correct:true }),
@@ -3130,6 +3207,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 23,
+        image: 'assets/img/sananlaskut/san15.jpg',
         questionText: 'Jos ei nyt',
         answers: [
             Trivia.Answer.create({ answerText: 'niin milloin?' }),
@@ -3139,6 +3217,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san16.jpg',
         questionText: 'Niin metsä vastaa',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin itse tahtoo' }),
@@ -3148,6 +3227,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san17.jpg',
         questionText: 'Työmies on paikkansa',
         answers: [
             Trivia.Answer.create({ answerText: 'ansainnut', correct:true }),
@@ -3157,6 +3237,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san18.jpg',
         questionText: 'Kenen leipää syöt',
         answers: [
             Trivia.Answer.create({ answerText: 'sen käskyjä kuuntelet' }),
@@ -3166,6 +3247,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san19.jpg',
         questionText: 'Onni yksillä',
         answers: [
             Trivia.Answer.create({ answerText: 'murhe muilla' }),
@@ -3175,6 +3257,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san20.jpg',
         questionText: 'Ei yö niin pitkä',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin unettomasta tuntuu' }),
@@ -3184,6 +3267,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san21.jpg',
         questionText: 'Ei suuret sanat',
         answers: [
             Trivia.Answer.create({ answerText: 'suuta halkaise', correct:true }),
@@ -3193,6 +3277,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san22.jpg',
         questionText: 'Uni ja ruoka maittaa',
         answers: [
             Trivia.Answer.create({ answerText: 'mutta työ sitä haittaa' }),
@@ -3202,6 +3287,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san23.jpg',
         questionText: 'Ahkeruus',
         answers: [
             Trivia.Answer.create({ answerText: 'aina palkitaan' }),
@@ -3211,6 +3297,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san24.jpg',
         questionText: 'Ei vara',
         answers: [
             Trivia.Answer.create({ answerText: 'venettä kaada', correct:true }),
@@ -3220,6 +3307,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san25.jpg',
         questionText: 'Hätä',
         answers: [
             Trivia.Answer.create({ answerText: 'lukee lakia' }),
@@ -3229,6 +3317,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san26.jpg',
         questionText: 'Suo siellä',
         answers: [
             Trivia.Answer.create({ answerText: 'vettä täällä' }),
@@ -3238,6 +3327,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san27.jpg',
         questionText: 'Jos haluat rauhaa',
         answers: [
             Trivia.Answer.create({ answerText: 'valmistaudu sotaan', correct:true }),
@@ -3247,6 +3337,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san28.jpg',
         questionText: 'Myöhäistä on tuoda vettä',
         answers: [
             Trivia.Answer.create({ answerText: 'kun jano on sammunut' }),
@@ -3256,6 +3347,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san29.jpg',
         questionText: 'Seinilläkin on',
         answers: [
             Trivia.Answer.create({ answerText: 'kovaääniset' }),
@@ -3265,6 +3357,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 24,
+        image: 'assets/img/sananlaskut/san30.jpg',
         questionText: 'Kaikki tiet vievät',
         answers: [
             Trivia.Answer.create({ answerText: 'Roomaan', correct:true }),
@@ -3274,6 +3367,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san31.jpg',
         questionText: 'Anna sen kiven olla',
         answers: [
             Trivia.Answer.create({ answerText: 'joka talaosi kannattaa' }),
@@ -3283,6 +3377,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san32.jpg',
         questionText: 'Jokainen on oman',
         answers: [
             Trivia.Answer.create({ answerText: 'kohtalonsa vanki' }),
@@ -3292,6 +3387,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san33.jpg',
         questionText: 'Joka toiselle kuoppaa kaivaa',
         answers: [
             Trivia.Answer.create({ answerText: 'se itse siihen lankeaa', correct:true }),
@@ -3301,6 +3397,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san34.jpg',
         questionText: 'Arvaa oma tilasi',
         answers: [
             Trivia.Answer.create({ answerText: 'ja korjaa pahat pilasi' }),
@@ -3310,6 +3407,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san35.jpg',
         questionText: 'Pata kattilaa soimaan',
         answers: [
             Trivia.Answer.create({ answerText: 'samat hiilet kummallakin' }),
@@ -3319,6 +3417,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san36.jpg',
         questionText: 'Itku',
         answers: [
             Trivia.Answer.create({ answerText: 'pitkästä ilosta', correct:true }),
@@ -3328,6 +3427,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san37.jpg',
         questionText: 'Nauru',
         answers: [
             Trivia.Answer.create({ answerText: 'ilon pirttiin tuopi' }),
@@ -3337,6 +3437,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san38.jpg',
         questionText: 'Oma apu',
         answers: [
             Trivia.Answer.create({ answerText: 'onnen tuopi' }),
@@ -3346,6 +3447,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san39.jpg',
         questionText: 'Joka tuuleen kylvää',
         answers: [
             Trivia.Answer.create({ answerText: 'se myrskyä niittää', correct:true }),
@@ -3355,6 +3457,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san40.jpg',
         questionText: 'Sanasta miestä',
         answers: [
             Trivia.Answer.create({ answerText: 'hännästä hevosta' }),
@@ -3364,6 +3467,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san41.jpg',
         questionText: 'Älä usko',
         answers: [
             Trivia.Answer.create({ answerText: 'ennen kuin todistetaan' }),
@@ -3373,6 +3477,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san42.jpg',
         questionText: 'Varmaa on se',
         answers: [
             Trivia.Answer.create({ answerText: 'mikä on kädessä', correct:true }),
@@ -3382,6 +3487,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san43.jpg',
         questionText: 'Ei kettu sovi tuomariksi',
         answers: [
             Trivia.Answer.create({ answerText: 'kanalan kahakkaan' }),
@@ -3391,6 +3497,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san44.jpg',
         questionText: 'Ei yksi pääsky',
         answers: [
             Trivia.Answer.create({ answerText: 'kesää aloita' }),
@@ -3400,6 +3507,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san45.jpg',
         questionText: 'Joka miekkaan tarttuu',
         answers: [
             Trivia.Answer.create({ answerText: 'se miekkaan kaatuu', correct:true }),
@@ -3409,6 +3517,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san46.jpg',
         questionText: 'Sanoista',
         answers: [
             Trivia.Answer.create({ answerText: 'sovinto syntyy' }),
@@ -3418,6 +3527,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san47.jpg',
         questionText: 'Hullu paljon työtä tekee',
         answers: [
             Trivia.Answer.create({ answerText: 'laiskajaakko ei laisinkaan' }),
@@ -3427,6 +3537,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san48.jpg',
         questionText: 'Työ tekijäänsä',
         answers: [
             Trivia.Answer.create({ answerText: 'kiittää', correct:true }),
@@ -3436,6 +3547,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san49.jpg',
         questionText: 'Ei kaikki ole sitä',
         answers: [
             Trivia.Answer.create({ answerText: 'mitä tilaat' }),
@@ -3445,13 +3557,14 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 25,
+        image: 'assets/img/sananlaskut/san50.jpg',
         questionText: 'Ei sota yhtä',
         answers: [
             Trivia.Answer.create({ answerText: 'juhlaa ole' }),
             Trivia.Answer.create({ answerText: 'eikä toistakaan' }),
             Trivia.Answer.create({ answerText: 'miestä kaipaa', correct:true })
         ]
-    }),
+    })
 
 
 
