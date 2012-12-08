@@ -254,6 +254,7 @@ var Trivia = Em.Application.create({
 		titleBinding: 'content.name', //Game title eg. Kulkurin valssi
 		imageBinding: 'content.image', //Image url eg. assets/kulkurin_valssi.jpg
         gameTitleBinding: 'content.gameIntro',
+        gameTypeTitle: 'Valitse pelattava peli',
 		questionImage: function(){
 			if (this.get('currentQuestion.image')){
 				return this.get('currentQuestion.image');
@@ -418,13 +419,10 @@ var Trivia = Em.Application.create({
 						autoplay: false,
 						onload: function(status){
 							//notify router of finished asset loading
-							console.log('asset onload', status);
 							Trivia.router.send('assetLoadingComplete');
 						},
 						whileloading: function(){
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
-							console.log('loading media', this.bytesLoaded / this.bytesTotal, this.bytesLoaded, this.bytesTotal)
-
 						}
 					})
 					/*,
@@ -513,14 +511,14 @@ var Trivia = Em.Application.create({
 				startingPosition = playTo - fromEnd;
 
 				if (startingPosition >= 0){
-					console.log('playback starts at', fromEnd, '-', playTo);
+					//console.log('playback starts at', fromEnd, '-', playTo);
 				} else {
 					startingPosition = 0;
-					console.log('trying to seek past the sound file, starting from 0');
+					//console.log('trying to seek past the sound file, starting from 0');
 				}
 			}
 
-			console.log('playing from', startingPosition, 'to', this.get('currentQuestion.options.playTo'));
+			//console.log('playing from', startingPosition, 'to', this.get('currentQuestion.options.playTo'));
 
 			if (this.get('media.res')){
 
@@ -537,7 +535,7 @@ var Trivia = Em.Application.create({
 						Trivia.router.set('gameController.mediaPlaying', false);
 						Trivia.router.send('finishedPlaying', playTo);
 
-						console.log('stopped');
+						//console.log('stopped');
 					}
 				});
 				/*.onPosition(playTo - 50, function(){
@@ -584,8 +582,10 @@ var Trivia = Em.Application.create({
 
 					if (gameType === 'music'){
 						router.set('gamesController.gameType', 'music');
+                        router.get('gameController').set('gameTypeTitle', 'Valitse pelattava kappale');
 					} else {
 						router.set('gamesController.gameType', 'plain');
+                        router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');
 					}
 				},
 				connectOutlets: function(router){
@@ -824,7 +824,7 @@ var Trivia = Em.Application.create({
 
 										},
 										playInterval: function(router){
-											console.log('playing interval');
+											//console.log('playing interval');
 											router.get('gameController').playInterval();
 											router.transitionTo('mediaStarted');
 										}
