@@ -1,13 +1,13 @@
 /**
  * @preserve FastClick: polyfill to remove click delays on browsers with touch UIs.
  *
- * @version 0.4.1
+ * @version 0.4.3
  * @codingstandard ftlabs-jslint
  * @copyright The Financial Times Limited [All Rights Reserved]
  * @license MIT License (see LICENSE.txt)
  */
 
-/*jslint browser:true*/
+/*jslint browser:true, node:true*/
 /*global define*/
 
 
@@ -19,7 +19,7 @@
  */
 function FastClick(layer) {
 	'use strict';
-	var oldOnClick, that = this;
+	var oldOnClick, self = this;
 
 
 	/**
@@ -28,6 +28,14 @@ function FastClick(layer) {
 	 * @type boolean
 	 */
 	this.trackingClick = false;
+
+
+	/**
+	 * Timestamp for when when click tracking started.
+	 *
+	 * @type number
+	 */
+	this.trackingClickStart = 0;
 
 
 	/**
@@ -50,11 +58,11 @@ function FastClick(layer) {
 	}
 
 	// Bind handlers to this instance
-	this.onClick = function() { FastClick.prototype.onClick.apply(that, arguments); };
-	this.onTouchStart = function() { FastClick.prototype.onTouchStart.apply(that, arguments); };
-	this.onTouchMove = function() { FastClick.prototype.onTouchMove.apply(that, arguments); };
-	this.onTouchEnd = function() { FastClick.prototype.onTouchEnd.apply(that, arguments); };
-	this.onTouchCancel = function() { FastClick.prototype.onTouchCancel.apply(that, arguments); };
+	this.onClick = function() { FastClick.prototype.onClick.apply(self, arguments); };
+	this.onTouchStart = function() { FastClick.prototype.onTouchStart.apply(self, arguments); };
+	this.onTouchMove = function() { FastClick.prototype.onTouchMove.apply(self, arguments); };
+	this.onTouchEnd = function() { FastClick.prototype.onTouchEnd.apply(self, arguments); };
+	this.onTouchCancel = function() { FastClick.prototype.onTouchCancel.apply(self, arguments); };
 
 	// Devices that don't support touch don't need FastClick
 	if (typeof window.ontouchstart === 'undefined') {
@@ -183,10 +191,16 @@ FastClick.prototype.onTouchStart = function(event) {
 	var touch = event.targetTouches[0];
 
 	this.trackingClick = true;
+	this.trackingClickStart = event.timeStamp;
 	this.targetElement = event.target;
 
 	this.touchStartX = touch.pageX;
 	this.touchStartY = touch.pageY;
+
+	// Prevent phantom clicks on fast double-tap (issue #36)
+	if ((event.timeStamp - this.lastClickTime) < 200) {
+		event.preventDefault();
+	}
 
 	return true;
 };
@@ -265,13 +279,23 @@ FastClick.prototype.findControl = function(labelElement) {
  */
 FastClick.prototype.onTouchEnd = function(event) {
 	'use strict';
-	var forElement, targetElement = this.targetElement;
+	var forElement, trackingClickStart, targetElement = this.targetElement;
 
 	if (!this.trackingClick) {
 		return true;
 	}
 
+	// Prevent phantom clicks on fast double-tap (issue #36)
+	if ((event.timeStamp - this.lastClickTime) < 200) {
+		this.cancelNextClick = true;
+		return true;
+	}
+
+	this.lastClickTime = event.timeStamp;
+
+	trackingClickStart = this.trackingClickStart;
 	this.trackingClick = false;
+	this.trackingClickStart = 0;
 
 	if (targetElement.nodeName.toLowerCase() === 'label') {
 		forElement = this.findControl(targetElement);
@@ -282,16 +306,28 @@ FastClick.prototype.onTouchEnd = function(event) {
 			}
 
 			if (this.maybeSendClick(forElement, event)) {
+				this.targetElement = null;
 				event.preventDefault();
 			}
 
 			return false;
 		}
 	} else if (this.needsFocus(targetElement)) {
+
+		// If the touch started a while ago (best guess is 100ms based on tests for issue #36) then focus will be triggered anyway. Return early and unset the target element reference so that the subsequent click will be allowed through.
+		if ((event.timeStamp - trackingClickStart) > 100) {
+			this.targetElement = null;
+			return true;
+		}
+
 		targetElement.focus();
+
+		// Select elements need the event to go through at least on iOS, otherwise the selector menu won't open.
 		if (targetElement.tagName.toLowerCase() !== 'select') {
+			this.targetElement = null;
 			event.preventDefault();
 		}
+
 		return false;
 	}
 
@@ -326,6 +362,7 @@ FastClick.prototype.onTouchCancel = function() {
  */
 FastClick.prototype.onClick = function(event) {
 	'use strict';
+
 	var oldTargetElement;
 
 	if (event.forwardedTouchEvent) {
@@ -353,7 +390,8 @@ FastClick.prototype.onClick = function(event) {
 	// Derive and check the target element to see whether the click needs to be permitted;
 	// unless explicitly enabled, prevent non-touch click events from triggering actions,
 	// to prevent ghost/doubleclicks.
-	if (!this.needsClick(oldTargetElement)) {
+	if (!this.needsClick(oldTargetElement) || this.cancelNextClick) {
+		this.cancelNextClick = false;
 
 		// Prevent any user-added listeners declared on FastClick element from being fired.
 		if (event.stopImmediatePropagation) {
@@ -396,4 +434,13 @@ if (typeof define === 'function' && define.amd) {
 		'use strict';
 		return FastClick;
 	});
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+	module.exports = function(layer) {
+		'use strict';
+		return new FastClick(layer);
+	};
+
+	module.exports.FastClick = FastClick;
 }
