@@ -1,4 +1,5 @@
 var Trivia = Em.Application.create({
+	INTERVAL_BUFFER_SIZE_MS: 2000,
     exitUrl: null,
     ready: function() {
         var userId = getURLParameter('userId');
@@ -280,17 +281,19 @@ var Trivia = Em.Application.create({
 
 		secondsToStop: function(){
 
-			var playTo = parseInt(Trivia.router.get('gameController.currentQuestion.options.playTo'));
+			var playTo = parseInt(Trivia.router.get('gameController.currentQuestion.options.playTo')) + Trivia.INTERVAL_BUFFER_SIZE_MS * (this.get('questionIndex'));
 
 			var position = this.get('mediaAbsolutePosition') / 1000;
 
 			if (playTo > 0){
-
-				return Math.floor((playTo / 1000) - position);
+				var pos = Math.floor((playTo / 1000) - position);
+				if (pos < 0 ){
+					return 0;
+				}
+				return pos;
 			}
 
 			return false;
-
 
 		}.property('mediaAbsolutePosition'),
 
@@ -304,10 +307,20 @@ var Trivia = Em.Application.create({
 			if(Em.empty(media)){
 				return false;
 			}
+			var i = 0;
 
 			var positions = this.get('questions').map(
 				function(question){
-					return question.options.playTo / media.get('res').duration
+					console.info('mapping markers', i);
+
+					//factor in the delay caused by the 1 second gaps in audio files
+					var gapDelay = Trivia.INTERVAL_BUFFER_SIZE_MS * i;
+
+
+					var marker = (question.options.playTo + gapDelay ) / media.get('res').duration;
+					i++;
+					return marker
+
 			});
 
 			return positions;
@@ -316,6 +329,7 @@ var Trivia = Em.Application.create({
 		questionIndex: 0,
 
 		media: null,
+		fullMedia: null,
 
 		correctAnswers: 0, //amount of correct answers
 
@@ -424,6 +438,28 @@ var Trivia = Em.Application.create({
 						whileloading: function(){
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
 						}
+					}),
+					gaplessRes: soundManager.createSound({
+						id: 'trivia-gapless-' + mediaId,
+						url: function(){
+							var url = media.get('url');
+							var matches = url.match(/(.*)(\..*$)/);
+							var filename = matches[1];
+							var filetype = matches[2];
+
+							console.warn('gaplessres', filename + '_gapless' + filetype);
+
+							return filename + '_gapless' + filetype;
+							//.match(/\.(.*$)/)
+						}(),
+						autoplay: false,
+						onload: function(status){
+							//notify router of finished asset loading
+							Trivia.router.send('assetLoadingComplete');
+						},
+						whileloading: function(){
+							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
+						}
 					})
 					/*,
 					bRes:
@@ -441,9 +477,9 @@ var Trivia = Em.Application.create({
 		 * @param fromEnd used to replay fromEnd amount of seconds from the end of the interval
 		 */
 		fullReplay: function(){
-			if (this.get('media.res')){
+			if (this.get('media.gaplessRes')){
 				Trivia.router.send('startedPlaying');
-				this.get('media.res').play({
+				this.get('media.gaplessRes').play({
 					position: 0,
 					whileplaying: function(){
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
@@ -477,7 +513,7 @@ var Trivia = Em.Application.create({
 						Trivia.router.set('gameController.mediaPlaying', false);
 						Trivia.router.send('finishedPlaying');
 
-						console.log('stopped');
+						//console.log('stopped');
 					}
 				});
 			}
@@ -488,7 +524,6 @@ var Trivia = Em.Application.create({
 				Trivia.router.set('gameController.mediaPlaying', false);
 
 			}
-
 		},
 		playInterval: function(fromEnd){
 			var startingPosition = 0;
@@ -498,6 +533,11 @@ var Trivia = Em.Application.create({
 				var previousQuestion = this.get('questions').objectAt(this.get('questionIndex') - 1);
 
 				startingPosition =  previousQuestion.get('options.playTo') ? previousQuestion.get('options.playTo') : 0;
+
+				//count in the silence delay
+
+				startingPosition = startingPosition + this.get('questionIndex') * Trivia.INTERVAL_BUFFER_SIZE_MS;
+
 				/*
 				if (!startingPosition){
 					throw 'no startin position!';
@@ -505,7 +545,9 @@ var Trivia = Em.Application.create({
 				*/
 			}
 
-			var playTo = this.get('currentQuestion.options.playTo');
+			console.info('playing interval', 'original', this.get('currentQuestion.options.playTo'), 'question index', this.get('questionIndex'), 'position', this.get('currentQuestion.options.playTo') + this.get('questionIndex') * Trivia.INTERVAL_BUFFER_SIZE_MS);
+
+			var playTo = this.get('currentQuestion.options.playTo') + this.get('questionIndex') * Trivia.INTERVAL_BUFFER_SIZE_MS;
 
 			if (fromEnd){
 				startingPosition = playTo - fromEnd;
@@ -519,19 +561,27 @@ var Trivia = Em.Application.create({
 			}
 
 			//console.log('playing from', startingPosition, 'to', this.get('currentQuestion.options.playTo'));
-
+			var self = this;
 			if (this.get('media.res')){
 
 				this.get('media.res').play({
 					from: startingPosition,
-					to: playTo - 400, //take html5 audio lag into account
+					//to: playTo,
 					whileplaying: function(){
-						//console.log('playTo', playTo, this.position);
-						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
+						if (this.position > playTo + 200){
+							this.stop();
+							return;
+						}
+
+						var offset = parseInt(self.get('questionIndex')) * Trivia.INTERVAL_BUFFER_SIZE_MS;
+
+						Trivia.router.set('gameController.mediaPosition', this.position / (this.duration));
 						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
 						Trivia.router.set('gameController.mediaPlaying', true);
 					},
 					onstop: function(){
+						//alert('stopped2 ' + playTo + " " + this.position + " " + (this.position - playTo));
+
 						Trivia.router.set('gameController.mediaPlaying', false);
 						Trivia.router.send('finishedPlaying', playTo);
 
@@ -1509,7 +1559,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 3,
-        mediaId: 1,
+        mediaId: 11,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 20600},
         answers: [
@@ -1520,7 +1570,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 3,
-        mediaId: 1,
+        mediaId: 11,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 52700},
         answers: [
@@ -1531,7 +1581,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 3,
-        mediaId: 1,
+        mediaId: 11,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 67700},
         answers: [
@@ -1542,7 +1592,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 3,
-        mediaId: 1,
+        mediaId: 11,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 96700},
         answers: [
@@ -1553,7 +1603,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 3,
-        mediaId: 1,
+        mediaId: 11,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 111900},
         answers: [
@@ -1564,7 +1614,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 3,
-        mediaId: 1,
+        mediaId: 11,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 136600},
         answers: [
@@ -1575,7 +1625,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 3,
-        mediaId: 1,
+        mediaId: 11,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 147150},
         answers: [
@@ -1641,7 +1691,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 5,
-        mediaId: 2,
+        mediaId: 12,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 16750},
         answers: [
@@ -1652,7 +1702,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 5,
-        mediaId: 2,
+        mediaId: 12,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 22000},
         answers: [
@@ -1663,7 +1713,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 5,
-        mediaId: 2,
+        mediaId: 12,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 54000},
         answers: [
@@ -1674,7 +1724,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 5,
-        mediaId: 2,
+        mediaId: 12,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 81250},
         answers: [
@@ -1751,7 +1801,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 7,
-        mediaId: 3,
+        mediaId: 13,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 9800},
         answers: [
@@ -1762,7 +1812,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 7,
-        mediaId: 3,
+        mediaId: 13,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 31700},
         answers: [
@@ -1773,7 +1823,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 7,
-        mediaId: 3,
+        mediaId: 13,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 47800},
         answers: [
@@ -1784,7 +1834,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 7,
-        mediaId: 3,
+        mediaId: 13,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 56600},
         answers: [
@@ -1795,7 +1845,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 7,
-        mediaId: 3,
+        mediaId: 13,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 86200},
         answers: [
@@ -1806,7 +1856,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 7,
-        mediaId: 3,
+        mediaId: 13,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 105800},
         answers: [
@@ -1883,7 +1933,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 9,
-        mediaId: 4,
+        mediaId: 14,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 10070},
         answers: [
@@ -1894,7 +1944,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 9,
-        mediaId: 4,
+        mediaId: 14,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 19100},
         answers: [
@@ -1905,7 +1955,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 9,
-        mediaId: 4,
+        mediaId: 14,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 32800},
         answers: [
@@ -1916,7 +1966,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 9,
-        mediaId: 4,
+        mediaId: 14,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 39700},
         answers: [
@@ -1927,7 +1977,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 9,
-        mediaId: 4,
+        mediaId: 14,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 69500},
         answers: [
@@ -1938,7 +1988,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 9,
-        mediaId: 4,
+        mediaId: 14,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 78600},
         answers: [
@@ -1949,7 +1999,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 9,
-        mediaId: 4,
+        mediaId: 14,
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 96900},
         answers: [
@@ -3574,89 +3624,80 @@ Trivia.questions = [
         ]
     })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ];
 
 Trivia.medias = [
         Trivia.Media.create({
             guid: 1,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kulkurinvalssi.mp3'
+			url: 'assets/Kulkurinvalssi1.mp3'
         }),
         Trivia.Media.create({
             guid: 2,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Lapsuudentoverille.mp3'
+			url: 'assets/lapsuudentoverille1.mp3'
         }),
         Trivia.Media.create({
             guid: 3,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Valiaikainen.mp3'
+			url: 'assets/valiaikainen1.mp3'
         }),
         Trivia.Media.create({
             guid: 4,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Tulipunaruusut.mp3'
+			url: 'assets/tulipunaruusut1.mp3'
         }),
         Trivia.Media.create({
             guid: 5,
 			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Suutarinemannankehtolaulu.mp3'
+			url: 'assets/suutarinemannankehtolaulu.mp3'
         }),
         Trivia.Media.create({
             guid: 6,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Voituotamuistia.mp3'
+			url: 'assets/voituotamuistia.mp3'
         }),
         Trivia.Media.create({
             guid: 7,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Puhelinlangatlaulaa.mp3'
+			url: 'assets/puhelinlangatlaulaa.mp3'
         }),
         Trivia.Media.create({
             guid: 8,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Sellanenolviipuri.mp3'
+			url: 'assets/sellanenolviipuri.mp3'
         }),
         Trivia.Media.create({
             guid: 9,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Kotkanpoikiiilmansiipii.mp3'
+			url: 'kotkanpoikiiilmansiipii.mp3'
         }),
         Trivia.Media.create({
             guid: 10,
             mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/Satumaa.mp3'
-        })
+			url: 'assets/satumaa.mp3'
+        }),
+		Trivia.Media.create({
+	            guid: 11,
+	            mediaType: 'mp3',
+				url: 'assets/kulkurinvalssi2.mp3'
+		}),
+		Trivia.Media.create({
+			guid: 12,
+			mediaType: 'mp3',
+			url:'assets/lapsuudentoverille2.mp3'
+		}),
+		Trivia.Media.create({
+			guid: 13,
+			mediaType: 'mp3',
+			url:'assets/valiaikainen2.mp3'
+		}),
+		Trivia.Media.create({
+			guid: 14,
+			mediaType: 'mp3',
+			url:'assets/tulipunaruusut2.mp3'
+		})
+
     ];
 
 soundManager.defaultOptions = {

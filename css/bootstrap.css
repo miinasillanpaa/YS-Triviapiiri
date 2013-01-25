@@ -1735,6 +1735,10 @@ a:active,
   -webkit-box-shadow: 0 0 30px orange !important;
   -webkit-filter: brightness(15%);
 }
+.progress.active {
+  -webkit-box-shadow: none !important;
+  -webkit-filter: none;
+}
 /*
 a:after {
 	position: absolute;
@@ -1806,6 +1810,8 @@ body {
 }
 .progressbar-view .progress .bar {
   height: 1rem;
+  -webkit-transition: none;
+  transition: none;
 }
 .progressbar-view .markers {
   position: absolute;
@@ -1878,7 +1884,7 @@ body {
   -webkit-box-orient: vertical;
 }
 .app .menubar {
-  height: 2rem;
+  height: 3rem;
   background-color: #989a9c;
   background-image: -moz-linear-gradient(top, #cccccc, #495053);
   background-image: -ms-linear-gradient(top, #cccccc, #495053);
@@ -2320,7 +2326,7 @@ body {
   line-height: 1.5;
 }
 .app .workspace .select-game-view h2 {
-  -webkit-box-flex: 0.1;
+  -webkit-box-flex: 1;
 }
 .app .workspace .select-game-view .wrapper {
   -webkit-box-flex: 20;
@@ -2334,7 +2340,7 @@ body {
   margin: 0;
   padding: 0;
   width: 43.6em;
-  margin-left: -20em;
+  margin-left: -21.8em;
   position: absolute;
   bottom: 0;
   top: 0;
@@ -2369,8 +2375,8 @@ body {
   background-image: -ms-radial-gradient(circle, #555555, #333333);
   background-image: -o-radial-gradient(circle, #555555, #333333);
   background-repeat: no-repeat;
-  width: 7.5em;
-  height: 7.5em;
+  width: 8em;
+  height: 8em;
 }
 .app .workspace .select-game-view .wrapper ul li div.cover a {
   display: block;
