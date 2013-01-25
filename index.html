@@ -48,18 +48,26 @@
   <script type="text/x-handlebars" data-template-name="plain-question">
 	{{outlet question class="controls-outlet"}}
 	{{outlet media class="media-outlet"}}
+
+      {{#if Trivia.router.gameController.questions}}
+        {{#with Trivia.router.plainQuestionLabelController}}
+   		<div class="question-indicator">
+ 	  		<span class="question-label">Kysymys</span></span><span class="indicator"><span class="question-number">{{questionNumber}}</span><span class="slash">/</span><span class="question-amount">{{questionAmount}}</span></span>
+   		</div>
+        {{/with}}
+ 	  {{/if}}
+
   </script>
   <script type="text/x-handlebars" data-template-name="plain-question-label">
 	  <span class="wrapper">
-	  {{#if Trivia.router.gameController.questions}}
-  		<div class="question-indicator">
-	  		<span class="question-label">Kysymys</span></span><span class="indicator"><span class="question-number">{{questionNumber}}</span><span class="slash">/</span><span class="question-amount">{{questionAmount}}</span></span>
-  		</div>
-	  {{/if}}
+
 
 	  <div class="label-view">
 		  {{content.questionText}}
 	  </div>
+
+
+
 	  </span>
 
 
