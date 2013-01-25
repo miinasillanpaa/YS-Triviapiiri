@@ -32,6 +32,10 @@ a:active, .active{
 	-webkit-box-shadow: 0 0 30px orange !important;
 	-webkit-filter: brightness(15%);
 }
+.progress.active {
+  -webkit-box-shadow: none !important;
+  -webkit-filter: none;
+}
 /*
 a:after {
 	position: absolute;
@@ -92,6 +96,8 @@ body {
 		height: 1em;
 		.bar {
 			height: 1rem;
+            -webkit-transition: none;
+            transition: none;
 		}
 	}
 
