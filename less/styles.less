@@ -340,6 +340,7 @@ body {
 							.media-display-view {
 								.box-flex(1);
 								.display-box();
+
 								box-shadow: 0.1em 0.1em 0.1em rgba(0,0,0,0.3);
 								//background: #cccccc;
 								background-size: cover;
@@ -348,11 +349,51 @@ body {
 								//margin-left: 0.25rem;
 								//margin-top: 0.25rem;
 								background-position: center center;
+
+                                position: absolute;
+                                height: 15rem;
+                                width: 15rem;
+                                bottom: 0.5rem;
+                                left: 50%;
+                                margin-left: -15/2rem;
 							}
 						}
 					}
-					.plain-question-view {
-						position: relative;
+
+                  .plain-question-view {
+                    position: relative;
+
+                    .question-indicator {
+                        display: inline-block;
+                        .badge();
+                        background: #161616;
+                        font-size: 1.5rem;
+                        text-shadow: 1px 1px 1px black;
+
+                        font-size: 1.2em;
+
+                        position: absolute;
+                        text-align: right;
+                        line-height: 2rem;
+                        bottom: 0.5rem;
+                        right: 0.5rem;
+
+
+                        .question-label {
+                          text-transform: uppercase;
+                          font-size: 1rem;
+                          margin-right: 0.5rem;
+                        }
+                        .indicator {
+
+                            .slash {
+                                margin-right: 0.25rem;
+                                margin-left: 0.25rem;
+                            }
+                        }
+                    }
+
+
 
 						.controls-outlet {
 
@@ -367,32 +408,6 @@ body {
 								text-align: right;
 								margin-right: 1rem;
 								margin-top: 0.5rem;
-								.question-indicator {
-									display: inline;
-									.badge();
-									background: #161616;
-									font-size: 1.5rem;
-									text-shadow: 1px 1px 1px black;
-
-									font-size: 1.2em;
-									height: 3rem;
-									text-align: right;
-									line-height: 2rem;
-
-
-									.question-label {
-										text-transform: uppercase;
-										font-size: 1rem;
-										margin-right: 0.5rem;
-									}
-									.indicator {
-
-										.slash {
-											margin-right: 0.25rem;
-											margin-left: 0.25rem;
-										}
-									}
-								}
 							}
 							.label-view {
 								.well();
@@ -402,7 +417,7 @@ body {
 								box-sizing: border-box;
 								margin: 0;
 								position: absolute;
-								top: 3rem;
+								top: 0.5rem;
 								left: 1rem;
 								right: 1rem;
 								//height: 5rem;
