@@ -2600,7 +2600,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        questionText: 'Missä kaupungissa Bårgo Bladet julkaistaan?',
+        questionText: 'Missä kaupungissa Borgå Bladet julkaistaan?',
         gameId: 18,
         image: 'assets/img/bargo.jpg',
         answers: [
@@ -2628,7 +2628,7 @@ Trivia.questions = [
         answers: [
             Trivia.Answer.create({ answerText: 'Pori' }),
             Trivia.Answer.create({ answerText: 'Kuopio' }),
-            Trivia.Answer.create({ answerText: 'Kouvola', correct: true }),
+            Trivia.Answer.create({ answerText: 'Jyväskylä', correct: true }),
             Trivia.Answer.create({ answerText: 'Kajaani' })
         ]
     }),
