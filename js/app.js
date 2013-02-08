@@ -636,7 +636,7 @@ var Trivia = Em.Application.create({
 
 					if (gameType === 'music'){
 						router.set('gamesController.gameType', 'music');
-                        router.get('gameController').set('gameTypeTitle', 'Valitse pelattava kappale');
+                        router.get('gameController').set('gameTypeTitle', 'Valitse soitettava kappale');
 					} else {
 						router.set('gamesController.gameType', 'plain');
                         router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');

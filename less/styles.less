@@ -626,7 +626,7 @@ body {
 		.select-game-view {
 			.box-flex(5);
 			.display-box();
-			.box-align(center);
+			.box-align(stretch);
 
 			.box-orient(vertical);
 			.intro {
@@ -641,7 +641,11 @@ body {
 				}
 			}
 			h2 {
-				.box-flex(1);
+              .display-box();
+              .box-pack(center);
+              .box-align(center);
+              .box-flex(1);
+
 			}
 			.wrapper {
 				//overflow-x: hidden;
@@ -651,16 +655,20 @@ body {
 				position: relative;
 
 				ul {
+
 					overflow: auto;
 					display: block; //margin: 10px;
 					.box-flex(10); //height: 17.2em;
 					margin: 0;
 					padding: 0;
-					width: 43.6em;
-					margin-left: -43.6em/2;
+					//width: 43.6em;
+					//margin-left: -43.6em/2;
 					position: absolute;
 					bottom: 0;
 					top: 0;
+
+                  box-sizing: border-box;
+                  padding-left: 2em;
 
 					li {
 						float: left;
@@ -684,9 +692,9 @@ body {
 
 							#gradient > .radial();
 
+							width: 6.2em;
+							height: 9em;
 
-							width: 8em;
-							height: 8em;
 							a {
 								display: block;
 								height: 100%;
