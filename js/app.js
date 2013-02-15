@@ -729,7 +729,7 @@ var Trivia = Em.Application.create({
 							this.loadingComplete(router);
 						},
 						back: function(router){
-							router.transitionTo('games.games.index');
+							router.transitionTo('games.index');
 						}
 					}),
 					loaded: Em.Route.extend({
