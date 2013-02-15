@@ -615,7 +615,7 @@ var Trivia = Em.Application.create({
 	}),
 
 	Router: Ember.Router.extend({
-		//enableLogging: true,
+		enableLogging: true,
 		location: 'hash',
 		root: Ember.Route.extend({
 			index: Ember.Route.extend({
