@@ -1144,6 +1144,10 @@ var Trivia = Em.Application.create({
 								back: function(router){
 									router.get('gameController.media.res').stop();
 									router.transitionTo('root.games.index');
+								},
+								startedPlaying: function(router){
+									console.warn('started playing');
+									//router.transitionTo('mediaStarted');
 								}
 							}),
 							_setMood: function(router, mood){
@@ -2688,7 +2692,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        questionText: 'Missä maassa ilmestyy Deutsche Allgemeine Zeitung',
+        questionText: 'Missä maassa ilmestyi Deutsche Allgemeine Zeitung',
         gameId: 18,
         image: 'assets/img/Deutscheallgemeinezeitung.jpg',
         answers: [
