@@ -427,7 +427,6 @@ var Trivia = Em.Application.create({
 			if (media && media.get('mediaType') === 'mp3'){
 				media.reopen({
 					res: soundManager.createSound({
-
 						id: 'trivia-' + mediaId,
 						url: media.get('url'),
 						autoplay: false,
@@ -2066,7 +2065,7 @@ Trivia.questions = [
         gameId: 10,
         mediaId: 5,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 81200},
+        options: {playTo: 83200},
         answers: [
             Trivia.Answer.create({ answerText: 'kenkähylly ulos mennessänne' }),
             Trivia.Answer.create({ answerText: 'piimähinkkiä porstuassa mennessänne', correct:true }),
