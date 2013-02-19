@@ -455,10 +455,10 @@ var Trivia = Em.Application.create({
 						autoplay: false,
 						onload: function(status){
 							//notify router of finished asset loading
-							Trivia.router.send('assetLoadingComplete');
+							//Trivia.router.send('assetLoadingComplete');
 						},
 						whileloading: function(){
-							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
+							//self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
 						}
 					})
 					/*,
@@ -3640,7 +3640,7 @@ Trivia.medias = [
         Trivia.Media.create({
             guid: 1,
             mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new//Kulkurinvalssi1.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kulkurinvalssi1.mp3'
         }),
         Trivia.Media.create({
             guid: 2,
