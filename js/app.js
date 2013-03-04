@@ -392,7 +392,7 @@ var Trivia = Em.Application.create({
             if (rightAnswers && participants && playedGameId) {
                 console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
                 $.ajax({
-                    url:'http://pienipiiri.fi/saveEvent',
+                    url:'/saveEvent',
                     type: 'POST',
                     data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants, playedGameId: playedGameId },
                     success: function(response) {
@@ -407,9 +407,9 @@ var Trivia = Em.Application.create({
             var playedGameId = Trivia.get('router.gameController.playedGameId');
             if (playedGameId && mood) {
                 var mood = mood;
-                console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
+                //console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
                 $.ajax({
-                    url: 'http://pienipiiri.fi/saveEvent',
+                    url: '/saveEvent',
                     type: 'POST',
                     data: { type: 'gameFeedback', playedGameId: playedGameId, feedback: mood },
                     success: function(response) {
