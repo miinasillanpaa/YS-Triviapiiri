@@ -364,7 +364,7 @@ var Trivia = Em.Application.create({
                 console.log('saving game start to backend with parameters gameId: ' + gameId + ' userId: ' + userId);
                 if (gameId && userId) {
                     $.ajax({
-                        url: 'http://pienipiiri.fi/saveEvent',
+                        url: '/saveEvent',
                         type: 'POST',
                         data: { type: 'startGame', gameId: gameId, userId: userId },
                         success: function(response) {
@@ -614,7 +614,7 @@ var Trivia = Em.Application.create({
 	}),
 
 	Router: Ember.Router.extend({
-		enableLogging: true,
+		enableLogging: false,
 		location: 'hash',
 		root: Ember.Route.extend({
 			index: Ember.Route.extend({
