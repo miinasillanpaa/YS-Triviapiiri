@@ -2989,7 +2989,7 @@ Trivia.questions = [
         image: 'assets/img/kirjailijat/kir33.jpg',
         questionText: 'Mikä kirjoista on Laila Hietaniemen kirjoittama?',
         answers: [
-            Trivia.Answer.create({ answerText: 'Seisemän veljestä' }),
+            Trivia.Answer.create({ answerText: 'Seitsemän veljestä' }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' }),
             Trivia.Answer.create({ answerText: 'Kallis kotimaa', correct:true })
         ]
