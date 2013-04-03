@@ -849,22 +849,12 @@ var Trivia = Em.Application.create({
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-                                                /*
-                                                var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
-                                                var sound = soundEffect.getSound();
-                                                sound.play({position:0});*/
-
-												router.transitionTo('answerChecked.answeredRight');
+                                                router.transitionTo('answerChecked.answeredRight');
 
 											} else {
 												console.log('checking answer, wrong');
 
-                                                /*
-                                                var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
-                                                var sound = soundEffect.getSound();
-                                                sound.play({position:0});*/
-
-												router.transitionTo('answerChecked.answeredWrong');
+                                                router.transitionTo('answerChecked.answeredWrong');
 											}
 
 										},
@@ -1026,26 +1016,12 @@ var Trivia = Em.Application.create({
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
 
-                                            /*
-                                            var soundEffect = Trivia.soundEffects.findProperty('name', 'correct');
-											if (soundEffect && soundEffect.getSound){
-												var sound = soundEffect.getSound();
-												sound.play({position:0});
-											}*/
-
-
-											router.transitionTo('answerChecked.answeredRight');
+                                            router.transitionTo('answerChecked.answeredRight');
 
 										} else {
 											console.log('checking answer, wrong');
 
-                                            /*
-											var soundEffect = Trivia.soundEffects.findProperty('name', 'wrong');
-											if (soundEffect && soundEffect.getSound){
-												var sound = soundEffect.getSound();
-												sound.play({position:0});
-											}*/
-											router.transitionTo('answerChecked.answeredWrong');
+                                            router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
 								}),
@@ -1053,7 +1029,6 @@ var Trivia = Em.Application.create({
 									connectOutlets: function(router){
 
 										router.get('answersController').connectOutlet('action', 'proceedButtonPlain');
-										//router.get('answersController').connectOutlet('choices', 'empty');
 
 									},
 									start: Em.Route.extend({
@@ -1182,16 +1157,7 @@ Trivia.Game = Em.Object.extend({
     image: null,
     caption: null,
 	gameType: null
-	/*
-	find: function(id){
-
-	}*/
 });
-/*
-Trivia.Game.find = function(id){
-	return Trivia.games.findProperty('guid', parseInt(id));
-}
-*/
 
 Trivia.Question = Em.Object.extend({
     guid: null,
@@ -1202,11 +1168,6 @@ Trivia.Question = Em.Object.extend({
 	questionText: null,
 	answers: [],
 	correctAnswer: null
-});
-
-Trivia.SoundEffect = Em.Object.extend({
-    name: null,
-    sound: null
 });
 
 Trivia.Media = Em.Object.extend({
@@ -2603,7 +2564,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        questionText: 'Missä kaupungissa Borgå Bladet julkaistaan?',
+        questionText: 'Missä kaupungissa Borgåbladet julkaistaan?',
         gameId: 18,
         image: 'assets/img/bargo.jpg',
         answers: [
@@ -2684,7 +2645,7 @@ Trivia.questions = [
         gameId: 18,
         image: 'assets/img/newyorktimes.jpg',
         answers: [
-            Trivia.Answer.create({ answerText: 'Yhdysvalloissa', correct: true }),
+            Trivia.Answer.create({ answerText: 'Yhdysvallat', correct: true }),
             Trivia.Answer.create({ answerText: 'Australia' }),
             Trivia.Answer.create({ answerText: 'Uusi-Seelanti'}),
             Trivia.Answer.create({ answerText: 'Englanti' })
@@ -2908,7 +2869,7 @@ Trivia.questions = [
         image: 'assets/img/kirjailijat/kir20.jpg',
         questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
         answers: [
-            Trivia.Answer.create({ answerText: 'Puhallus', correct:true }),
+            Trivia.Answer.create({ answerText: 'Puhdistus', correct:true }),
             Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
             Trivia.Answer.create({ answerText: 'Onnellinen mies' })
         ]
@@ -3095,7 +3056,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
-
+		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
         questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Voitonmerkki' }),
@@ -3115,6 +3076,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 22,
+		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
         questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Tyttö, joka leikki tulella', correct:true }),
@@ -3418,7 +3380,7 @@ Trivia.questions = [
         questionText: 'Seinilläkin on',
         answers: [
             Trivia.Answer.create({ answerText: 'kovaääniset' }),
-            Trivia.Answer.create({ answerText: 'kauiuttimet' }),
+            Trivia.Answer.create({ answerText: 'kaiuttimet' }),
             Trivia.Answer.create({ answerText: 'korvat', correct:true })
         ]
     }),
@@ -3437,7 +3399,7 @@ Trivia.questions = [
         image: 'assets/img/sananlaskut/san31.jpg',
         questionText: 'Anna sen kiven olla',
         answers: [
-            Trivia.Answer.create({ answerText: 'joka talaosi kannattaa' }),
+            Trivia.Answer.create({ answerText: 'joka taloasi kannattaa' }),
             Trivia.Answer.create({ answerText: 'jota et jaksa kantaa', correct:true }),
             Trivia.Answer.create({ answerText: 'joka kirkkauttaan kiiltää' })
         ]
@@ -3475,7 +3437,7 @@ Trivia.questions = [
     Trivia.Question.create({
         gameId: 25,
         image: 'assets/img/sananlaskut/san35.jpg',
-        questionText: 'Pata kattilaa soimaan',
+        questionText: 'Pata kattilaa soimaa',
         answers: [
             Trivia.Answer.create({ answerText: 'samat hiilet kummallakin' }),
             Trivia.Answer.create({ answerText: 'sama keitto kummassakin' }),
@@ -3718,38 +3680,6 @@ soundManager.defaultOptions = {
 soundManager.setupOptions = {
 	preferFlash: false
 }
-soundManager.onready(function() {
-    Trivia.soundEffects = [
-        Trivia.SoundEffect.create({
-            name: 'correct',
-            getSound: function() {
-                return soundManager.createSound({
-                    url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/sound/tada.mp3',
-                    id: 'tada'
-                })
-            }
-        }),
-        Trivia.SoundEffect.create({
-            name: 'wrong',
-            getSound: function() {
-                return soundManager.createSound({
-                    url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/sound/sadtrombone.mp3',
-                    id: 'sadtrombone'
-                })
-            }
-        }),
-        Trivia.SoundEffect.create({
-            name: 'winner',
-            sound: null,
-            getSound: function() {
-                return soundManager.createSound({
-                    url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/sound/winner.wav',
-                    id: 'winner'
-                })
-            }
-        })
-    ];
-});
 
 Trivia.ProgressbarView = Em.View.extend({
 	templateName: 'progressbarView',

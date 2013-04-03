@@ -1,8 +1,7 @@
 <!doctype html>
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta lang="fi">
   <meta name="viewport" id="screenViewport" content="width=1280, initial-scale=1, maximum-scale=1"/>
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -11,7 +10,7 @@
     <script type="text/x-handlebars" data-template-name="selectGameView">
 		<div class="intro">
 			<span>
-			Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu ku kappale on soitettu.
+                Kuulet kohta laulun. Kun laulu pysähtyy, valitse vaihtoehdoista sanat, joilla laulu jatkuu. Onnea matkaan!
 			</span>
 		</div>
 		<h2>{{Trivia.router.gameController.gameTypeTitle}}</h2>
@@ -29,7 +28,7 @@
 	</script>
   	<script type="text/x-handlebars" data-template-name="game-not-started">
  		<h2>{{Trivia.router.gameController.title}}</h2>
-		<p>Kuulet kohta kappaleen joka pysähtyy välillä ja pyytää sinua valitsemaan oikeat sanat joilla kappale jatkuu. Oikeista vastauksista saat pisteitä. Peli loppuu kun kappale on soitettu.</p>
+		<p>Kuulet kohta laulun. Kun laulu pysähtyy, valitse vaihtoehdoista sanat, joilla laulu jatkuu. Onnea matkaan!</p>
  		<button class="btn btn-primary"{{action startGame1P}}><i class="icon-user"></i> Pelaan yksin</button>
 		<button class="btn"{{action startGame2P}}><i class="icon-group"></i> Pelaan parin kanssa</button>
 
@@ -104,7 +103,7 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="alert-wrong">
-	  Väärin!
+	  Ei onnistunut!
   </script>
 
   <script type="text/x-handlebars" data-template-name="alert-countdown">
@@ -337,7 +336,7 @@
   <script src="js/libs/fastclick.min.js"></script>
   <script src="js/libs/ember-1.0.pre.js"></script>
 
-  <script src="js/app-min.js?v=3"></script>
+  <script src="js/app-min.js?v=4"></script>
 
   <script type="text/javascript">
       soundManager.url = 'js/libs/';
