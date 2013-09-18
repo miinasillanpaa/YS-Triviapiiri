@@ -3191,7 +3191,7 @@ Trivia.questions = [
     Trivia.Question.create({
         gameId: 23,
         image: 'assets/img/sananlaskut/san8.jpg',
-        questionText: 'Pienilläkin',
+        questionText: 'Seinilläkin',
         answers: [
             Trivia.Answer.create({ answerText: 'korvat kuulee' }),
             Trivia.Answer.create({ answerText: 'on silmät päässä' }),
