@@ -1154,7 +1154,7 @@ var Trivia = Em.Application.create({
 Trivia.Game = Em.Object.extend({
     guid: null,
     name: null,
-    image: null,
+    image: 'assets/img/default.jpg',
     caption: null,
 	gameType: null
 });
