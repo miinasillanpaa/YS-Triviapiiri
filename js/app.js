@@ -277,14 +277,11 @@ var Trivia = Em.Application.create({
 		subsDidChange: function() {
 			if(this.get('content')) {
 				return this.get('content.questionText');
-				console.log('subtitles changed', this.get('content'));
-			}
 
-		/*	var subs = Trivia.get('router.gameController.currentQuestion.questionText')
-			console.log('AAVIEW' + subs); */
+			}
 		}.observes('content'),
 		didInsertElement: function() {
-			console.warn('subsss');
+			console.warn('subs init');
 			this.subsDidChange();
 		}
 	}),
@@ -317,7 +314,7 @@ var Trivia = Em.Application.create({
 			}
 		}.property('questionText','currentQuestion'),
 
-		captionBinding: 'content.caption', //Copyright info. Not implemented
+		captionBinding: 'content.caption', //todo Copyright info. Not implemented
 		gameTypeBinding: 'content.gameType',
 
 		isSinglePlayerGame: null,
@@ -528,9 +525,7 @@ var Trivia = Em.Application.create({
 		 */
 		fullReplay: function(){
 			if (this.get('media.gaplessRes')){
-				if(Trivia.router.get('gamesController.gameType') !== 'action'){
-					Trivia.router.send('startedPlaying');
-				}
+				Trivia.router.send('startedPlaying');
 
 				this.get('media.gaplessRes').play({
 					position: 0,
@@ -783,47 +778,47 @@ var Trivia = Em.Application.create({
 								console.log('no media');
 								router.send('loadingComplete');
 
-							} else if (router.get('gameController.media.res.loaded')){
+							} else if (router.get('gameController.media.res.loaded') && router.get('gamesController.gameType') !== 'action' ){
 								router.send('loadingComplete');
 							}else{
-								if(router.get('gamesController.gameType') === 'action'){
+								console.log('action preloader firing');
 
-									var questions = router.get('gameController.questions');
+								//todo on game start game still might lack audio or pic
 
-									for(var i=0; i<questions.length; i++) {
-										if(questions[i].image){
-											preloadImage(questions[i].image);
-										}
+								var questions = router.get('gameController.questions');
+								for(var i=0; i<questions.length; i++) {
+									if(questions[i].image){
+										preloadImage(questions[i].image);
 									}
-									var audio = router.get('gameController.media.gaplessRes.url');
-									preloadAudio(audio);
+								}
+								var audio = router.get('gameController.media.gaplessRes.url');
+								preloadAudio(audio);
 
-									function preloadImage(uri) {
-										var img = new Image();
-										img.onload = isGameLoaded;
-										img.src = uri;
-										console.log('imagesLoaded: '+uri);
-										return img;
-									}
+								function preloadImage(uri) {
+									var img = new Image();
+									img.onload = isGameLoaded;
+									img.src = uri;
+									console.log('imagesLoaded: '+uri);
+									return img;
+								}
 
-									function preloadAudio(uri) {
-										var audio = new Audio();
-										audio.addEventListener('canplaythrough', isGameLoaded, false);
-										audio.src = uri;
-										console.log('audioLoaded: '+uri);
-										return audio;
-									}
+								function preloadAudio(uri) {
+									var audio = new Audio();
+									audio.addEventListener('canplaythrough', isGameLoaded, false);
+									audio.src = uri;
+									console.log('audioLoaded: '+uri);
+									return audio;
+								}
 
-									var filesLoaded = 0;
-									function isGameLoaded() {
-										//todo think of generalizing this -> implementation for music quizzes
-										var filesToLoad = router.get('gameController.questions.length')+1; //+1 for audio
-										filesLoaded++;
-										console.log('filesLoaded: ' + filesLoaded + ' / ' + filesToLoad );
-										if( filesLoaded >= filesToLoad ) {
-											console.log('all files loaded!');
-											router.transitionTo('loaded');
-										}
+								var filesLoaded = 0;
+								function isGameLoaded() {
+									//todo think of generalizing this -> implementation for music quizzes
+									var filesToLoad = router.get('gameController.questions.length')+1; //+1 for audio
+									filesLoaded++;
+									console.log('filesLoaded: ' + filesLoaded + ' / ' + filesToLoad );
+									if( filesLoaded >= filesToLoad ) {
+										console.log('all files loaded!');
+										router.transitionTo('loaded');
 									}
 								}
 							}
@@ -887,7 +882,9 @@ var Trivia = Em.Application.create({
 											router.send('playInterval');
 										} else {
 											router.transitionTo('actionQuiz');
-											router.send('fullReplay');
+											//if(router.get('gameController.mediaState') === 'stopped'){
+												router.send('fullReplay');
+											//} prevents media from stopping?
 										}
 									} else {
 										throw "unknown media type " + media.mediaType
@@ -924,7 +921,6 @@ var Trivia = Em.Application.create({
 										router.get('gameController').connectOutlet('subtitle','actionSubtitle');
 									},
 									fullReplay: function(router){
-										console.log('action full play');
 										router.get('gameController').fullReplay();
 										router.transitionTo('mediaStarted');
 									},
@@ -934,7 +930,7 @@ var Trivia = Em.Application.create({
 										connectOutlets: function(router){
 										},
 										back: function(router){
-											router.get('gameController.media.res').pause();
+											router.get('gameController.media.gaplessRes').pause();
 											router.transitionTo('mediaPaused');
 											if (confirm('Haluatko varmasti palata takaisin? Peli lopetaan.')){
 												router.transitionTo('root.index');
@@ -943,7 +939,7 @@ var Trivia = Em.Application.create({
 											}
 										},
 										pause: function(router){
-											router.get('gameController.media.res').pause();
+											router.get('gameController.media.gaplessRes').pause();
 											router.transitionTo('mediaPaused');
 											router.send('resumeWithAlert');
 										},
@@ -963,9 +959,16 @@ var Trivia = Em.Application.create({
 											}
 										},
 										finishedPlaying: function(router){
-											router.transitionTo('index');
+											router.transitionTo('root.index');
 											//router.send('showChoices');
+										},
+										startedPlaying: function(router){
+											router.transitionTo('mediaPlaying');
+										},
+										assetLoadingComplete: function(router){
+											console.log('asset loading complete')
 										}
+
 									}),
 									mediaPaused: Em.Route.extend({
 										connectOutlets: function(router){
@@ -973,11 +976,11 @@ var Trivia = Em.Application.create({
 										},
 										resumeWithAlert: function(router){
 											alert('Paina jatkaaksesi');
-											router.get('gameController.media.res').play();
+											router.get('gameController.media.gaplessRes').play();
 											router.transitionTo('mediaPlaying');
 										},
 										resume: function(router){
-											router.get('gameController.media.res').play();
+											router.get('gameController.media.gaplessRes').play();
 											router.transitionTo('mediaPlaying');
 										}
 									})
