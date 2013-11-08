@@ -528,7 +528,10 @@ var Trivia = Em.Application.create({
 		 */
 		fullReplay: function(){
 			if (this.get('media.gaplessRes')){
-				//Trivia.router.send('startedPlaying'); /* todo is this used somewhere? */
+				if(Trivia.router.get('gamesController.gameType') !== 'action'){
+					Trivia.router.send('startedPlaying');
+				}
+
 				this.get('media.gaplessRes').play({
 					position: 0,
 
@@ -779,7 +782,7 @@ var Trivia = Em.Application.create({
 								//proceed further if no media
 								console.log('no media');
 								router.send('loadingComplete');
-								
+
 							} else if (router.get('gameController.media.res.loaded')){
 								router.send('loadingComplete');
 							}else{
