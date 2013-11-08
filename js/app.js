@@ -247,6 +247,49 @@ var Trivia = Em.Application.create({
 			Trivia.router.send('nextQuestion');
 		}
 	}),
+	//action game stuff
+	//ActionGameStartedController: Em.Controller.extend({}),
+	ActionGameStartedView: Em.View.extend({
+		classNames: 'action-game-started-view'.w(),
+		templateName: 'action-game-started',
+		contentBinding: 'Trivia.router.gameController.questionImage',
+		contentDidChange:function () {
+			if (this.get('content')) {
+				console.log('content changed', this.get('content'));
+				console.log('background changed', this.get('element'));
+				$(this.get('element')).css({
+					'background-image':'url(' + this.get('content') + ')'
+				})
+			}
+		}.observes('content'),
+
+		didInsertElement:function () {
+			console.warn('element added');
+			//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
+			this.contentDidChange();
+		}
+	}),
+	ActionSubtitleController: Em.Controller.extend({}),
+	ActionSubtitleView: Em.View.extend({
+		templateName: 'action-subtitle',
+		classNames: 'subtitle'.w(),
+		contentBinding: 'content.questionText',
+		subsDidChange: function() {
+			if(this.get('content')) {
+				return this.get('content.questionText');
+				console.log('subtitles changed', this.get('content'));
+			}
+
+		/*	var subs = Trivia.get('router.gameController.currentQuestion.questionText')
+			console.log('AAVIEW' + subs); */
+		}.observes('content'),
+		didInsertElement: function() {
+			console.warn('subsss');
+			this.subsDidChange();
+		}
+	}),
+
+	// end of action game stuff
 
 	GameStartedController: Em.Controller.extend({}),
 	GameController: Em.Controller.extend({
@@ -265,6 +308,14 @@ var Trivia = Em.Application.create({
 				return false;
 			}
 		}.property('image', 'currentQuestion'),
+
+		questionText: function(){
+			if(this.get('currentQuestion.questionText')){
+				return this.get('currentQuestion.questionText')
+			}else{
+				return false;
+			}
+		}.property('questionText','currentQuestion'),
 
 		captionBinding: 'content.caption', //Copyright info. Not implemented
 		gameTypeBinding: 'content.gameType',
@@ -457,7 +508,7 @@ var Trivia = Em.Application.create({
 							//Trivia.router.send('assetLoadingComplete');
 						},
 						whileloading: function(){
-							//self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
+							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
 						}
 					})
 					/*,
@@ -477,13 +528,20 @@ var Trivia = Em.Application.create({
 		 */
 		fullReplay: function(){
 			if (this.get('media.gaplessRes')){
-				Trivia.router.send('startedPlaying');
+				//Trivia.router.send('startedPlaying'); /* todo is this used somewhere? */
 				this.get('media.gaplessRes').play({
 					position: 0,
+
 					whileplaying: function(){
 						Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
 						Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
 						Trivia.router.set('gameController.mediaPlaying', true);
+						//console.log(Trivia.router.get('gameController.currentQuestion.options.showAt'))
+
+						if ( this.position > Trivia.router.get('gameController.currentQuestion.options.changeAt') ) {
+							//console.log('next');
+							Trivia.router.send('nextQuestion');
+						}
 					},
 					onfinish: function(){
 						Trivia.router.set('gameController.mediaPlaying', false);
@@ -636,15 +694,20 @@ var Trivia = Em.Application.create({
 					if (gameType === 'music'){
 						router.set('gamesController.gameType', 'music');
                         router.get('gameController').set('gameTypeTitle', 'Valitse soitettava kappale');
-					} else {
+					} else if(gameType === 'action') {
+						router.set('gamesController.gameType', 'action');
+                        router.get('gameController').set('gameTypeTitle', 'Valitse musiikkiharjoite');
+					}else{
 						router.set('gamesController.gameType', 'plain');
-                        router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');
+						router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');
 					}
 				},
 				connectOutlets: function(router){
 					if (router.get('gamesController.gameType') === 'music'){
 						Trivia.set('games', Trivia.gameObjects.music);
-					} else {
+					} else if(router.get('gamesController.gameType') === 'action') {
+						Trivia.set('games', Trivia.gameObjects.action);
+					}else{
 						Trivia.set('games', Trivia.gameObjects.plain);
 					}
 				},
@@ -695,7 +758,7 @@ var Trivia = Em.Application.create({
 						router.set('gameController.isSinglePlayerGame', null);
 
 						//randomize the questions if we're not on an audio game
-						if (game.get('gameType') !== 'audio'){
+						if (game.get('gameType') === 'plain'){
 							questions = questions.sort(function() {return 0.5 - Math.random()});
 						}
 
@@ -709,13 +772,57 @@ var Trivia = Em.Application.create({
 					},
 					notLoaded: Em.Route.extend({
 						connectOutlets: function(router){
+							console.log('notLoaded');
 							router.get('gameController').connectOutlet('gameLoading');
 
 							if (!router.get('gameController.media')){
 								//proceed further if no media
+								console.log('no media');
 								router.send('loadingComplete');
+								
 							} else if (router.get('gameController.media.res.loaded')){
 								router.send('loadingComplete');
+							}else{
+								if(router.get('gamesController.gameType') === 'action'){
+
+									var questions = router.get('gameController.questions');
+
+									for(var i=0; i<questions.length; i++) {
+										if(questions[i].image){
+											preloadImage(questions[i].image);
+										}
+									}
+									var audio = router.get('gameController.media.gaplessRes.url');
+									preloadAudio(audio);
+
+									function preloadImage(uri) {
+										var img = new Image();
+										img.onload = isGameLoaded;
+										img.src = uri;
+										console.log('imagesLoaded: '+uri);
+										return img;
+									}
+
+									function preloadAudio(uri) {
+										var audio = new Audio();
+										audio.addEventListener('canplaythrough', isGameLoaded, false);
+										audio.src = uri;
+										console.log('audioLoaded: '+uri);
+										return audio;
+									}
+
+									var filesLoaded = 0;
+									function isGameLoaded() {
+										//todo think of generalizing this -> implementation for music quizzes
+										var filesToLoad = router.get('gameController.questions.length')+1; //+1 for audio
+										filesLoaded++;
+										console.log('filesLoaded: ' + filesLoaded + ' / ' + filesToLoad );
+										if( filesLoaded >= filesToLoad ) {
+											console.log('all files loaded!');
+											router.transitionTo('loaded');
+										}
+									}
+								}
 							}
 						},
 						loadingComplete: function(router){
@@ -766,16 +873,21 @@ var Trivia = Em.Application.create({
 							_nextQuestion: function(router){
 								router.set('gameController.instantReplayPlayed', false);
 								console.log('setting next question');
-
+								console.log(router.get('gameController.currentQuestion'));
 
 								//TODO: check if we have a question with media or not
 								var media = router.get('gameController.media');
-								if (media) {
-									if (media.mediaType === 'mp3'){
-										router.transitionTo('mediaQuestion');
-										router.send('playInterval');
+								if (media ) {
+									if (media.mediaType === 'mp3') {
+										if (router.get('gamesController.gameType') === 'music') {
+											router.transitionTo('mediaQuestion');
+											router.send('playInterval');
+										} else {
+											router.transitionTo('actionQuiz');
+											router.send('fullReplay');
+										}
 									} else {
-										throw "unknow media type " + media.mediaType
+										throw "unknown media type " + media.mediaType
 									}
 								} else {
 									router.transitionTo('plainQuestion');
@@ -784,13 +896,95 @@ var Trivia = Em.Application.create({
 							},
 							connectOutlets: function(router, context){
                                 router.get('gameController').saveGameStart();
-								router.get('gameController').connectOutlet('gameStarted');
+								if( router.get('gamesController.gameType') === 'action' ){
+									router.get('gameController').connectOutlet('actionGameStarted');
+								}else{
+									router.get('gameController').connectOutlet('gameStarted');
+								}
+
 								router.send('_nextQuestion');
 
 							},
+							actionQuiz: Em.Route.extend({
+
+								connectOutlets: function(router){
+
+								},
+
+								initialState: 'mediaStarted',
+
+								mediaStarted: Em.Route.extend({
+									initialState: 'mediaPlaying',
+
+									connectOutlets: function(router){
+										console.log(router.get('gameController.currentQuestion'));
+										router.get('gameController').connectOutlet('subtitle','actionSubtitle');
+									},
+									fullReplay: function(router){
+										console.log('action full play');
+										router.get('gameController').fullReplay();
+										router.transitionTo('mediaStarted');
+									},
+
+
+									mediaPlaying: Em.Route.extend({
+										connectOutlets: function(router){
+										},
+										back: function(router){
+											router.get('gameController.media.res').pause();
+											router.transitionTo('mediaPaused');
+											if (confirm('Haluatko varmasti palata takaisin? Peli lopetaan.')){
+												router.transitionTo('root.index');
+											} else {
+												router.send('resume');
+											}
+										},
+										pause: function(router){
+											router.get('gameController.media.res').pause();
+											router.transitionTo('mediaPaused');
+											router.send('resumeWithAlert');
+										},
+										nextQuestion: function(router){
+											//soundManager.stopAll();
+											console.log('setting next lyrics');
+											var questionIndex = router.get('gameController.questionIndex');
+											var gameController = router.get('gameController');
+
+											if (parseInt(gameController.get('questionIndex')) + 1  <  gameController.get('questions.length')){
+												console.log('next lyrics');
+												gameController.set('questionIndex', gameController.get('questionIndex') + 1);
+												router.send('_nextQuestion');
+											} else {
+												router.transitionTo('finished');
+												console.log('out of questions');
+											}
+										},
+										finishedPlaying: function(router){
+											router.transitionTo('index');
+											//router.send('showChoices');
+										}
+									}),
+									mediaPaused: Em.Route.extend({
+										connectOutlets: function(router){
+											router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
+										},
+										resumeWithAlert: function(router){
+											alert('Paina jatkaaksesi');
+											router.get('gameController.media.res').play();
+											router.transitionTo('mediaPlaying');
+										},
+										resume: function(router){
+											router.get('gameController.media.res').play();
+											router.transitionTo('mediaPlaying');
+										}
+									})
+
+								})
+							}),
 							mediaQuestion: Em.Route.extend({
 
 								connectOutlets: function(router){
+
 									router.get('gameStartedController').connectOutlet('left', 'mediaQuestion');
 									router.get('gameStartedController').connectOutlet('right', 'answers');
 
@@ -1064,18 +1258,19 @@ var Trivia = Em.Application.create({
 						}),
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
-
 								if (router.get('gameController.content.gameType') === 'audio'){
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
 									router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
-
+								} else if(router.get('gameController.content.gameType') === 'action'){
+									console.log('game finished action');
+									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								} else {
 									console.log('game finished plain');
 									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
 									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								}
 
-								if (router.get('gameController.content.gameType') === 'audio'){
+								if (router.get('gameController.content.gameType') === 'audio' || router.get('gameController.content.gameType') === 'action'){
 									router.transitionTo('mediaStopped');
 								} else {
 									router.transitionTo('noMedia');
@@ -1091,6 +1286,7 @@ var Trivia = Em.Application.create({
 
 							mediaStopped: Em.Route.extend({
 								connectOutlets: function(router){
+									console.log('media stopped');
 									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
 									//router.send('playEnd');
 								},
@@ -1104,6 +1300,7 @@ var Trivia = Em.Application.create({
 									router.transitionTo('mediaStarted');
 								}
 							}),
+
 							mediaStarted: Em.Route.extend({
 								connectOutlets: function(router){
 									router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorPlaying');
@@ -1368,6 +1565,23 @@ Trivia.gameObjects.plain = [
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		name: 'Eurooppa II'
+	})
+];
+
+Trivia.gameObjects.action = [
+	Trivia.Game.create({
+		guid:30,
+		gameType: 'audio',
+		gameIntro: 'Kuulet kohta kappaleen ilman laulua. Laulun sanat näkyvät ruudulla. Laula mukana!',
+		name: 'Voi tuota muistia Karaoke',
+		image: ''
+	}),
+	Trivia.Game.create({
+		guid:31,
+		gameType: 'audio',
+		gameIntro: 'Kuulet kohta kappaleen ilman laulua. Laulun sanat näkyvät ruudulla. Laula mukana!',
+		name: 'Laulun mahti Karaoke',
+		image: ''
 	})
 ];
 
@@ -4245,8 +4459,205 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Viro' }),
 			Trivia.Answer.create({ answerText: 'Islanti', correct:true })
 		]
-	})
+	}),
 	//end of Vaihtoehtokysymys: Eurooppa II
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: ' ',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 9000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Menneiden muistot mielessä laukkaa, kaikki on siellä kohdallaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 17000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Minnekä eilen retkemme johti, maisemat häipyi unholaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 26000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 34000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 50000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Kinnunen heitti, Vireeni juoksi, mainetta kultaa Suomeen toi.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 60000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Ketkä on maamme mestarit tänään, milloinka heidät nähdä voi.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 67000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 75000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 92000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Tieto se kulkee vauhdilla täällä, matkassa en voi pysyä.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 100000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Juuri kun luulin mukana ollaan, samaa taas täytyy kysyä.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 109000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 117000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 126000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {changeAt: 134000}
+	}),
+	Trivia.Question.create({
+		gameId:30,
+		mediaId:6,
+		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/voi_tuota_muistia.jpg',
+		options: {}
+	}),
+
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: ' ',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 11000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Albumin kuvat ain mielen saa lentoon menneiden vuosien muistojen luo.',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 24000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Juhlien pyörteisiin iloiseen rentoon lauluksi muuttuvat muistoni nuo.',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 36000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 47000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Voimia antaen kantaen, läpi päivämme jokaisen',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 60000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Vauhdilla muuttuvat muodit ja aatteet nuorempi polvi ain omansa tuo',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 70000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Tyylikkäät olivat tavat ja vaatteet, lauluksi muuttuvat muistoni nuo.',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 82000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 94000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:13,
+		questionText: 'Voimia antan kantaen, läpi päivämme jokaisen.',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 105000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Tunteiden kirjoissa värejä riittää, nousuja, laskuja elämä suo.',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 117000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Aika on lempeä, yhteen ne liittää, lauluksi muuttuvat muistoni nuo.',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 128000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
+		image: 'assets/img/satumaa.jpg',
+		options: {changeAt: 140000}
+	}),
+	Trivia.Question.create({
+		gameId:31,
+		mediaId:15,
+		questionText: 'Voimia antaen kantaen, läpi päivämme jokaisen',
+		image: 'assets/img/satumaa.jpg',
+		options: {}
+	})
 ];
 
 Trivia.medias = [
@@ -4301,9 +4712,9 @@ Trivia.medias = [
 			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/satumaa.mp3'
         }),
 		Trivia.Media.create({
-	            guid: 11,
-	            mediaType: 'mp3',
-				url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kulkurinvalssi2.mp3'
+			guid: 11,
+			mediaType: 'mp3',
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kulkurinvalssi2.mp3'
 		}),
 		Trivia.Media.create({
 			guid: 12,
@@ -4319,8 +4730,12 @@ Trivia.medias = [
 			guid: 14,
 			mediaType: 'mp3',
 			url:'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/tulipunaruusut2.mp3'
+		}),
+		Trivia.Media.create({
+			guid: 15,
+			mediaType: 'mp3',
+			url:'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/laulunmahti.mp3' //pelkkä gapless
 		})
-
     ];
 
 soundManager.defaultOptions = {
