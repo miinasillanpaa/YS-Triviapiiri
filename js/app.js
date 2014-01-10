@@ -60,6 +60,11 @@ var Trivia = Em.Application.create({
 		templateName: 'game-not-started',
 		classNames: 'game-not-started-view game-not-started'.w()
 	}),
+	GameNotStartedActionView: Em.View.extend({
+		templateName: 'game-not-started-action',
+		classNames: 'game-not-started'.w()
+	}),
+	GameNotStartedActionController: Em.Controller.extend({}),
 
 	GameNotStartedPlainView: Em.View.extend({
 		templateName: 'game-not-started-plain',
@@ -284,6 +289,21 @@ var Trivia = Em.Application.create({
 			console.warn('subs init');
 			this.subsDidChange();
 		}
+	}),
+	ActionVideoGameStartedView: Em.View.extend({
+		templateName: 'action-video-game-started',
+		classNames: 'action-video'.w(),
+		contentBinding: 'content.videoUrl',
+		videoUrlDidChange: function(){
+			if(this.get('content')) {
+				return this.get('content.videoUrl')
+			}
+		}.observes('content')
+	}),
+	GameFinishedActionController: Em.Controller.extend({}),
+	GameFinishedActionView: Em.View.extend({
+		templateName: 'game-finished-action',
+		classNames: 'game-finished game-finished-action-view'.w(),
 	}),
 
 	// end of action game stuff
@@ -773,7 +793,7 @@ var Trivia = Em.Application.create({
 							console.log('notLoaded');
 							router.get('gameController').connectOutlet('gameLoading');
 
-							if (!router.get('gameController.media')){
+							if (!router.get('gameController.media') ||  router.get('gameController.content.gameType') === "video"){
 								//proceed further if no media
 								console.log('no media');
 								router.send('loadingComplete');
@@ -783,7 +803,7 @@ var Trivia = Em.Application.create({
 							}else{
 								console.log('action preloader firing');
 
-								//todo on game start game still might lack audio or pic
+								//todo on game start game still might lack audio or pic or two start game presses
 
 								var questions = router.get('gameController.questions');
 								for(var i=0; i<questions.length; i++) {
@@ -845,6 +865,11 @@ var Trivia = Em.Application.create({
 								if (router.get('gameController.content.gameType') === 'audio'){
 									console.warn('audio notStarted', router.get('gameController.title'));
 									router.get('gameController').connectOutlet('gameNotStarted');
+
+								} else if( router.get('gameController.content.gameType') === 'video') {
+									console.warn('video notStarted');
+									router.get('gameController').connectOutlet('gameNotStarted');
+
 								} else {
 									console.warn('plain notStarted');
 									router.get('gameController').connectOutlet('gameNotStartedPlain');
@@ -882,13 +907,16 @@ var Trivia = Em.Application.create({
 											router.send('playInterval');
 										} else {
 											router.transitionTo('actionQuiz');
-											//if(router.get('gameController.mediaState') === 'stopped'){
-												router.send('fullReplay');
-											//} prevents media from stopping?
+											router.send('fullReplay');
 										}
 									} else {
 										throw "unknown media type " + media.mediaType
 									}
+								}else if(router.get('gameController.content.gameType') === 'video'){
+									//check if video
+									console.log('video action quiz');
+									router.transitionTo('actionQuizVideo');
+
 								} else {
 									router.transitionTo('plainQuestion');
 								}
@@ -905,19 +933,63 @@ var Trivia = Em.Application.create({
 								router.send('_nextQuestion');
 
 							},
+							actionQuizVideo: Em.Route.extend({
+								connectOutlets: function(router){},
+								initialState: 'videoStarted',
+
+								videoStarted: Em.Route.extend({
+									initialState: 'videoPlaying',
+									connectOutlets: function(router){
+										console.log('videoStarted');
+										router.get('gameController').connectOutlet('actionVideoGameStarted');
+										router.transitionTo('videoPlaying');
+									}
+								}),
+								videoPlaying: Em.Route.extend({
+									connectOutlets: function(router){console.log('videoPlaying')},
+									back: function(router){
+										console.log('back btn pressed');
+										router.transitionTo('videoPaused');
+										if (confirm('Haluatko varmasti palata takaisin? Peli lopetaan.')){
+											router.transitionTo('root.index');
+										} else {
+											router.send('resume');
+										}
+									},
+									pause: function(router){
+										$('#ytplayer').stopVideo();
+										console.log('pause');
+										router.transitionTo('videoPaused');
+										router.send('resumeWithAlert');
+									},
+									finishedPlaying: function(router){
+										router.transitionTo('root.index');
+										//router.send('showChoices');
+									},
+									startedPlaying: function(router){
+										router.transitionTo('videoPlaying');
+									}
+								}),
+								videoPaused: Em.Route.extend({
+									connectOutlets: function(router){console.log('videoPaused')},
+									resumeWithAlert: function(router){
+										alert('Paina jatkaaksesi');
+										router.transitionTo('videoPlaying');
+									},
+									resume: function(router){
+										router.transitionTo('videoPlaying');
+									}
+								})
+							}),
 							actionQuiz: Em.Route.extend({
 
-								connectOutlets: function(router){
-
-								},
-
+								connectOutlets: function(router){},
 								initialState: 'mediaStarted',
 
 								mediaStarted: Em.Route.extend({
 									initialState: 'mediaPlaying',
-
 									connectOutlets: function(router){
-										console.log(router.get('gameController.currentQuestion'));
+										//console.log(router.get('gameController.currentQuestion'));
 										router.get('gameController').connectOutlet('subtitle','actionSubtitle');
 									},
 									fullReplay: function(router){
@@ -925,10 +997,8 @@ var Trivia = Em.Application.create({
 										router.transitionTo('mediaStarted');
 									},
 
-
 									mediaPlaying: Em.Route.extend({
-										connectOutlets: function(router){
-										},
+										connectOutlets: function(router){},
 										back: function(router){
 											router.get('gameController.media.gaplessRes').pause();
 											router.transitionTo('mediaPaused');
@@ -958,15 +1028,14 @@ var Trivia = Em.Application.create({
 												console.log('out of questions');
 											}
 										},
-										finishedPlaying: function(router){
-											router.transitionTo('root.index');
-											//router.send('showChoices');
-										},
 										startedPlaying: function(router){
 											router.transitionTo('mediaPlaying');
 										},
 										assetLoadingComplete: function(router){
 											console.log('asset loading complete')
+										},
+										finishedPlaying: function(router){
+											router.transitionTo('finished');
 										}
 
 									}),
@@ -984,9 +1053,9 @@ var Trivia = Em.Application.create({
 											router.transitionTo('mediaPlaying');
 										}
 									})
-
 								})
 							}),
+							//end of action quiz
 							mediaQuestion: Em.Route.extend({
 
 								connectOutlets: function(router){
@@ -1167,13 +1236,8 @@ var Trivia = Em.Application.create({
 
 								initialState: 'answerNotChecked',
 								connectOutlets: function(router){
-
-
-
 									router.get('gameStartedController').connectOutlet('left', 'plainQuestion');
 									router.get('gameStartedController').connectOutlet('right', 'answers');
-
-
 									router.get('plainQuestionController').connectOutlet('media', 'mediaDisplay');
 
 								},
@@ -1184,11 +1248,8 @@ var Trivia = Em.Application.create({
 										var question = router.get('gameController.currentQuestion');
 
 										router.get('plainQuestionController').connectOutlet('question', 'plainQuestionLabel', router.get('gameController.currentQuestion'));
-
 										router.get('answersController').connectOutlet('alert', 'empty');
-
 										router.get('answersController').connectOutlet('choices', 'choices', question.get('answers'));
-
 										//router.get('answersController').connectOutlet('alert', 'empty');
 										router.get('answersController').connectOutlet('action', 'empty');
 										//router.get('answersController').connectOutlet('choices', 'empty');
@@ -1264,19 +1325,27 @@ var Trivia = Em.Application.create({
 						}),
 						finished: Em.Route.extend({
 							connectOutlets: function(router, context){
-								if (router.get('gameController.content.gameType') === 'audio'){
+								console.log('finished');
+								console.log(router.get('gameController'));
+
+								if (router.get('gameController.content.gameType') === 'audio' && router.get('gamesController.gameType') !== 'action'){
+									console.log('audio game finished')
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
 									router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
-								} else if(router.get('gameController.content.gameType') === 'action'){
-									console.log('game finished action');
-									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
+
+								} else if(router.get('gameController.content.gameType') === 'audio' && router.get('gamesController.gameType') === 'action'){
+									console.log('action game finished');
+									router.get('gameController').connectOutlet('gameFinishedAction');
+									router.get('gameFinishedActionController').connectOutlet('moodmeter','moodmeter')
+
 								} else {
 									console.log('game finished plain');
 									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
 									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								}
 
-								if (router.get('gameController.content.gameType') === 'audio' || router.get('gameController.content.gameType') === 'action'){
+
+								if (router.get('gameController.content.gameType') === 'audio'){
 									router.transitionTo('mediaStopped');
 								} else {
 									router.transitionTo('noMedia');
@@ -1335,8 +1404,6 @@ var Trivia = Em.Application.create({
 								} else {
 									throw 'no mood set';
 								}
-
-
 							},
 							setMood1: function(router){
 								this._setMood(router, 'positive');
@@ -1359,7 +1426,8 @@ Trivia.Game = Em.Object.extend({
     name: null,
     image: 'assets/img/default.jpg',
     caption: null,
-	gameType: null
+	gameType: null,
+	videoUrl: null
 });
 
 Trivia.Question = Em.Object.extend({
@@ -1496,7 +1564,8 @@ Trivia.gameObjects.plain = [
 		guid:16,
         gameType: 'quiz',
         gameIntro: 'Yhdistä vastakohdat toisiinsa.',
-		name:'Vastakohtien yhdistäminen'
+		name:'Vastakohtien yhdistäminen',
+		image: 'assets/img/vastakohdat.jpg'
 	}),
 	Trivia.Game.create({
 		guid:18,
@@ -1551,25 +1620,28 @@ Trivia.gameObjects.plain = [
 		guid:26,
 		gameType: 'quiz',
 		gameIntro: 'Mitä seuraavat sivistyssanat tarkoittavat?',
-		//image: '',
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		name: 'Sivistyssanat'
 	}),
 	Trivia.Game.create({
 		guid:27,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
+		image: 'assets/img/mat/mat2.jpg',
 		name: 'Matemaattisia käsitteitä'
 	}),
 	Trivia.Game.create({
 		guid:28,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		name: 'Eurooppa I'
 	}),
 	Trivia.Game.create({
 		guid:29,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
+		image: 'assets/img/eurooppa2/aloitus-tonava.jpg',
 		name: 'Eurooppa II'
 	})
 ];
@@ -1578,15 +1650,51 @@ Trivia.gameObjects.action = [
 	Trivia.Game.create({
 		guid:30,
 		gameType: 'audio',
-		gameIntro: 'Kuulet kohta kappaleen ilman laulua. Laulun sanat näkyvät ruudulla. Laula mukana!',
+		gameIntro: 'Kuulet kohta kappaleen. Laulun sanat näkyvät ruudulla. Laula mukana!',
 		name: 'Voi tuota muistia Karaoke',
-		image: ''
+		image: 'assets/img/grammari.jpg'
 	}),
 	Trivia.Game.create({
 		guid:31,
 		gameType: 'audio',
-		gameIntro: 'Kuulet kohta kappaleen ilman laulua. Laulun sanat näkyvät ruudulla. Laula mukana!',
+		gameIntro: 'Kuulet kohta kappaleen. Laulun sanat näkyvät ruudulla. Laula mukana!',
 		name: 'Laulun mahti Karaoke',
+		image: 'assets/img/grammari.jpg'
+	}),
+	Trivia.Game.create({
+		guid:32,
+		gameType: 'audio',
+		gameIntro: 'Tässä harjoituksessa kuulet ... musiikki ... kesto',
+		name: 'Rentoutus I',
+		image: 'assets/img/rentoutus/ren1.jpg'
+	}),
+	Trivia.Game.create({
+		guid:33,
+		gameType: 'audio',
+		gameIntro: '',
+		name: 'Rentoutus II',
+		image: 'assets/img/rentoutus/ren2.jpg'
+	}),
+	Trivia.Game.create({
+		guid:34,
+		gameType: 'audio',
+		gameIntro: '',
+		name: 'Parirentoutus I',
+		image: 'assets/img/rentoutus/ren3.jpg'
+	}),
+	Trivia.Game.create({
+		guid:35,
+		gameType: 'audio',
+		gameIntro: '',
+		name: 'Parirentoutus II',
+		image: 'assets/img/rentoutus/ren4.jpg'
+	}),
+	Trivia.Game.create({
+		guid:36,
+		gameType: 'video',
+		videoUrl: '//www.youtube.com/embed/m6VNhqKDM4E',
+		gameIntro: 'Videotesti',
+		name: 'Video1 (jumppa)',
 		image: ''
 	})
 ];
@@ -2608,6 +2716,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 16,
+        image: 'assets/img/vastakohdat.jpg',
         questionText: 'Mikä on vastakohta: MATALA',
         answers: [
             Trivia.Answer.create({ answerText: 'laaja' }),
@@ -2619,6 +2728,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 16,
+        image: 'assets/img/vastakohdat.jpg',
         questionText: 'Mikä on vastakohta: PAINAVA',
         answers: [
             Trivia.Answer.create({ answerText: 'raskas' }),
@@ -2630,6 +2740,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 16,
+        image: 'assets/img/vastakohdat.jpg',
         questionText: 'Mikä on vastakohta: ISO',
         answers: [
             Trivia.Answer.create({ answerText: 'kookas' }),
@@ -2640,6 +2751,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 16,
+        image: 'assets/img/vastakohdat.jpg',
         questionText: 'Mikä on vastakohta: TUMMA',
         answers: [
             Trivia.Answer.create({ answerText: 'musta' }),
@@ -2651,6 +2763,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 16,
+        image: 'assets/img/vastakohdat.jpg',
         questionText: 'Mikä on vastakohta: KALLIS',
         answers: [
             Trivia.Answer.create({ answerText: 'arvokas' }),
@@ -2661,6 +2774,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 16,
+        image: 'assets/img/vastakohdat.jpg',
         questionText: 'Mikä on vastakohta: NOPEA',
         answers: [
             Trivia.Answer.create({ answerText: 'iloinen' }),
@@ -2671,6 +2785,7 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 16,
+        image: 'assets/img/vastakohdat.jpg',
         questionText: 'Mikä on vastakohta: HILPEÄ',
         answers: [
             Trivia.Answer.create({ answerText: 'hauska' }),
@@ -2679,6 +2794,7 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'synkkä', correct: true })
         ]
     }),
+
 	Trivia.Question.create({
 		questionText: 'Vaaleaorakas on?',
         gameId: 17,
@@ -3405,7 +3521,7 @@ Trivia.questions = [
         answers: [
             Trivia.Answer.create({ answerText: 'paha ei paljon piittaa' }),
             Trivia.Answer.create({ answerText: 'paha päälle sylkee' }),
-            Trivia.Answer.create({ answerText: 'paha ei paljostaan', correct:true })
+            Trivia.Answer.create({ answerText: 'paha ei paljostakaan', correct:true })
         ]
     }),
     Trivia.Question.create({
@@ -3473,7 +3589,7 @@ Trivia.questions = [
         image: 'assets/img/sananlaskut/san14.jpg',
         questionText: 'Sitä kuusta kuuleminen',
         answers: [
-            Trivia.Answer.create({ answerText: 'jonka juurella asuvi', correct:true }),
+            Trivia.Answer.create({ answerText: 'jonka juurella asunto', correct:true }),
             Trivia.Answer.create({ answerText: 'jonka oksia sahaa' }),
             Trivia.Answer.create({ answerText: 'jonka jouluna koristelee' })
         ]
@@ -3501,7 +3617,7 @@ Trivia.questions = [
     Trivia.Question.create({
         gameId: 24,
         image: 'assets/img/sananlaskut/san17.jpg',
-        questionText: 'Työmies on paikkansa',
+        questionText: 'Työmies on palkkansa',
         answers: [
             Trivia.Answer.create({ answerText: 'ansainnut', correct:true }),
             Trivia.Answer.create({ answerText: 'arvoinen' }),
@@ -3841,6 +3957,7 @@ Trivia.questions = [
 	//Start of Sivistyssanat
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		questionText: 'Degeneraatio',
 		answers: [
 			Trivia.Answer.create({ answerText: 'sukupolvi' }),
@@ -3850,6 +3967,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv2.jpg',
 		questionText: 'Desibeli',
 		answers: [
 			Trivia.Answer.create({ answerText: 'muotoilu' }),
@@ -3859,6 +3977,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv3.jpg',
 		questionText: 'Hemofilia',
 		answers: [
 			Trivia.Answer.create({ answerText: 'veren punainen väriaine' }),
@@ -3868,6 +3987,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		questionText: 'Gobeliini',
 		answers: [
 			Trivia.Answer.create({ answerText: 'suhteettoman suuri henkilö' }),
@@ -3877,6 +3997,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv2.jpg',
 		questionText: 'Gastronomi',
 		answers: [
 			Trivia.Answer.create({ answerText: 'herkkujen tuntija', correct:true }),
@@ -3886,6 +4007,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv3.jpg',
 		questionText: 'Sabotaasi',
 		answers: [
 			Trivia.Answer.create({ answerText: 'tuhopoltto' }),
@@ -3895,6 +4017,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		questionText: 'Radiologi',
 		answers: [
 			Trivia.Answer.create({ answerText: 'radioteknikko' }),
@@ -3904,6 +4027,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv2.jpg',
 		questionText: 'Pittoreski',
 		answers: [
 			Trivia.Answer.create({ answerText: 'raamatullinen' }),
@@ -3913,6 +4037,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv3.jpg',
 		questionText: 'Fiktiivinen',
 		answers: [
 			Trivia.Answer.create({ answerText: 'kuvitteellinen', correct:true }),
@@ -3922,6 +4047,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		questionText: 'Optimaalinen',
 		answers: [
 			Trivia.Answer.create({ answerText: 'vastakkaisuus' }),
@@ -3931,6 +4057,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv2.jpg',
 		questionText: 'Evoluutio',
 		answers: [
 			Trivia.Answer.create({ answerText: 'arviointi' }),
@@ -3940,6 +4067,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv3.jpg',
 		questionText: 'Modifikaatio',
 		answers: [
 			Trivia.Answer.create({ answerText: 'muunnos', correct:true }),
@@ -3949,6 +4077,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		questionText: 'Sensuaalinen',
 		answers: [
 			Trivia.Answer.create({ answerText: 'herkkätuntoinen' }),
@@ -3958,6 +4087,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv2.jpg',
 		questionText: 'Laviini',
 		answers: [
 			Trivia.Answer.create({ answerText: 'tykin alusta' }),
@@ -3967,6 +4097,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv3.jpg',
 		questionText: 'Kupletti',
 		answers: [
 			Trivia.Answer.create({ answerText: 'humoristinen laulu', correct:true }),
@@ -3976,6 +4107,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		questionText: 'Limnologi',
 		answers: [
 			Trivia.Answer.create({ answerText: 'rajoitin' }),
@@ -3985,6 +4117,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv2.jpg',
 		questionText: 'Pizzicato',
 		answers: [
 			Trivia.Answer.create({ answerText: 'pizzaravintola' }),
@@ -3994,6 +4127,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv3.jpg',
 		questionText: 'Sifoni',
 		answers: [
 			Trivia.Answer.create({ answerText: 'ohut silkkikangas' }),
@@ -4003,6 +4137,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv1.jpg',
 		questionText: 'Tautologia',
 		answers: [
 			Trivia.Answer.create({ answerText: 'tautien tutkiminen' }),
@@ -4012,6 +4147,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:26,
+		image: 'assets/img/sivistyssanat/siv2.jpg',
 		questionText: 'Uniikki',
 		answers: [
 			Trivia.Answer.create({ answerText: 'unitautinen' }),
@@ -4024,6 +4160,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Montako kananmunaa on tiussa?',
+		image: 'assets/img/mat/mat1.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '10' }),
 			Trivia.Answer.create({ answerText: '12' }),
@@ -4033,6 +4170,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Montako desilitraa litraan mahtuu?',
+		image: 'assets/img/mat/mat2.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '5' }),
 			Trivia.Answer.create({ answerText: '10', correct:true }),
@@ -4042,6 +4180,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta kilogrammaa on tonni?',
+		image: 'assets/img/mat/mat3.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '100' }),
 			Trivia.Answer.create({ answerText: '1000', correct:true }),
@@ -4051,6 +4190,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Montako veljestä Jukolassa oli?',
+		image: 'assets/img/mat/mat4.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '7', correct:true }),
 			Trivia.Answer.create({ answerText: '10' }),
@@ -4060,6 +4200,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta grammaa on puoli kiloa?',
+		image: 'assets/img/mat/mat5.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '5' }),
 			Trivia.Answer.create({ answerText: '500', correct:true }),
@@ -4069,6 +4210,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Montako nollaa on miljoonassa?',
+		image: 'assets/img/mat/mat6.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '5' }),
 			Trivia.Answer.create({ answerText: '7' }),
@@ -4078,6 +4220,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta senttiä on eurossa?',
+		image: 'assets/img/mat/mat1.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '10' }),
 			Trivia.Answer.create({ answerText: '100', correct:true }),
@@ -4087,6 +4230,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta päivää on vuodessa?',
+		image: 'assets/img/mat/mat2.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '180' }),
 			Trivia.Answer.create({ answerText: '270' }),
@@ -4096,6 +4240,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta tähteä otavan-tähtikuviossa on?',
+		image: 'assets/img/mat/mat3.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '4' }),
 			Trivia.Answer.create({ answerText: '7', correct:true }),
@@ -4105,6 +4250,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta senttimetriä puoli metriä on?',
+		image: 'assets/img/mat/mat4.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '50', correct:true }),
 			Trivia.Answer.create({ answerText: '250' }),
@@ -4114,6 +4260,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kumpi painaa enemmän; kilo nauloja vai kilo höyheniä?',
+		image: 'assets/img/mat/mat5.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'kilo nauloja' }),
 			Trivia.Answer.create({ answerText: 'kilo höyheniä' }),
@@ -4123,6 +4270,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta desilitraa on puoli litraa?',
+		image: 'assets/img/mat/mat6.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '2,5' }),
 			Trivia.Answer.create({ answerText: '5', correct:true }),
@@ -4132,6 +4280,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta minuuttia on tunnissa?',
+		image: 'assets/img/mat/mat1.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '50' }),
 			Trivia.Answer.create({ answerText: '60', correct:true }),
@@ -4141,6 +4290,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Kuinka monta senttimetriä on metrissä?',
+		image: 'assets/img/mat/mat2.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '10' }),
 			Trivia.Answer.create({ answerText: '100', correct:true }),
@@ -4150,6 +4300,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:27,
 		questionText: 'Montako kulkiluuta ihmisellä on?',
+		image: 'assets/img/mat/mat3.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '24', correct:true }),
 			Trivia.Answer.create({ answerText: '28' }),
@@ -4161,6 +4312,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Ranskan viimeinen keisari oli',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Ludvig VI' }),
 			Trivia.Answer.create({ answerText: 'Napoleon III', correct:true }),
@@ -4170,6 +4322,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Taalainmaan lääni sijaitsee',
+		image: 'assets/img/eurooppa1/ruotsi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Norjassa' }),
 			Trivia.Answer.create({ answerText: 'Tanskassa' }),
@@ -4179,6 +4332,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Ranskalainen laulaja Edith Piaf oli kuollessaan',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '47-vuotias', correct:true }),
 			Trivia.Answer.create({ answerText: '51-vuotias' }),
@@ -4188,6 +4342,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Skotlannin suurin kaupunki on',
+		image: 'assets/img/eurooppa1/quijote-albania-skotlanti.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Aberdeen' }),
 			Trivia.Answer.create({ answerText: 'Glasgow', correct:true }),
@@ -4197,6 +4352,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Säveltäjä Arvo Pärt on kotoisin',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Saksasta' }),
 			Trivia.Answer.create({ answerText: 'Virosta', correct:true }),
@@ -4206,6 +4362,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Albanian pääkaupunki on',
+		image: 'assets/img/eurooppa1/quijote-albania-skotlanti.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Tirana', correct:true }),
 			Trivia.Answer.create({ answerText: 'Tripoli' }),
@@ -4215,6 +4372,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Romaanin Don Quijote kirjoitti',
+		image: 'assets/img/eurooppa1/quijote-albania-skotlanti.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Albert Dumas' }),
 			Trivia.Answer.create({ answerText: 'Miguel de Cervantes', correct:true }),
@@ -4224,6 +4382,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Viron suurin saari on',
+		image: 'assets/img/eurooppa2/jarvi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Saarenmaa', correct:true }),
 			Trivia.Answer.create({ answerText: 'Hiidenmaa' }),
@@ -4233,6 +4392,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Paavo Nurmi voitti',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '5 olympiakultaa' }),
 			Trivia.Answer.create({ answerText: '12 olympiakultaa' }),
@@ -4242,6 +4402,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Monacon hallitsijasuvun nimi on',
+		image: 'assets/img/eurooppa1/ranska-pariisi-monaco.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Bernadotte' }),
 			Trivia.Answer.create({ answerText: 'Grimaldi', correct:true }),
@@ -4251,6 +4412,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Kustaa Vaasa hallitsi Ruotsia',
+		image: 'assets/img/eurooppa1/quijote-albania-skotlanti.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '37 vuotta', correct:true }),
 			Trivia.Answer.create({ answerText: '40 vuotta' }),
@@ -4260,6 +4422,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Drottnigholmin linna sijaitsee',
+		image: 'assets/img/eurooppa1/ruotsi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Tanskassa' }),
 			Trivia.Answer.create({ answerText: 'Norjassa' }),
@@ -4269,6 +4432,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Laulaja John Lennon kuoli vuonna',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1978' }),
 			Trivia.Answer.create({ answerText: '1980', correct:true }),
@@ -4278,6 +4442,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Taiteilija, joka maalasi Guarnica -nimisen taulun on',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Max Weber' }),
 			Trivia.Answer.create({ answerText: 'Pablo Picasso', correct:true }),
@@ -4287,6 +4452,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Pariisin Disneyland avattiin vuonna',
+		image: 'assets/img/eurooppa1/ranska-pariisi-monaco.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1952' }),
 			Trivia.Answer.create({ answerText: '1972' }),
@@ -4296,6 +4462,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Adolf Hitler oli kuollesasan',
+		image: 'assets/img/eurooppa1/hitler.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '46-vuotias' }),
 			Trivia.Answer.create({ answerText: '56-vuotias', correct:true }),
@@ -4305,6 +4472,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Darwin julkaisi teoksensa "Lajien synty" vuonna',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1679' }),
 			Trivia.Answer.create({ answerText: '1759' }),
@@ -4316,6 +4484,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Vuoden 1984 talviolympialaiset pidettiin',
+		image: 'assets/img/eurooppa2/talviolympialaiset.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Grenoblessa' }),
 			Trivia.Answer.create({ answerText: 'Sarajevossa', correct:true }),
@@ -4325,6 +4494,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Tonavan pituus on',
+		image: 'assets/img/eurooppa2/aloitus-tonava.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '2450km' }),
 			Trivia.Answer.create({ answerText: '2650km' }),
@@ -4334,6 +4504,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Venäjän viimeinen tsaari oli',
+		image: 'assets/img/eurooppa2/venaja.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Nikolai II', correct:true }),
 			Trivia.Answer.create({ answerText: 'Iivana IV' }),
@@ -4343,6 +4514,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Pieni Merenneito -patsas sijaitsee',
+		image: 'assets/img/eurooppa2/tanska.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Tukholmassa' }),
 			Trivia.Answer.create({ answerText: 'Oslossa' }),
@@ -4352,6 +4524,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Wolfgang Amadeus Mozart syntyi vuonna',
+		image: 'assets/img/eurooppa2/mozart.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1556' }),
 			Trivia.Answer.create({ answerText: '1656' }),
@@ -4361,6 +4534,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Englannin kuningatar Elizabeth I kruunattiin kuningattareksi',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '22-vuotiaana' }),
 			Trivia.Answer.create({ answerText: '25-vuotiaana', correct:true }),
@@ -4370,6 +4544,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Nobelin rauhanpalkinnon vuonna 2008 voitti',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Lech Walesa' }),
 			Trivia.Answer.create({ answerText: 'Martti Ahtisaari', correct:true }),
@@ -4379,6 +4554,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'James Bondin hahmon loi kirjailija',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'James Bond' }),
 			Trivia.Answer.create({ answerText: 'Agatha Christie' }),
@@ -4388,6 +4564,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Suomessa on järviä',
+		image: 'assets/img/eurooppa2/suomi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'n. 98 000' }),
 			Trivia.Answer.create({ answerText: 'n. 158 000' }),
@@ -4397,6 +4574,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Pisan kaltevan tornin korkeus on',
+		image: 'assets/img/eurooppa2/perus.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '46 metriä' }),
 			Trivia.Answer.create({ answerText: '56 metriä', correct:true }),
@@ -4406,6 +4584,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Leonardo da Vinci syntyi',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1452', correct:true }),
 			Trivia.Answer.create({ answerText: '1552' }),
@@ -4415,6 +4594,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Eiffel-torni rakennettiin vuonna',
+		image: 'assets/img/eurooppa1/ranska-pariisi-monaco.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1889', correct:true }),
 			Trivia.Answer.create({ answerText: '1909' }),
@@ -4424,6 +4604,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Suomen sisällissota sodittiin vuonna',
+		image: 'assets/img/eurooppa2/sisallissota-islanti.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1808' }),
 			Trivia.Answer.create({ answerText: '1918', correct:true }),
@@ -4433,6 +4614,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Sputnik I laukaistiin vuonna',
+		image: 'assets/img/eurooppa2/perus.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1947' }),
 			Trivia.Answer.create({ answerText: '1957', correct:true }),
@@ -4442,6 +4624,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Kesäolympialaiset pidettiin Barcelonassa vuonna',
+		image: 'assets/img/eurooppa1/ranska-pariisi-monaco.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '1984' }),
 			Trivia.Answer.create({ answerText: '1988' }),
@@ -4451,6 +4634,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Taidemaalari Edvard Munch oli kotoisin',
+		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Norjasta', correct:true }),
 			Trivia.Answer.create({ answerText: 'Virosta' }),
@@ -4460,6 +4644,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:29,
 		questionText: 'Euroopassa ensimmäisenä naisen valtion johtajaksi valinnut maa oli',
+		image: 'assets/img/eurooppa2/sisallissota-islanti.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Saksa' }),
 			Trivia.Answer.create({ answerText: 'Viro' }),
@@ -4467,6 +4652,7 @@ Trivia.questions = [
 		]
 	}),
 	//end of Vaihtoehtokysymys: Eurooppa II
+
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
@@ -4577,92 +4763,118 @@ Trivia.questions = [
 		gameId:31,
 		mediaId:15,
 		questionText: ' ',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 11000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Albumin kuvat ain mielen saa lentoon menneiden vuosien muistojen luo.',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 24000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Juhlien pyörteisiin iloiseen rentoon lauluksi muuttuvat muistoni nuo.',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 36000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 47000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Voimia antaen kantaen, läpi päivämme jokaisen',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 60000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Vauhdilla muuttuvat muodit ja aatteet nuorempi polvi ain omansa tuo',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 70000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Tyylikkäät olivat tavat ja vaatteet, lauluksi muuttuvat muistoni nuo.',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 82000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 94000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:13,
 		questionText: 'Voimia antan kantaen, läpi päivämme jokaisen.',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 105000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Tunteiden kirjoissa värejä riittää, nousuja, laskuja elämä suo.',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 117000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Aika on lempeä, yhteen ne liittää, lauluksi muuttuvat muistoni nuo.',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 128000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 140000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Voimia antaen kantaen, läpi päivämme jokaisen',
-		image: 'assets/img/satumaa.jpg',
+		image: 'assets/img/grammari.jpg',
 		options: {}
+	}),
+
+	//rentoutus exercises
+	Trivia.Question.create({
+		gameId:32,
+		mediaId:16,
+		image: 'assets/img/rentoutus/ren1.jpg',
+		questionText: " ",
+	}),
+	Trivia.Question.create({
+		gameId:33,
+		mediaId:17,
+		image: 'assets/img/rentoutus/ren2.jpg',
+		questionText: " ",
+	}),
+	Trivia.Question.create({
+		gameId:34,
+		mediaId:18,
+		image: 'assets/img/rentoutus/ren3.jpg',
+		questionText: " ",
+	}),
+	Trivia.Question.create({
+		gameId:35,
+		mediaId:19,
+		image: 'assets/img/rentoutus/ren4.jpg',
+		questionText: " ",
 	})
 ];
 
@@ -4741,7 +4953,27 @@ Trivia.medias = [
 			guid: 15,
 			mediaType: 'mp3',
 			url:'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/laulunmahti.mp3' //pelkkä gapless
-		})
+		}),
+		Trivia.Media.create({
+			guid:16,
+			mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis1.mp3' //pelkkä gabless
+		}),
+		Trivia.Media.create({
+			guid:17,
+			mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis2.mp3' //pelkkä gabless
+		}),
+		Trivia.Media.create({
+			guid:18,
+			mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus1.mp3' //pelkkä gabless
+		}),
+		Trivia.Media.create({
+			guid:19,
+			mediaType: 'mp3',
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus2.mp3' //pelkkä gabless
+		}),
     ];
 
 soundManager.defaultOptions = {
