@@ -563,15 +563,42 @@ body {
 								margin-top: 0.5rem;
 							}
 						}
+						
 					}
 				}
 			}
 			.game-outlet{
+				.game-finished-action-view{
+					width: 
+					padding: 25px;
+
+					.feedback-text{
+						margin-top: 1rem;
+						font-size: 1.2rem;
+						margin-bottom: 1rem;
+						line-height: 1.5rem;
+					}
+
+					h2{
+						font-size: 2rem;
+						line-height: 2rem;
+						text-transform: uppercase;
+						padding-top: 1rem;
+						text-align: center;
+					}
+					.actions{
+						display: -webkit-box;
+						-webkit-box-orient: horizontal;
+						-webkit-box-pack: center;
+					}
+							
+				}
+
 				.box-pack(justify);
 				.box-align(center);
 
 				.action-game-started-view {
-				  -webkit-transform: translateZ(0);
+				  -webkit-transform: translateZ(0); 
 				  -moz-transform: translateZ(0);
 				  -ms-transform: translateZ(0);
 				  -o-transform: translateZ(0);
@@ -586,12 +613,21 @@ body {
 
 				  .subtitle{
 					color: #fff;
-					text-shadow: 0px 0px 1px black;
-					font-size: 180%;
+					text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;	
+					/*text-shadow: 0px 0px 1px black;*/
+					/*-webkit-text-stroke-width: 1px;
+					-webkit-text-stroke-color: black; */
+					font-size: 200%;
 					text-align: left;
 					margin-top: 465px;
 					line-height: 1.1;
 					padding: 0 100px;
+				  }
+
+				  #next-question{
+				  	position: absolute;
+				  	right: 10px;
+				  	bottom: 90px;
 				  }
 
 				}
@@ -626,7 +662,10 @@ body {
 						margin-bottom: 2rem;
 					}
 				}
-
+				.game-not-started-action {
+					.box-pack(center);
+				}
+				
 			}
 
 		}
@@ -1134,4 +1173,38 @@ body {
   right: 0;
   font-size: 14px;
   text-align: right;
+}
+
+#player{
+	margin-top: 5px;
+}
+
+.test-modal{
+	position: absolute;
+	background-color: #495053;
+	border: 1px solid #000;
+	width: 180px;
+	height: 280px;
+	top: 100px;
+	left: 200px;
+	padding: 25px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	p{
+		color: #fff;
+		font-size: 0.8em;
+		line-height: 1.2;
+		font-weight: normal;
+		text-shadow: none;
+	}
+	.btn{
+		margin-top:	15px;
+		margin-bottom: 25px;
+		width: 182px;
+		text-align: center;
+	}
+}
+
+.hidden{
+	display: none;
 }
