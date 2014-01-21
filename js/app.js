@@ -4969,7 +4969,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId: 35,
 		mediaId: 18,
-		image: 'assets/img/renoutus/ren1.jpg',
+		image: 'assets/img/rentoutus/ren1.jpg',
 		questionText: " ",
 	}),
 	Trivia.Question.create({
