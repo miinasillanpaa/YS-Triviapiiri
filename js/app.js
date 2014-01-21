@@ -919,7 +919,10 @@ var Trivia = Em.Application.create({
 								router.set('gameController.isSinglePlayerGame', false);
 								router.send('_startGame');
 								console.log('started 2 player game');
-							}
+							},
+							assetLoadingComplete: function(router){
+								console.log('asset loading complete');
+							},
 						}),
 						started: Em.Route.extend({
 							_nextQuestion: function(router){
@@ -5166,7 +5169,7 @@ Trivia.medias = [
 		}),
 		Trivia.Media.create({
 			guid:21,
-			mediaType: 'no-sound',
+			mediaType: 'no-sound', //soundless implementation
 			url: 'no-sound'
 		})
     ];
@@ -5323,11 +5326,10 @@ function loadYTapi(){
 function onPlayerReady(event) {
 	playVideo();
 }
-var done = false;
+
 function onPlayerStateChange(event) {
 	console.log(event);
 	if (event.data == YT.PlayerState.ENDED) {
-		console.log('ended');
 		Trivia.router.send('finishedPlaying')
 	}
 }

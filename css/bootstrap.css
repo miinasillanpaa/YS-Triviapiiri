@@ -2360,6 +2360,9 @@ body {
 .app .workspace .game-view .game-outlet .game-not-started-action {
   -webkit-box-pack: center;
 }
+.app .workspace .game-view .game-outlet .game-not-started-action h2 {
+  height: auto;
+}
 .app .workspace .game-loading-view {
   -webkit-box-flex: 1;
   display: -webkit-box;
