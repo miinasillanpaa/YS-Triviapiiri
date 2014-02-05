@@ -191,7 +191,7 @@
 
   	<script type="text/x-handlebars" data-template-name="game-finished-action">
   	<h2>Rentoutusharjoitus päättyi</h2>
-  	<div class="feedback-text">Miltä rentoutuminen tuntui tänään?</div>
+	<div class="feedback-text">Miltä rentoutuminen tuntui tänään?</div>
   	<hr/>
   	{{outlet moodmeter class="moodmeter-outlet"}}
   	<br/>
@@ -371,10 +371,16 @@
 <script type="text/x-handlebars" data-template-name="application">
 	<section class="app">
 		<section class="menubar">
-			<button class="btn back" {{action back}}">
+			<button class="btn back" {{action back}}>
 			<i class="icon-circle-arrow-left"></i> <span>Takaisin</span>
 			</button>
-			<section class="spacer"><span>Sanat sekaisin</span></section>
+			<section class="spacer">
+				{{#if Trivia.router.gameController.isActionGame}}
+					<span>Karaoke / rentoutus / jumppa</span>
+				{{else}}
+					<span>Sanat sekaisin</span>
+				{{/if}}
+			</section>
 			<section class="score"></span>
 			</section>
 		</section>

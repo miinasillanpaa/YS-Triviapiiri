@@ -309,6 +309,13 @@ var Trivia = Em.Application.create({
 	GameFinishedActionView: Em.View.extend({
 		templateName: 'game-finished-action',
 		classNames: 'game-finished game-finished-action-view'.w(),
+		didInsertElement: function(){
+			if(Trivia.router.get('gameController.content.guid') === 37 || Trivia.router.get('gameController.content.guid') === 38 ){
+				$('.feedback-text').text('Miten jumppa sujui tänään?')
+			}else if(Trivia.router.get('gameController.content.guid') === 39 || Trivia.router.get('gameController.content.guid') === 40 ){
+				$('.feedback-text').text('Jumppaa myös musiikin mukana!')
+			}
+		}
 	}),
 
 	// end of action game stuff
@@ -343,6 +350,7 @@ var Trivia = Em.Application.create({
 		gameTypeBinding: 'content.gameType',
 
 		isSinglePlayerGame: null,
+		isActionGame: false,
 
 		mediaState: 'stopped', //can be either 'stopped' or 'playing'
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
@@ -727,13 +735,15 @@ var Trivia = Em.Application.create({
 					if (gameType === 'music'){
 						router.set('gamesController.gameType', 'music');
                         router.get('gameController').set('gameTypeTitle', 'Valitse soitettava kappale');
+                        router.get('gameController').set('isActionGame', false);
 					} else if(gameType === 'action') {
 						router.set('gamesController.gameType', 'action');
                         router.get('gameController').set('gameTypeTitle', 'Valitse musiikkiharjoite')
-
+                        router.get('gameController').set('isActionGame', true);
 					}else{
 						router.set('gamesController.gameType', 'plain');
 						router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');
+						router.get('gameController').set('isActionGame', false);
 					}
 				},
 				connectOutlets: function(router){
@@ -741,6 +751,7 @@ var Trivia = Em.Application.create({
 						Trivia.set('games', Trivia.gameObjects.music);
 					} else if(router.get('gamesController.gameType') === 'action') {
 						Trivia.set('games', Trivia.gameObjects.action);
+						
 					}else{
 						Trivia.set('games', Trivia.gameObjects.plain);
 					}
@@ -1409,7 +1420,7 @@ var Trivia = Em.Application.create({
 								} else if( ( router.get('gameController.content.gameType') === 'audio' || router.get('gameController.content.gameType') === 'video' ) && router.get('gamesController.gameType') === 'action'){
 									console.log('action game finished');
 									router.get('gameController').connectOutlet('gameFinishedAction');
-									router.get('gameFinishedActionController').connectOutlet('moodmeter','moodmeter')
+									router.get('gameFinishedActionController').connectOutlet('moodmeter','moodmeter');
 
 								} else {
 									console.log('game finished plain');
@@ -1737,35 +1748,35 @@ Trivia.gameObjects.action = [
 	Trivia.Game.create({
 		guid:32,
 		gameType: 'audio',
-		gameIntro: 'Edgar: Chanson de matin (huilu ja harppu). Harjoitus kestää 6 minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on: Edgar: Chanson de matin (huilu ja harppu). Harjoitus kestää 6 minuuttia.',
 		name: 'Rentoutus I',
 		image: 'assets/img/rentoutus/ren1.jpg'
 	}),
 	Trivia.Game.create({
 		guid:33,
 		gameType: 'audio',
-		gameIntro: 'Satie: Gymnopedia nro 1 (huilu ja harppu). Kesto 5:40',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on: Satie: Gymnopedia nro 1 (huilu ja harppu). Kesto 5:40',
 		name: 'Rentoutus II',
 		image: 'assets/img/rentoutus/ren2.jpg'
 	}),
 	Trivia.Game.create({
 		guid: 34,
 		gameType: 'audio',
-		gameIntro: 'Sor: Kitaraduetto L\'encouragement. Harjoitus kestää 7 minuuttia',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on: Sor: Kitaraduetto L\'encouragement. Harjoitus kestää 7 minuuttia',
 		name: 'Rentoutus III',
 		image: 'assets/img/rentoutus/ren3.jpg'
 	}),
 	Trivia.Game.create({
 		guid:35,
 		gameType: 'audio',
-		gameIntro: 'Mozart: Klarinettikvintetto A-duuri ja Merikanto: Valse lente. Harjoitus kestää 9 minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozart: Klarinettikvintetto A-duuri ja Merikanto: Valse lente. Harjoitus kestää 9 minuuttia.',
 		name: 'Parirentoutus I',
 		image: 'assets/img/rentoutus/ren3.jpg'
 	}),
 	Trivia.Game.create({
 		guid:36,
 		gameType: 'audio',
-		gameIntro: 'Mozart: Konsertto harpulle ja huilulle ja Tarrega: Lagrima. Harjoitus kestää 10 minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozart: Konsertto harpulle ja huilulle ja Tarrega: Lagrima. Harjoitus kestää 10 minuuttia.',
 		name: 'Parirentoutus II',
 		image: 'assets/img/rentoutus/ren4.jpg'
 	}),
@@ -1788,14 +1799,14 @@ Trivia.gameObjects.action = [
 	Trivia.Game.create({
 		guid: 39,
 		gameType: 'audio',
-		gameIntro: 'Katso jumppaliikkeet rauhassa lävitse. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
+		gameIntro: 'Harjoittele jumppaliikkeet rauhassa lävitse. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
 		name: 'Jumppaliikkeet: Aamu Airistolla',
 		image: 'assets/img/jumppa/aamu/1.jpg'
 	}),
 	Trivia.Game.create({
 		guid: 40,
 		gameType: 'audio',
-		gameIntro: 'Katso jumppaliikkeet rauhassa lävitse. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
+		gameIntro: 'Harjoittele jumppaliikkeet rauhassa lävitse. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
 		name: 'Jumppaliikkeet: Vesivehmaan jenkka',
 		image: 'assets/img/jumppa/jenkka/1-cover.jpg'
 	})
