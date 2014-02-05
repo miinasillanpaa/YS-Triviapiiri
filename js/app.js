@@ -461,7 +461,13 @@ var Trivia = Em.Application.create({
                 participants = 'with friend';
             }
             var playedGameId = Trivia.get('router.gameController.playedGameId');
-            //var playedGameId = Trivia.GameController.playedGameId;
+            //var playedGameId1 = Trivia.GameController.playedGameId;
+
+            //save actiongame result to backend also
+            if(Trivia.router.get('gamesController.gameType') === 'action'){
+            	rightAnswers = 1000;
+            }
+
             if (rightAnswers && participants && playedGameId) {
                 console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
                 $.ajax({
