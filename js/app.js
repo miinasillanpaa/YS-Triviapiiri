@@ -825,7 +825,7 @@ var Trivia = Em.Application.create({
 						connectOutlets: function(router){
 							console.log('notLoaded');
 							router.get('gameController').connectOutlet('gameLoading');
-
+							console.log(router.get('gameController'));
 							if (!router.get('gameController.media') ||  router.get('gameController.content.gameType') === "video"){
 								//proceed further if no media
 								console.log('no media');
@@ -833,7 +833,7 @@ var Trivia = Em.Application.create({
 
 							} else if (router.get('gameController.media.res.loaded') && router.get('gamesController.gameType') !== 'action' ){
 								router.send('loadingComplete');
-							} else if(router.get('gameController.gameType') === 'action'){
+							} else if(router.get('gamesController.gameType') === 'action'){
 								console.log('action preloader firing');
 
 								//todo on game start game still might lack audio or pic or two start game presses
@@ -845,8 +845,8 @@ var Trivia = Em.Application.create({
 									}
 								}
 
-								var audio = router.get('gameController.media.gaplessRes.url');
-								preloadAudio(audio);
+								//var audio = router.get('gameController.media.gaplessRes.url');
+								//preloadAudio(audio);
 
 								function preloadImage(uri) {
 									var img = new Image();
@@ -872,7 +872,7 @@ var Trivia = Em.Application.create({
 									//todo think of generalizing this -> implementation for music quizzes
 									//console.log(router.get('gameController.media'))
 									if(router.get('gameController.media') && router.get('gameController.media') !== "no-sound"){
-										var filesToLoad = router.get('gameController.questions.length')+1; //+1 for audio
+										var filesToLoad = router.get('gameController.questions.length');//+1; //+1 for audio
 										filesLoaded++;
 										console.log('filesLoaded: ' + filesLoaded + ' / ' + filesToLoad );
 										if( filesLoaded >= filesToLoad ) {
@@ -1067,6 +1067,7 @@ var Trivia = Em.Application.create({
 										router.get('gameController').connectOutlet('subtitle','actionSubtitle');
 									},
 									fullReplay: function(router){
+
 										router.get('gameController').fullReplay();
 										router.transitionTo('mediaStarted');
 									},
