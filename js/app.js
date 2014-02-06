@@ -826,14 +826,22 @@ var Trivia = Em.Application.create({
 							console.log('notLoaded');
 							router.get('gameController').connectOutlet('gameLoading');
 							console.log(router.get('gameController'));
-							if (!router.get('gameController.media') ||  router.get('gameController.content.gameType') === "video"){
+
+							if (!router.get('gameController.media') || router.get('gameController.media.mediaType') === "no-sound" || router.get('gameController.content.gameType') === "video"){
 								//proceed further if no media
 								console.log('no media');
 								router.send('loadingComplete');
 
-							} else if (router.get('gameController.media.res.loaded') && router.get('gamesController.gameType') !== 'action' ){
+							} else if ( router.get('gamesController.gameType') !== 'action' && router.get('gameController.media') && router.get('gameController.media.res.loaded') ){
+								console.log('sending loading completed res');
 								router.send('loadingComplete');
-							} else if(router.get('gamesController.gameType') === 'action'){
+
+							} else if(router.get('gamesController.gameType') === 'action' && router.get('gameController.media') && router.get('gameController.media.gaplessRes.loaded') ){
+								console.log('sending loading completes gapless res');
+								router.send('loadingComplete');
+							}
+
+								/*
 								console.log('action preloader firing');
 
 								//todo on game start game still might lack audio or pic or two start game presses
@@ -883,7 +891,7 @@ var Trivia = Em.Application.create({
 										router.transitionTo('loaded');
 									}
 								}
-							}
+							}*/
 						},
 						loadingComplete: function(router){
 							console.log('loading complete', router.get('gameController.mediaLoadProgress'));
