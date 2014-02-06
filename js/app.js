@@ -314,6 +314,8 @@ var Trivia = Em.Application.create({
 				$('.feedback-text').text('Miten jumppa sujui tänään?')
 			}else if(Trivia.router.get('gameController.content.guid') === 39 || Trivia.router.get('gameController.content.guid') === 40 ){
 				$('.feedback-text').text('Jumppaa myös musiikin mukana!')
+			}else if(Trivia.router.get('gameController.content.guid') === 30 || Trivia.router.get('gameController.content.guid') === 31 ){
+				$('.feedback-text').text('Miltä laulaminen tuntui tänään?')
 			}
 		}
 	}),
@@ -956,7 +958,10 @@ var Trivia = Em.Application.create({
 											router.send('playInterval');
 										} else {
 											router.transitionTo('actionQuiz');
-											router.send('fullReplay');
+											if(router.get('gameController.mediaState') !== "playing"){
+												router.send('fullReplay');
+											}
+											
 										}
 									} else if(media.mediaType === 'no-sound') {
 										router.transitionTo('actionQuiz');
