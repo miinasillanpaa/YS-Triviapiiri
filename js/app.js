@@ -4969,7 +4969,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
-		questionText: 'Voimia antan kantaen, läpi päivämme jokaisen.',
+		questionText: 'Voimia antaen kantaen, läpi päivämme jokaisen.',
 		image: 'assets/img/grammari.jpg',
 		options: {changeAt: 105000}
 	}),
