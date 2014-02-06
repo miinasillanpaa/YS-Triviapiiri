@@ -567,27 +567,30 @@ var Trivia = Em.Application.create({
 		fullReplay: function(){
 			if (this.get('media.gaplessRes')){
 				Trivia.router.send('startedPlaying');
-
+				var that = this;
 				if( Trivia.router.get('gameController.currentQuestion.options.changeAt') !== "pressed"){
-					this.get('media.gaplessRes').play({
-						position: 0,
+					setTimeout(function(){
+						that.get('media.gaplessRes').play({
+							position: 0,
 
-						whileplaying: function(){
-							Trivia.router.set('gameController.mediaPosition', this.position / this.duration);
-							Trivia.router.set('gameController.mediaAbsolutePosition', this.position);
-							Trivia.router.set('gameController.mediaPlaying', true);
-							//console.log(Trivia.router.get('gameController.currentQuestion.options.showAt'))
+							whileplaying: function(){
+								Trivia.router.set('gameController.mediaPosition', that.position / that.duration);
+								Trivia.router.set('gameController.mediaAbsolutePosition', that.position);
+								Trivia.router.set('gameController.mediaPlaying', true);
+								//console.log(Trivia.router.get('gameController.currentQuestion.options.showAt'))
 
-							if ( this.position > Trivia.router.get('gameController.currentQuestion.options.changeAt') ) {
-								//console.log('next');
-								Trivia.router.send('nextQuestion');
+								if ( this.position > Trivia.router.get('gameController.currentQuestion.options.changeAt') ) {
+									//console.log('next');
+									Trivia.router.send('nextQuestion');
+								}
+							},
+							onfinish: function(){
+								Trivia.router.set('gameController.mediaPlaying', false);
+								Trivia.router.send('finishedPlaying');
 							}
-						},
-						onfinish: function(){
-							Trivia.router.set('gameController.mediaPlaying', false);
-							Trivia.router.send('finishedPlaying');
-						}
-					})
+						})
+					},1000)
+					
 				}else{
 					console.log('expecting pressing');
 				}
