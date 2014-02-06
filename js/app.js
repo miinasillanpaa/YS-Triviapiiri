@@ -543,7 +543,7 @@ var Trivia = Em.Application.create({
 						autoplay: false,
 						onload: function(status){
 							//notify router of finished asset loading
-							//Trivia.router.send('assetLoadingComplete');
+							Trivia.router.send('assetLoadingComplete');
 						},
 						whileloading: function(){
 							self.set('mediaLoadProgress', this.bytesLoaded / this.bytesTotal);
@@ -831,6 +831,16 @@ var Trivia = Em.Application.create({
 							console.log(router.get('gameController'));
 
 							if (!router.get('gameController.media') || router.get('gameController.media.mediaType') === "no-sound" || router.get('gameController.content.gameType') === "video"){
+								
+								if(router.get('gameController.media.mediaType') === "no-sound"){
+									var questions = router.get('gameController.questions');
+									for(var i=0; i<questions.length; i++) {
+										if(questions[i].image){
+											preloadImage(questions[i].image);
+										}
+									}
+								}
+
 								//proceed further if no media
 								console.log('no media');
 								router.send('loadingComplete');
@@ -842,6 +852,13 @@ var Trivia = Em.Application.create({
 							} else if(router.get('gamesController.gameType') === 'action' && router.get('gameController.media') && router.get('gameController.media.gaplessRes.loaded') ){
 								console.log('sending loading completes gapless res');
 								router.send('loadingComplete');
+
+								var questions = router.get('gameController.questions');
+								for(var i=0; i<questions.length; i++) {
+									if(questions[i].image){
+										preloadImage(questions[i].image);
+									}
+								}
 							}
 
 								/*
@@ -903,6 +920,15 @@ var Trivia = Em.Application.create({
 
 						},
 						assetLoadingComplete: function(router){
+							if(router.get('gamesController.gameType') === "action"){
+								var questions = router.get('gameController.questions');
+								for(var i=0; i<questions.length; i++) {
+									if(questions[i].image){
+										preloadImage(questions[i].image);
+									}
+								}
+							}
+
 							this.loadingComplete(router);
 						},
 						back: function(router){
@@ -5376,4 +5402,9 @@ function stopVideo() {
 	player.stopVideo();
 }
 
-
+function preloadImage(uri) {
+	var img = new Image();
+	img.src = uri;
+	console.log('imagesLoaded: '+uri);
+	return img;
+}
