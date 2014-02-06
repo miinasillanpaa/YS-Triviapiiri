@@ -311,7 +311,7 @@ var Trivia = Em.Application.create({
 		classNames: 'game-finished game-finished-action-view'.w(),
 		didInsertElement: function(){
 			if(Trivia.router.get('gameController.content.guid') === 37 || Trivia.router.get('gameController.content.guid') === 38 ){
-				$('.feedback-text').text('Miten jumppa sujui tänään?')
+				$('.feedback-text').text('Miten jumppa sujui tänään?');
 			}else if(Trivia.router.get('gameController.content.guid') === 39 || Trivia.router.get('gameController.content.guid') === 40 ){
 				$('.feedback-text').text('Jumppaa myös musiikin mukana!')
 			}else if(Trivia.router.get('gameController.content.guid') === 30 || Trivia.router.get('gameController.content.guid') === 31 ){
@@ -844,8 +844,8 @@ var Trivia = Em.Application.create({
 										preloadImage(questions[i].image);
 									}
 								}
-								var audio = router.get('gameController.media.gaplessRes.url');
-								preloadAudio(audio);
+								//var audio = router.get('gameController.media.gaplessRes.url');
+								//preloadAudio(audio);
 
 								function preloadImage(uri) {
 									var img = new Image();
@@ -869,9 +869,9 @@ var Trivia = Em.Application.create({
 								var filesLoaded = 0;
 								function isGameLoaded() {
 									//todo think of generalizing this -> implementation for music quizzes
-									console.log(router.get('gameController.media'))
-									if(router.get('gameController.media') && router.get('gameController.media') === "no-sound"){
-										var filesToLoad = router.get('gameController.questions.length')+1; //+1 for audio
+									//console.log(router.get('gameController.media'))
+									if(router.get('gameController.media') && router.get('gameController.media') !== "no-sound"){
+										var filesToLoad = router.get('gameController.questions.length');//+1; //+1 for audio
 										filesLoaded++;
 										console.log('filesLoaded: ' + filesLoaded + ' / ' + filesToLoad );
 										if( filesLoaded >= filesToLoad ) {
@@ -951,7 +951,7 @@ var Trivia = Em.Application.create({
 
 								//TODO: check if we have a question with media or not
 								var media = router.get('gameController.media');
-								if (media ) {
+								if (media) {
 									if (media.mediaType === 'mp3') {
 										if (router.get('gamesController.gameType') === 'music') {
 											router.transitionTo('mediaQuestion');
@@ -961,7 +961,6 @@ var Trivia = Em.Application.create({
 											if(router.get('gameController.mediaState') !== "playing"){
 												router.send('fullReplay');
 											}
-											
 										}
 									} else if(media.mediaType === 'no-sound') {
 										router.transitionTo('actionQuiz');
@@ -1073,12 +1072,7 @@ var Trivia = Em.Application.create({
 
 									mediaPlaying: Em.Route.extend({
 										connectOutlets: function(router){
-											if(router.get('gameController.media.mediaType') !== 'mp3'){
-												/*$(document).ready(function(){
-													console.log('hups');
-													$('#next-question').removeClass('hidden');
-												})*/
-											}		
+													
 										},
 										back: function(router){
 											if(router.get('gameController.media.mediaType') === 'mp3'){
@@ -4500,7 +4494,7 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:28,
 		questionText: 'Viron suurin saari on',
-		image: 'assets/img/eurooppa2/jarvi.jpg',
+		image: 'assets/img/eurooppa1/jarvi.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Saarenmaa', correct:true }),
 			Trivia.Answer.create({ answerText: 'Hiidenmaa' }),
