@@ -5264,7 +5264,7 @@ Trivia.questions = [
 	//suomi II
 	Trivia.Question.create({
 		gameId: 42,
-		questionText: 'Kuka europarlaamentarikkomme on entinen huippu-urheilija?',
+		questionText: 'Kuka europarlamentaarikkomme on entinen huippu-urheilija?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'Sirpa Pietikäinen' }),
 			Trivia.Answer.create({ answerText: 'Nils Torvalds' }),
