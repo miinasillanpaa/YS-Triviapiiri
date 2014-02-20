@@ -1765,6 +1765,18 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/eurooppa2/aloitus-tonava.jpg',
 		name: 'Eurooppa II'
+	}),
+	Trivia.Game.create({
+		guid: 41,
+		gameType: 'quiz',
+		gameIntro: 'Valitse oikea vaihtoehto',
+		name: 'Suomi I',
+	}),
+	Trivia.Game.create({
+		guid: 42,
+		gameType: 'quiz',
+		gameIntro: 'Valitse oikea vaihtoehto',
+		name: 'Suomi II'
 	})
 ];
 
@@ -5121,6 +5133,254 @@ Trivia.questions = [
 		questionText: 'Ravistele käsiä sinne ja tänne, sivuille ja ylös, alas ja eteen',
 		options: {changeAt: "pressed"}
 	}),
+
+	//suomi quizzes start
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Milloin on seuraava karkausvuosi?',
+		answers: [
+			Trivia.Answer.create({ answerText: '2015' }),
+			Trivia.Answer.create({ answerText: '2016', correct:true }),
+			Trivia.Answer.create({ answerText: '2017' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Kenen nimipäivä on uudenvuodenpäivänä?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Aatamin' }),
+			Trivia.Answer.create({ answerText: 'Eevan' }),
+			Trivia.Answer.create({ answerText: 'Ei kenenkään', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Mihin kaupunkiin rakennettiin Suomen ensimmäinen jäähalli?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Turkuun' }),
+			Trivia.Answer.create({ answerText: 'Helsinkiin' }),
+			Trivia.Answer.create({ answerText: 'Tampereelle', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Mikä on Pekka Korven urheilulaji?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Jääkiekko' }),
+			Trivia.Answer.create({ answerText: 'Raviurheilu', correct:true }),
+			Trivia.Answer.create({ answerText: 'Miekkailu' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Missä maakunnassa on Lieksan kaupunki?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Savossa' }),
+			Trivia.Answer.create({ answerText: 'Pohjois-Karjalassa', correct:true }),
+			Trivia.Answer.create({ answerText: 'Lapissa' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Kenen presidenttimme koti sijaitsi Luumäen Kotkanniemessä?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'P.E. Svinhufvudin', correct:true }),
+			Trivia.Answer.create({ answerText: 'Kyösti Kallion' }),
+			Trivia.Answer.create({ answerText: 'Urho Kekkosen' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Kenen suomalaisen jääkiekkoiijan lempinimi on Hexi?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Teemu Selänteen' }),
+			Trivia.Answer.create({ answerText: 'Heikki Riihirannan', correct:true }),
+			Trivia.Answer.create({ answerText: 'Veli-Pekka Ketosen' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Missä suuressa järvessämme on Tehinselkä?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Inarijärvi' }),
+			Trivia.Answer.create({ answerText: 'Päijänne', correct:true }),
+			Trivia.Answer.create({ answerText: 'Saimaa' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Mitä roolihahmoa Matti Ranin esitti elokuvassa Tuntematon sotilas?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Vänrikki Kariluotoa', correct:true }),
+			Trivia.Answer.create({ answerText: 'Luutnantti Lammia' }),
+			Trivia.Answer.create({ answerText: 'Alikersantti Rokkaa' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Minkä Suomen kaupungin ruotsinkielinen nimi on Kaskö?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Kajaanin' }),
+			Trivia.Answer.create({ answerText: 'Kaskisen', correct:true }),
+			Trivia.Answer.create({ answerText: 'Kotkan' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Kun kello on Helsingissä 12:00, niin mitä se on Tukholmassa?',
+		answers: [
+			Trivia.Answer.create({ answerText: '10:00' }),
+			Trivia.Answer.create({ answerText: '11:00', correct:true }),
+			Trivia.Answer.create({ answerText: '12:00' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Missä kaupungissa teatterineuvos Eila Roine syntyi?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Turussa', correct:true }),
+			Trivia.Answer.create({ answerText: 'Helsingissä' }),
+			Trivia.Answer.create({ answerText: 'Tampereella' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Missä kaupungissa juna pysähtyy Viinijärven rautatieasemalla?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Kajaanissa' }),
+			Trivia.Answer.create({ answerText: 'Suomussalmella' }),
+			Trivia.Answer.create({ answerText: 'Outokummussa', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 41,
+		questionText: 'Missä maakunnassa sijaitsee Rääkkylän kunta?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Lapissa' }),
+			Trivia.Answer.create({ answerText: 'Pohjois-Karjalassa', correct:true }),
+			Trivia.Answer.create({ answerText: 'Suomussalmella' })
+		]
+	}),
+	//suomi II
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Kuka europarlaamentarikkomme on entinen huippu-urheilija?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Sirpa Pietikäinen' }),
+			Trivia.Answer.create({ answerText: 'Nils Torvalds' }),
+			Trivia.Answer.create({ answerText: 'Sari Essayah', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Minä vuonna Teija Sopanen valittiin Suomen Neidoksi?',
+		answers: [
+			Trivia.Answer.create({ answerText: '1951' }),
+			Trivia.Answer.create({ answerText: '1952' }),
+			Trivia.Answer.create({ answerText: '1953', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Mikä oli Tauno Palon alkuperäinen sukunimi?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Palonen' }),
+			Trivia.Answer.create({ answerText: 'Brännäs', correct:true }),
+			Trivia.Answer.create({ answerText: 'Brand' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Kenen kuuluisan tiedemiehen ja kirjailijan syntymäki on Paikkarin torppa Sammatissa?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Elias Lönnrothin', correct:true }),
+			Trivia.Answer.create({ answerText: 'Aleksis Kiven' }),
+			Trivia.Answer.create({ answerText: 'J.L. Runebergin' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Missä kaupungissa sijaitsee Sara Hildénin taidemuseo?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Turussa' }),
+			Trivia.Answer.create({ answerText: 'Tampereella', correct:true }),
+			Trivia.Answer.create({ answerText: 'Helsingissä' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Minä vuonna Armi Kuusela valittiin Miss Universumiksi?',
+		answers: [
+			Trivia.Answer.create({ answerText: '1951' }),
+			Trivia.Answer.create({ answerText: '1952', correct:true }),
+			Trivia.Answer.create({ answerText: '1953' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Kuka kuuluisa kirjailija rakennutti kodikseen Turjanlinnan?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Väinö Linna' }),
+			Trivia.Answer.create({ answerText: 'Ilmari Kianto', correct:true }),
+			Trivia.Answer.create({ answerText: 'Mika Waltari' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Missä kaupungissa sijaitsee Wäinö Aaltosen museo?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Turussa', correct:true }),
+			Trivia.Answer.create({ answerText: 'Tampereella' }),
+			Trivia.Answer.create({ answerText: 'Helsingissä' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Missä sijaitsee Aleksis Kiven syntymäkoti?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Nurmijärvellä', correct:true }),
+			Trivia.Answer.create({ answerText: 'Kuopiossa' }),
+			Trivia.Answer.create({ answerText: 'Porvoossa' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Missä kaupungissa sijaitsee Gunnar ja Marie-Louise Didrichsenin taidemuseo?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Tammisaaressa' }),
+			Trivia.Answer.create({ answerText: 'Porvoossa' }),
+			Trivia.Answer.create({ answerText: 'Helsingissä', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Mistä maakunnasta säveltäjä Toivo Kuula oli syntyisin?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Savosta' }),
+			Trivia.Answer.create({ answerText: 'Kymenlaaksosta' }),
+			Trivia.Answer.create({ answerText: 'Pohjanmaalta', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Minä vuonna elokuva Niskavuoren Heta esitettiin ensimmäisen kerran?',
+		answers: [
+			Trivia.Answer.create({ answerText: '1942' }),
+			Trivia.Answer.create({ answerText: '1952', correct:true }),
+			Trivia.Answer.create({ answerText: '1962' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 42,
+		questionText: 'Kuka oli Suomen ensimmäinen naisministeri?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'Hella Wuolijoki' }),
+			Trivia.Answer.create({ answerText: 'Miina Sillanpää', correct:true }),
+			Trivia.Answer.create({ answerText: 'Tyyne Leivo-Larsson' })
+		]
+	})
+
+
 ];
 
 Trivia.medias = [
