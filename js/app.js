@@ -1786,35 +1786,35 @@ Trivia.gameObjects.action = [
 	Trivia.Game.create({
 		guid:32,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on: Edgar: Chanson de matin (huilu ja harppu). Harjoitus kestää 6 minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Elgarin Chanson de matin (huilu ja harppu). Harjoitus kestää 6 minuuttia.',
 		name: 'Rentoutus I',
 		image: 'assets/img/rentoutus/ren1.jpg'
 	}),
 	Trivia.Game.create({
 		guid:33,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on: Satie: Gymnopedia nro 1 (huilu ja harppu). Kesto 5:40',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Satien Gymnopedia nro 1 (huilu ja harppu). Kesto 5 ja puoli minuuttia.',
 		name: 'Rentoutus II',
 		image: 'assets/img/rentoutus/ren2.jpg'
 	}),
 	Trivia.Game.create({
 		guid: 34,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on: Sor: Kitaraduetto L\'encouragement. Harjoitus kestää 7 minuuttia',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Sorin Kitaraduetto L\'encouragement. Harjoitus kestää 7 minuuttia',
 		name: 'Rentoutus III',
 		image: 'assets/img/rentoutus/ren3.jpg'
 	}),
 	Trivia.Game.create({
 		guid:35,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozart: Klarinettikvintetto A-duuri ja Merikanto: Valse lente. Harjoitus kestää 9 minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin klarinettikvintetto A-duuri ja Merikannon Valse lente. Harjoitus kestää 9 minuuttia.',
 		name: 'Parirentoutus I',
 		image: 'assets/img/rentoutus/ren3.jpg'
 	}),
 	Trivia.Game.create({
 		guid:36,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozart: Konsertto harpulle ja huilulle ja Tarrega: Lagrima. Harjoitus kestää 10 minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin konsertto harpulle ja huilulle sekä Tarregagan Lagrima. Harjoitus kestää 10 minuuttia.',
 		name: 'Parirentoutus II',
 		image: 'assets/img/rentoutus/ren4.jpg'
 	}),
@@ -5060,7 +5060,7 @@ Trivia.questions = [
 		gameId:39,
 		mediaId: 21,
 		image: 'assets/img/jumppa/aamu/5.jpg',
-		questionText: 'Heilauta jalaa eteen ja taakse. Harjoittele molemmin jaloin',
+		questionText: 'Heilauta jalkaa eteen ja taakse. Harjoittele molemmin jaloin',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
