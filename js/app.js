@@ -4809,7 +4809,7 @@ Trivia.questions = [
 		mediaId:6,
 		questionText: ' ',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 9000}
+		options: {changeAt: 8000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
@@ -4823,14 +4823,14 @@ Trivia.questions = [
 		mediaId:6,
 		questionText: 'Minnekä eilen retkemme johti, maisemat häipyi unholaan.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 26000}
+		options: {changeAt: 25000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
 		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 34000}
+		options: {changeAt: 33000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
@@ -4844,7 +4844,7 @@ Trivia.questions = [
 		mediaId:6,
 		questionText: 'Kinnunen heitti, Vireeni juoksi, mainetta kultaa Suomeen toi.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 60000}
+		options: {changeAt: 58000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
@@ -4865,42 +4865,42 @@ Trivia.questions = [
 		mediaId:6,
 		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 92000}
+		options: {changeAt: 91000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
 		questionText: 'Tieto se kulkee vauhdilla täällä, matkassa en voi pysyä.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 100000}
+		options: {changeAt: 99000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
 		questionText: 'Juuri kun luulin mukana ollaan, samaa taas täytyy kysyä.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 109000}
+		options: {changeAt: 107000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
 		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 117000}
+		options: {changeAt: 116000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
 		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 126000}
+		options: {changeAt: 124000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
 		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
 		image: 'assets/img/voi_tuota_muistia.jpg',
-		options: {changeAt: 134000}
+		options: {changeAt: 132000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
@@ -4909,6 +4909,8 @@ Trivia.questions = [
 		image: 'assets/img/voi_tuota_muistia.jpg',
 		options: {}
 	}),
+
+
 
 	Trivia.Question.create({
 		gameId:31,
@@ -4929,21 +4931,21 @@ Trivia.questions = [
 		mediaId:15,
 		questionText: 'Juhlien pyörteisiin iloiseen rentoon lauluksi muuttuvat muistoni nuo.',
 		image: 'assets/img/grammari.jpg',
-		options: {changeAt: 36000}
+		options: {changeAt: 35000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
 		image: 'assets/img/grammari.jpg',
-		options: {changeAt: 47000}
+		options: {changeAt: 46000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
 		questionText: 'Voimia antaen kantaen, läpi päivämme jokaisen',
 		image: 'assets/img/grammari.jpg',
-		options: {changeAt: 60000}
+		options: {changeAt: 58000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
@@ -4964,7 +4966,7 @@ Trivia.questions = [
 		mediaId:15,
 		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
 		image: 'assets/img/grammari.jpg',
-		options: {changeAt: 94000}
+		options: {changeAt: 93000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
@@ -4978,7 +4980,7 @@ Trivia.questions = [
 		mediaId:15,
 		questionText: 'Tunteiden kirjoissa värejä riittää, nousuja, laskuja elämä suo.',
 		image: 'assets/img/grammari.jpg',
-		options: {changeAt: 117000}
+		options: {changeAt: 116000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
@@ -4992,7 +4994,7 @@ Trivia.questions = [
 		mediaId:15,
 		questionText: 'Laulun mahti näin virkistää, lämmittää, yhdistää',
 		image: 'assets/img/grammari.jpg',
-		options: {changeAt: 140000}
+		options: {changeAt: 139000}
 	}),
 	Trivia.Question.create({
 		gameId:31,
