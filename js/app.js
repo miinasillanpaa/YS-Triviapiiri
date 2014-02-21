@@ -5258,7 +5258,7 @@ Trivia.questions = [
 		answers: [
 			Trivia.Answer.create({ answerText: 'Lapissa' }),
 			Trivia.Answer.create({ answerText: 'Pohjois-Karjalassa', correct:true }),
-			Trivia.Answer.create({ answerText: 'Suomussalmella' })
+			Trivia.Answer.create({ answerText: 'Savossa' })
 		]
 	}),
 	//suomi II
