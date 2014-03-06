@@ -1776,7 +1776,8 @@ Trivia.gameObjects.plain = [
 		guid: 42,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
-		name: 'Suomi II'
+		name: 'Suomi II',
+		image: 'assets/img/ikkuna.jpg'
 	})
 ];
 
