@@ -1710,13 +1710,13 @@ Trivia.gameObjects.plain = [
         image:'assets/img/kirjailijat/kir4.jpg',
         name:'Kirjailijat II'
     }),
-    Trivia.Game.create({
+  /*  Trivia.Game.create({
         guid:22,
         gameType: 'quiz',
         gameIntro: 'Yhdistä oikea kirja kirjailijaan',
         image:'assets/img/kirjailijat/kir10.jpg',
         name:'Kirjailijat III'
-    }),
+    }), */
     Trivia.Game.create({
         guid:23,
         gameType: 'quiz',
@@ -1778,6 +1778,12 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Valitse oikea vaihtoehto',
 		name: 'Suomi II',
 		image: 'assets/img/ikkuna.jpg'
+	}),
+	Trivia.Game.create({
+		guid: 43,
+		gameType: 'audio',
+		gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+		name: 'Lorut'
 	})
 ];
 
@@ -3207,7 +3213,9 @@ Trivia.questions = [
          Trivia.Answer.create({ answerText: 'minä aina ikävöin vain' }),
          Trivia.Answer.create({ answerText: 'koskaan mä unhoita en' })
      ]
- }),
+ 	}),
+
+ 	//Kirjailijat I
     Trivia.Question.create({
         gameId: 20,
         image: 'assets/img/kirjailijat/kir1.jpg',
@@ -3220,52 +3228,12 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 20,
-        image: 'assets/img/kirjailijat/kir1.jpg',
-        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Mikael Karvajalka', correct:true }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
-            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir1.jpg',
-        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Taikatalvi' }),
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
-            Trivia.Answer.create({ answerText: 'Turms Kuolematon', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
         image: 'assets/img/kirjailijat/kir4.jpg',
         questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Muumipappa ja meri' }),
             Trivia.Answer.create({ answerText: 'Tuntematon sotilas', correct:true }),
             Trivia.Answer.create({ answerText: 'Seitsemän Veljestä' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir4.jpg',
-        questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Veitikka' }),
-            Trivia.Answer.create({ answerText: 'Ihmisiä suviyössä' }),
-            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir6.jpg',
-        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Iisakin kirkko' }),
-            Trivia.Answer.create({ answerText: 'Seitsemän Veljestä', correct:true }),
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' })
         ]
     }),
     Trivia.Question.create({
@@ -3286,16 +3254,6 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Jumalan sana' }),
             Trivia.Answer.create({ answerText: 'Ihmisen osa' }),
             Trivia.Answer.create({ answerText: 'Kihlaus', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir6.jpg',
-        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Lea', correct:true  }),
-            Trivia.Answer.create({ answerText: 'Turms Kuolematon' }),
-            Trivia.Answer.create({ answerText: 'Veitikka' })
         ]
     }),
     Trivia.Question.create({
@@ -3323,33 +3281,13 @@ Trivia.questions = [
         image: 'assets/img/kirjailijat/kir10.jpg',
         questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
         answers: [
-            Trivia.Answer.create({ answerText: 'Nummisuutarit'  }),
-            Trivia.Answer.create({ answerText: 'Veitikka', correct:true }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir10.jpg',
-        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Taikatalvi'  }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
-            Trivia.Answer.create({ answerText: 'Rasvamaksa', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir10.jpg',
-        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
-        answers: [
             Trivia.Answer.create({ answerText: 'Konsta Pylkkänen etsii kortteeria', correct:true  }),
             Trivia.Answer.create({ answerText: 'Papin Rouva' }),
             Trivia.Answer.create({ answerText: 'Seitsemän veljestä' })
         ]
     }),
     Trivia.Question.create({
-        gameId: 21,
+        gameId: 20,
         image: 'assets/img/kirjailijat/kir1.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
@@ -3359,17 +3297,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 21,
-        image: 'assets/img/kirjailijat/kir1.jpg',
-        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Komisario Palmun erehdys', correct:true  }),
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
-            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 21,
+        gameId: 20,
         image: 'assets/img/kirjailijat/kir18.jpg',
         questionText: 'Mikä kirjoista on Arto Paasilinnan kirjoittama?',
         answers: [
@@ -3379,7 +3307,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 21,
+        gameId: 20,
         image: 'assets/img/kirjailijat/kir18.jpg',
         questionText: 'Mikä kirjoista on Arto Paasilinnan kirjoittama?',
         answers: [
@@ -3389,7 +3317,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 21,
+        gameId: 20,
         image: 'assets/img/kirjailijat/kir20.jpg',
         questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
         answers: [
@@ -3399,7 +3327,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 21,
+        gameId: 20,
         image: 'assets/img/kirjailijat/kir21.jpg',
         questionText: 'Mikä kirjoista on Reijo Mäen kirjoittama?',
         answers: [
@@ -3409,7 +3337,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 21,
+        gameId: 20,
         image: 'assets/img/kirjailijat/kir23.jpg',
         questionText: 'Mikä kirjoista on Henning Mankelin kijoittama?',
         answers: [
@@ -3419,7 +3347,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 21,
+        gameId: 20,
         image: 'assets/img/kirjailijat/kir24.jpg',
         questionText: 'Mikä kirjoista on Jari Tervon kirjoittama?',
         answers: [
@@ -3428,6 +3356,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Nummisuutarit' })
         ]
     }),
+
+    // Kirjailijat II
     Trivia.Question.create({
         gameId: 21,
         image: 'assets/img/kirjailijat/kir25.jpg',
@@ -3436,16 +3366,6 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Aatami ja Eeva' }),
             Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
             Trivia.Answer.create({ answerText: 'Vetää kaikista ovista', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 21,
-        image: 'assets/img/kirjailijat/kir26.jpg',
-        questionText: 'Mikä kirjoista on Seppo Jokisen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
-            Trivia.Answer.create({ answerText: 'Ajomies', correct:true }),
-            Trivia.Answer.create({ answerText: 'Taikatalvi' })
         ]
     }),
     Trivia.Question.create({
@@ -3460,16 +3380,6 @@ Trivia.questions = [
     }),
     Trivia.Question.create({
         gameId: 21,
-        image: 'assets/img/kirjailijat/kir20.jpg',
-        questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Kun kyyhkyset katosivat', correct:true }),
-            Trivia.Answer.create({ answerText: 'Neitosten karkuretki' }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 21,
         image: 'assets/img/kirjailijat/kir28.jpg',
         questionText: 'Mikä kirjoista on Agatha Christien kirjoittama?',
         answers: [
@@ -3479,7 +3389,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir30.jpg',
         questionText: 'Mikä kirjoista on Kaari Utrion kirjoittama?',
         answers: [
@@ -3489,7 +3399,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir31.jpg',
         questionText: 'Mikä kirjoista on Virpi-Hämeenanttilan kirjoittama?',
         answers: [
@@ -3499,17 +3409,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
-        image: 'assets/img/kirjailijat/kir32.jpg',
-        questionText: 'Mikä kirjoista on Antti Tuurin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Ajomies' }),
-            Trivia.Answer.create({ answerText: 'Surmanpelto', correct: true }),
-            Trivia.Answer.create({ answerText: 'Taikatalvi' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir33.jpg',
         questionText: 'Mikä kirjoista on Laila Hietaniemen kirjoittama?',
         answers: [
@@ -3519,7 +3419,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir34.jpg',
         questionText: 'Mikä kirjoista on Kjell Westön kirjoittama?',
         answers: [
@@ -3529,17 +3429,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
-        image: 'assets/img/kirjailijat/kir35.jpg',
-        questionText: 'Mikä kirjoista on Herman Melvillen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Aukko taivaassa' }),
-            Trivia.Answer.create({ answerText: 'Tuulen puolella' }),
-            Trivia.Answer.create({ answerText: 'Valkoinen valas', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir36.jpg',
         questionText: 'Mikä kirjoista on Matti Yrjänä Joensuun kirjoittama?',
         answers: [
@@ -3549,7 +3439,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir37.jpg',
         questionText: 'Mikä kirjoista on Anja Snellmanin kirjoittama?',
         answers: [
@@ -3559,7 +3449,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir38.jpg',
         questionText: 'Mikä kirjoista on Reino Lehväslaihon kirjoittama?',
         answers: [
@@ -3569,7 +3459,7 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
-        gameId: 22,
+        gameId: 21,
         image: 'assets/img/kirjailijat/kir39.jpg',
         questionText: 'Mikä kirjoista on Antti Hyryn kirjoittama?',
         answers: [
@@ -3579,6 +3469,35 @@ Trivia.questions = [
         ]
     }),
     Trivia.Question.create({
+        gameId: 21,
+		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
+        questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Tyttö, joka leikki tulella', correct:true }),
+            Trivia.Answer.create({ answerText: 'Hylynryöstäjä' }),
+            Trivia.Answer.create({ answerText: 'Silminnäkijä' })
+        ]
+    }), 
+    Trivia.Question.create({
+        gameId: 21,
+        image: 'assets/img/kirjailijat/kir43.jpg',
+        questionText: 'Mikä kirjoista on Kalle Päätalon kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Syksyksi kotiin' }),
+            Trivia.Answer.create({ answerText: 'Kallen inttivuosi' }),
+            Trivia.Answer.create({ answerText: 'Kannaksen lomajuna', correct:true })
+        ]
+    }),
+
+
+/*************************************************************************
+
+	All Kirjailija quizzes were combined into Kirjailija I & Kirjailija II
+	Excluded questions are stored below
+
+	**********************************************************************
+	
+	Trivia.Question.create({
         gameId: 22,
 		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
         questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
@@ -3598,26 +3517,129 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Avustaja', correct:true })
         ]
     }),
-    Trivia.Question.create({
+	Trivia.Question.create({
         gameId: 22,
-		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
-        questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
+        image: 'assets/img/kirjailijat/kir35.jpg',
+        questionText: 'Mikä kirjoista on Herman Melvillen kirjoittama?',
         answers: [
-            Trivia.Answer.create({ answerText: 'Tyttö, joka leikki tulella', correct:true }),
-            Trivia.Answer.create({ answerText: 'Hylynryöstäjä' }),
-            Trivia.Answer.create({ answerText: 'Silminnäkijä' })
+            Trivia.Answer.create({ answerText: 'Aukko taivaassa' }),
+            Trivia.Answer.create({ answerText: 'Tuulen puolella' }),
+            Trivia.Answer.create({ answerText: 'Valkoinen valas', correct:true })
         ]
     }),
     Trivia.Question.create({
         gameId: 22,
-        image: 'assets/img/kirjailijat/kir43.jpg',
-        questionText: 'Mikä kirjoista on Kalle Päätalon kirjoittama?',
+        image: 'assets/img/kirjailijat/kir32.jpg',
+        questionText: 'Mikä kirjoista on Antti Tuurin kirjoittama?',
         answers: [
-            Trivia.Answer.create({ answerText: 'Syksyksi kotiin' }),
-            Trivia.Answer.create({ answerText: 'Kallen inttivuosi' }),
-            Trivia.Answer.create({ answerText: 'Kannaksen lomajuna', correct:true })
+            Trivia.Answer.create({ answerText: 'Ajomies' }),
+            Trivia.Answer.create({ answerText: 'Surmanpelto', correct: true }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' })
         ]
     }),
+    Trivia.Question.create({
+        gameId: 21,
+        image: 'assets/img/kirjailijat/kir20.jpg',
+        questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Kun kyyhkyset katosivat', correct:true }),
+            Trivia.Answer.create({ answerText: 'Neitosten karkuretki' }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
+        ]
+    }),
+  	Trivia.Question.create({
+        gameId: 21,
+        image: 'assets/img/kirjailijat/kir26.jpg',
+        questionText: 'Mikä kirjoista on Seppo Jokisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Ajomies', correct:true }),
+            Trivia.Answer.create({ answerText: 'Taikatalvi' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 21,
+        image: 'assets/img/kirjailijat/kir1.jpg',
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Komisario Palmun erehdys', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
+        ]
+    }),
+       /* Trivia.Question.create({
+        gameId: 20,
+        image: 'assets/img/kirjailijat/kir10.jpg',
+        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Nummisuutarit'  }),
+            Trivia.Answer.create({ answerText: 'Veitikka', correct:true }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        image: 'assets/img/kirjailijat/kir10.jpg',
+        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Taikatalvi'  }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
+            Trivia.Answer.create({ answerText: 'Rasvamaksa', correct:true })
+        ]
+    }),
+  	Trivia.Question.create({
+        gameId: 20,
+        image: 'assets/img/kirjailijat/kir6.jpg',
+        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Lea', correct:true  }),
+            Trivia.Answer.create({ answerText: 'Turms Kuolematon' }),
+            Trivia.Answer.create({ answerText: 'Veitikka' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        image: 'assets/img/kirjailijat/kir4.jpg',
+        questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Veitikka' }),
+            Trivia.Answer.create({ answerText: 'Ihmisiä suviyössä' }),
+            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla', correct:true })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        image: 'assets/img/kirjailijat/kir6.jpg',
+        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Iisakin kirkko' }),
+            Trivia.Answer.create({ answerText: 'Seitsemän Veljestä', correct:true }),
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' })
+        ]
+    }),
+   	Trivia.Question.create({
+        gameId: 20,
+        image: 'assets/img/kirjailijat/kir1.jpg',
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Mikael Karvajalka', correct:true }),
+            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
+            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla' })
+        ]
+    }),
+    Trivia.Question.create({
+        gameId: 20,
+        image: 'assets/img/kirjailijat/kir1.jpg',
+        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
+        answers: [
+            Trivia.Answer.create({ answerText: 'Taikatalvi' }),
+            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
+            Trivia.Answer.create({ answerText: 'Turms Kuolematon', correct:true })
+        ]
+    }),
+*/
+
+	//Sananlaskut
     Trivia.Question.create({
         gameId: 23,
         image: 'assets/img/sananlaskut/san1.jpg',
