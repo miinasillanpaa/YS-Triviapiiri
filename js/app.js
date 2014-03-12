@@ -941,6 +941,7 @@ var Trivia = Em.Application.create({
 
 						notStarted: Em.Route.extend({
 							connectOutlets: function(router){
+								console.log(router.get('gameController.gameType'));
 								console.log(router.get('gamesController.gameType'))
 								if(router.get('gamesController.gameType') === 'action'){
 									console.log('action notstarted');
@@ -989,9 +990,11 @@ var Trivia = Em.Application.create({
 
 								//TODO: check if we have a question with media or not
 								var media = router.get('gameController.media');
+								console.log(media);
 								if (media) {
 									if (media.mediaType === 'mp3') {
-										if (router.get('gamesController.gameType') === 'music') {
+										//music game or Lorut started from plain games
+										if (router.get('gamesController.gameType') === 'music' || (router.get('gamesController.gameType') === 'plain' && router.get('gameController.gameType') === 'audio') ) {
 											router.transitionTo('mediaQuestion');
 											router.send('playInterval');
 										} else {
@@ -5401,7 +5404,111 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Miina Sillanpää', correct:true }),
 			Trivia.Answer.create({ answerText: 'Tyyne Leivo-Larsson' })
 		]
-	})
+	}),
+
+	//Lorut
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 9300},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'siioille siiat' }),
+			Trivia.Answer.create({ answerText: 'koirille kuoret' }),
+			Trivia.Answer.create({ answerText: 'koirille kuoreet', correct:true })
+		]
+	}),
+
+	/* todo maybe? pause after each loru and continue with button press 
+
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 22000, changeAt: pressed},
+		questionText: 'Soita seuraava loru',
+		answers: [
+
+		]
+	}), */
+
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 37000},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'palan taittoi' }),
+			Trivia.Answer.create({ answerText: 'makkaran laittoi', correct:true }),
+			Trivia.Answer.create({ answerText: 'makkaran söi' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 51900},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'eelin keelin' }),
+			Trivia.Answer.create({ answerText: 'vaapula vissun', correct:true }),
+			Trivia.Answer.create({ answerText: 'viipula vaapula' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 78900},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'illan tullen sanoi hän', correct:true }),
+			Trivia.Answer.create({ answerText: 'kun mä lähden talosta' }),
+			Trivia.Answer.create({ answerText: 'illan tullen pelistä pois' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 103500},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'älä istu' }),
+			Trivia.Answer.create({ answerText: 'istu vaan', correct:true }),
+			Trivia.Answer.create({ answerText: 'istu isän polvel' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 117500},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'jaloissa' }),
+			Trivia.Answer.create({ answerText: 'kädessä' }),
+			Trivia.Answer.create({ answerText: 'kainalossa', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 133500},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'antaa sulle puuroo' }),
+			Trivia.Answer.create({ answerText: 'keittää sulle puuroo', correct:true }),
+			Trivia.Answer.create({ answerText: 'puuroo keittää' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 43,
+		mediaId: 22,
+		options: {playTo: 144900},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'pääskysestä' }),
+			Trivia.Answer.create({ answerText: 'kerttusesta' }),
+			Trivia.Answer.create({ answerText: 'peipposesta', correct:true })
+		]
+	}),
+
 
 
 ];
@@ -5511,6 +5618,11 @@ Trivia.medias = [
 			guid:21,
 			mediaType: 'no-sound', //soundless implementation
 			url: 'no-sound'
+		}),
+		Trivia.Media.create({
+			guid:22,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut_new_first-half.mp3'
 		})
     ];
 
