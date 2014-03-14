@@ -797,9 +797,7 @@ var Trivia = Em.Application.create({
                     finishedPlaying: function() {
 
                     },
-                    loadingComplete: function() {
-                    	
-                    }
+                    loadingComplete: function() {}
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
@@ -1758,7 +1756,7 @@ Trivia.gameObjects.plain = [
 	}),
 	//todo this should be a redirect to triviapiiri//#/games/lorut maybe
 	Trivia.Game.create({
-		guid: 45,
+		guid: 58,
 		gameType: 'redirectToLorut',
 		name: 'Lorut'
 	})
