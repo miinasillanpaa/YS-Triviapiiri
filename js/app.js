@@ -741,6 +741,10 @@ var Trivia = Em.Application.create({
 						router.set('gamesController.gameType', 'music');
                         router.get('gameController').set('gameTypeTitle', 'Valitse soitettava kappale');
                         router.get('gameController').set('isActionGame', false);
+                    } else if(gameType === 'lorut') {
+                    	router.set('gamesController.gameType', 'lorut');
+                    	router.get('gameController').set('gameTypeTitle', 'Valitse loru');
+                        router.get('gameController').set('isActionGame', false);
 					} else if(gameType === 'action') {
 						router.set('gamesController.gameType', 'action');
                         router.get('gameController').set('gameTypeTitle', 'Valitse musiikkiharjoite')
@@ -754,6 +758,10 @@ var Trivia = Em.Application.create({
 				connectOutlets: function(router){
 					if (router.get('gamesController.gameType') === 'music'){
 						Trivia.set('games', Trivia.gameObjects.music);
+
+					} else if(router.get('gamesController.gameType') === 'lorut') {
+						Trivia.set('games', Trivia.gameObjects.lorut);
+
 					} else if(router.get('gamesController.gameType') === 'action') {
 						Trivia.set('games', Trivia.gameObjects.action);
 						
@@ -770,10 +778,17 @@ var Trivia = Em.Application.create({
 						//make sure zombie songs stop playing
 						soundManager.stopAll();
 					},
-					back: function(){
+					back: function(router){
                         var userId = Trivia.get('router.applicationController.userId');
                         var exitUrl = Trivia.get('exitUrl');
-                        if (userId && exitUrl) {
+                        if(router.get('gamesController.gameType') === 'lorut') {
+
+                        	router.set('gamesController.gameType', 'plain');
+							Trivia.set('games', Trivia.gameObjects.plain);
+							router.transitionTo('root.games.index');
+							return false;
+
+                        } else if (userId && exitUrl) {
                             window.location = exitUrl;
                         } else {
 						    window.location = "http://pienipiiri.fi/mobile";
@@ -781,6 +796,9 @@ var Trivia = Em.Application.create({
 					},
                     finishedPlaying: function() {
 
+                    },
+                    loadingComplete: function() {
+                    	
                     }
 				}),
 				game: Em.Route.extend({
@@ -814,6 +832,14 @@ var Trivia = Em.Application.create({
 						//randomize the questions if we're not on an audio game
 						if (game.get('gameType') === 'plain'){
 							questions = questions.sort(function() {return 0.5 - Math.random()});
+						}else if(game.get('gameType') === 'redirectToLorut'){
+							//todo smarter way to navigate to root of lorut?
+							console.log('redirect')
+							router.set('gamesController.gameType', 'lorut');
+							Trivia.set('games', Trivia.gameObjects.lorut);
+							router.transitionTo('root.games.index');
+							return false;
+							//window.location = 'http://pienipiiri.fi/triviapiiri/#/games/lorut/'
 						}
 
 						router.set('gameController.questions', questions);
@@ -860,58 +886,6 @@ var Trivia = Em.Application.create({
 									}
 								}
 							}
-
-								/*
-								console.log('action preloader firing');
-
-								//todo on game start game still might lack audio or pic or two start game presses
-
-								var questions = router.get('gameController.questions');
-								for(var i=0; i<questions.length; i++) {
-									if(questions[i].image){
-										preloadImage(questions[i].image);
-									}
-								}
-
-								//var audio = router.get('gameController.media.gaplessRes.url');
-								//preloadAudio(audio);
-
-								function preloadImage(uri) {
-									var img = new Image();
-									img.onload = isGameLoaded;
-									img.src = uri;
-									console.log('imagesLoaded: '+uri);
-									return img;
-								}
-
-								function preloadAudio(uri) {
-									if(uri){
-										var audio = new Audio();
-										audio.addEventListener('canplaythrough', isGameLoaded, false);
-										audio.src = uri;
-										console.log('audioLoaded: '+uri);
-										return audio;
-									}
-									
-								}
-
-								var filesLoaded = 0;
-								function isGameLoaded() {
-									//todo think of generalizing this -> implementation for music quizzes
-									//console.log(router.get('gameController.media'))
-									if(router.get('gameController.media') && router.get('gameController.media') !== "no-sound"){
-										var filesToLoad = router.get('gameController.questions.length');//+1; //+1 for audio
-										filesLoaded++;
-										console.log('filesLoaded: ' + filesLoaded + ' / ' + filesToLoad );
-										if( filesLoaded >= filesToLoad ) {
-											console.log('all files loaded!');
-											router.transitionTo('loaded');
-										}
-									}else{
-										router.transitionTo('loaded');
-									}
-								}
-							}*/
 						},
 						loadingComplete: function(router){
 							console.log('loading complete', router.get('gameController.mediaLoadProgress'));
@@ -994,7 +968,7 @@ var Trivia = Em.Application.create({
 								if (media) {
 									if (media.mediaType === 'mp3') {
 										//music game or Lorut started from plain games
-										if (router.get('gamesController.gameType') === 'music' || (router.get('gamesController.gameType') === 'plain' && router.get('gameController.gameType') === 'audio') ) {
+										if (router.get('gamesController.gameType') === 'music' || router.get('gamesController.gameType') === 'lorut') {
 											router.transitionTo('mediaQuestion');
 											router.send('playInterval');
 										} else {
@@ -1782,10 +1756,10 @@ Trivia.gameObjects.plain = [
 		name: 'Suomi II',
 		image: 'assets/img/ikkuna.jpg'
 	}),
+	//todo this should be a redirect to triviapiiri//#/games/lorut maybe
 	Trivia.Game.create({
-		guid: 43,
-		gameType: 'audio',
-		gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+		guid: 45,
+		gameType: 'redirectToLorut',
 		name: 'Lorut'
 	})
 ];
@@ -1869,6 +1843,99 @@ Trivia.gameObjects.action = [
 		gameIntro: 'Harjoittele jumppaliikkeet rauhassa lävitse. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
 		name: 'Jumppaliikkeet: Vesivehmaan jenkka',
 		image: 'assets/img/jumppa/jenkka/1-cover.jpg'
+	})
+];
+
+Trivia.gameObjects.lorut = [
+	Trivia.Game.create({
+			guid: 43,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Veetään nuottaa'
+	}),
+	Trivia.Game.create({
+			guid: 44,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Peukaloputti'
+	}),
+	Trivia.Game.create({
+			guid: 45,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Entten tentten'
+	}),
+	Trivia.Game.create({
+			guid: 46,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Maalari maalasi'
+	}),
+	Trivia.Game.create({
+			guid: 47,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Yks kaks kolme'
+	}),
+	Trivia.Game.create({
+			guid: 48,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Kis kis kissanpoika'
+	}),
+	Trivia.Game.create({
+			guid: 49,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Lennä lennä leppäkerttu'
+	}),
+	Trivia.Game.create({
+			guid: 50,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Kuu kiurusta'
+	}),
+	Trivia.Game.create({
+			guid: 51,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Mistä on pienet tehty'
+	}),
+	Trivia.Game.create({
+			guid: 52,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Viikonloppu'
+	}),
+	Trivia.Game.create({
+			guid: 53,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Ulle dulle'
+	}),
+	Trivia.Game.create({
+			guid: 54,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Tuu tuu tupakkirulla'
+	}),
+	Trivia.Game.create({
+			guid: 55,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Körö körö kirkkoon'
+	}),
+	Trivia.Game.create({
+			guid: 56,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Mennään maata'
+	}),
+	Trivia.Game.create({
+			guid: 57,
+			gameType: 'audio',
+			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
+			name: 'Hus sika metsään'
 	})
 ];
 
@@ -5418,23 +5485,10 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'koirille kuoreet', correct:true })
 		]
 	}),
-
-	/* todo maybe? pause after each loru and continue with button press 
-
 	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 22000, changeAt: pressed},
-		questionText: 'Soita seuraava loru',
-		answers: [
-
-		]
-	}), */
-
-	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 37000},
+		gameId: 44,
+		mediaId: 23,
+		options: {playTo: 15000},
 		questionText: 'Miten loru jatkuu?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'palan taittoi' }),
@@ -5443,9 +5497,9 @@ Trivia.questions = [
 		]
 	}),
 	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 51900},
+		gameId: 45,
+		mediaId: 24,
+		options: {playTo: 8300},
 		questionText: 'Miten loru jatkuu?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'eelin keelin' }),
@@ -5454,9 +5508,9 @@ Trivia.questions = [
 		]
 	}),
 	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 78900},
+		gameId: 46,
+		mediaId: 25,
+		options: {playTo: 7000},
 		questionText: 'Miten loru jatkuu?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'illan tullen sanoi hän', correct:true }),
@@ -5465,9 +5519,9 @@ Trivia.questions = [
 		]
 	}),
 	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 103500},
+		gameId: 47,
+		mediaId: 26,
+		options: {playTo: 11800},
 		questionText: 'Miten loru jatkuu?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'älä istu' }),
@@ -5476,9 +5530,9 @@ Trivia.questions = [
 		]
 	}),
 	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 117500},
+		gameId: 48,
+		mediaId: 27,
+		options: {playTo: 8100},
 		questionText: 'Miten loru jatkuu?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'jaloissa' }),
@@ -5487,9 +5541,9 @@ Trivia.questions = [
 		]
 	}),
 	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 133500},
+		gameId: 49,
+		mediaId: 28,
+		options: {playTo: 11100},
 		questionText: 'Miten loru jatkuu?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'antaa sulle puuroo' }),
@@ -5498,9 +5552,9 @@ Trivia.questions = [
 		]
 	}),
 	Trivia.Question.create({
-		gameId: 43,
-		mediaId: 22,
-		options: {playTo: 144900},
+		gameId: 50,
+		mediaId: 29,
+		options: {playTo: 5700},
 		questionText: 'Miten loru jatkuu?',
 		answers: [
 			Trivia.Answer.create({ answerText: 'pääskysestä' }),
@@ -5508,8 +5562,116 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'peipposesta', correct:true })
 		]
 	}),
-
-
+	Trivia.Question.create({
+		gameId: 51,
+		mediaId: 30,
+		options: {playTo: 13300},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'ja kermasta' }),
+			Trivia.Answer.create({ answerText: 'ja mantelista' }),
+			Trivia.Answer.create({ answerText: 'ja kanelista', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 51,
+		mediaId: 30,
+		options: {playTo: 28000},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'sisiliskon hännistä' }),
+			Trivia.Answer.create({ answerText: 'koiran häntätupsukoista', correct:true }),
+			Trivia.Answer.create({ answerText: 'kissan hännistä' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 52,
+		mediaId: 31,
+		options: {playTo: 13100},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'tortut tehtiin' }),
+			Trivia.Answer.create({ answerText: 'tupaan kannettiin', correct:true }),
+			Trivia.Answer.create({ answerText: 'tupa siivottiin' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 53,
+		mediaId: 32,
+		options: {playTo: 4900},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'koffe laade', correct:true }),
+			Trivia.Answer.create({ answerText: 'kinkke laade' }),
+			Trivia.Answer.create({ answerText: 'doffe laade' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 54,
+		mediaId: 33,
+		options: {playTo: 9900},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'härkäläisten kivitietä' }),
+			Trivia.Answer.create({ answerText: 'hämäläisten härkätietä', correct:true }),
+			Trivia.Answer.create({ answerText: 'turunlinnan härkätietä' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 54,
+		mediaId: 33,
+		options: {playTo: 30500},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'onko lasta kätkyeessä', correct:true }),
+			Trivia.Answer.create({ answerText: 'onko lapsi nukkumassa' }),
+			Trivia.Answer.create({ answerText: 'joko lapsi nukkuu' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 55,
+		mediaId: 34,
+		options: {playTo: 10900},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'kolipäässä kissalla' }),
+			Trivia.Answer.create({ answerText: 'kultaisella varsalla' }),
+			Trivia.Answer.create({ answerText: 'valkealla varsalla', correct:true })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 55,
+		mediaId: 34,
+		options: {playTo: 25500},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'harakka huttua keittää' }),
+			Trivia.Answer.create({ answerText: 'harakka halot hakkaa', correct:true }),
+			Trivia.Answer.create({ answerText: 'varis vetää nuottaa' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 56,
+		mediaId: 35,
+		options: {playTo: 17000},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'mummon korista' }),
+			Trivia.Answer.create({ answerText: 'mamman kaapista', correct:true }),
+			Trivia.Answer.create({ answerText: 'isän pellosta' })
+		]
+	}),
+	Trivia.Question.create({
+		gameId: 57,
+		mediaId: 36,
+		options: {playTo: 10900},
+		questionText: 'Miten loru jatkuu?',
+		answers: [
+			Trivia.Answer.create({ answerText: 'korkeilla kengillä' }),
+			Trivia.Answer.create({ answerText: 'kauniilla liinalla' }),
+			Trivia.Answer.create({ answerText: 'korealla kontilla', correct:true })
+		]
+	}),
 
 ];
 
@@ -5592,22 +5754,22 @@ Trivia.medias = [
 		Trivia.Media.create({
 			guid:16,
 			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis1.mp3' //pelkkä gabless
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis1.mp3' //pelkkä gapless
 		}),
 		Trivia.Media.create({
 			guid:17,
 			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis2.mp3' //pelkkä gabless
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis2.mp3' //pelkkä gapless
 		}),
 		Trivia.Media.create({
 			guid:18,
 			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus1.mp3' //pelkkä gabless
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus1.mp3' //pelkkä gapless
 		}),
 		Trivia.Media.create({
 			guid:19,
 			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus2.mp3' //pelkkä gabless
+			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus2.mp3' //pelkkä gapless
 		}),
 		Trivia.Media.create({
 			guid:20,
@@ -5619,10 +5781,82 @@ Trivia.medias = [
 			mediaType: 'no-sound', //soundless implementation
 			url: 'no-sound'
 		}),
+		//lorut audio both gapless and gapped
+		//todo replace local url with s3
 		Trivia.Media.create({
 			guid:22,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut_new_first-half.mp3'
+			url: 'assets/sound/lorut/veetaannuottaa.mp3'
+		}),
+		Trivia.Media.create({	
+			guid:23,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/peukaloputti.mp3'
+		}),
+		Trivia.Media.create({
+			guid:24,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/enttententten.mp3'
+		}),
+		Trivia.Media.create({
+			guid:25,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/maalarimaalasitaloa.mp3'
+		}),
+		Trivia.Media.create({
+			guid:26,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/ykskakskolme.mp3'
+		}),
+		Trivia.Media.create({
+			guid:27,
+			mediaType: 'mp3',
+			url: 'assets/sound/kiskiskissanpoika.mp3'
+		}),
+		Trivia.Media.create({
+			guid:28,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/lennalennaleppakerttu.mp3'
+		}),
+		Trivia.Media.create({
+			guid:29,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/kuukiurusta.mp3'
+		}),
+		Trivia.Media.create({
+			guid:30,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/mistaonpienettehty.mp3'
+		}),
+		Trivia.Media.create({
+			guid:31,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/viikonpaivat.mp3'
+		}),
+		Trivia.Media.create({
+			guid:32,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/ulledulledof.mp3'
+		}),
+		Trivia.Media.create({
+			guid:33,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/tuutuutupakkirulla.mp3'
+		}),
+		Trivia.Media.create({
+			guid:34,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/korokorokirkkoon.mp3'
+		}),
+		Trivia.Media.create({
+			guid:35,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/mennaanmaata.mp3'
+		}),
+		Trivia.Media.create({
+			guid:36,
+			mediaType: 'mp3',
+			url: 'assets/sound/lorut/hussikametsaan.mp3'
 		})
     ];
 
