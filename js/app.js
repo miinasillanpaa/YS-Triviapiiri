@@ -471,7 +471,6 @@ var Trivia = Em.Application.create({
                 participants = 'with friend';
             }
             var playedGameId = Trivia.get('router.gameController.playedGameId');
-            //var playedGameId1 = Trivia.GameController.playedGameId;
 
             //save actiongame result to backend also
             if(Trivia.router.get('gamesController.gameType') === 'action'){
@@ -743,7 +742,7 @@ var Trivia = Em.Application.create({
                         router.get('gameController').set('isActionGame', false);
                     } else if(gameType === 'lorut') {
                     	router.set('gamesController.gameType', 'lorut');
-                    	router.get('gameController').set('gameTypeTitle', 'Valitse loru');
+                    	router.get('gameController').set('gameTypeTitle', 'Tunnetko lorut?');
                         router.get('gameController').set('isActionGame', false);
 					} else if(gameType === 'action') {
 						router.set('gamesController.gameType', 'action');
@@ -797,7 +796,9 @@ var Trivia = Em.Application.create({
                     finishedPlaying: function() {
 
                     },
-                    loadingComplete: function() {}
+                    loadingComplete: function() {
+
+                    }
 				}),
 				game: Em.Route.extend({
 					route: '/:game_id',
