@@ -2043,7 +2043,6 @@ Trivia.questions = [
         gameId: 2,
         mediaId: 1,
         questionText: 'Miten kappaleen sanat jatkuvat?',
-        //options: {playTo: 15750},
 		options: {playTo: 15750},
         answers: [
             Trivia.Answer.create({ answerText: 'on morsiamell\' kruunattu pää', correct: true }),
