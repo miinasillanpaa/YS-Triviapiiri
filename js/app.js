@@ -1866,7 +1866,7 @@ Trivia.gameObjects.lorut = [
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Entten tentten',
-			image: 'assets/img/lorut/lorut3.jpg'
+			image: 'assets/img/lorut/lorut14.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 46,
@@ -1887,7 +1887,7 @@ Trivia.gameObjects.lorut = [
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Kis kis kissanpoika',
-			image: 'assets/img/lorut/lorut6.jpg'
+			image: 'assets/img/lorut/lorut13.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 49,
@@ -1908,7 +1908,7 @@ Trivia.gameObjects.lorut = [
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Mistä on pienet tehty',
-			image: 'assets/img/lorut/lorut15.jpg'
+			image: 'assets/img/lorut/lorut12.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 52,
@@ -1936,21 +1936,21 @@ Trivia.gameObjects.lorut = [
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Körö körö kirkkoon',
-			image: 'assets/img/lorut/lorut12.jpg'
+			image: 'assets/img/lorut/lorut15.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 56,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Mennään maata',
-			image: 'assets/img/lorut/lorut13.jpg'
+			image: 'assets/img/lorut/lorut6.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 57,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Hus sika metsään',
-			image: 'assets/img/lorut/lorut14.jpg'
+			image: 'assets/img/lorut/lorut3.jpg'
 	})
 ];
 
