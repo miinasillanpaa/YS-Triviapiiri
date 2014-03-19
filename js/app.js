@@ -5780,81 +5780,80 @@ Trivia.medias = [
 			url: 'no-sound'
 		}),
 		//lorut audio both gapless and gapped
-		//todo replace local url with s3
 		Trivia.Media.create({
 			guid:22,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/veetaannuottaa.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/veetaannuottaa.mp3'
 		}),
 		Trivia.Media.create({	
 			guid:23,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/peukaloputti.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/peukaloputti.mp3'
 		}),
 		Trivia.Media.create({
 			guid:24,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/enttententten.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/enttententten.mp3'
 		}),
 		Trivia.Media.create({
 			guid:25,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/maalarimaalasitaloa.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/maalarimaalasitaloa.mp3'
 		}),
 		Trivia.Media.create({
 			guid:26,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/ykskakskolme.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/ykskakskolme.mp3'
 		}),
 		Trivia.Media.create({
 			guid:27,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/kiskiskissanpoika.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/kiskiskissanpoika.mp3'
 		}),
 		Trivia.Media.create({
 			guid:28,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/lennalennaleppakerttu.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/lennalennaleppakerttu.mp3'
 		}),
 		Trivia.Media.create({
 			guid:29,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/kuukiurusta.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/kuukiurusta.mp3'
 		}),
 		Trivia.Media.create({
 			guid:30,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/mistaonpienettehty.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/mistaonpienettehty.mp3'
 		}),
 		Trivia.Media.create({
 			guid:31,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/viikonpaivat.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/viikonpaivat.mp3'
 		}),
 		Trivia.Media.create({
 			guid:32,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/ulledulledof.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/ulledulledof.mp3'
 		}),
 		Trivia.Media.create({
 			guid:33,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/tuutuutupakkirulla.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/tuutuutupakkirulla.mp3'
 		}),
 		Trivia.Media.create({
 			guid:34,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/korokorokirkkoon.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/korokorokirkkoon.mp3'
 		}),
 		Trivia.Media.create({
 			guid:35,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/mennaanmaata.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/mennaanmaata.mp3'
 		}),
 		Trivia.Media.create({
 			guid:36,
 			mediaType: 'mp3',
-			url: 'assets/sound/lorut/hussikametsaan.mp3'
+			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/hussikametsaan.mp3'
 		})
     ];
 
