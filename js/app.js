@@ -1759,7 +1759,8 @@ Trivia.gameObjects.plain = [
 	Trivia.Game.create({
 		guid: 58,
 		gameType: 'redirectToLorut',
-		name: 'Lorut'
+		name: 'Lorut',
+		image: 'assets/img/lorut/lorut15.jpg'
 	})
 ];
 
@@ -1850,91 +1851,106 @@ Trivia.gameObjects.lorut = [
 			guid: 43,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Veetään nuottaa'
+			name: 'Veetään nuottaa',
+			image: 'assets/img/lorut/lorut1.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 44,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Peukaloputti'
+			name: 'Peukaloputti',
+			image: 'assets/img/lorut/lorut2.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 45,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Entten tentten'
+			name: 'Entten tentten',
+			image: 'assets/img/lorut/lorut3.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 46,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Maalari maalasi'
+			name: 'Maalari maalasi',
+			image: 'assets/img/lorut/lorut4.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 47,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Yks kaks kolme'
+			name: 'Yks kaks kolme',
+			image: 'assets/img/lorut/lorut5.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 48,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Kis kis kissanpoika'
+			name: 'Kis kis kissanpoika',
+			image: 'assets/img/lorut/lorut6.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 49,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Lennä lennä leppäkerttu'
+			name: 'Lennä lennä leppäkerttu',
+			image: 'assets/img/lorut/lorut7.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 50,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Kuu kiurusta'
+			name: 'Kuu kiurusta',
+			image: 'assets/img/lorut/lorut8.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 51,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Mistä on pienet tehty'
+			name: 'Mistä on pienet tehty',
+			image: 'assets/img/lorut/lorut15.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 52,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Viikonloppu'
+			name: 'Viikonloppu',
+			image: 'assets/img/lorut/lorut9.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 53,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Ulle dulle'
+			name: 'Ulle dulle',
+			image: 'assets/img/lorut/lorut10.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 54,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Tuu tuu tupakkirulla'
+			name: 'Tuu tuu tupakkirulla',
+			image: 'assets/img/lorut/lorut11.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 55,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Körö körö kirkkoon'
+			name: 'Körö körö kirkkoon',
+			image: 'assets/img/lorut/lorut12.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 56,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Mennään maata'
+			name: 'Mennään maata',
+			image: 'assets/img/lorut/lorut13.jpg'
 	}),
 	Trivia.Game.create({
 			guid: 57,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
-			name: 'Hus sika metsään'
+			name: 'Hus sika metsään',
+			image: 'assets/img/lorut/lorut14.jpg'
 	})
 ];
 
