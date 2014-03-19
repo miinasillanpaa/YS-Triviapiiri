@@ -5809,7 +5809,7 @@ Trivia.medias = [
 		Trivia.Media.create({
 			guid:27,
 			mediaType: 'mp3',
-			url: 'assets/sound/kiskiskissanpoika.mp3'
+			url: 'assets/sound/lorut/kiskiskissanpoika.mp3'
 		}),
 		Trivia.Media.create({
 			guid:28,
