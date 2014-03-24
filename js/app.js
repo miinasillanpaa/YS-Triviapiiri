@@ -2976,7 +2976,7 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'laaja' }),
             Trivia.Answer.create({ answerText: 'pieni' }),
             Trivia.Answer.create({ answerText: 'korkea', correct: true }),
-            Trivia.Answer.create({ answerText: 'syvä' }),
+            Trivia.Answer.create({ answerText: 'suuri' }),
             Trivia.Answer.create({ answerText: 'avara' })
         ]
     }),
@@ -4569,7 +4569,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:27,
-		questionText: 'Montako kulkiluuta ihmisellä on?',
+		questionText: 'Montako kylkiluuta ihmisellä on?',
 		image: 'assets/img/mat/mat3.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '24', correct:true }),
@@ -4731,7 +4731,7 @@ Trivia.questions = [
 	}),
 	Trivia.Question.create({
 		gameId:28,
-		questionText: 'Adolf Hitler oli kuollesasan',
+		questionText: 'Adolf Hitler oli kuollessaan',
 		image: 'assets/img/eurooppa1/hitler.jpg',
 		answers: [
 			Trivia.Answer.create({ answerText: '46-vuotias' }),
@@ -5302,7 +5302,7 @@ Trivia.questions = [
 		answers: [
 			Trivia.Answer.create({ answerText: 'Teemu Selänteen' }),
 			Trivia.Answer.create({ answerText: 'Heikki Riihirannan', correct:true }),
-			Trivia.Answer.create({ answerText: 'Veli-Pekka Ketosen' })
+			Trivia.Answer.create({ answerText: 'Veli-Pekka Ketolan' })
 		]
 	}),
 	Trivia.Question.create({
