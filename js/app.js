@@ -252,6 +252,14 @@ var Trivia = Em.Application.create({
 			Trivia.router.send('nextQuestion');
 		}
 	}),
+	ProceedButtonLorutView: Em.View.extend({
+		classNames: 'btn btn-primary process-button-view'.w(),
+		template: Handlebars.compile('Jatka lorua <i class=" icon-circle-arrow-right"></i>'),
+		click: function(){
+			Trivia.router.send('nextQuestion');
+		}
+	}),
+
 	//action game stuff
 	//ActionGameStartedController: Em.Controller.extend({}),
 	ActionGameStartedView: Em.View.extend({
@@ -353,6 +361,7 @@ var Trivia = Em.Application.create({
 
 		isSinglePlayerGame: null,
 		isActionGame: false,
+		isLorutGame: false,
 
 		mediaState: 'stopped', //can be either 'stopped' or 'playing'
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
@@ -739,11 +748,10 @@ var Trivia = Em.Application.create({
 					if (gameType === 'music'){
 						router.set('gamesController.gameType', 'music');
                         router.get('gameController').set('gameTypeTitle', 'Valitse soitettava kappale');
-                        router.get('gameController').set('isActionGame', false);
                     } else if(gameType === 'lorut') {
                     	router.set('gamesController.gameType', 'lorut');
                     	router.get('gameController').set('gameTypeTitle', 'Tunnetko lorut?');
-                        router.get('gameController').set('isActionGame', false);
+                        router.get('gameController').set('isLorutGame', true);
 					} else if(gameType === 'action') {
 						router.set('gamesController.gameType', 'action');
                         router.get('gameController').set('gameTypeTitle', 'Valitse musiikkiharjoite')
@@ -751,7 +759,6 @@ var Trivia = Em.Application.create({
 					}else{
 						router.set('gamesController.gameType', 'plain');
 						router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');
-						router.get('gameController').set('isActionGame', false);
 					}
 				},
 				connectOutlets: function(router){
@@ -1243,7 +1250,12 @@ var Trivia = Em.Application.create({
 
 										connectOutlets: function(router, foo, bar){
 											console.log('answerChecked', foo, bar, this);
-											router.get('answersController').connectOutlet('action', 'proceedButton');
+											if(router.get('gameController.isLorutGame')){
+												router.get('answersController').connectOutlet('action', 'proceedButtonLorut');
+											}else{
+												router.get('answersController').connectOutlet('action', 'proceedButton');
+											}
+											
 											//router.get('answersController').connectOutlet('choices', 'empty');
 
 										},
@@ -1770,7 +1782,7 @@ Trivia.gameObjects.action = [
 		gameType: 'audio',
 		gameIntro: 'Kuulet kohta kappaleen. Laulun sanat näkyvät ruudulla. Laula mukana!',
 		name: 'Karaoke: Voi tuota muistia',
-		image: 'assets/img/voi_tuota_muistia.jpg'
+		image: 'assets/img/pilvi.jpg',
 	}),
 	Trivia.Game.create({
 		guid:31,
@@ -1833,14 +1845,14 @@ Trivia.gameObjects.action = [
 	Trivia.Game.create({
 		guid: 39,
 		gameType: 'audio',
-		gameIntro: 'Harjoittele jumppaliikkeet rauhassa lävitse. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
+		gameIntro: 'Harjoittele jumppaliikkeet rauhassa kuvien kanssa. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
 		name: 'Jumppaliikkeet: Aamu Airistolla',
 		image: 'assets/img/jumppa/aamu/1.jpg'
 	}),
 	Trivia.Game.create({
 		guid: 40,
 		gameType: 'audio',
-		gameIntro: 'Harjoittele jumppaliikkeet rauhassa lävitse. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
+		gameIntro: 'Harjoittele jumppaliikkeet rauhassa kuvien kanssa. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
 		name: 'Jumppaliikkeet: Vesivehmaan jenkka',
 		image: 'assets/img/jumppa/jenkka/1-cover.jpg'
 	})
@@ -4927,105 +4939,105 @@ Trivia.questions = [
 		gameId:30,
 		mediaId:6,
 		questionText: ' ',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 8000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Menneiden muistot mielessä laukkaa, kaikki on siellä kohdallaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: "Menneiden muistot mielessä laukkaa, <br> kaikki on siellä kohdallaan.",
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 17000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Minnekä eilen retkemme johti, maisemat häipyi unholaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Minnekä eilen retkemme johti,<br> maisemat häipyi unholaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 25000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Voi tuota muistia mihin se on mennyt,<br> onko se loppunut kokonaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 33000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Uutiset uudet unohtuvat kohta,<br> niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 50000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Kinnunen heitti, Vireeni juoksi, mainetta kultaa Suomeen toi.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Kinnunen heitti, Vireeni juoksi,<br> mainetta kultaa Suomeen toi.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 58000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Ketkä on maamme mestarit tänään, milloinka heidät nähdä voi.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Ketkä on maamme mestarit tänään,<br> milloinka heidät nähdä voi.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 67000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Voi tuota muistia mihin se on mennyt,<br> onko se loppunut kokonaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 75000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Uutiset uudet unohtuvat kohta,<br> niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 91000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Tieto se kulkee vauhdilla täällä, matkassa en voi pysyä.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Tieto se kulkee vauhdilla täällä,<br> matkassa en voi pysyä.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 99000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Juuri kun luulin mukana ollaan, samaa taas täytyy kysyä.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Juuri kun luulin mukana ollaan,<br> samaa taas täytyy kysyä.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 107000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Voi tuota muistia mihin se on mennyt,<br> onko se loppunut kokonaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 116000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Uutiset uudet unohtuvat kohta,<br> niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 124000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Voi tuota muistia mihin se on mennyt onko se loppunut kokonaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Voi tuota muistia mihin se on mennyt,<br> onko se loppunut kokonaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {changeAt: 132000}
 	}),
 	Trivia.Question.create({
 		gameId:30,
 		mediaId:6,
-		questionText: 'Uutiset uudet unohtuvat kohta, niin kuin ei ois niitä kuullutkaan.',
-		image: 'assets/img/voi_tuota_muistia.jpg',
+		questionText: 'Uutiset uudet unohtuvat kohta,<br> niin kuin ei ois niitä kuullutkaan.',
+		image: 'assets/img/pilvi.jpg',
 		options: {}
 	}),
 
@@ -5160,84 +5172,84 @@ Trivia.questions = [
 		gameId:39,
 		mediaId: 21,
 		image: 'assets/img/jumppa/aamu/2.jpg',
-		questionText: 'Heilauta oikeaa kättä eteen ja taakse',
+		questionText: 'Heilauta oikeaa kättä eteen ja taakse.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId:39,
 		mediaId: 21,
 		image: 'assets/img/jumppa/aamu/3.jpg',
-		questionText: 'Heilauta vasenta kättä eteen ja taakse laajasti',
+		questionText: 'Heilauta vasenta kättä eteen ja taakse laajasti.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId:39,
 		mediaId: 21,
 		image: 'assets/img/jumppa/aamu/4.jpg',
-		questionText: 'Piirrä vaakakahdeksikkoa sivulta sivulle, isot silmukat. Harjoittele molemmin käsin',
+		questionText: 'Piirrä vaakakahdeksikkoa sivulta sivulle, isot silmukat. Harjoittele molemmin käsin.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId:39,
 		mediaId: 21,
 		image: 'assets/img/jumppa/aamu/5.jpg',
-		questionText: 'Heilauta jalkaa eteen ja taakse. Harjoittele molemmin jaloin',
+		questionText: 'Heilauta jalkaa eteen ja taakse. Harjoittele molemmin jaloin.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 39,
 		mediaId: 21,
 		image: 'assets/img/jumppa/aamu/6.jpg',
-		questionText: 'Piirrä oikealla ja vasemmalla jalalla laiskoja kahdeksikkoja',
+		questionText: 'Piirrä oikealla ja vasemmalla jalalla laiskoja kahdeksikkoja.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 39,
 		mediaId: 21,
 		image: 'assets/img/jumppa/aamu/1-dimen.jpg',
-		questionText: 'Tee kummallakin kädellä yhtäaikaa vaakakahdeksikkoja',
+		questionText: 'Tee molemmilla käsillä laajoja kahdeksikkoja.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 40,
 		mediaId: 21,
 		image: 'assets/img/jumppa/jenkka/2.jpg',
-		questionText: 'Nosta jalkoja jenkan tahtiin ylös ja alas',
+		questionText: 'Nosta jalkoja jenkan tahtiin ylös ja alas.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 40,
 		mediaId: 21,
 		image: 'assets/img/jumppa/jenkka/3.jpg',
-		questionText: 'Työnnä kantapäitä vuorotellen eteen ja taakse',
+		questionText: 'Työnnä kantapäitä vuorotellen eteen ja taakse.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 40,
 		mediaId: 21,
 		image: 'assets/img/jumppa/jenkka/4.jpg',
-		questionText: 'Hiihtoliike: heilauta käsiä eteen ja taakse. Yläkroppa kiertyy, sormetkin ojentuu',
+		questionText: 'Hiihtoliike: Ylävartalo kiertyy ja sormetkin ojentuvat.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 40,
 		mediaId: 21,
 		image: 'assets/img/jumppa/jenkka/5.jpg',
-		questionText: 'Taputa oikeaa reittä molemmin käsin 4 kertaa, taputa vasenta reittä molemmin käsin 4 kertaa, kierrä kroppaa',
+		questionText: 'Taputa oikeaa reittä molemmin käsin 4 kertaa, taputa vasenta reittä molemmin käsin 4 kertaa, kierrä vartaloa.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 40,
 		mediaId: 21,
 		image: 'assets/img/jumppa/jenkka/6.jpg',
-		questionText: 'Taputa oikealle kaksi kertaa, vasemmalle kaksi kertaa',
+		questionText: 'Taputa oikealle kaksi kertaa, vasemmalle kaksi kertaa.',
 		options: {changeAt: "pressed"}
 	}),
 	Trivia.Question.create({
 		gameId: 40,
 		mediaId: 21,
 		image: 'assets/img/jumppa/jenkka/7.jpg',
-		questionText: 'Ravistele käsiä sinne ja tänne, sivuille ja ylös, alas ja eteen',
+		questionText: 'Ravistele käsiä sinne ja tänne, sivuille ja ylös, alas ja eteen.',
 		options: {changeAt: "pressed"}
 	}),
 
