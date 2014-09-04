@@ -470,8 +470,9 @@ var Trivia = Em.Application.create({
         },
 
         saveGameEnd: function() {
-            console.log('saving game end to backend');
+            
             var rightAnswers = this.get('correctAnswers');
+            console.log('saving game end to backend', rightAnswers+'/'+this.get('questions').length);
             var participants = 'unknown';
             console.log('is single player game' + this.get('isSinglePlayerGame'));
             if (this.get('isSinglePlayerGame') === true) {
@@ -483,7 +484,7 @@ var Trivia = Em.Application.create({
 
             //save actiongame result to backend also
             if(Trivia.router.get('gamesController.gameType') === 'action'){
-            	rightAnswers = 1000;
+				rightAnswers = 1000;
             }
 
             if (rightAnswers && participants && playedGameId) {
@@ -1222,12 +1223,12 @@ var Trivia = Em.Application.create({
 												//add points
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
-
+												console.warn('corrects', router.get('gameController.correctAnswers'));
                                                 router.transitionTo('answerChecked.answeredRight');
 
 											} else {
 												console.log('checking answer, wrong');
-
+												console.warn('corrects', router.get('gameController.correctAnswers'));
                                                 router.transitionTo('answerChecked.answeredWrong');
 											}
 
@@ -1386,12 +1387,12 @@ var Trivia = Em.Application.create({
 
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
-
+											console.warn('corrects', router.get('gameController.correctAnswers'));
                                             router.transitionTo('answerChecked.answeredRight');
 
 										} else {
 											console.log('checking answer, wrong');
-
+											console.warn('corrects', router.get('gameController.correctAnswers'));
                                             router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
@@ -2646,7 +2647,7 @@ Trivia.questions = [
         questionText: 'Miten kappaleen sanat jatkuvat?',
         options: {playTo: 83200},
         answers: [
-            Trivia.Answer.create({ answerText: 'kenkähylly ulos mennessänne' }),
+            Trivia.Answer.create({ answerText: 'kenkähyllyä ulos mennessänne' }),
             Trivia.Answer.create({ answerText: 'piimähinkkiä porstuassa mennessänne', correct:true }),
             Trivia.Answer.create({ answerText: 'maitotonkkaa navetassa käydässänne' })
         ]
@@ -2736,7 +2737,7 @@ Trivia.questions = [
         answers: [
             Trivia.Answer.create({ answerText: 'Vapaa kuin taivaan lintu on kulkija huoleton', correct:true }),
             Trivia.Answer.create({ answerText: 'Huoleton kulkijapoika on matkalla kullan luo' }),
-            Trivia.Answer.create({ answerText: 'Onnellinen voi olla kun maantietä askelen' })
+            Trivia.Answer.create({ answerText: 'Onnellinen voi olla kun maantietä astelen' })
         ]
     }),
     Trivia.Question.create({
