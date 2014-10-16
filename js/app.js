@@ -5998,7 +5998,7 @@ function loadPlayer(videoId) {
 			videoId: videoId,
 			playerVars: {
 				'autohide': 1,
-				'controls': 0,
+				//'controls': 0, //this caused weird aspect ratio problems
 				'enablejsapi': 1,
 				'rel': 0,
 				'showinfo': 0,
