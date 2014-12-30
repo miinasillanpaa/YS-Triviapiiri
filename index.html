@@ -133,7 +133,7 @@
   </script>
   <script type="text/x-handlebars" data-template-name="alert-question">
 	  {{content.questionText}}
-	  {{#unless Trivia.router.gameController.instan ftReplayPlayed}}
+	  {{#unless Trivia.router.gameController.instantReplayPlayed}}
 	  	<button class="btn" {{action instantReplay}}><i class="icon-music"></i> Kuuntele uudestaan</button>
 	  {{/unless}}
   </script>
