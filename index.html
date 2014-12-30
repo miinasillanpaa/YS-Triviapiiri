@@ -4,7 +4,7 @@
   <meta lang="fi">
   <meta name="viewport" id="screenViewport" content="width=1280, initial-scale=1, maximum-scale=1"/>
 
-  <!-- TODO: remove cache invalidation before going live 
+  <!-- TODO: remove cache invalidation before going live
     <meta http-equiv="cache-control" content="max-age=0" />
     <meta http-equiv="cache-control" content="no-cache" />
     <meta http-equiv="expires" content="0" />
@@ -41,8 +41,8 @@
 		{{else}}
 			<p>Kuulet kohta laulun. Kun laulu pysähtyy, valitse vaihtoehdoista sanat, joilla laulu jatkuu. Onnea matkaan!</p>
 		{{/if}}
- 		<button class="btn btn-primary"{{action startGame1P}}><i class="icon-user"></i> Pelaan yksin</button>
-		<button class="btn"{{action startGame2P}}><i class="icon-group"></i> Pelaan parin kanssa</button>
+ 		<button class="btn btn-primary"{{action startGame1P}}><i class="icon-user"></i> Aloita</button>
+		<!-- <button class="btn"{{action startGame2P}}><i class="icon-group"></i> Pelaan parin kanssa</button> -->
 
  	</script>
 
@@ -58,7 +58,7 @@
 	  <h2>{{Trivia.router.gameController.title}}</h2>
 		<p>{{Trivia.router.gameController.gameTitle}}</p>
 	  	<button class="btn btn-primary"{{action startGame1P}}><i class="icon-user"></i> Pelaan yksin</button>
-		<button class="btn"{{action startGame2P}}><i class="icon-group"></i> Pelaan parin kanssa</button>
+		<!-- <button class="btn"{{action startGame2P}}><i class="icon-group"></i> Pelaan parin kanssa</button> -->
   </script>
 
 
@@ -133,7 +133,7 @@
   </script>
   <script type="text/x-handlebars" data-template-name="alert-question">
 	  {{content.questionText}}
-	  {{#unless Trivia.router.gameController.instantReplayPlayed}}
+	  {{#unless Trivia.router.gameController.instan ftReplayPlayed}}
 	  	<button class="btn" {{action instantReplay}}><i class="icon-music"></i> Kuuntele uudestaan</button>
 	  {{/unless}}
   </script>
@@ -166,7 +166,7 @@
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
-	  {{outlet moodmeter class="moodmeter-outlet"}}
+	  <!-- {{outlet moodmeter class="moodmeter-outlet"}} -->
 
 	  <!--button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button -->
 	  <div class="actions">
@@ -180,7 +180,7 @@
 	  <div class="feedback-text">{{view.feedbackText}}</div>
 	  <div class="success-rate">oikeita vastauksia {{view.successRate}}%</div>
 
-	  {{outlet moodmeter class="moodmeter-outlet"}}
+	  <!-- {{outlet moodmeter class="moodmeter-outlet"}} -->
 
 	  <!--button class="btn" {{action playSongEnd}}>Kuuntele kappale loppuun</button -->
 	  <div class="actions">
@@ -193,7 +193,7 @@
   	<h2>Harjoitus päättyi</h2>
 	<div class="feedback-text">Miltä rentoutuminen tuntui tänään?</div>
   	<hr/>
-  	{{outlet moodmeter class="moodmeter-outlet"}}
+  	<!-- {{outlet moodmeter class="moodmeter-outlet"}} -->
   	<br/>
   	<div class="actions">
 		  <button class="btn btn-large btn-success" {{action back}}><i class="icon-home"></i> Palaa päävalikkoon</button>
@@ -261,8 +261,8 @@
 					<span>Aloita peli:</span>
 				</div>
 				<div class="buttons">
-					<button class="btn btn-primary" {{action start}}><i class="icon-user"></i> Pelaan yksin</button>
-					<button class="btn" {{action start2P}}><i class="icon-group"></i>Pelaan jonkun muun kanssa</button>
+					<button class="btn btn-primary" {{action start}}><i class="icon-user"></i> Aloita</button>
+					<!-- <button class="btn" {{action start2P}}><i class="icon-group"></i>Pelaan jonkun muun kanssa</button> -->
 				</div>
 			{{/view}}
 
@@ -332,6 +332,25 @@
 		</div>
 
 	</script>
+
+  <script type="text/x-handlebars" data-template-name="pre-select-game">
+
+    <h2>Valitse harjoitetyyppi</h2>
+    <div class="wrapper">
+      {{#collection view.preSelectGameCollectionView }}
+        <div class="cover" {{bindAttr style="view.bgStyle"}}>
+
+        <a {{action "selectGametype" }}>
+          <span>{{view.content.name}}<span>
+        </a>
+
+        </div>
+      {{/collection}}
+    </div>
+
+
+  </script>
+
 	<script type="text/x-handlebars" data-template-name="games">
 		<h2>{{Trivia.router.gameController.gameTypeTitle}}</h2>
 		<div class="wrapper">
@@ -345,7 +364,7 @@
 		</div>
 
 		{{outlet}}
-        <div class="version">Triviapiiri v0.7 rc1</div>
+    <!-- <div class="version">Triviapiiri v0.7 rc1</div> -->
  	</script>
 
 	<script type="text/x-handlebars" data-template-name="game1">
@@ -383,9 +402,11 @@
 <script type="text/x-handlebars" data-template-name="application">
 	<section class="app">
 		<section class="menubar">
-			<button class="btn back" {{action back}}>
-			<i class="icon-circle-arrow-left"></i> <span>Takaisin</span>
-			</button>
+      {{#if Trivia.router.gameController.backVisible }}
+        <button class="btn back" {{action back}}>
+  			<i class="icon-circle-arrow-left"></i> <span>Takaisin</span>
+  			</button>
+      {{/if}}
 			<section class="spacer">
 				{{#if Trivia.router.gameController.isActionGame}}
 					<span>Harjoituksia</span>

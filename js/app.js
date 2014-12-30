@@ -20,6 +20,33 @@ var Trivia = Em.Application.create({
 	ApplicationView: Em.View.extend({
 		templateName: 'application'
 	}),
+
+	PreSelectGameView: Em.View.extend({
+		templateName: 'pre-select-game',
+		classNames: 'select-game-view pre-select-game-view'.w(),
+
+		preSelectGameCollectionView: Em.CollectionView.extend({
+			tagName: 'ul',
+			classNames: 'select-game-view pre-select-game-view'.w(),
+			contentBinding: 'Trivia.gameTypes',
+			itemViewClass: Em.View.extend({
+				tagName: 'li',
+				classNames:'answer-view',
+				bgStyle: function(){
+					if (this.get('content.image')) {
+						return 'background-image: url(' + this.get('content.image') + ')';
+					}
+				}.property('content.image')
+			})
+		})
+
+
+	}),
+
+	PreSelectGameController: Em.Controller.extend({
+
+	}),
+
 	GamesView: Em.View.extend({
 		templateName:'games',
 		classNames: 'select-game-view'.w(),
@@ -310,7 +337,7 @@ var Trivia = Em.Application.create({
 			if(this.get('content')) {
 				console.log( this.get('content'));
 				return this.get('content.videoUrl')
-			}	
+			}
 		}.observes('content')
 	}),
 	GameFinishedActionController: Em.Controller.extend({}),
@@ -362,6 +389,7 @@ var Trivia = Em.Application.create({
 		isSinglePlayerGame: null,
 		isActionGame: false,
 		isLorutGame: false,
+		backVisible: false,
 
 		mediaState: 'stopped', //can be either 'stopped' or 'playing'
 		mediaPosition: 0, //Media position in % from the start. Updated on the fly by playInterval()
@@ -448,29 +476,31 @@ var Trivia = Em.Application.create({
 		},
 
         saveGameStart: function() {
+					console.log('no backend for web version');
             console.log('saving game start to backend');
-            if (this.get('content')) {
-                var gameId = this.get('content.guid');
-                var userId = Trivia.get('router.applicationController.userId');
+            // if (this.get('content')) {
+            //     var gameId = this.get('content.guid');
+            //     var userId = Trivia.get('router.applicationController.userId');
 
-                console.log('saving game start to backend with parameters gameId: ' + gameId + ' userId: ' + userId);
-                if (gameId && userId) {
-                    $.ajax({
-                        url: '/saveEvent',
-                        type: 'POST',
-                        data: { type: 'startGame', gameId: gameId, userId: userId },
-                        success: function(response) {
-                            if (response && !isNaN(response)) {
-                                Trivia.set('router.gameController.playedGameId', response);
-                            }
-                        }
-                    });
-                }
-            }
+
+                // console.log('saving game start to backend with parameters gameId: ' + gameId + ' userId: ' + userId);
+                // if (gameId && userId) {
+                //     $.ajax({
+                //         url: '/saveEvent',
+                //         type: 'POST',
+                //         data: { type: 'startGame', gameId: gameId, userId: userId },
+                //         success: function(response) {
+                //             if (response && !isNaN(response)) {
+                //                 Trivia.set('router.gameController.playedGameId', response);
+                //             }
+                //         }
+                //     });
+                // }
+            // }
         },
 
         saveGameEnd: function() {
-            
+
             var rightAnswers = this.get('correctAnswers');
             console.log('saving game end to backend', rightAnswers+'/'+this.get('questions').length);
             var participants = 'unknown';
@@ -487,34 +517,36 @@ var Trivia = Em.Application.create({
 				rightAnswers = 1000;
             }
 
-            if (rightAnswers && participants && playedGameId) {
-                console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
-                $.ajax({
-                    url:'/saveEvent',
-                    type: 'POST',
-                    data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants, playedGameId: playedGameId },
-                    success: function(response) {
-
-                    }
-                });
-            }
+						console.log('no backend for web version');
+            // if (rightAnswers && participants && playedGameId) {
+            //     console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
+            //     $.ajax({
+            //         url:'/saveEvent',
+            //         type: 'POST',
+            //         data: { type: 'endGame', rightAnswerAmount: rightAnswers, participants: participants, playedGameId: playedGameId },
+            //         success: function(response) {
+						//
+            //         }
+            //     });
+            // }
         },
 
         saveGameFeedback: function(mood) {
-            console.log('saving game feedback to backend');
-            var playedGameId = Trivia.get('router.gameController.playedGameId');
-            if (playedGameId && mood) {
-                var mood = mood;
-                //console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
-                $.ajax({
-                    url: '/saveEvent',
-                    type: 'POST',
-                    data: { type: 'gameFeedback', playedGameId: playedGameId, feedback: mood },
-                    success: function(response) {
-
-                    }
-                });
-            }
+					console.log('no backend for web version');
+            // console.log('saving game feedback to backend');
+            // var playedGameId = Trivia.get('router.gameController.playedGameId');
+            // if (playedGameId && mood) {
+            //     var mood = mood;
+            //     //console.log('saving game feedback with parameters playedGameId: ' + playedGameId + ' feedback: ' + mood);
+            //     $.ajax({
+            //         url: '/saveEvent',
+            //         type: 'POST',
+            //         data: { type: 'gameFeedback', playedGameId: playedGameId, feedback: mood },
+            //         success: function(response) {
+						//
+            //         }
+            //     });
+            // }
         },
 
 		mediaDidChange: function(){
@@ -599,7 +631,7 @@ var Trivia = Em.Application.create({
 							}
 						})
 					},1000)
-					
+
 				}else{
 					console.log('expecting pressing');
 				}
@@ -731,15 +763,35 @@ var Trivia = Em.Application.create({
 		location: 'hash',
 		root: Ember.Route.extend({
 			index: Ember.Route.extend({
+				//todo if gametype is undefined goto /games
 				route: '/',
-				redirectsTo: 'games.index'
+				redirectsTo: 'preSelectGame'
 			}),
+
+
+			preSelectGame: Ember.Route.extend({
+				route: '/games',
+
+				connectOutlets: function(router){
+					router.get('gameController').set('backVisible', false);
+					router.get('applicationController').connectOutlet('preSelectGame');
+				},
+
+				selectGametype: function(router, event, data){
+					var target = event.view.content.target;
+					router.set('gamesController.gameType', target);
+					router.transitionTo('root.games.index');
+				}
+
+			}),
+
 			games: Ember.Route.extend({
 				route: '/games/:gameType',
+
 				serialize: function(router, context){
 					return {
 						gameType: router.get('gamesController.gameType')
-				  	}
+			  	}
 				},
 				deserialize: function(router, params){
 					console.log('deserializing', params);
@@ -771,7 +823,7 @@ var Trivia = Em.Application.create({
 
 					} else if(router.get('gamesController.gameType') === 'action') {
 						Trivia.set('games', Trivia.gameObjects.action);
-						
+
 					}else{
 						Trivia.set('games', Trivia.gameObjects.plain);
 					}
@@ -780,26 +832,29 @@ var Trivia = Em.Application.create({
 				index: Em.Route.extend({
 					route: '/',
 					connectOutlets: function(router){
+						router.get('gameController').set('backVisible', true);
 						router.get('applicationController').connectOutlet('games');
 
 						//make sure zombie songs stop playing
 						soundManager.stopAll();
 					},
+
 					back: function(router){
-                        var userId = Trivia.get('router.applicationController.userId');
-                        var exitUrl = Trivia.get('exitUrl');
-                        if(router.get('gamesController.gameType') === 'lorut') {
-
-                        	router.set('gamesController.gameType', 'plain');
-							Trivia.set('games', Trivia.gameObjects.plain);
-							router.transitionTo('root.games.index');
-							return false;
-
-                        } else if (userId && exitUrl) {
-                            window.location = exitUrl;
-                        } else {
-						    window.location = "http://pienipiiri.fi/mobile";
-                        }
+						router.transitionTo('root.index');
+              //           var userId = Trivia.get('router.applicationController.userId');
+              //           var exitUrl = Trivia.get('exitUrl');
+              //           if(router.get('gamesController.gameType') === 'lorut') {
+							//
+              //           	router.set('gamesController.gameType', 'plain');
+							// Trivia.set('games', Trivia.gameObjects.plain);
+							// router.transitionTo('root.games.index');
+							// return false;
+							//
+              //           } else if (userId && exitUrl) {
+              //               window.location = exitUrl;
+              //           } else {
+						  //   window.location = "http://pienipiiri.fi/mobile";
+              //           }
 					},
                     finishedPlaying: function() {
 
@@ -820,8 +875,8 @@ var Trivia = Em.Application.create({
 					connectOutlets: function(router, game){
 						if(game && game.get('videoUrl')){
 							window.videoUrl = game.get('videoUrl');
-						}	
-						
+						}
+
 						console.warn('connecting game outlets', game, game.get('name'));
 
 
@@ -864,7 +919,7 @@ var Trivia = Em.Application.create({
 							console.log(router.get('gameController'));
 
 							if (!router.get('gameController.media') || router.get('gameController.media.mediaType') === "no-sound" || router.get('gameController.content.gameType') === "video"){
-								
+
 								if(router.get('gameController.media.mediaType') === "no-sound"){
 									var questions = router.get('gameController.questions');
 									for(var i=0; i<questions.length; i++) {
@@ -1027,7 +1082,7 @@ var Trivia = Em.Application.create({
 								}),
 								videoPlaying: Em.Route.extend({
 									connectOutlets: function(router){
-										
+
 										//console.log(router.get('gameController'));
 									},
 									back: function(router){
@@ -1084,7 +1139,7 @@ var Trivia = Em.Application.create({
 									initialState: 'mediaPlaying',
 									connectOutlets: function(router){
 										//console.log(router.get('gameController.currentQuestion'));
-										
+
 										router.get('gameController').connectOutlet('subtitle','actionSubtitle');
 									},
 									fullReplay: function(router){
@@ -1095,7 +1150,7 @@ var Trivia = Em.Application.create({
 
 									mediaPlaying: Em.Route.extend({
 										connectOutlets: function(router){
-													
+
 										},
 										back: function(router){
 											if(router.get('gameController.media.mediaType') === 'mp3'){
@@ -1256,7 +1311,7 @@ var Trivia = Em.Application.create({
 											}else{
 												router.get('answersController').connectOutlet('action', 'proceedButton');
 											}
-											
+
 											//router.get('answersController').connectOutlet('choices', 'empty');
 
 										},
@@ -1532,6 +1587,14 @@ var Trivia = Em.Application.create({
 		})
 	})
 });
+
+Trivia.Gametype = Em.Object.extend({
+	guid: null,
+	name: null, 	//eg. Musiikkiharjoitteet
+	target: null, //eg. audio
+	image: 'assets/img/default.jpg'
+})
+
 Trivia.Game = Em.Object.extend({
     guid: null,
     name: null,
@@ -1565,6 +1628,27 @@ Trivia.Answer = Em.Object.extend({
 	answered: false,
 	correct: false
 });
+
+Trivia.gameTypes = [
+//images
+	Trivia.Gametype.create({
+		guid: 1,
+		name: 'Kielelliset harjoitteet',
+		target: 'plain'
+	}),
+	Trivia.Gametype.create({
+		guid: 2,
+		name: 'Musiikilliset harjoitteet',
+		target: 'music'
+	}),
+	Trivia.Gametype.create({
+		guid: 3,
+		name: 'Toiminnalliset harjoitteet',
+		target: 'action'
+	})
+]
+
+
 Trivia.gameObjects = {};
 
 Trivia.gameObjects.music = [
@@ -1640,13 +1724,13 @@ Trivia.gameObjects.music = [
 		gameType: 'audio',
         caption: '15062007(005) - Mikko Koponen (CC BY 2.0)'
     }),
-    Trivia.Game.create({
-        guid: 12,
-        name: 'Puhelinlangat laulaa',
-        image: 'assets/img/puhelinlangat.jpg',
-		gameType: 'audio',
-        caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
-    }),
+    // Trivia.Game.create({
+    //     guid: 12,
+    //     name: 'Puhelinlangat laulaa',
+    //     image: 'assets/img/puhelinlangat.jpg',
+		// gameType: 'audio',
+    //     caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
+    // }),
     Trivia.Game.create({
         guid: 13,
         name: 'Sellanen ol Viipuri',
@@ -1768,7 +1852,6 @@ Trivia.gameObjects.plain = [
 		name: 'Suomi II',
 		image: 'assets/img/ikkuna.jpg'
 	}),
-	//todo this should be a redirect to triviapiiri//#/games/lorut maybe
 	Trivia.Game.create({
 		guid: 58,
 		gameType: 'redirectToLorut',
@@ -2707,61 +2790,61 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'mistä sen löytäisin uudestaan' })
         ]
     }),
-    Trivia.Question.create({
-        gameId: 12,
-        mediaId: 7,
-        questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 19680},
-        answers: [
-            Trivia.Answer.create({ answerText: 'Ja pilvistä katsoo kuu', correct:true }),
-            Trivia.Answer.create({ answerText: 'on onneni verraton' }),
-            Trivia.Answer.create({ answerText: 'ja taivasta tuijottelen' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 12,
-        mediaId: 7,
-        questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 36360},
-        answers: [
-            Trivia.Answer.create({ answerText: 'on kaipaus aivan suunnaton' }),
-            Trivia.Answer.create({ answerText: 'kun uniaan hän vetelee', correct:true }),
-            Trivia.Answer.create({ answerText: 'muistot mieleen piirtyvät' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 12,
-        mediaId: 7,
-        questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 44900},
-        answers: [
-            Trivia.Answer.create({ answerText: 'Vapaa kuin taivaan lintu on kulkija huoleton', correct:true }),
-            Trivia.Answer.create({ answerText: 'Huoleton kulkijapoika on matkalla kullan luo' }),
-            Trivia.Answer.create({ answerText: 'Onnellinen voi olla kun maantietä astelen' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 12,
-        mediaId: 7,
-        questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 101300},
-        answers: [
-            Trivia.Answer.create({ answerText: 'poluilla kuljeskellen' }),
-            Trivia.Answer.create({ answerText: 'reiteillä vierahilla' }),
-            Trivia.Answer.create({ answerText: 'maantiellä vihellellen', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 12,
-        mediaId: 7,
-        questionText: 'Miten kappaleen sanat jatkuvat?',
-        options: {playTo: 120410},
-        answers: [
-            Trivia.Answer.create({ answerText: 'suurta rakkauttaan' }),
-            Trivia.Answer.create({ answerText: 'kaipaus rinnassaan', correct:true }),
-            Trivia.Answer.create({ answerText: 'puhelimen pirinää' })
-        ]
-    }),
+    // Trivia.Question.create({
+    //     gameId: 12,
+    //     mediaId: 7,
+    //     questionText: 'Miten kappaleen sanat jatkuvat?',
+    //     options: {playTo: 19680},
+    //     answers: [
+    //         Trivia.Answer.create({ answerText: 'Ja pilvistä katsoo kuu', correct:true }),
+    //         Trivia.Answer.create({ answerText: 'on onneni verraton' }),
+    //         Trivia.Answer.create({ answerText: 'ja taivasta tuijottelen' })
+    //     ]
+    // }),
+    // Trivia.Question.create({
+    //     gameId: 12,
+    //     mediaId: 7,
+    //     questionText: 'Miten kappaleen sanat jatkuvat?',
+    //     options: {playTo: 36360},
+    //     answers: [
+    //         Trivia.Answer.create({ answerText: 'on kaipaus aivan suunnaton' }),
+    //         Trivia.Answer.create({ answerText: 'kun uniaan hän vetelee', correct:true }),
+    //         Trivia.Answer.create({ answerText: 'muistot mieleen piirtyvät' })
+    //     ]
+    // }),
+    // Trivia.Question.create({
+    //     gameId: 12,
+    //     mediaId: 7,
+    //     questionText: 'Miten kappaleen sanat jatkuvat?',
+    //     options: {playTo: 44900},
+    //     answers: [
+    //         Trivia.Answer.create({ answerText: 'Vapaa kuin taivaan lintu on kulkija huoleton', correct:true }),
+    //         Trivia.Answer.create({ answerText: 'Huoleton kulkijapoika on matkalla kullan luo' }),
+    //         Trivia.Answer.create({ answerText: 'Onnellinen voi olla kun maantietä astelen' })
+    //     ]
+    // }),
+    // Trivia.Question.create({
+    //     gameId: 12,
+    //     mediaId: 7,
+    //     questionText: 'Miten kappaleen sanat jatkuvat?',
+    //     options: {playTo: 101300},
+    //     answers: [
+    //         Trivia.Answer.create({ answerText: 'poluilla kuljeskellen' }),
+    //         Trivia.Answer.create({ answerText: 'reiteillä vierahilla' }),
+    //         Trivia.Answer.create({ answerText: 'maantiellä vihellellen', correct:true })
+    //     ]
+    // }),
+    // Trivia.Question.create({
+    //     gameId: 12,
+    //     mediaId: 7,
+    //     questionText: 'Miten kappaleen sanat jatkuvat?',
+    //     options: {playTo: 120410},
+    //     answers: [
+    //         Trivia.Answer.create({ answerText: 'suurta rakkauttaan' }),
+    //         Trivia.Answer.create({ answerText: 'kaipaus rinnassaan', correct:true }),
+    //         Trivia.Answer.create({ answerText: 'puhelimen pirinää' })
+    //     ]
+    // }),
     Trivia.Question.create({
         gameId: 13,
         mediaId: 8,
@@ -3574,7 +3657,7 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Hylynryöstäjä' }),
             Trivia.Answer.create({ answerText: 'Silminnäkijä' })
         ]
-    }), 
+    }),
     Trivia.Question.create({
         gameId: 21,
         image: 'assets/img/kirjailijat/kir43.jpg',
@@ -3593,7 +3676,7 @@ Trivia.questions = [
 	Excluded questions are stored below
 
 	**********************************************************************
-	
+
 	Trivia.Question.create({
         gameId: 22,
 		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
@@ -5814,7 +5897,7 @@ Trivia.medias = [
 			mediaType: 'mp3',
 			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/veetaannuottaa.mp3'
 		}),
-		Trivia.Media.create({	
+		Trivia.Media.create({
 			guid:23,
 			mediaType: 'mp3',
 			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/peukaloputti.mp3'
@@ -6053,7 +6136,7 @@ function playVideo() {
 
 function pauseVideo() {
 	player.pauseVideo();
-}	
+}
 
 function stopVideo() {
 	player.stopVideo();
