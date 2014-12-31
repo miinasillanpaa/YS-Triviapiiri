@@ -170,13 +170,31 @@ var Trivia = Em.Application.create({
 	PlainQuestionController: Em.Controller.extend({}),
 	MediaQuestionController: Em.Controller.extend({}),
 
+
+	MediaCaptionView: Em.View.extend({
+		classNames: 'media-caption-view'.w(),
+		contentBinding: 'Trivia.router.gameController.questionImageCaption',
+		contentDidChange: function(){
+			if(this.get('content')){
+				// console.log('KÄPSÖÖÖN', this.get('content'));
+				// console.log('KÄSPÖÖN ELEM', this.get('element'));
+				$(this.get('element')).text('kuva: ' + this.get('content'));
+			}
+		}.observes('content'),
+		didInsertElement:function () {
+			//TODO: no idea why the content doesn't get updated automatically but this works as a temp fix
+			this.contentDidChange();
+		}
+	}),
+	MediaCaptionController: Em.Controller.extend({}),
+
 	MediaDisplayView: Em.View.extend({
 		classNames:'media-display-view'.w(),
 		contentBinding: 'Trivia.router.gameController.questionImage',
 		contentDidChange:function () {
 			if (this.get('content')) {
-				console.log('content changed', this.get('content'));
-				console.log('background changed', this.get('element'));
+				// console.log('content changed', this.get('content'));
+				// console.log('background changed', this.get('element'));
 				$(this.get('element')).css({
 					'background-image':'url(' + this.get('content') + ')'
 				})
@@ -375,6 +393,25 @@ var Trivia = Em.Application.create({
 			}
 		}.property('image', 'currentQuestion'),
 
+		getCurrentQuestion: function(){
+			if(this.get('currentQuestion')){
+				return this.get('currentQuestion');
+			}else{
+				return false;
+			}
+		},
+
+		questionImageCaption: function(){
+			console.log('question image caption', this.get('currentQuestion'));
+			if(this.get('currentQuestion.caption')){
+				return this.get('currentQuestion.caption');
+			}else if(this.get('caption')){
+				return this.get('caption');
+			}else{
+				return false;
+			}
+		}.property('caption', 'currentQuestion'),
+
 		questionText: function(){
 			if(this.get('currentQuestion.questionText')){
 				return this.get('currentQuestion.questionText')
@@ -383,7 +420,7 @@ var Trivia = Em.Application.create({
 			}
 		}.property('questionText','currentQuestion'),
 
-		captionBinding: 'content.caption', //todo Copyright info. Not implemented
+		captionBinding: 'content.caption', // Copyright info
 		gameTypeBinding: 'content.gameType',
 
 		isSinglePlayerGame: null,
@@ -398,6 +435,15 @@ var Trivia = Em.Application.create({
 		moodRatingBinding: 'Trivia.router.moodmeterController.value',
 
 		gameFinished: false,
+
+		gameCredits: function(){
+			console.log('credits', Trivia.router.get('gameController.content.credits'));
+			if(Trivia.router.get('gameController.content.credits')){
+				return Trivia.router.get('gameController.content.credits');
+			}
+
+
+		}.property('playedGameId'),
 
 		secondsToStop: function(){
 
@@ -1226,6 +1272,7 @@ var Trivia = Em.Application.create({
 
 									router.get('mediaQuestionController').connectOutlet('controls', 'mediaControls');
 									router.get('mediaQuestionController').connectOutlet('media', 'mediaDisplay');
+									router.get('mediaQuestionController').connectOutlet('caption', 'mediaCaption')
 								},
 
 								initialState: 'mediaNotStarted',
@@ -1405,6 +1452,8 @@ var Trivia = Em.Application.create({
 									router.get('gameStartedController').connectOutlet('left', 'plainQuestion');
 									router.get('gameStartedController').connectOutlet('right', 'answers');
 									router.get('plainQuestionController').connectOutlet('media', 'mediaDisplay');
+									router.get('plainQuestionController').connectOutlet('caption', 'mediaCaption')
+
 
 								},
 
@@ -1601,7 +1650,8 @@ Trivia.Game = Em.Object.extend({
     image: 'assets/img/default.jpg',
     caption: null,
 	gameType: null,
-	videoUrl: null
+	videoUrl: null,
+	credits: null //Credits for game content / music / stuffs
 });
 
 Trivia.Question = Em.Object.extend({
@@ -1612,7 +1662,8 @@ Trivia.Question = Em.Object.extend({
     options: [],
 	questionText: null,
 	answers: [],
-	correctAnswer: null
+	correctAnswer: null,
+	caption: 'Tekijänoikeudet?'
 });
 
 Trivia.Media = Em.Object.extend({
@@ -1630,21 +1681,23 @@ Trivia.Answer = Em.Object.extend({
 });
 
 Trivia.gameTypes = [
-//images
 	Trivia.Gametype.create({
 		guid: 1,
 		name: 'Kielelliset harjoitteet',
-		target: 'plain'
+		target: 'plain',
+		//image: '' use default
 	}),
 	Trivia.Gametype.create({
 		guid: 2,
 		name: 'Musiikilliset harjoitteet',
-		target: 'music'
+		target: 'music',
+		image: 'assets/img/grammari.jpg'
 	}),
 	Trivia.Gametype.create({
 		guid: 3,
 		name: 'Toiminnalliset harjoitteet',
-		target: 'action'
+		target: 'action',
+		image: 'assets/img/ikkuna.jpg'
 	})
 ]
 
@@ -1731,27 +1784,27 @@ Trivia.gameObjects.music = [
 		// gameType: 'audio',
     //     caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
     // }),
-    Trivia.Game.create({
-        guid: 13,
-        name: 'Sellanen ol Viipuri',
-        image: 'assets/img/viipuri.jpg',
-		gameType: 'audio',
-        caption: 'Fortress in Vyborg - Paukrus (CC BY-SA 2.0)'
-    }),
-    Trivia.Game.create({
-        guid: 14,
-        name: 'Kotkan poikii ilman siipii',
-        image: 'assets/img/kotkan_poikii.jpg',
-		gameType: 'audio',
-        caption: 'Sea Eagle - Asbjorn Floden (CC BY-NC 2.0)'
-    }),
-    Trivia.Game.create({
-        guid: 15,
-        name: 'Satumaa',
-        image: 'assets/img/satumaa.jpg',
-		gameType: 'audio',
-        caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
-    })
+    // Trivia.Game.create({
+    //     guid: 13,
+    //     name: 'Sellanen ol Viipuri',
+    //     image: 'assets/img/viipuri.jpg',
+		// gameType: 'audio',
+    //     caption: 'Fortress in Vyborg - Paukrus (CC BY-SA 2.0)'
+    // }),
+    // Trivia.Game.create({
+    //     guid: 14,
+    //     name: 'Kotkan poikii ilman siipii',
+    //     image: 'assets/img/kotkan_poikii.jpg',
+		// gameType: 'audio',
+    //     caption: 'Sea Eagle - Asbjorn Floden (CC BY-NC 2.0)'
+    // }),
+    // Trivia.Game.create({
+    //     guid: 15,
+    //     name: 'Satumaa',
+    //     image: 'assets/img/satumaa.jpg',
+		// gameType: 'audio',
+    //     caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
+    // })
 ];
 
 Trivia.gameObjects.plain = [
@@ -1760,28 +1813,32 @@ Trivia.gameObjects.plain = [
         gameType: 'quiz',
         gameIntro: 'Yhdistä vastakohdat toisiinsa.',
 		name:'Vastakohtien yhdistäminen',
-		image: 'assets/img/vastakohdat.jpg'
+		image: 'assets/img/vastakohdat.jpg',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
 	Trivia.Game.create({
 		guid:18,
         gameType: 'quiz',
         gameIntro: 'Lehtivisailu: missä kaupungissa kukin lehti julkaistaan?',
 		name:'Lehtivisailu',
-		image:'assets/img/lehtivisailu.jpg'
+		image:'assets/img/lehtivisailu.jpg',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
     Trivia.Game.create({
         guid:20,
         gameType: 'quiz',
         gameIntro: 'Yhdistä oikea kirja kirjailijaan',
         name:'Kirjailijat I',
-        image:'assets/img/kirjailijat/kir1.jpg'
+        image:'assets/img/kirjailijat/kir1.jpg',
+				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
     Trivia.Game.create({
         guid:21,
         gameType: 'quiz',
         gameIntro: 'Yhdistä oikea kirja kirjailijaan',
         image:'assets/img/kirjailijat/kir4.jpg',
-        name:'Kirjailijat II'
+        name:'Kirjailijat II',
+				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
   /*  Trivia.Game.create({
         guid:22,
@@ -1795,68 +1852,78 @@ Trivia.gameObjects.plain = [
         gameType: 'quiz',
         gameIntro: 'Miten eri sananlaskut jatkuvat?',
         image:'assets/img/sananlaskut/san1.jpg',
-        name:'Sananlaskut I'
+        name:'Sananlaskut I',
+				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
     Trivia.Game.create({
         guid:24,
         gameType: 'quiz',
         gameIntro: 'Miten eri sananlaskut jatkuvat?',
         image:'assets/img/sananlaskut/san10.jpg',
-        name:'Sananlaskut II'
+        name:'Sananlaskut II',
+				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
     Trivia.Game.create({
         guid:25,
         gameType: 'quiz',
         gameIntro: 'Miten eri sananlaskut jatkuvat?',
         image:'assets/img/sananlaskut/san15.jpg',
-        name:'Sananlaskut III'
+        name:'Sananlaskut III',
+				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
 	Trivia.Game.create({
 		guid:26,
 		gameType: 'quiz',
 		gameIntro: 'Mitä seuraavat sivistyssanat tarkoittavat?',
 		image: 'assets/img/sivistyssanat/siv1.jpg',
-		name: 'Sivistyssanat'
+		name: 'Sivistyssanat',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
 	Trivia.Game.create({
 		guid:27,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/mat/mat2.jpg',
-		name: 'Matemaattisia käsitteitä'
+		name: 'Matemaattisia käsitteitä',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
 	Trivia.Game.create({
 		guid:28,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
-		name: 'Eurooppa I'
+		name: 'Eurooppa I',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
 	Trivia.Game.create({
 		guid:29,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/eurooppa2/aloitus-tonava.jpg',
-		name: 'Eurooppa II'
+		name: 'Eurooppa II',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
 	Trivia.Game.create({
 		guid: 41,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		name: 'Suomi I',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
 	Trivia.Game.create({
 		guid: 42,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		name: 'Suomi II',
-		image: 'assets/img/ikkuna.jpg'
+		image: 'assets/img/ikkuna.jpg',
+		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
 	Trivia.Game.create({
 		guid: 58,
 		gameType: 'redirectToLorut',
 		name: 'Lorut',
-		image: 'assets/img/lorut/lorut15.jpg'
+		image: 'assets/img/lorut/lorut15.jpg',
+		credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	})
 ];
 
@@ -1879,65 +1946,67 @@ Trivia.gameObjects.action = [
 		guid:32,
 		gameType: 'audio',
 		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Elgarin Chanson de matin (huilu ja harppu). Harjoitus kestää 6 minuuttia.',
-		name: 'Rentoutus I',
-		image: 'assets/img/rentoutus/ren1.jpg'
+		name: 'Yksilörentoutus',
+		image: 'assets/img/rentoutus/ren2.jpg'
 	}),
 	Trivia.Game.create({
 		guid:33,
 		gameType: 'audio',
 		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Satien Gymnopedia nro 1 (huilu ja harppu). Kesto 5 ja puoli minuuttia.',
-		name: 'Rentoutus II',
-		image: 'assets/img/rentoutus/ren2.jpg'
-	}),
-	Trivia.Game.create({
-		guid: 34,
-		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Sorin Kitaraduetto L\'encouragement. Harjoitus kestää 7 minuuttia',
-		name: 'Rentoutus III',
+		name: 'Parirentoutus',
 		image: 'assets/img/rentoutus/ren3.jpg'
 	}),
-	Trivia.Game.create({
-		guid:35,
-		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin klarinettikvintetto A-duuri ja Merikannon Valse lente. Harjoitus kestää 9 minuuttia.',
-		name: 'Parirentoutus I',
-		image: 'assets/img/rentoutus/ren3.jpg'
-	}),
-	Trivia.Game.create({
-		guid:36,
-		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin konsertto harpulle ja huilulle sekä Tarregagan Lagrima. Harjoitus kestää 10 minuuttia.',
-		name: 'Parirentoutus II',
-		image: 'assets/img/rentoutus/ren4.jpg'
-	}),
+	// Trivia.Game.create({
+	// 	guid: 34,
+	// 	gameType: 'audio',
+	// 	gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Sorin Kitaraduetto L\'encouragement. Harjoitus kestää 7 minuuttia',
+	// 	name: 'Rentoutus III',
+	// 	image: 'assets/img/rentoutus/ren3.jpg'
+	// }),
+	// Trivia.Game.create({
+	// 	guid:35,
+	// 	gameType: 'audio',
+	// 	gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin klarinettikvintetto A-duuri ja Merikannon Valse lente. Harjoitus kestää 9 minuuttia.',
+	// 	name: 'Parirentoutus I',
+	// 	image: 'assets/img/rentoutus/ren3.jpg'
+	// }),
+	// Trivia.Game.create({
+	// 	guid:36,
+	// 	gameType: 'audio',
+	// 	gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin konsertto harpulle ja huilulle sekä Tarregagan Lagrima. Harjoitus kestää 10 minuuttia.',
+	// 	name: 'Parirentoutus II',
+	// 	image: 'assets/img/rentoutus/ren4.jpg'
+	// }),
 	Trivia.Game.create({
 		guid:37,
 		gameType: 'video',
+		//todo change video
 		videoUrl: 'gK6MR3dUwU4',
 		gameIntro: 'Jumppaa videon mukana!',
-		name: 'Jumppa: Aamu Airistolla',
+		name: 'Jumppavideo valssin tahtiin',
 		image: 'assets/img/jumppa/aamu/1.jpg'
 	}),
 	Trivia.Game.create({
 		guid:38,
 		gameType: 'video',
+		//todo change video
 		videoUrl: 'Ad-Avn8y8gM',
 		gameIntro: 'Jumppaa videon mukana!',
-		name: 'Jumppa: Vesivehmaan jenkka',
+		name: 'Jumppavideo jenkan tahtiin',
 		image: 'assets/img/jumppa/jenkka/1-cover.jpg'
 	}),
 	Trivia.Game.create({
 		guid: 39,
 		gameType: 'audio',
 		gameIntro: 'Harjoittele jumppaliikkeet rauhassa kuvien kanssa. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
-		name: 'Jumppaliikkeet: Aamu Airistolla',
+		name: 'Jumppaliikkeet: valssi',
 		image: 'assets/img/jumppa/aamu/1.jpg'
 	}),
 	Trivia.Game.create({
 		guid: 40,
 		gameType: 'audio',
 		gameIntro: 'Harjoittele jumppaliikkeet rauhassa kuvien kanssa. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
-		name: 'Jumppaliikkeet: Vesivehmaan jenkka',
+		name: 'Jumppaliikkeet: jenkka',
 		image: 'assets/img/jumppa/jenkka/1-cover.jpg'
 	})
 ];
@@ -1948,105 +2017,120 @@ Trivia.gameObjects.lorut = [
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Veetään nuottaa',
-			image: 'assets/img/lorut/lorut1.jpg'
+			image: 'assets/img/lorut/lorut1.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 44,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Peukaloputti',
-			image: 'assets/img/lorut/lorut2.jpg'
+			image: 'assets/img/lorut/lorut2.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 45,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Entten tentten',
-			image: 'assets/img/lorut/lorut14.jpg'
+			image: 'assets/img/lorut/lorut14.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 46,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Maalari maalasi',
-			image: 'assets/img/lorut/lorut4.jpg'
+			image: 'assets/img/lorut/lorut4.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 47,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Yks kaks kolme',
-			image: 'assets/img/lorut/lorut5.jpg'
+			image: 'assets/img/lorut/lorut5.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 48,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Kis kis kissanpoika',
-			image: 'assets/img/lorut/lorut13.jpg'
+			image: 'assets/img/lorut/lorut13.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 49,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Lennä lennä leppäkerttu',
-			image: 'assets/img/lorut/lorut7.jpg'
+			image: 'assets/img/lorut/lorut7.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 50,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Kuu kiurusta',
-			image: 'assets/img/lorut/lorut8.jpg'
+			image: 'assets/img/lorut/lorut8.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 51,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Mistä on pienet tehty',
-			image: 'assets/img/lorut/lorut12.jpg'
+			image: 'assets/img/lorut/lorut12.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 52,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Viikonloppu',
-			image: 'assets/img/lorut/lorut9.jpg'
+			image: 'assets/img/lorut/lorut9.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 53,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Ulle dulle',
-			image: 'assets/img/lorut/lorut10.jpg'
+			image: 'assets/img/lorut/lorut10.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 54,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Tuu tuu tupakkirulla',
-			image: 'assets/img/lorut/lorut11.jpg'
+			image: 'assets/img/lorut/lorut11.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 55,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Körö körö kirkkoon',
-			image: 'assets/img/lorut/lorut15.jpg'
+			image: 'assets/img/lorut/lorut15.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 56,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Mennään maata',
-			image: 'assets/img/lorut/lorut6.jpg'
+			image: 'assets/img/lorut/lorut6.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 			guid: 57,
 			gameType: 'audio',
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Hus sika metsään',
-			image: 'assets/img/lorut/lorut3.jpg'
+			image: 'assets/img/lorut/lorut3.jpg',
+			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	})
 ];
 
@@ -2161,7 +2245,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'on morsiamell\' kruunattu pää', correct: true }),
             Trivia.Answer.create({ answerText: 'on morsian ja sulhanen tääl'}),
             Trivia.Answer.create({ answerText: 'morsiamell\' on palmikoitu pää'})
-        ]
+        ],
+				caption: 'caption for kulkurinvalssipci'
     }),
     Trivia.Question.create({
         gameId: 2,
@@ -3074,7 +3159,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'korkea', correct: true }),
             Trivia.Answer.create({ answerText: 'suuri' }),
             Trivia.Answer.create({ answerText: 'avara' })
-        ]
+        ],
+				caption: 'test: Hermanni hiiri!'
     }),
     Trivia.Question.create({
         gameId: 16,
@@ -5223,33 +5309,35 @@ Trivia.questions = [
 	Trivia.Question.create({
 		gameId:32,
 		mediaId:16,
-		image: 'assets/img/rentoutus/ren1.jpg',
+		image: 'assets/img/rentoutus/ren2.jpg',
 		questionText: " ",
+		caption: 'Marketta Leppänen'
 	}),
 	Trivia.Question.create({
 		gameId:33,
 		mediaId:17,
-		image: 'assets/img/rentoutus/ren2.jpg',
-		questionText: " ",
-	}),
-	Trivia.Question.create({
-		gameId:34,
-		mediaId:20,
 		image: 'assets/img/rentoutus/ren3.jpg',
 		questionText: " ",
+		caption: 'Marketta Leppänen'
 	}),
-	Trivia.Question.create({
-		gameId: 35,
-		mediaId: 18,
-		image: 'assets/img/rentoutus/ren3.jpg',
-		questionText: " ",
-	}),
-	Trivia.Question.create({
-		gameId:36,
-		mediaId:19,
-		image: 'assets/img/rentoutus/ren4.jpg',
-		questionText: " ",
-	}),
+	// Trivia.Question.create({
+	// 	gameId:34,
+	// 	mediaId:20,
+	// 	image: 'assets/img/rentoutus/ren3.jpg',
+	// 	questionText: " ",
+	// }),
+	// Trivia.Question.create({
+	// 	gameId: 35,
+	// 	mediaId: 18,
+	// 	image: 'assets/img/rentoutus/ren3.jpg',
+	// 	questionText: " ",
+	// }),
+	// Trivia.Question.create({
+	// 	gameId:36,
+	// 	mediaId:19,
+	// 	image: 'assets/img/rentoutus/ren4.jpg',
+	// 	questionText: " ",
+	// }),
 
 	//jumppaliikkeet
 	Trivia.Question.create({
@@ -5789,38 +5877,44 @@ Trivia.medias = [
         Trivia.Media.create({
             guid: 1,
             mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kulkurinvalssi1.mp3'
+						//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kulkurinvalssi1.mp3'
+						url: 'assets/sound/music/kulkurinvalssi1.mp3'
         }),
         Trivia.Media.create({
             guid: 2,
             mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lapsuudentoverille1.mp3'
+						//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lapsuudentoverille1.mp3'
+						url: 'assets/sound/music/lapsuudentoverille1.mp3'
         }),
         Trivia.Media.create({
             guid: 3,
             mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/valiaikainen1.mp3'
+						//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/valiaikainen1.mp3'
+						url: 'assets/sound/music/valiaikainen1.mp3'
         }),
         Trivia.Media.create({
             guid: 4,
             mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/tulipunaruusut1.mp3'
+						//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/tulipunaruusut1.mp3'
+						url: 'assets/sound/music/tulipunaruusut1.mp3'
         }),
         Trivia.Media.create({
             guid: 5,
-			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/suutarinemannankehtolaulu.mp3'
+						mediaType: 'mp3',
+						//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/suutarinemannankehtolaulu.mp3'
+						url: 'assets/sound/music/suutarinemannankehtolaulu.mp3'
         }),
         Trivia.Media.create({
             guid: 6,
             mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/voituotamuistia.mp3'
+						//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/voituotamuistia.mp3'
+						url: 'assets/sound/music/voituotamuistia.mp3'
         }),
-        Trivia.Media.create({
-            guid: 7,
-            mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/puhelinlangatlaulaa.mp3'
-        }),
+      //   Trivia.Media.create({
+      //       guid: 7,
+      //       mediaType: 'mp3',
+			// 			 url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/puhelinlangatlaulaa.mp3'
+      //   }),
         Trivia.Media.create({
             guid: 8,
             mediaType: 'mp3',
@@ -5839,53 +5933,70 @@ Trivia.medias = [
 		Trivia.Media.create({
 			guid: 11,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kulkurinvalssi2.mp3'
+			//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kulkurinvalssi2.mp3'
+			url: 'assets/sound/music/kulkurinvalssi2.mp3'
 		}),
 		Trivia.Media.create({
 			guid: 12,
 			mediaType: 'mp3',
-			url:'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lapsuudentoverille2.mp3'
+			//url:'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lapsuudentoverille2.mp3'
+			url: 'assets/sound/music/lapsuudentoverille2.mp3'
 		}),
 		Trivia.Media.create({
 			guid: 13,
 			mediaType: 'mp3',
-			url:'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/valiaikainen2.mp3'
+			// url:'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/valiaikainen2.mp3'
+			url: 'assets/sound/music/valiaikainen2.mp3'
 		}),
 		Trivia.Media.create({
 			guid: 14,
 			mediaType: 'mp3',
-			url:'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/tulipunaruusut2.mp3'
+			// url:'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/tulipunaruusut2.mp3'
+			url: 'assets/sound/music/tulipunaruusut2.mp3'
 		}),
 		Trivia.Media.create({
 			guid: 15,
 			mediaType: 'mp3',
-			url:'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/laulunmahti.mp3' //pelkkä gapless
+			// url:'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/laulunmahti.mp3' //pelkkä gapless
+			url: 'assets/sound/music/laulunmahti.mp3'
+		}),
+
+		Trivia.Media.create({
+			guid: 16,
+			mediaType: 'mp3',
+			url: 'assets/sound/music/yksilorentoutus.mp3'
 		}),
 		Trivia.Media.create({
-			guid:16,
+			guid: 17,
 			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis1.mp3' //pelkkä gapless
+			url: 'assets/sound/music/parirentoutus.mp3'
 		}),
-		Trivia.Media.create({
-			guid:17,
-			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis2.mp3' //pelkkä gapless
-		}),
-		Trivia.Media.create({
-			guid:18,
-			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus1.mp3' //pelkkä gapless
-		}),
-		Trivia.Media.create({
-			guid:19,
-			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus2.mp3' //pelkkä gapless
-		}),
-		Trivia.Media.create({
-			guid:20,
-			mediaType: 'mp3',
-			url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis3.mp3' //pelkkä gapless
-		}),
+
+		// Trivia.Media.create({
+		// 	guid:16,
+		// 	mediaType: 'mp3',
+		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis1.mp3' //pelkkä gapless
+		// }),
+		// Trivia.Media.create({
+		// 	guid:17,
+		// 	mediaType: 'mp3',
+		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis2.mp3' //pelkkä gapless
+		// }),
+		// Trivia.Media.create({
+		// 	guid:18,
+		// 	mediaType: 'mp3',
+		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus1.mp3' //pelkkä gapless
+		// }),
+		// Trivia.Media.create({
+		// 	guid:19,
+		// 	mediaType: 'mp3',
+		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus2.mp3' //pelkkä gapless
+		// }),
+		// Trivia.Media.create({
+		// 	guid:20,
+		// 	mediaType: 'mp3',
+		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis3.mp3' //pelkkä gapless
+		// }),
 		Trivia.Media.create({
 			guid:21,
 			mediaType: 'no-sound', //soundless implementation

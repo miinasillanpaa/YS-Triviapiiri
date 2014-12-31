@@ -2821,3 +2821,15 @@ body {
 .hidden {
   display: none;
 }
+.media-caption-view{
+  z-index:999;
+  position: absolute;
+  bottom: .75rem;
+  left: 5rem;
+
+  font-size: 75%;
+}
+
+.credits{
+  padding: 10px 0;
+}
