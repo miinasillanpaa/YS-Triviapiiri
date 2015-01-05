@@ -1376,9 +1376,10 @@ var Trivia = Em.Application.create({
 											},
 											startedPlaying: function(router, waitTime){
 												$('.answers-view').html('<div class="alert-outlet"><div class="alert alert-warning"><h3">Kuuntele loppuun</h3></div></div>')
+												router.transitionTo('mediaStarted');
 												setTimeout(function(){
 													router.transitionTo('finished');
-												},waitTime-500);
+												},waitTime-1000);
 											}
 										}),
 										answeredRight: Em.Route.extend({
@@ -1393,9 +1394,10 @@ var Trivia = Em.Application.create({
 											},
 											startedPlaying: function(router, waitTime){
 												$('.answers-view').html('<div class="alert-outlet"><div class="alert alert-warning"><h3">Kuuntele loppuun</h3></div></div>')
+												router.transitionTo('mediaStarted');
 												setTimeout(function(){
 													router.transitionTo('finished');
-												},waitTime-500);
+												},waitTime-1000);
 											}
 										}),
 										nextQuestion: function(router){
