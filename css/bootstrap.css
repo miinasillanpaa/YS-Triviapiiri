@@ -2316,7 +2316,7 @@ body {
 .app .workspace .game-view .game-outlet .game-not-started {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-box-pack: justify;
+  -webkit-box-pack: center;
   -webkit-box-align: stretch;
   -webkit-box-flex: 1;
   width: 30rem;
