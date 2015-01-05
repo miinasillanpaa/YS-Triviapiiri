@@ -176,8 +176,6 @@ var Trivia = Em.Application.create({
 		contentBinding: 'Trivia.router.gameController.questionImageCaption',
 		contentDidChange: function(){
 			if(this.get('content')){
-				// console.log('KÄPSÖÖÖN', this.get('content'));
-				// console.log('KÄSPÖÖN ELEM', this.get('element'));
 				$(this.get('element')).text('kuva: ' + this.get('content'));
 			}
 		}.observes('content'),
@@ -193,8 +191,6 @@ var Trivia = Em.Application.create({
 		contentBinding: 'Trivia.router.gameController.questionImage',
 		contentDidChange:function () {
 			if (this.get('content')) {
-				// console.log('content changed', this.get('content'));
-				// console.log('background changed', this.get('element'));
 				$(this.get('element')).css({
 					'background-image':'url(' + this.get('content') + ')'
 				})
@@ -313,8 +309,8 @@ var Trivia = Em.Application.create({
 		contentBinding: 'Trivia.router.gameController.questionImage',
 		contentDidChange:function () {
 			if (this.get('content')) {
-				console.log('content changed', this.get('content'));
-				console.log('background changed', this.get('element'));
+				// console.log('content changed', this.get('content'));
+				// console.log('background changed', this.get('element'));
 				$(this.get('element')).css({
 					'background-image':'url(' + this.get('content') + ')'
 				})
@@ -322,7 +318,7 @@ var Trivia = Em.Application.create({
 		}.observes('content'),
 
 		didInsertElement:function () {
-			console.warn('element added');
+			// console.warn('element added');
 			if(Trivia.router.get('gameController.media.mediaType') !== 'mp3'){
 				$('button#next-question').removeClass('hidden');
 			}
@@ -353,7 +349,7 @@ var Trivia = Em.Application.create({
 		contentBinding: 'content.videoUrl',
 		videoUrlDidChange: function(){
 			if(this.get('content')) {
-				console.log( this.get('content'));
+				// console.log( this.get('content'));
 				return this.get('content.videoUrl')
 			}
 		}.observes('content')
@@ -402,11 +398,14 @@ var Trivia = Em.Application.create({
 		},
 
 		questionImageCaption: function(){
-			console.log('question image caption', this.get('currentQuestion'));
+			//console.log('question image caption', this.get('currentQuestion'));
+			//console.log('game image caption', this.get('content.caption'));
 			if(this.get('currentQuestion.caption')){
+				// console.log('found question image caption', this.get('currentQuestion.caption'));
 				return this.get('currentQuestion.caption');
-			}else if(this.get('caption')){
-				return this.get('caption');
+			}else if(this.get('content.caption')){
+				// console.log('found game image caption', this.get('content.caption'));
+				return this.get('content.caption');
 			}else{
 				return false;
 			}
@@ -437,7 +436,7 @@ var Trivia = Em.Application.create({
 		gameFinished: false,
 
 		gameCredits: function(){
-			console.log('credits', Trivia.router.get('gameController.content.credits'));
+
 			if(Trivia.router.get('gameController.content.credits')){
 				return Trivia.router.get('gameController.content.credits');
 			}
@@ -522,8 +521,8 @@ var Trivia = Em.Application.create({
 		},
 
         saveGameStart: function() {
-					console.log('no backend for web version');
-            console.log('saving game start to backend');
+					console.log('saveGameStart - no backend for web version');
+            // console.log('saving game start to backend');
             // if (this.get('content')) {
             //     var gameId = this.get('content.guid');
             //     var userId = Trivia.get('router.applicationController.userId');
@@ -548,9 +547,9 @@ var Trivia = Em.Application.create({
         saveGameEnd: function() {
 
             var rightAnswers = this.get('correctAnswers');
-            console.log('saving game end to backend', rightAnswers+'/'+this.get('questions').length);
+            // console.log('saving game end to backend', rightAnswers+'/'+this.get('questions').length);
             var participants = 'unknown';
-            console.log('is single player game' + this.get('isSinglePlayerGame'));
+            // console.log('is single player game' + this.get('isSinglePlayerGame'));
             if (this.get('isSinglePlayerGame') === true) {
                 participants = 'alone';
             } else if (this.get('isSinglePlayerGame') === false) {
@@ -563,7 +562,7 @@ var Trivia = Em.Application.create({
 				rightAnswers = 1000;
             }
 
-						console.log('no backend for web version');
+						// console.log('no backend for web version');
             // if (rightAnswers && participants && playedGameId) {
             //     console.log('saving game end to backend with parameters rightAnswers: ' + rightAnswers + ' participants: ' + participants + ' playedGameId: ' + playedGameId);
             //     $.ajax({
@@ -578,7 +577,7 @@ var Trivia = Em.Application.create({
         },
 
         saveGameFeedback: function(mood) {
-					console.log('no backend for web version');
+					// console.log('no backend for web version');
             // console.log('saving game feedback to backend');
             // var playedGameId = Trivia.get('router.gameController.playedGameId');
             // if (playedGameId && mood) {
@@ -622,7 +621,7 @@ var Trivia = Em.Application.create({
 							var filename = matches[1];
 							var filetype = matches[2];
 
-							console.warn('gaplessres', filename + '_gapless' + filetype);
+							// console.warn('gaplessres', filename + '_gapless' + filetype);
 
 							return filename + '_gapless' + filetype;
 							//.match(/\.(.*$)/)
@@ -644,7 +643,7 @@ var Trivia = Em.Application.create({
 
 			this.set('media', media);
 
-			console.log('media changed');
+			// console.log('media changed');
 		}.observes('currentQuestion.mediaId'),
 
 		/**
@@ -692,7 +691,11 @@ var Trivia = Em.Application.create({
 			var startingPosition = Trivia.router.get('gameController.questions.lastObject.options.playTo') + (Trivia.INTERVAL_BUFFER_SIZE_MS * questionIndex);
 
 
+
 			if (this.get('media.res')){
+
+				console.log('song left', this.get('media.res'), this.get('media.res').duration - this.get('media.res').position);
+				var songLeft = this.get('media.res').duration - this.get('media.res').position;
 
 				this.get('media.res').play({
 					from: startingPosition,
@@ -709,7 +712,7 @@ var Trivia = Em.Application.create({
 						//console.log('stopped');
 					}
 				});
-				Trivia.router.send('startedPlaying');
+				Trivia.router.send('startedPlaying', songLeft);
 			}
 		},
 		stopPlaying: function(){
@@ -779,7 +782,6 @@ var Trivia = Em.Application.create({
 						Trivia.router.set('gameController.mediaPlaying', false);
 						Trivia.router.send('finishedPlaying', playTo);
 
-						//console.log('stopped');
 					}
 				});
 				/*.onPosition(playTo - 50, function(){
@@ -840,7 +842,7 @@ var Trivia = Em.Application.create({
 			  	}
 				},
 				deserialize: function(router, params){
-					console.log('deserializing', params);
+					// console.log('deserializing', params);
 
 					var gameType= params.gameType;
 
@@ -942,7 +944,7 @@ var Trivia = Em.Application.create({
 							questions = questions.sort(function() {return 0.5 - Math.random()});
 						}else if(game.get('gameType') === 'redirectToLorut'){
 							//todo smarter way to navigate to root of lorut?
-							console.log('redirect')
+							// console.log('redirect')
 							router.set('gamesController.gameType', 'lorut');
 							Trivia.set('games', Trivia.gameObjects.lorut);
 							router.transitionTo('root.games.index');
@@ -960,9 +962,9 @@ var Trivia = Em.Application.create({
 					},
 					notLoaded: Em.Route.extend({
 						connectOutlets: function(router){
-							console.log('notLoaded');
+							// console.log('notLoaded');
 							router.get('gameController').connectOutlet('gameLoading');
-							console.log(router.get('gameController'));
+							// console.log(router.get('gameController'));
 
 							if (!router.get('gameController.media') || router.get('gameController.media.mediaType') === "no-sound" || router.get('gameController.content.gameType') === "video"){
 
@@ -996,7 +998,7 @@ var Trivia = Em.Application.create({
 							}
 						},
 						loadingComplete: function(router){
-							console.log('loading complete', router.get('gameController.mediaLoadProgress'));
+							// console.log('loading complete', router.get('gameController.mediaLoadProgress'));
 							//router.set('gameController.mediaLoadProgress', 1);
 							router.transitionTo('loaded');
 
@@ -1023,23 +1025,21 @@ var Trivia = Em.Application.create({
 
 						notStarted: Em.Route.extend({
 							connectOutlets: function(router){
-								console.log(router.get('gameController.gameType'));
-								console.log(router.get('gamesController.gameType'))
 								if(router.get('gamesController.gameType') === 'action'){
 									console.log('action notstarted');
 									router.get('gameController').connectOutlet('gameNotStartedAction');
 
 								}else{
 									if (router.get('gameController.content.gameType') === 'audio'){
-										console.warn('audio notStarted', router.get('gameController.title'));
+										// console.warn('audio notStarted', router.get('gameController.title'));
 										router.get('gameController').connectOutlet('gameNotStarted');
 
 									} else if( router.get('gameController.content.gameType') === 'video') {
-										console.warn('video notStarted');
+										// console.warn('video notStarted');
 										router.get('gameController').connectOutlet('gameNotStarted');
 
 									} else {
-										console.warn('plain notStarted');
+										// console.warn('plain notStarted');
 										router.get('gameController').connectOutlet('gameNotStartedPlain');
 									}
 								}
@@ -1052,27 +1052,27 @@ var Trivia = Em.Application.create({
 
 								router.send('_startGame');
 
-								console.log('started 1 player game');
+								// console.log('started 1 player game');
 
 							},
 							startGame2P: function(router){
 								router.set('gameController.isSinglePlayerGame', false);
 								router.send('_startGame');
-								console.log('started 2 player game');
+								// console.log('started 2 player game');
 							},
 							assetLoadingComplete: function(router){
-								console.log('asset loading complete');
+								// console.log('asset loading complete');
 							},
 						}),
 						started: Em.Route.extend({
 							_nextQuestion: function(router){
 								router.set('gameController.instantReplayPlayed', false);
-								console.log('setting next question');
-								console.log(router.get('gameController.currentQuestion'));
+								// console.log('setting next question');
+								// console.log(router.get('gameController.currentQuestion'));
 
 								//TODO: check if we have a question with media or not
 								var media = router.get('gameController.media');
-								console.log(media);
+								// console.log(media);
 								if (media) {
 									if (media.mediaType === 'mp3') {
 										//music game or Lorut started from plain games
@@ -1093,7 +1093,7 @@ var Trivia = Em.Application.create({
 									}
 								}else if(router.get('gameController.content.gameType') === 'video'){
 									//check if video
-									console.log('video action quiz');
+									// console.log('video action quiz');
 									router.transitionTo('actionQuizVideo');
 
 								} else {
@@ -1121,7 +1121,7 @@ var Trivia = Em.Application.create({
 									initialState: 'videoPlaying',
 									connectOutlets: function(router){
 										loadYT();
-										console.log('videoStarted');
+										// console.log('videoStarted');
 										router.get('gameController').connectOutlet('actionVideoGameStarted');
 										router.transitionTo('videoPlaying');
 									}
@@ -1154,14 +1154,13 @@ var Trivia = Em.Application.create({
 									},
 									quit: function(router){
 										$('.test-modal').addClass('hidden');
-										router.transitionTo('root.index');
+										router.transitionTo('root.games.index');
 									},
 								}),
 								videoPaused: Em.Route.extend({
 									connectOutlets: function(router){
 									},
 									resumeWithAlert: function(router){
-										//alert('Paina jatkaaksesi');
 										router.transitionTo('videoPlaying');
 									},
 									resume: function(router){
@@ -1171,7 +1170,7 @@ var Trivia = Em.Application.create({
 									},
 									quit: function(router){
 										$('.test-modal').addClass('hidden');
-										router.transitionTo('root.index');
+										router.transitionTo('root.games.index');
 									},
 								})
 							}),
@@ -1204,7 +1203,7 @@ var Trivia = Em.Application.create({
 											}
 											router.transitionTo('mediaPaused');
 											if (confirm('Haluatko varmasti palata takaisin? Peli lopetaan.')){
-												router.transitionTo('root.index');
+												router.transitionTo('root.games.index');
 											} else {
 												router.send('resume');
 											}
@@ -1218,24 +1217,24 @@ var Trivia = Em.Application.create({
 										},
 										nextQuestion: function(router){
 											//soundManager.stopAll();
-											console.log('setting next lyrics');
+											// console.log('setting next lyrics');
 											var questionIndex = router.get('gameController.questionIndex');
 											var gameController = router.get('gameController');
 
 											if (parseInt(gameController.get('questionIndex')) + 1  <  gameController.get('questions.length')){
-												console.log('next lyrics');
+												// console.log('next lyrics');
 												gameController.set('questionIndex', gameController.get('questionIndex') + 1);
 												router.send('_nextQuestion');
 											} else {
 												router.transitionTo('finished');
-												console.log('out of questions');
+												// console.log('out of questions');
 											}
 										},
 										startedPlaying: function(router){
 											router.transitionTo('mediaPlaying');
 										},
 										assetLoadingComplete: function(router){
-											console.log('asset loading complete')
+											// console.log('asset loading complete')
 										},
 										finishedPlaying: function(router){
 											router.transitionTo('finished');
@@ -1286,9 +1285,8 @@ var Trivia = Em.Application.create({
 										router.get('mediaControlsController').connectOutlet('mediaIndicator', 'mediaIndicatorStopped');
 									},
 									back: function(router){
-										console.log('back!');
 										if (confirm('Haluatko varmasti palata takaisin? Peli lopetaan.')){
-											router.transitionTo('root.index');
+											router.transitionTo('root.games.index');
 										}
 									},
 									answerNotChecked: Em.Route.extend({
@@ -1306,7 +1304,7 @@ var Trivia = Em.Application.create({
 										checkAnswer: function(router, answer){
 											$('.choices-collection div.btn').each(function(key, item){
 												if (item === answer.element){
-													console.log('element found', item);
+													// console.log('element found', item);
 													if (answer.get('correct')){
 														$(item).addClass('btn-success');
 													} else {
@@ -1320,18 +1318,18 @@ var Trivia = Em.Application.create({
 											});
 
 											if (answer.get('correct')){
-												console.log('checking answer, correct', answer);
+												// console.log('checking answer, correct', answer);
 
 												//add points
 												var points = router.get('gameController.correctAnswers');
 												router.set('gameController.correctAnswers', parseInt(points) + 1);
-												console.warn('corrects', router.get('gameController.correctAnswers'));
-                                                router.transitionTo('answerChecked.answeredRight');
+												// console.warn('corrects', router.get('gameController.correctAnswers'));
+                        router.transitionTo('answerChecked.answeredRight');
 
 											} else {
-												console.log('checking answer, wrong');
-												console.warn('corrects', router.get('gameController.correctAnswers'));
-                                                router.transitionTo('answerChecked.answeredWrong');
+												// console.log('checking answer, wrong');
+												// console.warn('corrects', router.get('gameController.correctAnswers'));
+                        router.transitionTo('answerChecked.answeredWrong');
 											}
 
 										},
@@ -1352,7 +1350,7 @@ var Trivia = Em.Application.create({
 									answerChecked: Em.Route.extend({
 
 										connectOutlets: function(router, foo, bar){
-											console.log('answerChecked', foo, bar, this);
+											// console.log('answerChecked', foo, bar, this);
 											if(router.get('gameController.isLorutGame')){
 												router.get('answersController').connectOutlet('action', 'proceedButtonLorut');
 											}else{
@@ -1369,34 +1367,57 @@ var Trivia = Em.Application.create({
 										answeredWrong: Em.Route.extend({
 											connectOutlets: function(router){
 												router.get('answersController').connectOutlet('alert', 'alertWrongAnswer');
+											},
+											checkAnswer: function(){
+												return;
+											},
+											playEnd: function(router){
+												router.get('gameController').playEnd();
+											},
+											startedPlaying: function(router, waitTime){
+												$('.answers-view').html('<div class="alert-outlet"><div class="alert alert-warning"><h3">Kuuntele loppuun</h3></div></div>')
+												setTimeout(function(){
+													router.transitionTo('finished');
+												},waitTime-500);
 											}
 										}),
 										answeredRight: Em.Route.extend({
 											connectOutlets: function(router){
 												router.get('answersController').connectOutlet('alert', 'alertCorrectAnswer');
+											},
+											checkAnswer: function(){
+												return;
+											},
+											playEnd: function(router){
+												router.get('gameController').playEnd();
+											},
+											startedPlaying: function(router, waitTime){
+												$('.answers-view').html('<div class="alert-outlet"><div class="alert alert-warning"><h3">Kuuntele loppuun</h3></div></div>')
+												setTimeout(function(){
+													router.transitionTo('finished');
+												},waitTime-500);
 											}
 										}),
 										nextQuestion: function(router){
                                             soundManager.stopAll();
-											console.log('setting next question');
+											// console.log('setting next question');
 											var questionIndex = router.get('gameController.questionIndex');
 
 											var gameController = router.get('gameController');
 
 											if (parseInt(gameController.get('questionIndex')) + 1  <  gameController.get('questions.length')){
-												console.log('next question');
+												// console.log('next question');
 												gameController.set('questionIndex', gameController.get('questionIndex') + 1);
 												router.send('_nextQuestion');
 											} else {
-												//gameController.set('questionIndex', gameController.get('questionIndex') + 1);
-
-												router.transitionTo('finished');
 												router.send('playEnd');
-												console.log('out of questions');
+												console.log('out of questions - play to end');
 											}
 										}
+
 									})
 								}),
+
 								mediaStarted: Em.Route.extend({
 
 									initialState: 'mediaPlaying',
@@ -1412,7 +1433,7 @@ var Trivia = Em.Application.create({
 											router.get('gameController.media.res').pause();
 											router.transitionTo('mediaPaused');
 											if (confirm('Haluatko varmasti palata takaisin? Peli lopetaan.')){
-												router.transitionTo('root.index');
+												router.transitionTo('root.games.index');
 											} else {
 												router.send('resume');
 											}
@@ -1473,7 +1494,7 @@ var Trivia = Em.Application.create({
 									checkAnswer: function(router, answer){
 										$('.choices-collection div.btn').each(function(key, item){
 											if (item === answer.element){
-												console.log('element found', item);
+												// console.log('element found', item);
 												if (answer.get('correct')){
 													$(item).addClass('btn-success');
 												} else {
@@ -1487,17 +1508,17 @@ var Trivia = Em.Application.create({
 										});
 
 										if (answer.get('correct')){
-											console.log('checking answer, correct', answer);
+											// console.log('checking answer, correct', answer);
 
 											var points = router.get('gameController.correctAnswers');
 											router.set('gameController.correctAnswers', parseInt(points) + 1);
-											console.warn('corrects', router.get('gameController.correctAnswers'));
-                                            router.transitionTo('answerChecked.answeredRight');
+											// console.warn('corrects', router.get('gameController.correctAnswers'));
+                      router.transitionTo('answerChecked.answeredRight');
 
 										} else {
-											console.log('checking answer, wrong');
-											console.warn('corrects', router.get('gameController.correctAnswers'));
-                                            router.transitionTo('answerChecked.answeredWrong');
+											// console.log('checking answer, wrong');
+											// console.warn('corrects', router.get('gameController.correctAnswers'));
+                      router.transitionTo('answerChecked.answeredWrong');
 										}
 									}
 								}),
@@ -1513,11 +1534,17 @@ var Trivia = Em.Application.create({
 									answeredWrong: Em.Route.extend({
 										connectOutlets: function(router){
 											router.get('answersController').connectOutlet('alert', 'alertWrongAnswer');
+										},
+										checkAnswer: function(){
+											return;
 										}
 									}),
 									answeredRight: Em.Route.extend({
 										connectOutlets: function(router){
 											router.get('answersController').connectOutlet('alert', 'alertCorrectAnswer');
+										},
+										checkAnswer: function(){
+											return;
 										}
 									}),
 									nextQuestion: function(router){
@@ -1546,17 +1573,17 @@ var Trivia = Em.Application.create({
 								if (router.get('gameController.content.gameType') === 'audio' && router.get('gamesController.gameType') !== 'action'){
 									console.log('audio game finished')
 									router.get('gameStartedController').connectOutlet('right', 'gameFinished');
-									router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
+									//router.get('gameFinishedController').connectOutlet('moodmeter', 'moodmeter');
 
 								} else if( ( router.get('gameController.content.gameType') === 'audio' || router.get('gameController.content.gameType') === 'video' ) && router.get('gamesController.gameType') === 'action'){
 									console.log('action game finished');
 									router.get('gameController').connectOutlet('gameFinishedAction');
-									router.get('gameFinishedActionController').connectOutlet('moodmeter','moodmeter');
+									//router.get('gameFinishedActionController').connectOutlet('moodmeter','moodmeter');
 
 								} else {
 									console.log('game finished plain');
 									router.get('gameStartedController').connectOutlet('right', 'gameFinishedPlain');
-									router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
+									//router.get('gameFinishedPlainController').connectOutlet('moodmeter', 'moodmeter');
 								}
 
 
@@ -1566,7 +1593,7 @@ var Trivia = Em.Application.create({
 									router.transitionTo('noMedia');
 								}
 
-                                router.get('gameController').saveGameEnd();
+                //router.get('gameController').saveGameEnd();
 
 							},
 
@@ -1663,7 +1690,7 @@ Trivia.Question = Em.Object.extend({
 	questionText: null,
 	answers: [],
 	correctAnswer: null,
-	caption: 'Tekijänoikeudet?'
+	caption: null
 });
 
 Trivia.Media = Em.Object.extend({
@@ -1710,101 +1737,81 @@ Trivia.gameObjects.music = [
         name: 'Kulkurin Valssi I',
         image: 'assets/img/kulkurin_valssi.jpg',
 		gameType: 'audio',
-        caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
-
+        caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)',
+				credits: 'Ruotsalainen kansansävellys, sanoitus J. A. Tanner, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 3,
         name: 'Kulkurin Valssi II',
         image: 'assets/img/kulkurin_valssi.jpg',
 		gameType: 'audio',
-        caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)'
+        caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)',
+				credits: 'Ruotsalainen kansansävellys, sanoitus J. A. Tanner, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
-
     Trivia.Game.create({
         guid: 4,
         name: 'Lapsuuden Toverille I',
         image: 'assets/img/lapsuuden_toverille.jpg',
 		gameType: 'audio',
-        caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
+        caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)',
+				credits: 'Esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 5,
         name: 'Lapsuuden Toverille II',
         image: 'assets/img/lapsuuden_toverille.jpg',
 		gameType: 'audio',
-        caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)'
+        caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)',
+				credits: 'Esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 6,
         name: 'Väliaikainen I',
         image: 'assets/img/valiaikainen.jpg',
 		gameType: 'audio',
-        caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
+        caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)',
+				credits: 'Sävellys M. Jurva, sanoitus T. Pekkarinen, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 7,
         name: 'Väliaikainen II',
         image: 'assets/img/valiaikainen.jpg',
 		gameType: 'audio',
-        caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)'
+        caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)',
+				credits: 'Sävellys M. Jurva, sanoitus T. Pekkarinen, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 8,
         name: 'Tulipunaruusut I',
         image: 'assets/img/tulipunaruusut.jpg',
 		gameType: 'audio',
-        caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
+        caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)',
+				credits: 'Sävellys ja sanoitus U. Kemppi, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 9,
         name: 'Tulipunaruusut II',
         image: 'assets/img/tulipunaruusut.jpg',
 		gameType: 'audio',
-        caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)'
+        caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)',
+				credits: 'Sävellys ja sanoitus U. Kemppi, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 10,
         name: 'Suutarin emännän kehtolaulu',
         image: 'assets/img/suutarin_emanta.jpg',
 		gameType: 'audio',
-        caption: 'Old sewing machine - Petr Kratochvil (Public Domain)'
+        caption: 'Old sewing machine - Petr Kratochvil (Public Domain)',
+				credits: 'Esittäjät Tarja Merivirta ja Markus Bäckman.  Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 11,
         name: 'Voi tuota muistia',
         image: 'assets/img/voi_tuota_muistia.jpg',
 		gameType: 'audio',
-        caption: '15062007(005) - Mikko Koponen (CC BY 2.0)'
+        caption: '15062007(005) - Mikko Koponen (CC BY 2.0)',
+				credits: 'Kappaleen sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
-    // Trivia.Game.create({
-    //     guid: 12,
-    //     name: 'Puhelinlangat laulaa',
-    //     image: 'assets/img/puhelinlangat.jpg',
-		// gameType: 'audio',
-    //     caption: 'Old Telephone Lines At Dawn - Brad Smith (CC BY-NC 2.0)'
-    // }),
-    // Trivia.Game.create({
-    //     guid: 13,
-    //     name: 'Sellanen ol Viipuri',
-    //     image: 'assets/img/viipuri.jpg',
-		// gameType: 'audio',
-    //     caption: 'Fortress in Vyborg - Paukrus (CC BY-SA 2.0)'
-    // }),
-    // Trivia.Game.create({
-    //     guid: 14,
-    //     name: 'Kotkan poikii ilman siipii',
-    //     image: 'assets/img/kotkan_poikii.jpg',
-		// gameType: 'audio',
-    //     caption: 'Sea Eagle - Asbjorn Floden (CC BY-NC 2.0)'
-    // }),
-    // Trivia.Game.create({
-    //     guid: 15,
-    //     name: 'Satumaa',
-    //     image: 'assets/img/satumaa.jpg',
-		// gameType: 'audio',
-    //     caption: 'North sea sunset - Dolorix (CC BY-NC-SA 2.0)'
-    // })
 ];
 
 Trivia.gameObjects.plain = [
@@ -1840,13 +1847,6 @@ Trivia.gameObjects.plain = [
         name:'Kirjailijat II',
 				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
-  /*  Trivia.Game.create({
-        guid:22,
-        gameType: 'quiz',
-        gameIntro: 'Yhdistä oikea kirja kirjailijaan',
-        image:'assets/img/kirjailijat/kir10.jpg',
-        name:'Kirjailijat III'
-    }), */
     Trivia.Game.create({
         guid:23,
         gameType: 'quiz',
@@ -1934,49 +1934,32 @@ Trivia.gameObjects.action = [
 		gameIntro: 'Kuulet kohta kappaleen. Laulun sanat näkyvät ruudulla. Laula mukana!',
 		name: 'Karaoke: Voi tuota muistia',
 		image: 'assets/img/pilvi.jpg',
+		credits: 'Toteutus ja suunnittelu: Sari Laitinen. Kappaleen sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
 	}),
 	Trivia.Game.create({
 		guid:31,
 		gameType: 'audio',
 		gameIntro: 'Kuulet kohta kappaleen. Laulun sanat näkyvät ruudulla. Laula mukana!',
 		name: 'Karaoke: Laulun mahti',
-		image: 'assets/img/grammari.jpg'
+		image: 'assets/img/grammari.jpg',
+		credits: 'Toteutus ja suunnittelu: Sari Laitinen. Sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
 	}),
 	Trivia.Game.create({
 		guid:32,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Elgarin Chanson de matin (huilu ja harppu). Harjoitus kestää 6 minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Marais’n Les Folies d´Espagne ja Tárregan Recuerdos de la Alhambra. Harjoitus kestää 7 minuuttia.',
 		name: 'Yksilörentoutus',
-		image: 'assets/img/rentoutus/ren2.jpg'
+		image: 'assets/img/rentoutus/ren2.jpg',
+		credits: 'Ohjaus ja suunnittelu: Sari Laitinen. Soittajat: Kirsi Jokela: huilu, Laura Airola: viulu, Hannu Perttilä: oboe ja Markku Perttilä: klassinen kitara.'
 	}),
 	Trivia.Game.create({
 		guid:33,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Satien Gymnopedia nro 1 (huilu ja harppu). Kesto 5 ja puoli minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Aloittakaa rentoutus istuutumalla tukevasti selkänojalliselle tuolille. Musiikkina on Tárregan Lágrima,	Händelin Largo, Corellin Preludio ja Bachin Siciliano. Kesto 10 minuuttia.',
 		name: 'Parirentoutus',
-		image: 'assets/img/rentoutus/ren3.jpg'
+		image: 'assets/img/rentoutus/ren3.jpg',
+		credits: 'Ohjaus ja suunnittelu: Sari Laitinen. Soittajat: Kirsi Jokela: huilu,	Laura Airola: viulu, Hannu Perttilä: oboe ja Markku Perttilä: klassinen kitara.'
 	}),
-	// Trivia.Game.create({
-	// 	guid: 34,
-	// 	gameType: 'audio',
-	// 	gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Sorin Kitaraduetto L\'encouragement. Harjoitus kestää 7 minuuttia',
-	// 	name: 'Rentoutus III',
-	// 	image: 'assets/img/rentoutus/ren3.jpg'
-	// }),
-	// Trivia.Game.create({
-	// 	guid:35,
-	// 	gameType: 'audio',
-	// 	gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin klarinettikvintetto A-duuri ja Merikannon Valse lente. Harjoitus kestää 9 minuuttia.',
-	// 	name: 'Parirentoutus I',
-	// 	image: 'assets/img/rentoutus/ren3.jpg'
-	// }),
-	// Trivia.Game.create({
-	// 	guid:36,
-	// 	gameType: 'audio',
-	// 	gameIntro: 'Tässä harjoituksessa kuulette rentoutusohjeet ja musiikkia. Harjoitus alkaa musiikilla. Musiikkina on Mozartin konsertto harpulle ja huilulle sekä Tarregagan Lagrima. Harjoitus kestää 10 minuuttia.',
-	// 	name: 'Parirentoutus II',
-	// 	image: 'assets/img/rentoutus/ren4.jpg'
-	// }),
 	Trivia.Game.create({
 		guid:37,
 		gameType: 'video',
@@ -1984,7 +1967,8 @@ Trivia.gameObjects.action = [
 		videoUrl: 'gK6MR3dUwU4',
 		gameIntro: 'Jumppaa videon mukana!',
 		name: 'Jumppavideo valssin tahtiin',
-		image: 'assets/img/jumppa/aamu/1.jpg'
+		image: 'assets/img/jumppa/aamu/1.jpg',
+		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Keijo ja Inkeri.'
 	}),
 	Trivia.Game.create({
 		guid:38,
@@ -1993,21 +1977,24 @@ Trivia.gameObjects.action = [
 		videoUrl: 'Ad-Avn8y8gM',
 		gameIntro: 'Jumppaa videon mukana!',
 		name: 'Jumppavideo jenkan tahtiin',
-		image: 'assets/img/jumppa/jenkka/1-cover.jpg'
+		image: 'assets/img/jumppa/jenkka/1-cover.jpg',
+		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Keijo ja Inkeri.'
 	}),
 	Trivia.Game.create({
 		guid: 39,
 		gameType: 'audio',
 		gameIntro: 'Harjoittele jumppaliikkeet rauhassa kuvien kanssa. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
 		name: 'Jumppaliikkeet: valssi',
-		image: 'assets/img/jumppa/aamu/1.jpg'
+		image: 'assets/img/jumppa/aamu/1.jpg',
+		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Keijo ja Inkeri.'
 	}),
 	Trivia.Game.create({
 		guid: 40,
 		gameType: 'audio',
 		gameIntro: 'Harjoittele jumppaliikkeet rauhassa kuvien kanssa. Paina Seuraava-painiketta päästäksesi seuraavaan jumppaliikkeeseen.',
 		name: 'Jumppaliikkeet: jenkka',
-		image: 'assets/img/jumppa/jenkka/1-cover.jpg'
+		image: 'assets/img/jumppa/jenkka/1-cover.jpg',
+		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Keijo ja Inkeri.'
 	})
 ];
 
@@ -2018,6 +2005,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Veetään nuottaa',
 			image: 'assets/img/lorut/lorut1.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2026,6 +2014,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Peukaloputti',
 			image: 'assets/img/lorut/lorut2.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2034,6 +2023,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Entten tentten',
 			image: 'assets/img/lorut/lorut14.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2042,6 +2032,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Maalari maalasi',
 			image: 'assets/img/lorut/lorut4.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2050,6 +2041,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Yks kaks kolme',
 			image: 'assets/img/lorut/lorut5.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2058,6 +2050,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Kis kis kissanpoika',
 			image: 'assets/img/lorut/lorut13.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2066,6 +2059,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Lennä lennä leppäkerttu',
 			image: 'assets/img/lorut/lorut7.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2074,6 +2068,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Kuu kiurusta',
 			image: 'assets/img/lorut/lorut8.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2082,6 +2077,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Mistä on pienet tehty',
 			image: 'assets/img/lorut/lorut12.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2090,6 +2086,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Viikonloppu',
 			image: 'assets/img/lorut/lorut9.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2098,6 +2095,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Ulle dulle',
 			image: 'assets/img/lorut/lorut10.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2106,6 +2104,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Tuu tuu tupakkirulla',
 			image: 'assets/img/lorut/lorut11.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2114,6 +2113,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Körö körö kirkkoon',
 			image: 'assets/img/lorut/lorut15.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2122,6 +2122,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Mennään maata',
 			image: 'assets/img/lorut/lorut6.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
@@ -2130,6 +2131,7 @@ Trivia.gameObjects.lorut = [
 			gameIntro: 'Kuulet kohta lorun. Kun loru pysähtyy, valitse vaihtoehdoista sanat, joilla loru jatkuu.',
 			name: 'Hus sika metsään',
 			image: 'assets/img/lorut/lorut3.jpg',
+			caption: 'Miina Sillanpään Säätiö',
 			credits: 'Toteutus ja suunnittelu: Kristiina Sarmas'
 	})
 ];
@@ -2245,8 +2247,7 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'on morsiamell\' kruunattu pää', correct: true }),
             Trivia.Answer.create({ answerText: 'on morsian ja sulhanen tääl'}),
             Trivia.Answer.create({ answerText: 'morsiamell\' on palmikoitu pää'})
-        ],
-				caption: 'caption for kulkurinvalssipci'
+        ]
     }),
     Trivia.Question.create({
         gameId: 2,
@@ -2875,61 +2876,6 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'mistä sen löytäisin uudestaan' })
         ]
     }),
-    // Trivia.Question.create({
-    //     gameId: 12,
-    //     mediaId: 7,
-    //     questionText: 'Miten kappaleen sanat jatkuvat?',
-    //     options: {playTo: 19680},
-    //     answers: [
-    //         Trivia.Answer.create({ answerText: 'Ja pilvistä katsoo kuu', correct:true }),
-    //         Trivia.Answer.create({ answerText: 'on onneni verraton' }),
-    //         Trivia.Answer.create({ answerText: 'ja taivasta tuijottelen' })
-    //     ]
-    // }),
-    // Trivia.Question.create({
-    //     gameId: 12,
-    //     mediaId: 7,
-    //     questionText: 'Miten kappaleen sanat jatkuvat?',
-    //     options: {playTo: 36360},
-    //     answers: [
-    //         Trivia.Answer.create({ answerText: 'on kaipaus aivan suunnaton' }),
-    //         Trivia.Answer.create({ answerText: 'kun uniaan hän vetelee', correct:true }),
-    //         Trivia.Answer.create({ answerText: 'muistot mieleen piirtyvät' })
-    //     ]
-    // }),
-    // Trivia.Question.create({
-    //     gameId: 12,
-    //     mediaId: 7,
-    //     questionText: 'Miten kappaleen sanat jatkuvat?',
-    //     options: {playTo: 44900},
-    //     answers: [
-    //         Trivia.Answer.create({ answerText: 'Vapaa kuin taivaan lintu on kulkija huoleton', correct:true }),
-    //         Trivia.Answer.create({ answerText: 'Huoleton kulkijapoika on matkalla kullan luo' }),
-    //         Trivia.Answer.create({ answerText: 'Onnellinen voi olla kun maantietä astelen' })
-    //     ]
-    // }),
-    // Trivia.Question.create({
-    //     gameId: 12,
-    //     mediaId: 7,
-    //     questionText: 'Miten kappaleen sanat jatkuvat?',
-    //     options: {playTo: 101300},
-    //     answers: [
-    //         Trivia.Answer.create({ answerText: 'poluilla kuljeskellen' }),
-    //         Trivia.Answer.create({ answerText: 'reiteillä vierahilla' }),
-    //         Trivia.Answer.create({ answerText: 'maantiellä vihellellen', correct:true })
-    //     ]
-    // }),
-    // Trivia.Question.create({
-    //     gameId: 12,
-    //     mediaId: 7,
-    //     questionText: 'Miten kappaleen sanat jatkuvat?',
-    //     options: {playTo: 120410},
-    //     answers: [
-    //         Trivia.Answer.create({ answerText: 'suurta rakkauttaan' }),
-    //         Trivia.Answer.create({ answerText: 'kaipaus rinnassaan', correct:true }),
-    //         Trivia.Answer.create({ answerText: 'puhelimen pirinää' })
-    //     ]
-    // }),
     Trivia.Question.create({
         gameId: 13,
         mediaId: 8,
@@ -3754,157 +3700,6 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Kannaksen lomajuna', correct:true })
         ]
     }),
-
-
-/*************************************************************************
-
-	All Kirjailija quizzes were combined into Kirjailija I & Kirjailija II
-	Excluded questions are stored below
-
-	**********************************************************************
-
-	Trivia.Question.create({
-        gameId: 22,
-		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
-        questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Voitonmerkki' }),
-            Trivia.Answer.create({ answerText: 'Miehet, jotka vihaavat naisia', correct:true }),
-            Trivia.Answer.create({ answerText: 'Takatalvi' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 22,
-        image: 'assets/img/kirjailijat/kir41.jpg',
-        questionText: 'Mikä kirjoista on John Grishamin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Henkivartija' }),
-            Trivia.Answer.create({ answerText: 'Valkoinen kääpiö' }),
-            Trivia.Answer.create({ answerText: 'Avustaja', correct:true })
-        ]
-    }),
-	Trivia.Question.create({
-        gameId: 22,
-        image: 'assets/img/kirjailijat/kir35.jpg',
-        questionText: 'Mikä kirjoista on Herman Melvillen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Aukko taivaassa' }),
-            Trivia.Answer.create({ answerText: 'Tuulen puolella' }),
-            Trivia.Answer.create({ answerText: 'Valkoinen valas', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 22,
-        image: 'assets/img/kirjailijat/kir32.jpg',
-        questionText: 'Mikä kirjoista on Antti Tuurin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Ajomies' }),
-            Trivia.Answer.create({ answerText: 'Surmanpelto', correct: true }),
-            Trivia.Answer.create({ answerText: 'Taikatalvi' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 21,
-        image: 'assets/img/kirjailijat/kir20.jpg',
-        questionText: 'Mikä kirjoista on Sofi Oksasen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Kun kyyhkyset katosivat', correct:true }),
-            Trivia.Answer.create({ answerText: 'Neitosten karkuretki' }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
-        ]
-    }),
-  	Trivia.Question.create({
-        gameId: 21,
-        image: 'assets/img/kirjailijat/kir26.jpg',
-        questionText: 'Mikä kirjoista on Seppo Jokisen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
-            Trivia.Answer.create({ answerText: 'Ajomies', correct:true }),
-            Trivia.Answer.create({ answerText: 'Taikatalvi' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 21,
-        image: 'assets/img/kirjailijat/kir1.jpg',
-        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Komisario Palmun erehdys', correct:true  }),
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
-            Trivia.Answer.create({ answerText: 'Nummisuutarit' })
-        ]
-    }),
-       /* Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir10.jpg',
-        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Nummisuutarit'  }),
-            Trivia.Answer.create({ answerText: 'Veitikka', correct:true }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir10.jpg',
-        questionText: 'Mikä kirjoista on Veikko Huovisen kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Taikatalvi'  }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
-            Trivia.Answer.create({ answerText: 'Rasvamaksa', correct:true })
-        ]
-    }),
-  	Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir6.jpg',
-        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Lea', correct:true  }),
-            Trivia.Answer.create({ answerText: 'Turms Kuolematon' }),
-            Trivia.Answer.create({ answerText: 'Veitikka' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir4.jpg',
-        questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Veitikka' }),
-            Trivia.Answer.create({ answerText: 'Ihmisiä suviyössä' }),
-            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla', correct:true })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir6.jpg',
-        questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Iisakin kirkko' }),
-            Trivia.Answer.create({ answerText: 'Seitsemän Veljestä', correct:true }),
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' })
-        ]
-    }),
-   	Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir1.jpg',
-        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Mikael Karvajalka', correct:true }),
-            Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
-            Trivia.Answer.create({ answerText: 'Täällä Pohjan tähden alla' })
-        ]
-    }),
-    Trivia.Question.create({
-        gameId: 20,
-        image: 'assets/img/kirjailijat/kir1.jpg',
-        questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
-        answers: [
-            Trivia.Answer.create({ answerText: 'Taikatalvi' }),
-            Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
-            Trivia.Answer.create({ answerText: 'Turms Kuolematon', correct:true })
-        ]
-    }),
-*/
-
 	//Sananlaskut
     Trivia.Question.create({
         gameId: 23,
@@ -5210,9 +5005,6 @@ Trivia.questions = [
 		image: 'assets/img/pilvi.jpg',
 		options: {}
 	}),
-
-
-
 	Trivia.Question.create({
 		gameId:31,
 		mediaId:15,
@@ -5320,25 +5112,6 @@ Trivia.questions = [
 		questionText: " ",
 		caption: 'Marketta Leppänen'
 	}),
-	// Trivia.Question.create({
-	// 	gameId:34,
-	// 	mediaId:20,
-	// 	image: 'assets/img/rentoutus/ren3.jpg',
-	// 	questionText: " ",
-	// }),
-	// Trivia.Question.create({
-	// 	gameId: 35,
-	// 	mediaId: 18,
-	// 	image: 'assets/img/rentoutus/ren3.jpg',
-	// 	questionText: " ",
-	// }),
-	// Trivia.Question.create({
-	// 	gameId:36,
-	// 	mediaId:19,
-	// 	image: 'assets/img/rentoutus/ren4.jpg',
-	// 	questionText: " ",
-	// }),
-
 	//jumppaliikkeet
 	Trivia.Question.create({
 		gameId:39,
@@ -5870,7 +5643,6 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'korealla kontilla', correct:true })
 		]
 	}),
-
 ];
 
 Trivia.medias = [
@@ -5909,26 +5681,6 @@ Trivia.medias = [
             mediaType: 'mp3',
 						//url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/voituotamuistia.mp3'
 						url: 'assets/sound/music/voituotamuistia.mp3'
-        }),
-      //   Trivia.Media.create({
-      //       guid: 7,
-      //       mediaType: 'mp3',
-			// 			 url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/puhelinlangatlaulaa.mp3'
-      //   }),
-        Trivia.Media.create({
-            guid: 8,
-            mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/sellanenolviipuri.mp3'
-        }),
-        Trivia.Media.create({
-            guid: 9,
-            mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/kotkanpoikiiilmansiipii.mp3'
-        }),
-        Trivia.Media.create({
-            guid: 10,
-            mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/satumaa.mp3'
         }),
 		Trivia.Media.create({
 			guid: 11,
@@ -5971,32 +5723,6 @@ Trivia.medias = [
 			mediaType: 'mp3',
 			url: 'assets/sound/music/parirentoutus.mp3'
 		}),
-
-		// Trivia.Media.create({
-		// 	guid:16,
-		// 	mediaType: 'mp3',
-		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis1.mp3' //pelkkä gapless
-		// }),
-		// Trivia.Media.create({
-		// 	guid:17,
-		// 	mediaType: 'mp3',
-		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis2.mp3' //pelkkä gapless
-		// }),
-		// Trivia.Media.create({
-		// 	guid:18,
-		// 	mediaType: 'mp3',
-		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus1.mp3' //pelkkä gapless
-		// }),
-		// Trivia.Media.create({
-		// 	guid:19,
-		// 	mediaType: 'mp3',
-		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/parirentoutus2.mp3' //pelkkä gapless
-		// }),
-		// Trivia.Media.create({
-		// 	guid:20,
-		// 	mediaType: 'mp3',
-		// 	url: 'http://pienipiiri.s3.amazonaws.com/trivia/assets/new/rentoutumis3.mp3' //pelkkä gapless
-		// }),
 		Trivia.Media.create({
 			guid:21,
 			mediaType: 'no-sound', //soundless implementation
@@ -6006,77 +5732,92 @@ Trivia.medias = [
 		Trivia.Media.create({
 			guid:22,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/veetaannuottaa.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/veetaannuottaa.mp3'
+			url: 'assets/sound/lorut/veetaannuottaa.mp3'
 		}),
 		Trivia.Media.create({
 			guid:23,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/peukaloputti.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/peukaloputti.mp3',
+			url: 'assets/sound/lorut/peukaloputti.mp3'
 		}),
 		Trivia.Media.create({
 			guid:24,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/enttententten.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/enttententten.mp3'
+			url: 'assets/sound/lorut/enttententten.mp3'
 		}),
 		Trivia.Media.create({
 			guid:25,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/maalarimaalasitaloa.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/maalarimaalasitaloa.mp3'
+			url: 'assets/sound/lorut/maalarimaalasitaloa.mp3'
 		}),
 		Trivia.Media.create({
 			guid:26,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/ykskakskolme.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/ykskakskolme.mp3'
+			url: 'assets/sound/lorut/ykskakskolme.mp3'
 		}),
 		Trivia.Media.create({
 			guid:27,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/kiskiskissanpoika.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/kiskiskissanpoika.mp3'
+			url: 'assets/sound/lorut/kiskiskissanpoika.mp3'
 		}),
 		Trivia.Media.create({
 			guid:28,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/lennalennaleppakerttu.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/lennalennaleppakerttu.mp3'
+			url: 'assets/sound/lorut/lennalennaleppakerttu.mp3'
 		}),
 		Trivia.Media.create({
 			guid:29,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/kuukiurusta.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/kuukiurusta.mp3'
+			url: 'assets/sound/lorut/kuukiurusta.mp3'
 		}),
 		Trivia.Media.create({
 			guid:30,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/mistaonpienettehty.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/mistaonpienettehty.mp3'
+			url: 'assets/sound/lorut/mistaonpienettehty.mp3'
 		}),
 		Trivia.Media.create({
 			guid:31,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/viikonpaivat.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/viikonpaivat.mp3'
+			url: 'assets/sound/lorut/viikonpaivat.mp3'
 		}),
 		Trivia.Media.create({
 			guid:32,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/ulledulledof.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/ulledulledof.mp3'
+			url: 'assets/sound/lorut/ulledulledof.mp3'
 		}),
 		Trivia.Media.create({
 			guid:33,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/tuutuutupakkirulla.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/tuutuutupakkirulla.mp3'
+			url: 'assets/sound/lorut/tuutuutupakkirulla.mp3'
 		}),
 		Trivia.Media.create({
 			guid:34,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/korokorokirkkoon.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/korokorokirkkoon.mp3'
+			url: 'assets/sound/lorut/korokorokirkkoon.mp3'
 		}),
 		Trivia.Media.create({
 			guid:35,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/mennaanmaata.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/mennaanmaata.mp3'
+			url: 'assets/sound/lorut/mennaanmaata.mp3'
 		}),
 		Trivia.Media.create({
 			guid:36,
 			mediaType: 'mp3',
-			url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/hussikametsaan.mp3'
+			// url: 'https://pienipiiri.s3.amazonaws.com/trivia/assets/new/lorut/hussikametsaan.mp3'
+			url: 'assets/sound/lorut/hussikametsaan.mp3'
 		})
     ];
 

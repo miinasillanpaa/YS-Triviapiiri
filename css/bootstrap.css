@@ -2823,13 +2823,27 @@ body {
 }
 .media-caption-view{
   z-index:999;
+  font-size: 50%;
+  color: #fff;
+  text-shadow: 0px 0px 1px #000, -1px -1px #000, 1px 1px #000;
+  background-color: rgba(0,0,0,0.3);
   position: absolute;
-  bottom: .75rem;
-  left: 5rem;
+  bottom: .52rem;
+  left:4.74rem;
+  width: 14.6rem;
+  padding: .2rem;
 
-  font-size: 75%;
 }
 
 .credits{
   padding: 10px 0;
+  font-size: 70%;
+  line-height: 1.2em;
+}
+.credits-logo{
+  margin: 15px 0;
+  text-align: center;
+}
+.credits-logo img{
+  padding: 5px;
 }
