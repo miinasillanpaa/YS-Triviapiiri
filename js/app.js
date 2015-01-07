@@ -1823,14 +1823,15 @@ Trivia.gameObjects.plain = [
         gameIntro: 'Yhdistä vastakohdat toisiinsa.',
 		name:'Vastakohtien yhdistäminen',
 		image: 'assets/img/vastakohdat.jpg',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna'
+		credits: 'Kysymysten suunnittelu: Sirpa Marna',
+		caption: 'Abstract Art Face - Ian L (Public domain)'
 	}),
 	Trivia.Game.create({
 		guid:18,
         gameType: 'quiz',
         gameIntro: 'Lehtivisailu: missä kaupungissa kukin lehti julkaistaan?',
 		name:'Lehtivisailu',
-		image:'assets/img/lehtivisailu.jpg',
+		image:'assets/img/lehtikuvat/newspapers.jpg',
 		credits: 'Kysymysten suunnittelu: Sirpa Marna'
 	}),
     Trivia.Game.create({
@@ -1838,14 +1839,14 @@ Trivia.gameObjects.plain = [
         gameType: 'quiz',
         gameIntro: 'Yhdistä oikea kirja kirjailijaan',
         name:'Kirjailijat I',
-        image:'assets/img/kirjailijat/kir1.jpg',
+        image:'assets/img/kirjailijat/kir-default.jpg',
 				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
     Trivia.Game.create({
         guid:21,
         gameType: 'quiz',
         gameIntro: 'Yhdistä oikea kirja kirjailijaan',
-        image:'assets/img/kirjailijat/kir4.jpg',
+        image:'assets/img/kirjailijat/kir10.jpg',
         name:'Kirjailijat II',
 				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
@@ -1861,7 +1862,7 @@ Trivia.gameObjects.plain = [
         guid:24,
         gameType: 'quiz',
         gameIntro: 'Miten eri sananlaskut jatkuvat?',
-        image:'assets/img/sananlaskut/san10.jpg',
+        image:'assets/img/sananlaskut/san2.jpg',
         name:'Sananlaskut II',
 				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
@@ -1869,7 +1870,7 @@ Trivia.gameObjects.plain = [
         guid:25,
         gameType: 'quiz',
         gameIntro: 'Miten eri sananlaskut jatkuvat?',
-        image:'assets/img/sananlaskut/san15.jpg',
+        image:'assets/img/sananlaskut/san3.jpg',
         name:'Sananlaskut III',
 				credits: 'Kysymysten suunnittelu: Sirpa Marna'
     }),
@@ -1887,7 +1888,8 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/mat/mat2.jpg',
 		name: 'Matemaattisia käsitteitä',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna'
+		credits: 'Kysymysten suunnittelu: Sirpa Marna',
+		caption: 'Sari Laitinen'
 	}),
 	Trivia.Game.create({
 		guid:28,
@@ -1965,8 +1967,7 @@ Trivia.gameObjects.action = [
 	Trivia.Game.create({
 		guid:37,
 		gameType: 'video',
-		//todo change video
-		videoUrl: 'gK6MR3dUwU4',
+		videoUrl: '0hE2RMqNFQo',
 		gameIntro: 'Jumppaa videon mukana!',
 		name: 'Jumppavideo valssin tahtiin',
 		image: 'assets/img/jumppa/aamu/1.jpg',
@@ -1975,8 +1976,7 @@ Trivia.gameObjects.action = [
 	Trivia.Game.create({
 		guid:38,
 		gameType: 'video',
-		//todo change video
-		videoUrl: 'Ad-Avn8y8gM',
+		videoUrl: 'vIZOskaYfLM',
 		gameIntro: 'Jumppaa videon mukana!',
 		name: 'Jumppavideo jenkan tahtiin',
 		image: 'assets/img/jumppa/jenkka/1-cover.jpg',
@@ -3107,8 +3107,7 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'korkea', correct: true }),
             Trivia.Answer.create({ answerText: 'suuri' }),
             Trivia.Answer.create({ answerText: 'avara' })
-        ],
-				caption: 'test: Hermanni hiiri!'
+        ]
     }),
     Trivia.Question.create({
         gameId: 16,
@@ -3255,220 +3254,228 @@ Trivia.questions = [
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Aamulehti julkaistaan?',
         gameId: 18,
-        image: 'assets/img/aamulehti.png',
+        image: 'assets/img/lehtikuvat/andrys.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Pori' }),
             Trivia.Answer.create({ answerText: 'Kouvola' }),
             Trivia.Answer.create({ answerText: 'Tampere', correct: true }),
             Trivia.Answer.create({ answerText: 'Jyväskylä' })
-        ]
+        ],
+				caption: 'Andrys (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Kainuun Sanomat julkaistaan?',
         gameId: 18,
-        image: 'assets/img/kainuunsanomat.jpg',
+        image: 'assets/img/lehtikuvat/newspapers.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi' }),
             Trivia.Answer.create({ answerText: 'Oulu' }),
             Trivia.Answer.create({ answerText: 'Kouvola'}),
             Trivia.Answer.create({ answerText: 'Kajaani', correct: true })
-        ]
+        ],
+				caption: 'stevepb (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa julkaistaan Lapin Kansa?',
         gameId: 18,
-        image: 'assets/img/lapinkansa.jpg',
+        image: 'assets/img/lehtikuvat/old-newspaper.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi', correct:true }),
             Trivia.Answer.create({ answerText: 'Oulu' }),
             Trivia.Answer.create({ answerText: 'Kuusamo' }),
             Trivia.Answer.create({ answerText: 'Kajaani' })
-        ]
+        ],
+				caption: 'Old newspaper - Chris_pluta (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa julkaistaan Koillismaa?',
         gameId: 18,
-        image: 'assets/img/koillismaa.jpg',
+        image: 'assets/img/lehtikuvat/andrys.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi' }),
             Trivia.Answer.create({ answerText: 'Oulu' }),
             Trivia.Answer.create({ answerText: 'Kuusamo' , correct:true }),
             Trivia.Answer.create({ answerText: 'Joensuu' })
-        ]
+        ],
+				caption: 'Andrys (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Hufvudstadsbladet julkaistaan?',
         gameId: 18,
-        image: 'assets/img/hufvudstadsbladet.gif',
+        image: 'assets/img/lehtikuvat/newspapers.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Oulu' }),
             Trivia.Answer.create({ answerText: 'Helsinki', correct: true }),
             Trivia.Answer.create({ answerText: 'Jyväskylä' }),
             Trivia.Answer.create({ answerText: 'Porvoo' })
-        ]
+        ],
+				caption: 'stevepb (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Borgåbladet julkaistaan?',
         gameId: 18,
-        image: 'assets/img/bargo.jpg',
+        image: 'assets/img/lehtikuvat/old-newspaper.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Tampere' }),
             Trivia.Answer.create({ answerText: 'Helsinki' }),
             Trivia.Answer.create({ answerText: 'Turku'}),
             Trivia.Answer.create({ answerText: 'Porvoo', correct: true })
-        ]
+        ],
+				caption: 'Old newspaper - Chris_pluta (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Kaleva julkaistaan?',
         gameId: 18,
-        image: 'assets/img/kalevala.jpg',
+        image: 'assets/img/lehtikuvat/andrys.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Rovaniemi' }),
             Trivia.Answer.create({ answerText: 'Oulu', correct: true }),
             Trivia.Answer.create({ answerText: 'Kouvola'}),
             Trivia.Answer.create({ answerText: 'Jyväskylä' })
-        ]
+        ],
+				caption: 'Andrys (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa Keskisuomalainen julkaistaan?',
         gameId: 18,
-        image: 'assets/img/keskisuomalainen.jpg',
+        image: 'assets/img/lehtikuvat/newspapers.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Pori' }),
             Trivia.Answer.create({ answerText: 'Kuopio' }),
             Trivia.Answer.create({ answerText: 'Jyväskylä', correct: true }),
             Trivia.Answer.create({ answerText: 'Kajaani' })
-        ]
+        ],
+				caption: 'stevepb (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä kaupungissa julkaistaan Satakunnan Kansa?',
         gameId: 18,
-        image: 'assets/img/satakunnankansa.jpg',
+        image: 'assets/img/lehtikuvat/old-newspaper.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Porvoo' }),
             Trivia.Answer.create({ answerText: 'Turku' }),
             Trivia.Answer.create({ answerText: 'Joensuu'}),
             Trivia.Answer.create({ answerText: 'Pori', correct: true })
-        ]
+        ],
+				caption: 'Old newspaper - Chris_pluta (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä maassa ilmestyy Svenska Dagbladet?',
         gameId: 18,
-        image: 'assets/img/svenskadagbladet.jpg',
+        image: 'assets/img/lehtikuvat/andrys.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Suomi' }),
             Trivia.Answer.create({ answerText: 'Ruotsi', correct: true }),
             Trivia.Answer.create({ answerText: 'Norja'}),
             Trivia.Answer.create({ answerText: 'Tanska' })
-        ]
+        ],
+				caption: 'Andrys (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä maassa ilmestyy Le Monde?',
         gameId: 18,
-        image: 'assets/img/monde.jpg',
+        image: 'assets/img/lehtikuvat/newspapers.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Englanti' }),
             Trivia.Answer.create({ answerText: 'Hollanti'}),
             Trivia.Answer.create({ answerText: 'Ranska', correct: true }),
             Trivia.Answer.create({ answerText: 'Kanada' })
-        ]
+        ],
+				caption: 'stevepb (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä maassa ilmestyy Dagens Nyheter?',
         gameId: 18,
-        image: 'assets/img/dagensnyheter.jpg',
+        image: 'assets/img/lehtikuvat/old-newspaper.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Islanti' }),
             Trivia.Answer.create({ answerText: 'Ruotsi', correct: true }),
             Trivia.Answer.create({ answerText: 'Suomi'}),
             Trivia.Answer.create({ answerText: 'Tanska' })
-        ]
+        ],
+				caption: 'Old newspaper - Chris_pluta (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä maassa ilmestyy New York Times?',
         gameId: 18,
-        image: 'assets/img/newyorktimes.jpg',
+        image: 'assets/img/lehtikuvat/andrys.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Yhdysvallat', correct: true }),
             Trivia.Answer.create({ answerText: 'Australia' }),
             Trivia.Answer.create({ answerText: 'Uusi-Seelanti'}),
             Trivia.Answer.create({ answerText: 'Englanti' })
-        ]
+        ],
+				caption: 'Andrys (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä maassa ilmestyi Deutsche Allgemeine Zeitung',
         gameId: 18,
-        image: 'assets/img/Deutscheallgemeinezeitung.jpg',
+        image: 'assets/img/lehtikuvat/newspapers.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Suomi' }),
             Trivia.Answer.create({ answerText: 'Hollanti'}),
             Trivia.Answer.create({ answerText: 'Ranska' }),
             Trivia.Answer.create({ answerText: 'Saksa', correct: true  })
-        ]
+        ],
+				caption: 'stevepb (Public domain)'
     }),
     Trivia.Question.create({
         questionText: 'Missä maassa ilmestyy Pravda?',
         gameId: 18,
-        image: 'assets/img/pravda.jpg',
+        image: 'assets/img/lehtikuvat/old-newspaper.jpg',
         answers: [
             Trivia.Answer.create({ answerText: 'Venäjä', correct: true }),
             Trivia.Answer.create({ answerText: 'Tsekki' }),
             Trivia.Answer.create({ answerText: 'Viro' }),
             Trivia.Answer.create({ answerText: 'Valkovenäjä' })
-        ]
+        ],
+				caption: 'Old newspaper - Chris_pluta (Public domain)'
     }),
-	Trivia.Question.create({
-     gameId: 19,
-     mediaId: 1,
-     questionText: 'Miten kappaleen sanat jatkuvat?',
-     options: {playTo: 1000},
-     answers: [
-         Trivia.Answer.create({ answerText: 'rakastan ja kaihoan ain\'', correct: true }),
-         Trivia.Answer.create({ answerText: 'minä aina ikävöin vain' }),
-         Trivia.Answer.create({ answerText: 'koskaan mä unhoita en' })
-     ]
- 	}),
 
  	//Kirjailijat I
     Trivia.Question.create({
         gameId: 20,
-        image: 'assets/img/kirjailijat/kir1.jpg',
+        image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Sinuhe Egyptiläinen', correct:true }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' }),
             Trivia.Answer.create({ answerText: 'Ihmisen osa' })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 20,
-        image: 'assets/img/kirjailijat/kir4.jpg',
+        image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Väinö Linnan kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Muumipappa ja meri' }),
             Trivia.Answer.create({ answerText: 'Tuntematon sotilas', correct:true }),
             Trivia.Answer.create({ answerText: 'Seitsemän Veljestä' })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 20,
-        image: 'assets/img/kirjailijat/kir6.jpg',
+        image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Nummisuutarit', correct:true  }),
             Trivia.Answer.create({ answerText: 'Taikatalvi' }),
             Trivia.Answer.create({ answerText: 'Tuntematon sotilas' })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 20,
-        image: 'assets/img/kirjailijat/kir6.jpg',
+        image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Aleksis Kiven kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Jumalan sana' }),
             Trivia.Answer.create({ answerText: 'Ihmisen osa' }),
             Trivia.Answer.create({ answerText: 'Kihlaus', correct:true })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3478,7 +3485,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Punainen Lanka'  }),
             Trivia.Answer.create({ answerText: 'Havukka-ahon ajattelija', correct:true }),
             Trivia.Answer.create({ answerText: 'Kauppa-Lopo' })
-        ]
+        ],
+				caption: "Urpo Lankinen - CC BY 3.0"
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3488,7 +3496,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Lampaan syöjät', correct:true  }),
             Trivia.Answer.create({ answerText: 'Komisario Palmu' }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' })
-        ]
+        ],
+				caption: "Urpo Lankinen - CC BY 3.0"
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3498,17 +3507,19 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Konsta Pylkkänen etsii kortteeria', correct:true  }),
             Trivia.Answer.create({ answerText: 'Papin Rouva' }),
             Trivia.Answer.create({ answerText: 'Seitsemän veljestä' })
-        ]
+        ],
+				caption: "Urpo Lankinen - CC BY 3.0"
     }),
     Trivia.Question.create({
         gameId: 20,
-        image: 'assets/img/kirjailijat/kir1.jpg',
+        image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Mika Waltarin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Nuori Johannes', correct:true  }),
             Trivia.Answer.create({ answerText: 'Seitsemän veljestä' }),
             Trivia.Answer.create({ answerText: 'Muumipappa ja meri' })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3518,7 +3529,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Taikatalvi' }),
             Trivia.Answer.create({ answerText: 'Veitikka' }),
             Trivia.Answer.create({ answerText: 'Onnellinen mies', correct:true })
-        ]
+        ],
+				caption: "BFF - CC BY-SA 2.5"
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3528,7 +3540,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Stalinin lehmät' }),
             Trivia.Answer.create({ answerText: 'Jäniksen vuosi', correct:true }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' })
-        ]
+        ],
+				caption: "BFF - CC BY-SA 2.5"
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3538,7 +3551,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Puhdistus', correct:true }),
             Trivia.Answer.create({ answerText: 'Hurskas kurjuus' }),
             Trivia.Answer.create({ answerText: 'Onnellinen mies' })
-        ]
+        ],
+				caption: "Teemu Rajala - CC BY 3.0"
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3548,7 +3562,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Sheriffi', correct:true }),
             Trivia.Answer.create({ answerText: 'Tuomiopäivän aurinko nousee' }),
             Trivia.Answer.create({ answerText: 'Taikatalvi' })
-        ]
+        ],
+				caption: 'Matti Järvinen - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3558,7 +3573,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Maailman paras kylä' }),
             Trivia.Answer.create({ answerText: 'Likainen enkeli', correct:true }),
             Trivia.Answer.create({ answerText: 'Seitsemän päivää' })
-        ]
+        ],
+				caption: 'David Shankbone - CC BY 3.0'
     }),
     Trivia.Question.create({
         gameId: 20,
@@ -3568,19 +3584,21 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Layla', correct:true }),
             Trivia.Answer.create({ answerText: 'Hurkas kurjuus' }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' })
-        ]
+        ],
+				caption: "Soppakanuuna - CC BY-SA 2.5"
     }),
 
     // Kirjailijat II
     Trivia.Question.create({
         gameId: 21,
-        image: 'assets/img/kirjailijat/kir25.jpg',
+        image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Eeva Joenpellon kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Aatami ja Eeva' }),
             Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
             Trivia.Answer.create({ answerText: 'Vetää kaikista ovista', correct:true })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3590,17 +3608,19 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Onnellinen mies' }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' }),
             Trivia.Answer.create({ answerText: 'Ikitie', correct:true })
-        ]
+        ],
+				caption: 'Soppakanuuna - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
-        image: 'assets/img/kirjailijat/kir28.jpg',
+        image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Agatha Christien kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Tapaus Bruus ja muita kertomuksia' }),
             Trivia.Answer.create({ answerText: 'Kuolema Niilillä', correct:true }),
             Trivia.Answer.create({ answerText: 'Taikatalvi' })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3610,7 +3630,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Leijat Helsingin yllä' }),
             Trivia.Answer.create({ answerText: 'Oppinut neiti', correct:true }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' })
-        ]
+        ],
+				caption: 'Matti Järvinen - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3620,7 +3641,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Railo', correct:true }),
             Trivia.Answer.create({ answerText: 'Ikitie' }),
             Trivia.Answer.create({ answerText: 'Onnellinen mies' })
-        ]
+        ],
+				caption: 'Matti Järvinen - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3630,7 +3652,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Seitsemän veljestä' }),
             Trivia.Answer.create({ answerText: 'Nummisuutarit' }),
             Trivia.Answer.create({ answerText: 'Kallis kotimaa', correct:true })
-        ]
+        ],
+				caption: 'Spektri - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3640,7 +3663,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Missä Kuljimme kerran', correct:true }),
             Trivia.Answer.create({ answerText: 'Seitsemän veljestä' }),
             Trivia.Answer.create({ answerText: 'Taikatalvi' })
-        ]
+        ],
+				caption: 'Soppakanuuna - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3650,7 +3674,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Rannalla' }),
             Trivia.Answer.create({ answerText: 'Harjunpää ja ahdistelija', correct:true }),
             Trivia.Answer.create({ answerText: 'Uhrilehto' })
-        ]
+        ],
+				caption: 'Soppakanuuna - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3660,7 +3685,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Lemmikkikaupan tytöt', correct: true }),
             Trivia.Answer.create({ answerText: 'Ilkeät sisarpuolet' }),
             Trivia.Answer.create({ answerText: 'Uhkapelimerkit' })
-        ]
+        ],
+				caption: 'Anneli Salo - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3670,7 +3696,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Raja' }),
             Trivia.Answer.create({ answerText: 'Kosto' }),
             Trivia.Answer.create({ answerText: 'Seesjärven sissit', correct:true })
-        ]
+        ],
+				caption: 'Anneli Salo - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3680,17 +3707,19 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Uuni', correct:true }),
             Trivia.Answer.create({ answerText: 'Taivaspaikka' }),
             Trivia.Answer.create({ answerText: 'Tuulen varjo' })
-        ]
+        ],
+				caption: 'Teemu Rajala - CC BY-SA 2.5'
     }),
     Trivia.Question.create({
         gameId: 21,
-		image: 'assets/img/kirjailijat/stieg_larsson.jpg',
+		image: 'assets/img/kirjailijat/kir-default.jpg',
         questionText: 'Mikä kirjoista on Stieg Larssonin kirjoittama?',
         answers: [
             Trivia.Answer.create({ answerText: 'Tyttö, joka leikki tulella', correct:true }),
             Trivia.Answer.create({ answerText: 'Hylynryöstäjä' }),
             Trivia.Answer.create({ answerText: 'Silminnäkijä' })
-        ]
+        ],
+				caption: 'Antique books - Peter Häger (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 21,
@@ -3700,7 +3729,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Syksyksi kotiin' }),
             Trivia.Answer.create({ answerText: 'Kallen inttivuosi' }),
             Trivia.Answer.create({ answerText: 'Kannaksen lomajuna', correct:true })
-        ]
+        ],
+				caption: 'JNiemenmaa - CC BY-SA 2.5'
     }),
 	//Sananlaskut
     Trivia.Question.create({
@@ -3711,7 +3741,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kuin naapurin padassa' }),
             Trivia.Answer.create({ answerText: 'kuin puun latvassa' }),
             Trivia.Answer.create({ answerText: 'kuin kymmenen oksalla', correct:true })
-        ]
+        ],
+				caption: 'wobogre (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3721,7 +3752,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kuin ei milloinkaan', correct:true }),
             Trivia.Answer.create({ answerText: 'kuin liian aikaisin' }),
             Trivia.Answer.create({ answerText: 'kuin aamulla varhain' })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3731,7 +3763,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'sen vanhana unohtaa' }),
             Trivia.Answer.create({ answerText: 'sen vanhana taitaa', correct:true }),
             Trivia.Answer.create({ answerText: 'sen vanhana opettaa' })
-        ]
+        ],
+				caption: 'Simon (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3741,7 +3774,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kiekumaan käy' }),
             Trivia.Answer.create({ answerText: 'kävele' }),
             Trivia.Answer.create({ answerText: 'käskien laula', correct:true })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3751,7 +3785,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kuin hepo heinää' }),
             Trivia.Answer.create({ answerText: 'kuin hepo kesää', correct:true }),
             Trivia.Answer.create({ answerText: 'kuin hepo kuumaa puuroa' })
-        ]
+        ],
+				caption: 'jarmoluk (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3761,7 +3796,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kuin kissa kuumaa puuroa', correct:true }),
             Trivia.Answer.create({ answerText: 'kuin koira kopissa' }),
             Trivia.Answer.create({ answerText: 'kuin kissa kartanolla' })
-        ]
+        ],
+				caption: 'MartinStr (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3771,7 +3807,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'paha ei paljon piittaa' }),
             Trivia.Answer.create({ answerText: 'paha päälle sylkee' }),
             Trivia.Answer.create({ answerText: 'paha ei paljostakaan', correct:true })
-        ]
+        ],
+				caption: 'Nhelia (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3781,7 +3818,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'korvat kuulee' }),
             Trivia.Answer.create({ answerText: 'on silmät päässä' }),
             Trivia.Answer.create({ answerText: 'on korvat', correct:true })
-        ]
+        ],
+				caption: 'moorpheus (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
@@ -3791,187 +3829,206 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'lopussa kiitos seisoo', correct:true }),
             Trivia.Answer.create({ answerText: 'loppu vielä hankalampaa' }),
             Trivia.Answer.create({ answerText: 'kaikesta kuitenkin selvitään' })
-        ]
+        ],
+				caption: 'cocoparisienne (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
-        image: 'assets/img/sananlaskut/san10.jpg',
+        image: 'assets/img/sananlaskut/san1.jpg',
         questionText: 'Mikä laulaen tulee',
         answers: [
             Trivia.Answer.create({ answerText: 'se helposti tulee' }),
             Trivia.Answer.create({ answerText: 'se viheltäen menee', correct:true }),
             Trivia.Answer.create({ answerText: 'on pian kulutettu' })
-        ]
+        ],
+				caption: 'wobogre (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
-        image: 'assets/img/sananlaskut/san11.jpg',
+        image: 'assets/img/sananlaskut/san2.jpg',
         questionText: 'Parempi on katsoa',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin katua', correct:true }),
             Trivia.Answer.create({ answerText: 'kuin kaatua' }),
             Trivia.Answer.create({ answerText: 'ja kuunnella' })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
-        image: 'assets/img/sananlaskut/san12.jpg',
+        image: 'assets/img/sananlaskut/san3.jpg',
         questionText: 'Kel\' onni on',
         answers: [
             Trivia.Answer.create({ answerText: 'sen kaikille kertokoon' }),
             Trivia.Answer.create({ answerText: 'sen sydän riemuitsee' }),
             Trivia.Answer.create({ answerText: 'se onnen kätkeköön', correct:true })
-        ]
+        ],
+				caption: 'Simon (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
-        image: 'assets/img/sananlaskut/san13.jpg',
+        image: 'assets/img/sananlaskut/san4.jpg',
         questionText: 'Ei niin pahaa',
         answers: [
             Trivia.Answer.create({ answerText: 'ettei syödä voisi' }),
             Trivia.Answer.create({ answerText: 'ettei jotain hyvääkin', correct:true }),
             Trivia.Answer.create({ answerText: 'kuin luulisi' })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
-        image: 'assets/img/sananlaskut/san14.jpg',
+        image: 'assets/img/sananlaskut/san5.jpg',
         questionText: 'Sitä kuusta kuuleminen',
         answers: [
             Trivia.Answer.create({ answerText: 'jonka juurella asunto', correct:true }),
             Trivia.Answer.create({ answerText: 'jonka oksia sahaa' }),
             Trivia.Answer.create({ answerText: 'jonka jouluna koristelee' })
-        ]
+        ],
+				caption: 'jarmoluk (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 23,
-        image: 'assets/img/sananlaskut/san15.jpg',
+        image: 'assets/img/sananlaskut/san6.jpg',
         questionText: 'Jos ei nyt',
         answers: [
             Trivia.Answer.create({ answerText: 'niin milloin?' }),
             Trivia.Answer.create({ answerText: 'niin ainakin ensi vuonna' }),
             Trivia.Answer.create({ answerText: 'niin ei milloinkaan', correct:true })
-        ]
+        ],
+				caption: 'MartinStr (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san16.jpg',
+        image: 'assets/img/sananlaskut/san7.jpg',
         questionText: 'Niin metsä vastaa',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin itse tahtoo' }),
             Trivia.Answer.create({ answerText: 'kuin siltä kysytään' }),
             Trivia.Answer.create({ answerText: 'kuin sinne huudetaan', correct:true })
-        ]
+        ],
+				caption: 'Nhelia (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san17.jpg',
+        image: 'assets/img/sananlaskut/san8.jpg',
         questionText: 'Työmies on palkkansa',
         answers: [
             Trivia.Answer.create({ answerText: 'ansainnut', correct:true }),
             Trivia.Answer.create({ answerText: 'arvoinen' }),
             Trivia.Answer.create({ answerText: 'mittainen' })
-        ]
+        ],
+				caption: 'moorpheus (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san18.jpg',
+        image: 'assets/img/sananlaskut/san9.jpg',
         questionText: 'Kenen leipää syöt',
         answers: [
             Trivia.Answer.create({ answerText: 'sen käskyjä kuuntelet' }),
             Trivia.Answer.create({ answerText: 'sitä ruuasta kiität' }),
             Trivia.Answer.create({ answerText: 'sen lauluja laulat', correct:true })
-        ]
+        ],
+				caption: 'cocoparisienne (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san19.jpg',
+        image: 'assets/img/sananlaskut/san1.jpg',
         questionText: 'Onni yksillä',
         answers: [
             Trivia.Answer.create({ answerText: 'murhe muilla' }),
             Trivia.Answer.create({ answerText: 'kesä kaikilla', correct:true }),
             Trivia.Answer.create({ answerText: 'taivaanranta kaikilla' })
-        ]
+        ],
+				caption: 'wobogre (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san20.jpg',
+        image: 'assets/img/sananlaskut/san2.jpg',
         questionText: 'Ei yö niin pitkä',
         answers: [
             Trivia.Answer.create({ answerText: 'kuin unettomasta tuntuu' }),
             Trivia.Answer.create({ answerText: 'ettei aamu sarasta' }),
             Trivia.Answer.create({ answerText: 'ettei päivä perässä', correct:true })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san21.jpg',
+        image: 'assets/img/sananlaskut/san3.jpg',
         questionText: 'Ei suuret sanat',
         answers: [
             Trivia.Answer.create({ answerText: 'suuta halkaise', correct:true }),
             Trivia.Answer.create({ answerText: 'suuta sulje' }),
             Trivia.Answer.create({ answerText: 'vaan suuret teot' })
-        ]
+        ],
+				caption: 'Simon (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san22.jpg',
+        image: 'assets/img/sananlaskut/san4.jpg',
         questionText: 'Uni ja ruoka maittaa',
         answers: [
             Trivia.Answer.create({ answerText: 'mutta työ sitä haittaa' }),
             Trivia.Answer.create({ answerText: 'mutta työ on kuin tervaa', correct:true }),
             Trivia.Answer.create({ answerText: 'mutta aika päälle painaa' })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san23.jpg',
+        image: 'assets/img/sananlaskut/san5.jpg',
         questionText: 'Ahkeruus',
         answers: [
             Trivia.Answer.create({ answerText: 'aina palkitaan' }),
             Trivia.Answer.create({ answerText: 'on onnen äiti' }),
             Trivia.Answer.create({ answerText: 'kovankin onnen voittaa', correct:true })
-        ]
+        ],
+				caption: 'jarmoluk (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san24.jpg',
+        image: 'assets/img/sananlaskut/san6.jpg',
         questionText: 'Ei vara',
         answers: [
             Trivia.Answer.create({ answerText: 'venettä kaada', correct:true }),
             Trivia.Answer.create({ answerText: 'pankkeja kaada' }),
             Trivia.Answer.create({ answerText: 'ole vaaraksi' })
-        ]
+        ],
+				caption: 'MartinStr (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san25.jpg',
+        image: 'assets/img/sananlaskut/san7.jpg',
         questionText: 'Hätä',
         answers: [
             Trivia.Answer.create({ answerText: 'lukee lakia' }),
             Trivia.Answer.create({ answerText: 'keinot keksii', correct:true }),
             Trivia.Answer.create({ answerText: 'keinot karkottaa' })
-        ]
+        ],
+				caption: 'Nhelia (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san26.jpg',
+        image: 'assets/img/sananlaskut/san8.jpg',
         questionText: 'Suo siellä',
         answers: [
             Trivia.Answer.create({ answerText: 'vettä täällä' }),
             Trivia.Answer.create({ answerText: 'kangasmetsä täällä' }),
             Trivia.Answer.create({ answerText: 'vetelä täällä', correct:true })
-        ]
+        ],
+				caption: 'moorpheus (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
-        image: 'assets/img/sananlaskut/san27.jpg',
+        image: 'assets/img/sananlaskut/san9.jpg',
         questionText: 'Jos haluat rauhaa',
         answers: [
             Trivia.Answer.create({ answerText: 'valmistaudu sotaan', correct:true }),
             Trivia.Answer.create({ answerText: 'rakenna sopu' }),
             Trivia.Answer.create({ answerText: 'älä jännitä joustasi' })
-        ]
+        ],
+				caption: 'cocoparisienne (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
@@ -3981,7 +4038,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kun jano on sammunut' }),
             Trivia.Answer.create({ answerText: 'kun talo on palanut', correct:true }),
             Trivia.Answer.create({ answerText: 'kun kiuas on kylmennyt' })
-        ]
+        ],
+				caption: 'wobogre (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
@@ -3991,7 +4049,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kovaääniset' }),
             Trivia.Answer.create({ answerText: 'kaiuttimet' }),
             Trivia.Answer.create({ answerText: 'korvat', correct:true })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 24,
@@ -4001,7 +4060,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'Roomaan', correct:true }),
             Trivia.Answer.create({ answerText: 'perille' }),
             Trivia.Answer.create({ answerText: 'sinne minne jalkasi osoittavat' })
-        ]
+        ],
+				caption: 'Simon (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
@@ -4011,7 +4071,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'joka taloasi kannattaa' }),
             Trivia.Answer.create({ answerText: 'jota et jaksa kantaa', correct:true }),
             Trivia.Answer.create({ answerText: 'joka kirkkauttaan kiiltää' })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
@@ -4021,7 +4082,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'kohtalonsa vanki' }),
             Trivia.Answer.create({ answerText: 'onnensa onkija' }),
             Trivia.Answer.create({ answerText: 'onnensa seppä', correct:true })
-        ]
+        ],
+				caption: 'jarmoluk (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
@@ -4031,7 +4093,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'se itse siihen lankeaa', correct:true }),
             Trivia.Answer.create({ answerText: 'se mieltä myöhemmin vaivaa' }),
             Trivia.Answer.create({ answerText: 'se omaa onneansa raivaa' })
-        ]
+        ],
+				caption: 'MartinStr (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
@@ -4041,7 +4104,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'ja korjaa pahat pilasi' }),
             Trivia.Answer.create({ answerText: 'anna arvo toisillekin', correct:true }),
             Trivia.Answer.create({ answerText: 'tunne omat vikasi' })
-        ]
+        ],
+				caption: 'Nhelia (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
@@ -4051,7 +4115,8 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'samat hiilet kummallakin' }),
             Trivia.Answer.create({ answerText: 'sama keitto kummassakin' }),
             Trivia.Answer.create({ answerText: 'musta kylki kummallakin', correct:true })
-        ]
+        ],
+				caption: 'moorpheus (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
@@ -4061,147 +4126,162 @@ Trivia.questions = [
             Trivia.Answer.create({ answerText: 'pitkästä ilosta', correct:true }),
             Trivia.Answer.create({ answerText: 'suuresta surusta' }),
             Trivia.Answer.create({ answerText: 'mielen parantaa' })
-        ]
+        ],
+				caption: 'cocoparisienne (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san10.jpg',
+        image: 'assets/img/sananlaskut/san1.jpg',
         questionText: 'Nauru',
         answers: [
             Trivia.Answer.create({ answerText: 'ilon pirttiin tuopi' }),
             Trivia.Answer.create({ answerText: 'pidentää ikää', correct:true }),
             Trivia.Answer.create({ answerText: 'on itkun kääntöpuoli' })
-        ]
+        ],
+				caption: 'wobogre (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san11.jpg',
+        image: 'assets/img/sananlaskut/san2.jpg',
         questionText: 'Oma apu',
         answers: [
             Trivia.Answer.create({ answerText: 'onnen tuopi' }),
             Trivia.Answer.create({ answerText: 'aina lähellä' }),
             Trivia.Answer.create({ answerText: 'paras apu', correct:true })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san12.jpg',
+        image: 'assets/img/sananlaskut/san3.jpg',
         questionText: 'Joka tuuleen kylvää',
         answers: [
             Trivia.Answer.create({ answerText: 'se myrskyä niittää', correct:true }),
             Trivia.Answer.create({ answerText: 'se myrskyssä seilaa' }),
             Trivia.Answer.create({ answerText: 'sen ei sielu tyventä löydä' })
-        ]
+        ],
+				caption: 'Simon (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san13.jpg',
+        image: 'assets/img/sananlaskut/san4.jpg',
         questionText: 'Sanasta miestä',
         answers: [
             Trivia.Answer.create({ answerText: 'hännästä hevosta' }),
             Trivia.Answer.create({ answerText: 'sarvista härkää', correct:true }),
             Trivia.Answer.create({ answerText: 'liekistä lohikäärmettä' })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san14.jpg',
+        image: 'assets/img/sananlaskut/san5.jpg',
         questionText: 'Älä usko',
         answers: [
             Trivia.Answer.create({ answerText: 'ennen kuin todistetaan' }),
             Trivia.Answer.create({ answerText: 'ennen kuin kuulet uutisista' }),
             Trivia.Answer.create({ answerText: 'ennen kuin näet', correct:true })
-        ]
+        ],
+				caption: 'jarmoluk (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san15.jpg',
+        image: 'assets/img/sananlaskut/san6.jpg',
         questionText: 'Varmaa on se',
         answers: [
             Trivia.Answer.create({ answerText: 'mikä on kädessä', correct:true }),
             Trivia.Answer.create({ answerText: 'mikä on sydämessä' }),
             Trivia.Answer.create({ answerText: 'mikä lukee lehdessä' })
-        ]
+        ],
+				caption: 'MartinStr (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san16.jpg',
+        image: 'assets/img/sananlaskut/san7.jpg',
         questionText: 'Ei kettu sovi tuomariksi',
         answers: [
             Trivia.Answer.create({ answerText: 'kanalan kahakkaan' }),
             Trivia.Answer.create({ answerText: 'hanhen oikeusjuttuun', correct:true }),
             Trivia.Answer.create({ answerText: 'korpin puolesta puhujaksi' })
-        ]
+        ],
+				caption: 'Nhelia (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san17.jpg',
+        image: 'assets/img/sananlaskut/san8.jpg',
         questionText: 'Ei yksi pääsky',
         answers: [
             Trivia.Answer.create({ answerText: 'kesää aloita' }),
             Trivia.Answer.create({ answerText: 'suvea soita' }),
             Trivia.Answer.create({ answerText: 'kesää tee', correct:true })
-        ]
+        ],
+				caption: 'moorpheus (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san18.jpg',
+        image: 'assets/img/sananlaskut/san9.jpg',
         questionText: 'Joka miekkaan tarttuu',
         answers: [
             Trivia.Answer.create({ answerText: 'se miekkaan kaatuu', correct:true }),
             Trivia.Answer.create({ answerText: 'se ei rauhaa rakasta' }),
             Trivia.Answer.create({ answerText: 'ei kunnian kujalla kävele' })
-        ]
+        ],
+				caption: 'cocoparisienne (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san19.jpg',
+        image: 'assets/img/sananlaskut/san1.jpg',
         questionText: 'Sanoista',
         answers: [
             Trivia.Answer.create({ answerText: 'sovinto syntyy' }),
             Trivia.Answer.create({ answerText: 'sodat tulevat', correct:true }),
             Trivia.Answer.create({ answerText: 'rauha rakentuu' })
-        ]
+        ],
+				caption: 'wobogre (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san20.jpg',
+        image: 'assets/img/sananlaskut/san2.jpg',
         questionText: 'Hullu paljon työtä tekee',
         answers: [
             Trivia.Answer.create({ answerText: 'laiskajaakko ei laisinkaan' }),
             Trivia.Answer.create({ answerText: 'vaikka ei ois paikka' }),
             Trivia.Answer.create({ answerText: 'viisas pääsee vähemmällä', correct:true })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san21.jpg',
+        image: 'assets/img/sananlaskut/san3.jpg',
         questionText: 'Työ tekijäänsä',
         answers: [
             Trivia.Answer.create({ answerText: 'kiittää', correct:true }),
             Trivia.Answer.create({ answerText: 'neuvoo' }),
             Trivia.Answer.create({ answerText: 'elättää' })
-        ]
+        ],
+				caption: 'Simon (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san22.jpg',
+        image: 'assets/img/sananlaskut/san4.jpg',
         questionText: 'Ei kaikki ole sitä',
         answers: [
             Trivia.Answer.create({ answerText: 'mitä tilaat' }),
             Trivia.Answer.create({ answerText: 'miltä näyttää', correct:true }),
             Trivia.Answer.create({ answerText: 'eikä tätä' })
-        ]
+        ],
+				caption: 'werner22brigitte (Public domain)'
     }),
     Trivia.Question.create({
         gameId: 25,
-        image: 'assets/img/sananlaskut/san23.jpg',
+        image: 'assets/img/sananlaskut/san5.jpg',
         questionText: 'Ei sota yhtä',
         answers: [
             Trivia.Answer.create({ answerText: 'juhlaa ole' }),
             Trivia.Answer.create({ answerText: 'eikä toistakaan' }),
             Trivia.Answer.create({ answerText: 'miestä kaipaa', correct:true })
-        ]
+        ],
+				caption: 'jarmoluk (Public domain)'
     }),
 	//Start of Sivistyssanat
 	Trivia.Question.create({
@@ -4212,7 +4292,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'sukupolvi' }),
 			Trivia.Answer.create({ answerText: 'rappeutuminen', correct:true }),
 			Trivia.Answer.create({ answerText: 'rahan arvon lasku' })
-		]
+		],
+		caption: "Willabee (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4222,7 +4303,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'muotoilu' }),
 			Trivia.Answer.create({ answerText: 'kymmenys' }),
 			Trivia.Answer.create({ answerText: 'äänen voimakkuuden yksikkö', correct:true })
-		]
+		],
+		caption: "schneich (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4232,7 +4314,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'veren punainen väriaine' }),
 			Trivia.Answer.create({ answerText: 'perinnöllinen verenvuototauti', correct:true }),
 			Trivia.Answer.create({ answerText: 'verisolu' })
-		]
+		],
+		caption: "224576 (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4242,7 +4325,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'suhteettoman suuri henkilö' }),
 			Trivia.Answer.create({ answerText: 'rypälesokeri' }),
 			Trivia.Answer.create({ answerText: 'kuviollinen seinävaate', correct:true })
-		]
+		],
+		caption: "Willabee (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4252,7 +4336,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'herkkujen tuntija', correct:true }),
 			Trivia.Answer.create({ answerText: 'vatsalääkäri' }),
 			Trivia.Answer.create({ answerText: 'paksusuoli' })
-		]
+		],
+		caption: "schneich (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4262,7 +4347,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'tuhopoltto' }),
 			Trivia.Answer.create({ answerText: 'tahallinen ilkivalta', correct:true }),
 			Trivia.Answer.create({ answerText: 'juhlapyhä' })
-		]
+		],
+		caption: "224576 (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4282,7 +4368,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'raamatullinen' }),
 			Trivia.Answer.create({ answerText: 'maalauksellinen', correct:true }),
 			Trivia.Answer.create({ answerText: 'ympäri pyörähdys' })
-		]
+		],
+		caption: "schneich (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4292,7 +4379,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'kuvitteellinen', correct:true }),
 			Trivia.Answer.create({ answerText: 'jännitysromaani' }),
 			Trivia.Answer.create({ answerText: 'postimerkkien keräilijä' })
-		]
+		],
+		caption: "224576 (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4302,7 +4390,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'vastakkaisuus' }),
 			Trivia.Answer.create({ answerText: 'silmää hivelevä' }),
 			Trivia.Answer.create({ answerText: 'paras mahdollinen', correct:true })
-		]
+		],
+		caption: "Willabee (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4312,7 +4401,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'arviointi' }),
 			Trivia.Answer.create({ answerText: 'kehitys', correct:true }),
 			Trivia.Answer.create({ answerText: 'väestön poissiirtäminen' })
-		]
+		],
+		caption: "schneich (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4322,7 +4412,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'muunnos', correct:true }),
 			Trivia.Answer.create({ answerText: 'muotiasiantuntemus' }),
 			Trivia.Answer.create({ answerText: 'naisten hattujen valmistus' })
-		]
+		],
+		caption: "224576 (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4332,7 +4423,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'herkkätuntoinen' }),
 			Trivia.Answer.create({ answerText: 'keskeinen' }),
 			Trivia.Answer.create({ answerText: 'aistillinen', correct:true })
-		]
+		],
+		caption: "Willabee (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4342,7 +4434,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'tykin alusta' }),
 			Trivia.Answer.create({ answerText: 'lumivyöry', correct:true }),
 			Trivia.Answer.create({ answerText: 'pesuallas' })
-		]
+		],
+		caption: "schneich (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4352,7 +4445,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'humoristinen laulu', correct:true }),
 			Trivia.Answer.create({ answerText: 'lauluyhtye' }),
 			Trivia.Answer.create({ answerText: 'soitinyhtye' })
-		]
+		],
+		caption: "224576 (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4362,7 +4456,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'rajoitin' }),
 			Trivia.Answer.create({ answerText: 'virvoitusjuoman valmistaja' }),
 			Trivia.Answer.create({ answerText: 'järvitutkija', correct:true })
-		]
+		],
+		caption: "Willabee (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4372,7 +4467,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'pizzaravintola' }),
 			Trivia.Answer.create({ answerText: 'sormilla näppäillen', correct:true }),
 			Trivia.Answer.create({ answerText: 'Italialainen pitsi' })
-		]
+		],
+		caption: "schneich (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4382,7 +4478,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'ohut silkkikangas' }),
 			Trivia.Answer.create({ answerText: 'paineella toimiva tarjoilupullo', correct:true }),
 			Trivia.Answer.create({ answerText: 'merkkiääni' })
-		]
+		],
+		caption: "224576 (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4392,7 +4489,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'tautien tutkiminen' }),
 			Trivia.Answer.create({ answerText: 'ihon maalaaminen' }),
 			Trivia.Answer.create({ answerText: 'sanan tai asian toistaminen', correct:true })
-		]
+		],
+		caption: "Willabee (Public domain)"
 	}),
 	Trivia.Question.create({
 		gameId:26,
@@ -4402,7 +4500,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'unitautinen' }),
 			Trivia.Answer.create({ answerText: 'ainutlaatuinen', correct:true }),
 			Trivia.Answer.create({ answerText: 'valtioliitto' })
-		]
+		],
+		caption: "schneich (Public domain)"
 	}),
 	//end of Sivistyssanat
 	//start of Matemaattisia käsitteitä
@@ -4566,7 +4665,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Ludvig VI' }),
 			Trivia.Answer.create({ answerText: 'Napoleon III', correct:true }),
 			Trivia.Answer.create({ answerText: 'Filip V' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4576,7 +4676,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Norjassa' }),
 			Trivia.Answer.create({ answerText: 'Tanskassa' }),
 			Trivia.Answer.create({ answerText: 'Ruotsissa', correct:true })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4586,7 +4687,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '47-vuotias', correct:true }),
 			Trivia.Answer.create({ answerText: '51-vuotias' }),
 			Trivia.Answer.create({ answerText: '63-vuotias' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4596,7 +4698,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Aberdeen' }),
 			Trivia.Answer.create({ answerText: 'Glasgow', correct:true }),
 			Trivia.Answer.create({ answerText: 'Edinburgh' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4606,7 +4709,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Saksasta' }),
 			Trivia.Answer.create({ answerText: 'Virosta', correct:true }),
 			Trivia.Answer.create({ answerText: 'Latviasta' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4616,7 +4720,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Tirana', correct:true }),
 			Trivia.Answer.create({ answerText: 'Tripoli' }),
 			Trivia.Answer.create({ answerText: 'Lezhë' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4626,7 +4731,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Albert Dumas' }),
 			Trivia.Answer.create({ answerText: 'Miguel de Cervantes', correct:true }),
 			Trivia.Answer.create({ answerText: 'Mary Shelley' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4636,7 +4742,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Saarenmaa', correct:true }),
 			Trivia.Answer.create({ answerText: 'Hiidenmaa' }),
 			Trivia.Answer.create({ answerText: 'Naissaari' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4646,7 +4753,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '5 olympiakultaa' }),
 			Trivia.Answer.create({ answerText: '12 olympiakultaa' }),
 			Trivia.Answer.create({ answerText: '9 olympiakultaa', correct:true })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4656,7 +4764,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Bernadotte' }),
 			Trivia.Answer.create({ answerText: 'Grimaldi', correct:true }),
 			Trivia.Answer.create({ answerText: 'Sforza' })
-		]
+		],
+		caption: 'Sari laitinen'
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4666,7 +4775,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '37 vuotta', correct:true }),
 			Trivia.Answer.create({ answerText: '40 vuotta' }),
 			Trivia.Answer.create({ answerText: '55 vuotta' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4676,7 +4786,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Tanskassa' }),
 			Trivia.Answer.create({ answerText: 'Norjassa' }),
 			Trivia.Answer.create({ answerText: 'Ruotsissa', correct:true })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4686,7 +4797,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1978' }),
 			Trivia.Answer.create({ answerText: '1980', correct:true }),
 			Trivia.Answer.create({ answerText: '1992' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4696,7 +4808,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Max Weber' }),
 			Trivia.Answer.create({ answerText: 'Pablo Picasso', correct:true }),
 			Trivia.Answer.create({ answerText: 'Joan Miró' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4706,7 +4819,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1952' }),
 			Trivia.Answer.create({ answerText: '1972' }),
 			Trivia.Answer.create({ answerText: '1992', correct:true })
-		]
+		],
+		caption: 'Sari Laitinen'
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4716,7 +4830,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '46-vuotias' }),
 			Trivia.Answer.create({ answerText: '56-vuotias', correct:true }),
 			Trivia.Answer.create({ answerText: '66-vuotias' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:28,
@@ -4726,7 +4841,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1679' }),
 			Trivia.Answer.create({ answerText: '1759' }),
 			Trivia.Answer.create({ answerText: '1859', correct:true })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	//end of Vaihtoehtokysymys: Eurooppa I
 	//start of Vaihtoehtokysymys: Eurooppa II
@@ -4738,7 +4854,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Grenoblessa' }),
 			Trivia.Answer.create({ answerText: 'Sarajevossa', correct:true }),
 			Trivia.Answer.create({ answerText: 'Salt Lake Cityssä' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4748,7 +4865,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '2450km' }),
 			Trivia.Answer.create({ answerText: '2650km' }),
 			Trivia.Answer.create({ answerText: '2850km', correct:true })
-		]
+		],
+		caption: "Helena Launianen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4758,7 +4876,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Nikolai II', correct:true }),
 			Trivia.Answer.create({ answerText: 'Iivana IV' }),
 			Trivia.Answer.create({ answerText: 'Pietari Suuri' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4768,7 +4887,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Tukholmassa' }),
 			Trivia.Answer.create({ answerText: 'Oslossa' }),
 			Trivia.Answer.create({ answerText: 'Kööpenhaminassa', correct:true })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4778,7 +4898,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1556' }),
 			Trivia.Answer.create({ answerText: '1656' }),
 			Trivia.Answer.create({ answerText: '1756', correct:true })
-		]
+		],
+		caption: 'Sari Laitinen'
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4788,7 +4909,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '22-vuotiaana' }),
 			Trivia.Answer.create({ answerText: '25-vuotiaana', correct:true }),
 			Trivia.Answer.create({ answerText: '28-vuotiaana' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4798,7 +4920,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Lech Walesa' }),
 			Trivia.Answer.create({ answerText: 'Martti Ahtisaari', correct:true }),
 			Trivia.Answer.create({ answerText: 'Desmond Tutu' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4808,7 +4931,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'James Bond' }),
 			Trivia.Answer.create({ answerText: 'Agatha Christie' }),
 			Trivia.Answer.create({ answerText: 'Ian Fleming', correct:true })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4818,7 +4942,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'n. 98 000' }),
 			Trivia.Answer.create({ answerText: 'n. 158 000' }),
 			Trivia.Answer.create({ answerText: 'n. 188 000', correct:true })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4828,7 +4953,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '46 metriä' }),
 			Trivia.Answer.create({ answerText: '56 metriä', correct:true }),
 			Trivia.Answer.create({ answerText: '66 metriä' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4838,7 +4964,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1452', correct:true }),
 			Trivia.Answer.create({ answerText: '1552' }),
 			Trivia.Answer.create({ answerText: '1652' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4848,7 +4975,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1889', correct:true }),
 			Trivia.Answer.create({ answerText: '1909' }),
 			Trivia.Answer.create({ answerText: '1929' })
-		]
+		],
+		caption: 'Sari Laitinen'
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4858,7 +4986,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1808' }),
 			Trivia.Answer.create({ answerText: '1918', correct:true }),
 			Trivia.Answer.create({ answerText: '1944' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4868,7 +4997,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1947' }),
 			Trivia.Answer.create({ answerText: '1957', correct:true }),
 			Trivia.Answer.create({ answerText: '1967' })
-		]
+		],
+		caption: "Helena Launiainen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4878,7 +5008,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: '1984' }),
 			Trivia.Answer.create({ answerText: '1988' }),
 			Trivia.Answer.create({ answerText: '1992', correct:true })
-		]
+		],
+		caption: 'Sari Laitinen'
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4888,7 +5019,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Norjasta', correct:true }),
 			Trivia.Answer.create({ answerText: 'Virosta' }),
 			Trivia.Answer.create({ answerText: 'Saksasta' })
-		]
+		],
+		caption: "Sari Laitinen"
 	}),
 	Trivia.Question.create({
 		gameId:29,
@@ -4898,7 +5030,8 @@ Trivia.questions = [
 			Trivia.Answer.create({ answerText: 'Saksa' }),
 			Trivia.Answer.create({ answerText: 'Viro' }),
 			Trivia.Answer.create({ answerText: 'Islanti', correct:true })
-		]
+		],
+		caption: 'Sari Laitinen'
 	}),
 	//end of Vaihtoehtokysymys: Eurooppa II
 
