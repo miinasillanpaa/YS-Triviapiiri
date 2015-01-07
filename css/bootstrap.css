@@ -2052,6 +2052,7 @@ body {
   position: relative;
 }
 .app .workspace .game-view .game-started-view .left .plain-question-view .question-indicator {
+  z-index: 1000;
   display: inline-block;
   padding: 1px 9px 2px;
   font-size: 12.025px;
@@ -2269,6 +2270,10 @@ body {
   font-size: 1.2rem;
   margin-bottom: 1rem;
   line-height: 1.5rem;
+  text-align: center;
+}
+.app .workspace .game-view .game-outlet .game-finished-action-view .credits {
+  text-align: center;
 }
 .app .workspace .game-view .game-outlet .game-finished-action-view h2 {
   font-size: 2rem;
