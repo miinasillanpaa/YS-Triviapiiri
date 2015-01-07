@@ -176,7 +176,7 @@ var Trivia = Em.Application.create({
 		contentBinding: 'Trivia.router.gameController.questionImageCaption',
 		contentDidChange: function(){
 			if(this.get('content')){
-				$(this.get('element')).text('kuva: ' + this.get('content'));
+				$(this.get('element')).html('<span>kuva: ' + this.get('content') + '</span>');
 			}
 		}.observes('content'),
 		didInsertElement:function () {
@@ -1912,7 +1912,8 @@ Trivia.gameObjects.plain = [
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		name: 'Suomi I',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna'
+		credits: 'Kysymysten suunnittelu: Sirpa Marna',
+		caption: 'New Blue Door - Andrew Beeston CC BY 2.0'
 	}),
 	Trivia.Game.create({
 		guid: 42,
