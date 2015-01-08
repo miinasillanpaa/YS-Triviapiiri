@@ -1,4 +1,4 @@
-	.box-flex(@flex: 1) {
+.box-flex(@flex: 1) {
 	//-moz-box-flex: @flex;
 	-webkit-box-flex: @flex;
 	//box-flex: @flex;
@@ -178,15 +178,19 @@ body {
 
 }
 .app {
+
+
 	background-image: url(../assets/img/gray_bg_noise.jpg);
 	//background: #cccccc;
 	//background-size: cover;
 	.display-box();
 	.box-orient(vertical);
+
 	.menubar {
+
 		height: 3rem;
 
-		#gradient > vertical(#cccccc, #495053);
+		#gradient > .vertical(#cccccc, #495053);
 
 		font-weight: bold;
 		text-transform: uppercase;
@@ -235,6 +239,8 @@ body {
 			}
 		}
 	}
+
+
 	.workspace {
 		.display-box();
 		.box-orient(vertical);
@@ -370,6 +376,7 @@ body {
                     position: relative;
 
                     .question-indicator {
+												z-index: 1000;
                         display: inline-block;
                         .badge();
                         background: #161616;
@@ -548,6 +555,7 @@ body {
 							font-size: 1.2rem;
 							margin-bottom: 1rem;
 							line-height: 1.5rem;
+							text-align: center;
 						}
 						.actions{
 							.display-box();
@@ -577,6 +585,11 @@ body {
 						font-size: 1.2rem;
 						margin-bottom: 1rem;
 						line-height: 1.5rem;
+						text-align: center;
+					}
+
+					.credits {
+						text-align: center;
 					}
 
 					h2{
@@ -1215,4 +1228,37 @@ body {
 
 .hidden{
 	display: none;
+}
+
+.media-caption-view{
+	z-index:999;
+	font-size: 50%;
+	color: #fff;
+	text-shadow: 0px 0px 1px #000, -1px -1px #000, 1px 1px #000;
+	background-color: rgba(0,0,0,0.3);
+	position: absolute;
+	bottom: .52rem;
+	left:4.74rem;
+	width: 14.6rem;
+	padding: .2rem;
+
+	span{
+		display: inline-block;
+		width: 67%;
+	}
+
+}
+
+.credits{
+	padding: 10px 0;
+	font-size: 70%;
+	line-height: 1.2em;
+}
+.credits-logo{
+	margin: 15px 0;
+	text-align: center;
+
+	img{
+		padding: 5px;
+	}
 }
