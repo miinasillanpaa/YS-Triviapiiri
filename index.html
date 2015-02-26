@@ -432,52 +432,52 @@
 
 </head>
 <body>
-<script type="text/x-handlebars" data-template-name="application">
-	<section class="app">
-		<section class="menubar">
-      {{#if Trivia.router.gameController.backVisible }}
-        <button class="btn back" {{action back}}>
-  			<i class="icon-circle-arrow-left"></i> <span>Takaisin</span>
-  			</button>
-      {{/if}}
-			<section class="spacer">
-				{{#if Trivia.router.gameController.isActionGame}}
-					<span>Harjoituksia</span>
-				{{else}}
-					<span>Sanat sekaisin</span>
-				{{/if}}
-			</section>
-			<section class="score"></span>
-			</section>
-		</section>
+        <script type="text/x-handlebars" data-template-name="application">
+        	<section id="application" class="app">
+        		<section class="menubar">
+              {{#if Trivia.router.gameController.backVisible }}
+                <button class="btn back" {{action back}}>
+          			<i class="icon-circle-arrow-left"></i> <span>Takaisin</span>
+          			</button>
+              {{/if}}
+        			<section class="spacer">
+        				{{#if Trivia.router.gameController.isActionGame}}
+        					<span>Harjoituksia</span>
+        				{{else}}
+        					<span>Sanat sekaisin</span>
+        				{{/if}}
+        			</section>
+        			<section class="score"></span>
+        			</section>
+        		</section>
 
-		<section class="workspace">
-			{{outlet}}
-		</section>
+        		<section class="workspace">
+        			{{outlet}}
+        		</section>
 
-	</section>
-  </script>
+        	</section>
+        </script>
 
-  <script src="js/libs/soundmanager2-nodebug-jsmin.js" type="text/javascript"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-  <script src="js/libs/handlebars-1.0.0.beta.6.js"></script>
-  <script src="js/libs/fastclick.min.js"></script>
-  <script src="js/libs/ember-1.0.pre.js"></script>
+      <script src="js/libs/soundmanager2-nodebug-jsmin.js" type="text/javascript"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+      <script src="js/libs/handlebars-1.0.0.beta.6.js"></script>
+      <script src="js/libs/fastclick.min.js"></script>
+      <script src="js/libs/ember-1.0.pre.js"></script>
 
 
-<!--<script src="js/app.js"></script>-->
-<!-- uglified ( https://github.com/mishoo/UglifyJS2 )
-  command used: uglifyjs js/app.js -c 'drop_console=true' -m -o js/build/app.min.js
-  and use this -->
-<script src="js/build/app.min.js"></script>
+      <script src="js/app.js"></script>
+      <!-- uglified ( https://github.com/mishoo/UglifyJS2 )
+      command used: uglifyjs js/app.js -c 'drop_console=true' -m -o js/build/app.min.js
+      and use this -->
+      <!-- <script src="js/build/app.min.js"></script> -->
 
-  <script type="text/javascript">
-      soundManager.url = 'js/libs/';
-	  soundManager.preferFlash = false;
-	  soundManager.useHTML5Audio = true;
-	  soundManager.debugMode = false;
-	  soundManager.consoleOnly = true;
-	  soundManager.html5PollingInterval = 10;
-  </script>
+      <script type="text/javascript">
+          soundManager.url = 'js/libs/';
+    	  soundManager.preferFlash = false;
+    	  soundManager.useHTML5Audio = true;
+    	  soundManager.debugMode = false;
+    	  soundManager.consoleOnly = true;
+    	  soundManager.html5PollingInterval = 10;
+      </script>
 </body>
 </html>

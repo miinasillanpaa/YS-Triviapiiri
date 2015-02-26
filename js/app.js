@@ -2,16 +2,17 @@ var Trivia = Em.Application.create({
 	INTERVAL_BUFFER_SIZE_MS: 2000,
     exitUrl: null,
     ready: function() {
-        var userId = getURLParameter('userId');
-        if (userId && userId != 'null') {
-            Trivia.set('router.applicationController.userId', parseInt(userId));
-        }
-        var source = getURLParameter('source');
-        if (source == 'ios') {
-            this.set('exitUrl', 'http://pienipiiri.fi/webapp/?userId=' + userId);
-        } else if (source == 'null' || !source) {
-            this.set('exitUrl', 'http://pienipiiri.fi/mobile/?userId=' + userId);
-        }
+
+        // var userId = getURLParameter('userId');
+        // if (userId && userId != 'null') {
+        //     Trivia.set('router.applicationController.userId', parseInt(userId));
+        // }
+        // var source = getURLParameter('source');
+        // if (source == 'ios') {
+        //     this.set('exitUrl', 'http://pienipiiri.fi/webapp/?userId=' + userId);
+        // } else if (source == 'null' || !source) {
+        //     this.set('exitUrl', 'http://pienipiiri.fi/mobile/?userId=' + userId);
+        // }
     },
 	ApplicationController: Em.Controller.extend({
         backendHost: 'http://pienipiiri.fi/',
@@ -823,6 +824,7 @@ var Trivia = Em.Application.create({
 				connectOutlets: function(router){
 					router.get('gameController').set('backVisible', false);
 					router.get('applicationController').connectOutlet('preSelectGame');
+					router.get('gameController').set('isActionGame', false);
 				},
 
 				selectGametype: function(router, event, data){
@@ -839,41 +841,32 @@ var Trivia = Em.Application.create({
 				serialize: function(router, context){
 					return {
 						gameType: router.get('gamesController.gameType')
-			  	}
-				},
-				deserialize: function(router, params){
-					// console.log('deserializing', params);
-
-					var gameType= params.gameType;
-
-					if (gameType === 'music'){
-						router.set('gamesController.gameType', 'music');
-                        router.get('gameController').set('gameTypeTitle', 'Valitse soitettava kappale');
-                    } else if(gameType === 'lorut') {
-                    	router.set('gamesController.gameType', 'lorut');
-                    	router.get('gameController').set('gameTypeTitle', 'Tunnetko lorut?');
-                        router.get('gameController').set('isLorutGame', true);
-					} else if(gameType === 'action') {
-						router.set('gamesController.gameType', 'action');
-                        router.get('gameController').set('gameTypeTitle', 'Valitse musiikkiharjoite')
-                        router.get('gameController').set('isActionGame', true);
-					}else{
-						router.set('gamesController.gameType', 'plain');
-						router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');
 					}
+				},
+
+				deserialize: function(router, params){
+
 				},
 				connectOutlets: function(router){
 					if (router.get('gamesController.gameType') === 'music'){
 						Trivia.set('games', Trivia.gameObjects.music);
+						router.get('gameController').set('gameTypeTitle', 'Valitse soitettava kappale');
+						router.get('gameController').set('isActionGame', false);
 
 					} else if(router.get('gamesController.gameType') === 'lorut') {
 						Trivia.set('games', Trivia.gameObjects.lorut);
+						router.get('gameController').set('gameTypeTitle', 'Tunnetko lorut?');
+						router.get('gameController').set('isActionGame', false);
 
 					} else if(router.get('gamesController.gameType') === 'action') {
 						Trivia.set('games', Trivia.gameObjects.action);
+						router.get('gameController').set('gameTypeTitle', 'Valitse musiikki tai jumppa');
+                        router.get('gameController').set('isActionGame', true);
 
 					}else{
 						Trivia.set('games', Trivia.gameObjects.plain);
+						router.get('gameController').set('gameTypeTitle', 'Valitse pelattava muistipeli');
+						router.get('gameController').set('isActionGame', false);
 					}
 				},
 
@@ -889,20 +882,6 @@ var Trivia = Em.Application.create({
 
 					back: function(router){
 						router.transitionTo('root.index');
-              //           var userId = Trivia.get('router.applicationController.userId');
-              //           var exitUrl = Trivia.get('exitUrl');
-              //           if(router.get('gamesController.gameType') === 'lorut') {
-							//
-              //           	router.set('gamesController.gameType', 'plain');
-							// Trivia.set('games', Trivia.gameObjects.plain);
-							// router.transitionTo('root.games.index');
-							// return false;
-							//
-              //           } else if (userId && exitUrl) {
-              //               window.location = exitUrl;
-              //           } else {
-						  //   window.location = "http://pienipiiri.fi/mobile";
-              //           }
 					},
                     finishedPlaying: function() {
 
@@ -1971,8 +1950,8 @@ Trivia.gameObjects.action = [
 		videoUrl: '0hE2RMqNFQo',
 		gameIntro: 'Jumppaa videon mukana!',
 		name: 'Jumppavideo valssin tahtiin',
-		image: 'assets/img/jumppa/aamu/1.jpg',
-		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Keijo ja Inkeri.'
+		image: 'assets/img/jumppa/valssicover.png ',
+		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Sirkka ja Tapio.'
 	}),
 	Trivia.Game.create({
 		guid:38,
@@ -1980,8 +1959,8 @@ Trivia.gameObjects.action = [
 		videoUrl: 'vIZOskaYfLM',
 		gameIntro: 'Jumppaa videon mukana!',
 		name: 'Jumppavideo jenkan tahtiin',
-		image: 'assets/img/jumppa/jenkka/1-cover.jpg',
-		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Keijo ja Inkeri.'
+		image: 'assets/img/jumppa/jenkkacover.png',
+		credits: 'Suunnittelu ja Toteutus: Sari Laitinen. Jumppaamassa Sirkka ja Tapio.'
 	}),
 	Trivia.Game.create({
 		guid: 39,
@@ -6031,6 +6010,25 @@ function getURLParameter(name) {
 
 $(document).ready(function(){
 	new FastClick(document.body);
+
+	//detect IE
+	if(navigator && navigator.appName){
+
+		if(navigator.appName == "Microsoft Internet Explorer"){
+			$("body").html('Sovellus ei ole tuettu Internet Explorerilla. <a href="http://www.google.com/chrome">Lataa Google Chrome</a>');
+			document.getElementById('application').style.display = 'none';
+			console.log('ie detected');
+		}else if(navigator.appName == "Netscape"){
+			var ua = navigator.userAgent;
+			var re  = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
+    		if (re.exec(ua) != null){
+				$("body").html('Sovellus ei ole tuettu Internet Explorerilla. <a href="http://www.google.com/chrome">Lataa Google Chrome</a>');
+				document.getElementById('application').style.display = 'none';
+				console.log('ie detected');
+			}
+		}
+	}
+
 	Trivia.initialize();
 });
 
