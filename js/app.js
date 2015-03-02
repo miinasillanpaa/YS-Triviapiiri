@@ -1859,7 +1859,7 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Mitä seuraavat sivistyssanat tarkoittavat?',
 		image: 'assets/img/sivistyssanat/siv1.jpg',
 		name: 'Sivistyssanat',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna'
+		credits: 'Kysymysten suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 		guid:27,
@@ -1867,7 +1867,7 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/mat/mat2.jpg',
 		name: 'Matemaattisia käsitteitä',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna',
+		credits: 'Kysymysten suunnittelu: Kristiina Sarmas',
 		caption: 'Sari Laitinen'
 	}),
 	Trivia.Game.create({
@@ -1876,7 +1876,7 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/eurooppa1/aloitus-piaf-lennon-nurmi.jpg',
 		name: 'Eurooppa I',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna'
+		credits: 'Kysymysten suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 		guid:29,
@@ -1884,14 +1884,14 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Valitse oikea vaihtoehto',
 		image: 'assets/img/eurooppa2/aloitus-tonava.jpg',
 		name: 'Eurooppa II',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna'
+		credits: 'Kysymysten suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 		guid: 41,
 		gameType: 'quiz',
 		gameIntro: 'Valitse oikea vaihtoehto',
 		name: 'Suomi I',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna',
+		credits: 'Kysymysten suunnittelu: Kristiina Sarmas',
 		caption: 'New Blue Door - Andrew Beeston CC BY 2.0'
 	}),
 	Trivia.Game.create({
@@ -1900,7 +1900,7 @@ Trivia.gameObjects.plain = [
 		gameIntro: 'Valitse oikea vaihtoehto',
 		name: 'Suomi II',
 		image: 'assets/img/ikkuna.jpg',
-		credits: 'Kysymysten suunnittelu: Sirpa Marna'
+		credits: 'Kysymysten suunnittelu: Kristiina Sarmas'
 	}),
 	Trivia.Game.create({
 		guid: 58,
