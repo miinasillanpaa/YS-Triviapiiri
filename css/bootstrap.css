@@ -2087,6 +2087,7 @@ body {
   margin-top: 0.5rem;
 }
 .app .workspace .game-view .game-started-view .left .plain-question-view .controls-outlet .label-view {
+  z-index: 999;
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;
