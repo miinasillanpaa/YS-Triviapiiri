@@ -1647,7 +1647,7 @@ var Trivia = Em.Application.create({
 
 Trivia.Gametype = Em.Object.extend({
 	guid: null,
-	name: null, 	//eg. Musiikkiharjoitteet
+	name: null, 	//eg. Musiikkiharjoitukset
 	target: null, //eg. audio
 	image: 'assets/img/default.jpg'
 })
@@ -1691,19 +1691,19 @@ Trivia.Answer = Em.Object.extend({
 Trivia.gameTypes = [
 	Trivia.Gametype.create({
 		guid: 1,
-		name: 'Kielelliset harjoitteet',
+		name: 'Kielelliset harjoitukset',
 		target: 'plain',
 		//image: '' use default
 	}),
 	Trivia.Gametype.create({
 		guid: 2,
-		name: 'Musiikilliset harjoitteet',
+		name: 'Musiikilliset harjoitukset',
 		target: 'music',
 		image: 'assets/img/grammari.jpg'
 	}),
 	Trivia.Gametype.create({
 		guid: 3,
-		name: 'Toiminnalliset harjoitteet',
+		name: 'Toiminnalliset harjoitukset',
 		target: 'action',
 		image: 'assets/img/ikkuna.jpg'
 	})
@@ -1934,15 +1934,15 @@ Trivia.gameObjects.action = [
 		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Musiikkina on Marais’n Les Folies d´Espagne ja Tárregan Recuerdos de la Alhambra. Harjoitus kestää 7 ja puoli minuuttia.',
 		name: 'Yksilörentoutus',
 		image: 'assets/img/rentoutus/ren2.jpg',
-		credits: 'Ohjaus ja suunnittelu: Sari Laitinen. Soittajat: Kirsi Jokela: huilu, Laura Airola: viulu, Hannu Perttilä: oboe ja Markku Perttilä: klassinen kitara.'
+		credits: 'Ohjaus ja suunnittelu: Sari Laitinen. Soittajat: Kirsi Jokela: huilu, Laura Airola: viulu, Hannu Perttilä: oboe ja Markku Perttilä: klassinen kitara. Kuvitus: Marketta Leppänen.'
 	}),
 	Trivia.Game.create({
 		guid:33,
 		gameType: 'audio',
-		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Aloittakaa rentoutus istuutumalla tukevasti selkänojalliselle tuolille. Musiikkina on Tárregan Lágrima,	Händelin Largo, Corellin Preludio ja Bachin Siciliano. Kesto 10 ja puoli minuuttia.',
+		gameIntro: 'Tässä harjoituksessa kuulet rentoutusohjeet ja musiikkia. Aloittakaa rentoutus istuutumalla tukevasti selkänojalliselle tuolille. Musiikkina on Tárregan Lágrima, Händelin Largo, Corellin Preludio ja Bachin Siciliano. Kesto 10 ja puoli minuuttia.',
 		name: 'Parirentoutus',
 		image: 'assets/img/rentoutus/ren3.jpg',
-		credits: 'Ohjaus ja suunnittelu: Sari Laitinen. Soittajat: Kirsi Jokela: huilu,	Laura Airola: viulu, Hannu Perttilä: oboe ja Markku Perttilä: klassinen kitara.'
+		credits: 'Ohjaus ja suunnittelu: Sari Laitinen. Soittajat: Kirsi Jokela: huilu,	Laura Airola: viulu, Hannu Perttilä: oboe ja Markku Perttilä: klassinen kitara. Kuvitus: Marketta Leppänen.'
 	}),
 	Trivia.Game.create({
 		guid:37,
