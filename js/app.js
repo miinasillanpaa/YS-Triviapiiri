@@ -437,11 +437,9 @@ var Trivia = Em.Application.create({
 		gameFinished: false,
 
 		gameCredits: function(){
-
-			if(Trivia.router.get('gameController.content.credits')){
+			if (Trivia.router.get('gameController.content.credits')){
 				return Trivia.router.get('gameController.content.credits');
 			}
-
 
 		}.property('playedGameId'),
 
@@ -522,7 +520,7 @@ var Trivia = Em.Application.create({
 		},
 
         saveGameStart: function() {
-					console.log('saveGameStart - no backend for web version');
+					// console.log('saveGameStart - no backend for web version');
             // console.log('saving game start to backend');
             // if (this.get('content')) {
             //     var gameId = this.get('content.guid');
@@ -917,6 +915,10 @@ var Trivia = Em.Application.create({
 						router.set('gameController.correctAnswers', 0);
 						router.set('gameController.moodRating', null);
 						router.set('gameController.isSinglePlayerGame', null);
+
+						//previously this was done in savegamestart function.
+						//needed so that gameCredits update correctly
+						router.set('gameController.playedGameId', gameId);
 
 						//randomize the questions if we're not on an audio game
 						if (game.get('gameType') === 'plain'){
@@ -1719,7 +1721,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/kulkurin_valssi.jpg',
 		gameType: 'audio',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)',
-				credits: 'Ruotsalainen kansansävellys, sanoitus J. A. Tanner, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Ruotsalainen kansansävellys, sanoitus J. A. Tanner, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 3,
@@ -1727,7 +1729,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/kulkurin_valssi.jpg',
 		gameType: 'audio',
         caption: 'Charlie Champ, “The Tramp”, 1915" - Laura Loveday (lis. CC BY-NC-SA 2.0)',
-				credits: 'Ruotsalainen kansansävellys, sanoitus J. A. Tanner, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Ruotsalainen kansansävellys, sanoitus J. A. Tanner, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 4,
@@ -1735,7 +1737,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/lapsuuden_toverille.jpg',
 		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)',
-				credits: 'Esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 5,
@@ -1743,7 +1745,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/lapsuuden_toverille.jpg',
 		gameType: 'audio',
         caption: 'Grandpa`s friends - D Flam (lis. CC BY-NC 2.0)',
-				credits: 'Esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 6,
@@ -1751,7 +1753,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/valiaikainen.jpg',
 		gameType: 'audio',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)',
-				credits: 'Sävellys M. Jurva, sanoitus T. Pekkarinen, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Sävellys M. Jurva, sanoitus T. Pekkarinen, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 7,
@@ -1759,7 +1761,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/valiaikainen.jpg',
 		gameType: 'audio',
         caption: 'Jussivaellus 2012 - Verna Koskinen (lis. CC BY-SA 2.0)',
-				credits: 'Sävellys M. Jurva, sanoitus T. Pekkarinen, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Sävellys M. Jurva, sanoitus T. Pekkarinen, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 8,
@@ -1767,7 +1769,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/tulipunaruusut.jpg',
 		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)',
-				credits: 'Sävellys ja sanoitus U. Kemppi, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Sävellys ja sanoitus U. Kemppi, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 9,
@@ -1775,7 +1777,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/tulipunaruusut.jpg',
 		gameType: 'audio',
         caption: 'horse+sunset - Ro Irving (lis. CC BY-SA 2.0)',
-				credits: 'Sävellys ja sanoitus U. Kemppi, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Sävellys ja sanoitus U. Kemppi, esittäjä Markus Bäckman. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 10,
@@ -1783,7 +1785,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/suutarin_emanta.jpg',
 		gameType: 'audio',
         caption: 'Old sewing machine - Petr Kratochvil (Public Domain)',
-				credits: 'Esittäjät Tarja Merivirta ja Markus Bäckman.  Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Esittäjät Tarja Merivirta ja Markus Bäckman.  Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
     Trivia.Game.create({
         guid: 11,
@@ -1791,7 +1793,7 @@ Trivia.gameObjects.music = [
         image: 'assets/img/voi_tuota_muistia.jpg',
 		gameType: 'audio',
         caption: '15062007(005) - Mikko Koponen (CC BY 2.0)',
-				credits: 'Kappaleen sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+				credits: 'Kappaleen sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
     }),
 ];
 
@@ -1918,7 +1920,7 @@ Trivia.gameObjects.action = [
 		gameIntro: 'Kuulet kohta kappaleen. Laulun sanat näkyvät ruudulla. Laula mukana!',
 		name: 'Karaoke: Voi tuota muistia',
 		image: 'assets/img/pilvi.jpg',
-		credits: 'Toteutus ja suunnittelu: Sari Laitinen. Kappaleen sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+		credits: 'Toteutus ja suunnittelu: Sari Laitinen. Kappaleen sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
 	}),
 	Trivia.Game.create({
 		guid:31,
@@ -1926,7 +1928,7 @@ Trivia.gameObjects.action = [
 		gameIntro: 'Kuulet kohta kappaleen. Laulun sanat näkyvät ruudulla. Laula mukana!',
 		name: 'Karaoke: Laulun mahti',
 		image: 'assets/img/grammari.jpg',
-		credits: 'Toteutus ja suunnittelu: Sari Laitinen. Sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kiatroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
+		credits: 'Toteutus ja suunnittelu: Sari Laitinen. Sävellys ja sanoitus A. Tarkki, esittäjä Aarre Tarkki. Pianoa ja harmonikkaa soittaa Matti Kallio, lyömäsoittimia Pekka Nyman, viulua Heikki Kangasniemi, kitaroita ja mandoliinia Markku Perttilä. Taustalla laulavat Markku Perttilä, Sari Laitinen ja Tarja Merivirta.'
 	}),
 	Trivia.Game.create({
 		guid:32,
